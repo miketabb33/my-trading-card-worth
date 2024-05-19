@@ -11,32 +11,69 @@
     />
     <title>My Trading Card Worth</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-
       *,
       *::after,
       *::before {
+        margin: 0;
+        padding: 0;
         box-sizing: inherit;
       }
 
-      html {
-        box-sizing: border-box;
-        font-size: 62.5%;
+      html,
+      body,
+      #root {
+        height: 100%;
       }
-      @media (max-width: 600px) {
-        html {
-          font-size: 50%;
+
+      html {
+        font-size: 50%;
+        font-family: 'lato', 'sans-serif';
+        font-weight: 400;
+        color: #3f3f3e;
+        box-sizing: border-box;
+
+        @media only screen and (min-width: 37.5em) {
+          font-size: 62.5%;
         }
       }
 
       body {
-        font-family: 'roboto', 'Lucida Sans', 'Lucida Sans Regular',
-          'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        font-weight: 400;
-        color: #222;
+        font-size: 1.6rem;
+      }
+
+      body,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      ol,
+      ul {
+        margin: 0;
+        padding: 0;
+        font-weight: normal;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
+        color: #3f3f3e;
+      }
+
+      ol,
+      ul {
+        list-style: none;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
       }
     </style>
   </head>
