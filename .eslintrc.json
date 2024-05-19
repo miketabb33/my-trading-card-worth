@@ -1,0 +1,45 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "eqeqeq": ["error", "always"],
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-floating-promises": [
+      "error",
+      { "ignoreIIFE": true }
+    ],
+    "@typescript-eslint/no-empty-function": "off",
+    "require-await": "error"
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "/dist*",
+    "/jest.config.js",
+    "/webpack.config.js",
+    "/prettier.config.js",
+    "/cypress.config.js",
+    "/cypress/*"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

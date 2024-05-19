@@ -1,11 +1,10 @@
-/* eslint-disable no-undef */
-// const CopyPlugin = require('copy-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 module.exports = {
   entry: {
     server: './src/server/server.ts',
-    // 'public/bundle': './src/react/index.tsx',
+    'public/bundle': './src/react/index.tsx',
   },
   target: 'node',
   devtool: 'inline-source-map',
@@ -26,11 +25,11 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
-    // new CopyPlugin({
-    //   patterns: [
-    //     { from: 'src/index.html', to: './' },
-    //     { from: 'src/resources/', to: './public' },
-    //   ],
-    // }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/index.html', to: './' },
+        // { from: 'src/resources/', to: './public' },
+      ],
+    }),
   ],
 }
