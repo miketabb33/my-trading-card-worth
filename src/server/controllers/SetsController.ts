@@ -4,9 +4,9 @@ import { formatError, formatResponse } from './formatResponse'
 import Logger from '../logger'
 import * as CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
 
-const CardController = Router()
+const SetsController = Router()
 
-CardController.get('/', async (_, res) => {
+SetsController.get('/', async (_, res) => {
   try {
     const pokemonSets = await CardTraderAdaptor.getPokemonSets()
     res.send(formatResponse({ data: pokemonSets }))
@@ -17,4 +17,18 @@ CardController.get('/', async (_, res) => {
   }
 })
 
-export default CardController
+SetsController.get('/:id', async (req, res) => {
+  try {
+    const id = +req.params.id
+    if (!id) throw new Error(`${req.params.id} is not a valid expansion id`)
+
+    const set = await CardTraderAdaptor.getPokemonSet(id)
+    res.send(formatResponse({ data: set }))
+  } catch (e) {
+    const error = formatError(e)
+    Logger.error(error)
+    res.send(formatResponse({ errors: [error.message] }))
+  }
+})
+
+export default SetsController

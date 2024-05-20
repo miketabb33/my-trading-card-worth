@@ -20,10 +20,18 @@ class TypeParser {
   }
 
   str = (key: string): string => {
+    const value = this.strOrNull(key)
+    if (!value)
+      throw new Error(TypeParser.parserError(key, 'string', this.parserName))
+    return value
+  }
+
+  strOrNull = (key: string): string | null => {
     if (typeof this.data[key] === 'string') {
       return this.data[key] as string
+    } else {
+      return null
     }
-    throw new Error(TypeParser.parserError(key, 'string', this.parserName))
   }
 
   num = (key: string): number => {

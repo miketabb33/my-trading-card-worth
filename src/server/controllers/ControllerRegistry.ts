@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import CardController from './CardController'
+import SetsController from './SetsController'
 
 const ControllerRegistry = Router()
 
-ControllerRegistry.use('/cards', CardController)
+ControllerRegistry.use('/sets', SetsController)
 
 ControllerRegistry.get('*', (_, res) => res.send('Nothing here'))
 

@@ -1,4 +1,4 @@
-import { tryToParseExpansions } from '../../../../src/server/clients/CardTrader/parseExpansion'
+import { tryToParseExpansions } from '../../../../src/server/clients/CardTrader/parseExpansions'
 
 const unknownData = [
   {
