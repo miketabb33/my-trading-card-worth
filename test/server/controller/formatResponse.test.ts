@@ -10,7 +10,7 @@ describe('Controller Response', () => {
   })
 
   it('should build errors response correctly', () => {
-    const errors = [new Error('error')]
+    const errors = ['error']
     const response = formatResponse({ errors })
     expect(response.data).toEqual(null)
     expect(response.errors).toEqual(errors)

@@ -1,12 +1,12 @@
 type ResponseDto<T> = {
   data: T | null
-  errors: Error[] | null
+  errors: string[] | null
   isSuccessful: boolean
 }
 
 type FormatResponseArgs<T> = {
   data?: T
-  errors?: Error[]
+  errors?: string[]
 }
 
 export const formatResponse = <T>({
@@ -14,7 +14,7 @@ export const formatResponse = <T>({
   errors,
 }: FormatResponseArgs<T>): ResponseDto<T> => {
   let safeData: T | null = null
-  let safeErrors: Error[] | null = null
+  let safeErrors: string[] | null = null
   let isSuccessful: boolean
 
   if (data) {
@@ -32,4 +32,13 @@ export const formatResponse = <T>({
     errors: safeErrors,
     isSuccessful,
   }
+}
+
+export const formatError = (e: unknown): Error => {
+  if (typeof e === 'string') {
+    return new Error(e)
+  } else if (e instanceof Error) {
+    return e
+  }
+  return new Error('Unknown Error')
 }

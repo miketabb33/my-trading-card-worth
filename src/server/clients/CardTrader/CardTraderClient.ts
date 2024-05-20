@@ -10,9 +10,7 @@ const clientFetch = async <T>(path: string, parser: (data: unknown) => T) => {
   const response = await fetch(`https://api.cardtrader.com/api/v2/${path}`, {
     headers: { Authorization: apiKey() },
   })
-
   const data = (await response.json()) as unknown
-
   return parser(data)
 }
 
