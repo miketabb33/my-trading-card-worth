@@ -1,4 +1,4 @@
-import { parseExpansions } from './parseExpansion'
+import { tryToParseExpansions } from './parseExpansion'
 
 const apiKey = (): string => {
   const key = process.env.CARD_TRADER_API_KEY
@@ -17,5 +17,5 @@ const clientFetch = async <T>(path: string, parser: (data: unknown) => T) => {
 }
 
 export const getExpansions = async () => {
-  return await clientFetch('expansions', parseExpansions)
+  return await clientFetch('expansions', tryToParseExpansions)
 }

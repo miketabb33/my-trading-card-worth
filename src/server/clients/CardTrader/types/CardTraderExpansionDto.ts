@@ -1,6 +1,6 @@
 export type CardTraderExpansionDto = {
   id: number
-  game_id: number
+  gameId: number
   code: string
   name: string
 }
