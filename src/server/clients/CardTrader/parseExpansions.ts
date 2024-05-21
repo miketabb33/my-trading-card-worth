@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import TypeParser from '../../../TypeParser'
+import TypeParser from '../../../core/TypeParser'
 import { CardTraderExpansionDto } from './types/CardTraderExpansionDto'
 
 export const tryToParseExpansions = (

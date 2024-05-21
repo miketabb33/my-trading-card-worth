@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import TypeParser from '../../../TypeParser'
+import TypeParser from '../../../core/TypeParser'
 import { CardTraderBlueprintDto } from './types/CardTraderBlueprintDto'
 
 export const tryToParseBlueprints = (

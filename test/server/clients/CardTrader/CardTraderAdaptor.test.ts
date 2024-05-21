@@ -67,7 +67,7 @@ describe('Card Trader Adaptor', () => {
 
       GET_BLUEPRINTS.mockResolvedValue(blueprintDto)
       const result = await CardTraderAdaptor.getPokemonSet(3)
-      expect(result[0].id).toEqual(id)
+      expect(result[0].cardTraderId).toEqual(id)
       expect(result[0].name).toEqual(name)
       expect(result[0].version).toEqual(version)
       expect(result[0].imageUrl).toEqual(imageUrl)

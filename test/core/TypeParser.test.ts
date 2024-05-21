@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import TypeParser from '../src/TypeParser'
+
+import TypeParser from '../../src/core/TypeParser'
 
 const PARSER_NAME = 'testParser'
 

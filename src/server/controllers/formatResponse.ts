@@ -1,8 +1,4 @@
-type ResponseDto<T> = {
-  data: T | null
-  errors: string[] | null
-  isSuccessful: boolean
-}
+import { ResponseDto } from '../../core/types/ResponseDto'
 
 type FormatResponseArgs<T> = {
   data?: T

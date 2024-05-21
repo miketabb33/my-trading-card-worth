@@ -1,5 +1,5 @@
-import { CardBlueprintDto } from '../../controllers/types/CardBlueprintDto'
-import { CardSetDto } from '../../controllers/types/CardSetDto'
+import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
+import { CardSetDto } from '../../../core/types/CardSetDto'
 import * as CardTraderClient from './CardTraderClient'
 
 export const POKEMON_GAME_ID = 5
@@ -27,7 +27,7 @@ export const getPokemonSet = async (
   )
   return singles.map((blueprint) => {
     return {
-      id: blueprint.id,
+      cardTraderId: blueprint.id,
       name: blueprint.name,
       version: blueprint.version || '',
       imageUrl: blueprint.imageUrl,
