@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useSets } from '../network/setsClient'
-import { CardSetDto } from '../../core/types/CardSetDto'
-import Popup, { usePopup } from './Popup'
-import { UseEffectType } from '../types/UseEffectType'
+import { CardSetDto } from '../../../core/types/CardSetDto'
+import { UseEffectType } from '../../types/UseEffectType'
+import Popup, { usePopup } from '../Popup'
+import { useSets } from '../../network/setsClient'
 
 const Container = styled.div`
   position: relative;
