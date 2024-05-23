@@ -4,29 +4,12 @@ import { CardSetDto } from '../../../core/types/CardSetDto'
 import { UseEffectType } from '../../types/UseEffectType'
 import Popup, { usePopup } from '../Popup'
 import { useSets } from '../../network/setsClient'
+import SetSearchBarDropdown, {
+  SetSearchBarDropdownProps,
+} from './SetSearchBarDropdown'
 
 const Container = styled.div`
   position: relative;
-`
-
-const PopupContainer = styled.div`
-  top: 3rem;
-  z-index: 1;
-  position: absolute;
-  width: 100%;
-  border: 1px solid black;
-  border-top: none;
-  background-color: white;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  box-shadow: 0.1rem 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
-`
-
-const Items = styled.div`
-  margin-top: 1rem;
-  padding: 0.5rem 2rem;
-  max-height: 50rem;
-  overflow-y: scroll;
 `
 
 const Input = styled.input`
@@ -47,37 +30,25 @@ const InputWrapper = styled.div`
   border-radius: 0.5rem;
 `
 
-const Item = styled.div`
-  cursor: pointer;
-  padding: 0.3rem 0;
-  border-radius: 0.5rem;
-
-  transition: all 0.2s;
-  &:hover {
-    background-color: ${({ theme }) => theme.staticColor.gray_200};
-    padding-left: 1rem;
-  }
-`
-
-type SetSearchBarProps = {
+export type SetSearchBarProps = {
   inputValue: string
-  filteredSets: CardSetDto[] | null
-  showNoResults: boolean
   popupBind: { isShowing: boolean; closeHandlerEffect: UseEffectType }
+  dropdownBind: SetSearchBarDropdownProps
+  filterSetsEffect: UseEffectType
   popupClick: (e?: React.MouseEvent<Element, MouseEvent> | undefined) => void
-  onItemClick: (item: CardSetDto) => void
   onInputValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const SetSearchBar = ({
   inputValue,
-  filteredSets,
-  showNoResults,
   popupBind,
+  dropdownBind,
+  filterSetsEffect,
   popupClick,
-  onItemClick,
   onInputValueChange,
 }: SetSearchBarProps) => {
+  useEffect(filterSetsEffect.effect, filterSetsEffect.deps)
+
   return (
     <Container>
       <InputWrapper>
@@ -87,24 +58,14 @@ const SetSearchBar = ({
           value={inputValue}
         />
       </InputWrapper>
-
       <Popup {...popupBind}>
-        <PopupContainer>
-          <Items>
-            {filteredSets?.map((set) => (
-              <Item key={set.id} onClick={() => onItemClick(set)}>
-                <p>{set.name}</p>
-              </Item>
-            ))}
-            {showNoResults && <p>No Results, refine your search</p>}
-          </Items>
-        </PopupContainer>
+        <SetSearchBarDropdown {...dropdownBind} />
       </Popup>
     </Container>
   )
 }
 
-type UseWithSetSearchBarReturn = {
+export type UseWithSetSearchBarReturn = {
   bind: SetSearchBarProps
   selectedSet: CardSetDto | null
 }
@@ -116,9 +77,12 @@ export const useWithSetSearchBar = (): UseWithSetSearchBarReturn => {
   const [filteredSets, setFilteredSets] = useState<CardSetDto[] | null>(null)
   const [selectedSet, setSelectedSet] = useState<CardSetDto | null>(null)
 
-  useEffect(() => {
-    if (sets) filterSets(inputValue)
-  }, [sets])
+  const filterSetsEffect: UseEffectType = {
+    effect: () => {
+      if (sets) filterSets(inputValue)
+    },
+    deps: [sets],
+  }
 
   const onItemClick = (item: CardSetDto) => {
     setInputValue(item.name)
@@ -147,14 +111,18 @@ export const useWithSetSearchBar = (): UseWithSetSearchBarReturn => {
     }
   }
 
+  const dropdownBind = {
+    filteredSets,
+    onItemClick,
+  }
+
   return {
     bind: {
       inputValue,
-      filteredSets,
-      showNoResults: filteredSets?.length === 0,
       popupBind,
+      dropdownBind,
+      filterSetsEffect,
       popupClick,
-      onItemClick,
       onInputValueChange,
     },
     selectedSet,

@@ -25,7 +25,7 @@ const CardCatalog = () => {
   )
 }
 
-const useInCardCatalog = () => {
+export const useInCardCatalog = () => {
   const { bind: setSearchBarBind, selectedSet } = useWithSetSearchBar()
   const [blueprints, setBlueprints] = useState<CardBlueprintDto[] | null>(null)
 
