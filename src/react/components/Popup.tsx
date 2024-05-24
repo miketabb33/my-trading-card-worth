@@ -21,6 +21,16 @@ const Popup = forwardRef(
 
 Popup.displayName = 'Popup'
 
+export type UsePopupReturn = {
+  bind: {
+    ref: React.RefObject<HTMLDivElement>
+    isShowing: boolean
+    closeHandlerEffect: UseEffectType
+  }
+  click: (e?: React.MouseEvent<Element, MouseEvent>) => void
+  toggle: () => void
+}
+
 export const usePopup = () => {
   const ref = useRef<HTMLDivElement>(null)
   const [isShowing, setIsShowing] = useState(false)

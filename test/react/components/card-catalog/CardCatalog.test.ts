@@ -4,14 +4,7 @@ import { useInCardCatalog } from '../../../../src/react/components/card-catalog/
 import * as SetSearchBarModule from '../../../../src/react/components/card-catalog/SetSearchBar'
 import { CardSetDto } from '../../../../src/core/types/CardSetDto'
 import * as setsClientModule from '../../../../src/react/network/setsClient'
-import { CardBlueprintDto } from '../../../../src/core/types/CardBlueprintDto'
-
-const CARD_BLUEPRINT_DTO: CardBlueprintDto = {
-  cardTraderId: 0,
-  name: '',
-  version: '',
-  imageUrl: '',
-}
+import { CARD_BLUEPRINT_DTO } from '../../../__MOCKS__/cardBlueprintDto.mock'
 
 const FETCH_SETS = jest.spyOn(setsClientModule, 'fetchSet')
 
@@ -44,10 +37,8 @@ describe('Use In Card Catalog', () => {
       selectedSet,
     })
 
-    const data = [CARD_BLUEPRINT_DTO]
-
     FETCH_SETS.mockResolvedValue({
-      data,
+      data: [CARD_BLUEPRINT_DTO],
       errors: null,
       isSuccessful: true,
     })
@@ -57,6 +48,7 @@ describe('Use In Card Catalog', () => {
     await act(async () => await result.current.fetchBlueprintEffect.effect())
 
     expect(FETCH_SETS).toHaveBeenCalledWith(selectedSet.id)
-    expect(result.current.blueprints).toEqual(data)
+    expect(result.current.blueprints).toEqual([CARD_BLUEPRINT_DTO])
+    expect(result.current.fetchBlueprintEffect.deps).toEqual([selectedSet])
   })
 })

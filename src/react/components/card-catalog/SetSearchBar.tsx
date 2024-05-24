@@ -7,6 +7,7 @@ import { useSets } from '../../network/setsClient'
 import SetSearchBarDropdown, {
   SetSearchBarDropdownProps,
 } from './SetSearchBarDropdown'
+import { filterSets } from './filterSets'
 
 const Container = styled.div`
   position: relative;
@@ -34,7 +35,7 @@ export type SetSearchBarProps = {
   inputValue: string
   popupBind: { isShowing: boolean; closeHandlerEffect: UseEffectType }
   dropdownBind: SetSearchBarDropdownProps
-  filterSetsEffect: UseEffectType
+  setsLoadedEffect: UseEffectType
   popupClick: (e?: React.MouseEvent<Element, MouseEvent> | undefined) => void
   onInputValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -43,11 +44,11 @@ const SetSearchBar = ({
   inputValue,
   popupBind,
   dropdownBind,
-  filterSetsEffect,
+  setsLoadedEffect,
   popupClick,
   onInputValueChange,
 }: SetSearchBarProps) => {
-  useEffect(filterSetsEffect.effect, filterSetsEffect.deps)
+  useEffect(setsLoadedEffect.effect, setsLoadedEffect.deps)
 
   return (
     <Container>
@@ -74,41 +75,26 @@ export const useWithSetSearchBar = (): UseWithSetSearchBarReturn => {
   const { click: popupClick, bind: popupBind, toggle: togglePopup } = usePopup()
   const { data: sets } = useSets()
   const [inputValue, setInputValue] = useState('')
-  const [filteredSets, setFilteredSets] = useState<CardSetDto[] | null>(null)
+  const [filteredSets, setFilteredSets] = useState<CardSetDto[]>([])
   const [selectedSet, setSelectedSet] = useState<CardSetDto | null>(null)
 
-  const filterSetsEffect: UseEffectType = {
+  const setsLoadedEffect: UseEffectType = {
     effect: () => {
-      if (sets) filterSets(inputValue)
+      if (sets) setFilteredSets(sets)
     },
     deps: [sets],
   }
 
   const onItemClick = (item: CardSetDto) => {
     setInputValue(item.name)
-    togglePopup()
     setSelectedSet(item)
+    togglePopup()
   }
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
     setInputValue(newValue)
-    filterSets(newValue)
-  }
-
-  const filterSets = (newValue: string) => {
-    if (!sets) return
-    if (inputValue === '') {
-      setFilteredSets(sets)
-    } else {
-      const searchedSets = sets.filter((set) => {
-        const downcaseSetName = set.name.toLowerCase()
-        const downcaseNewValue = newValue.toLowerCase()
-        const betterESetName = downcaseSetName.replace(/é/g, 'e')
-        return betterESetName.includes(downcaseNewValue)
-      })
-      setFilteredSets(searchedSets)
-    }
+    setFilteredSets(filterSets(sets, newValue))
   }
 
   const dropdownBind = {
@@ -121,7 +107,7 @@ export const useWithSetSearchBar = (): UseWithSetSearchBarReturn => {
       inputValue,
       popupBind,
       dropdownBind,
-      filterSetsEffect,
+      setsLoadedEffect,
       popupClick,
       onInputValueChange,
     },
