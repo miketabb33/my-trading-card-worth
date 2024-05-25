@@ -1,9 +1,11 @@
 import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
 import { CardSetDto } from '../../../core/types/CardSetDto'
 import * as CardTraderClient from './CardTraderClient'
-
-export const POKEMON_GAME_ID = 5
-export const POKEMON_SINGLE_CATEGORY = 73
+import {
+  CARD_TRADER_BASE_URL,
+  POKEMON_GAME_ID,
+  POKEMON_SINGLE_CARD_CATEGORY,
+} from './CardTraderConfig'
 
 export const getPokemonSets = async (): Promise<CardSetDto[]> => {
   const expansionsDto = await CardTraderClient.getExpansions()
@@ -23,14 +25,15 @@ export const getPokemonSet = async (
 ): Promise<CardBlueprintDto[]> => {
   const blueprints = await CardTraderClient.getBlueprints(expansionId)
   const singles = blueprints.filter(
-    (blueprint) => blueprint.categoryId === POKEMON_SINGLE_CATEGORY
+    (blueprint) => blueprint.categoryId === POKEMON_SINGLE_CARD_CATEGORY
   )
   return singles.map((blueprint) => {
     return {
       cardTraderId: blueprint.id,
       name: blueprint.name,
       version: blueprint.version || '',
-      imageUrl: blueprint.imageUrl,
+      imageUrlPreview: `${CARD_TRADER_BASE_URL}${blueprint.image.preview.url}`,
+      imageUrlShow: `${CARD_TRADER_BASE_URL}${blueprint.image.show.url}`,
     }
   })
 }

@@ -4,5 +4,6 @@ export const CARD_BLUEPRINT_DTO: CardBlueprintDto = {
   cardTraderId: 0,
   name: '',
   version: '',
-  imageUrl: '',
+  imageUrlPreview: '',
+  imageUrlShow: '',
 }

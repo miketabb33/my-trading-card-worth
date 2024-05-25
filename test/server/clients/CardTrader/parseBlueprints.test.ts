@@ -1,5 +1,5 @@
 import { tryToParseBlueprints } from '../../../../src/server/clients/CardTrader/parseBlueprints'
-import { DEWGONG_SINGLE_BLUEPRINT_RESPONSE } from './__MOCKS__/CardTraderBlueprintDto.mock'
+import { DEWGONG_SINGLE_BLUEPRINT_RESPONSE } from './__MOCKS__/CardTraderBlueprintResponse.mock'
 
 const DEWGONG = DEWGONG_SINGLE_BLUEPRINT_RESPONSE
 
@@ -20,6 +20,7 @@ describe('Parse Blueprint', () => {
     expect(result[0].gameId).toEqual(DEWGONG.game_id)
     expect(result[0].categoryId).toEqual(DEWGONG.category_id)
     expect(result[0].expansionId).toEqual(DEWGONG.expansion_id)
-    expect(result[0].imageUrl).toEqual(DEWGONG.image_url)
+    expect(result[0].image.show.url).toEqual(DEWGONG.image.show.url)
+    expect(result[0].image.preview.url).toEqual(DEWGONG.image.preview.url)
   })
 })

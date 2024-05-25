@@ -17,7 +17,7 @@ type CardCatalogItemProps = {
 const CardCatalogItem = ({ blueprint }: CardCatalogItemProps) => {
   return (
     <Container>
-      <Image src={blueprint.imageUrl} />
+      <Image src={blueprint.imageUrlPreview} />
       <p>{blueprint.name}</p>
       <p>{blueprint.version}</p>
     </Container>

@@ -5,5 +5,12 @@ export type CardTraderBlueprintDto = {
   gameId: number
   categoryId: number
   expansionId: number
-  imageUrl: string
+  image: {
+    show: {
+      url: string
+    }
+    preview: {
+      url: string
+    }
+  }
 }
