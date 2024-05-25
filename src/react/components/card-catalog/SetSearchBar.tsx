@@ -36,7 +36,7 @@ export type SetSearchBarProps = {
   popupBind: { isShowing: boolean; closeHandlerEffect: UseEffectType }
   dropdownBind: SetSearchBarDropdownProps
   setsLoadedEffect: UseEffectType
-  popupClick: (e?: React.MouseEvent<Element, MouseEvent> | undefined) => void
+  popupClick: (e: React.MouseEvent<Element, MouseEvent>) => void
   onInputValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 

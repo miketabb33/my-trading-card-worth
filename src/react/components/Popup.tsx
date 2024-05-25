@@ -21,17 +21,19 @@ const Popup = forwardRef(
 
 Popup.displayName = 'Popup'
 
+export type UsePopupBind = {
+  ref?: React.RefObject<HTMLDivElement> | undefined
+  isShowing: boolean
+  closeHandlerEffect: UseEffectType
+}
+
 export type UsePopupReturn = {
-  bind: {
-    ref: React.RefObject<HTMLDivElement>
-    isShowing: boolean
-    closeHandlerEffect: UseEffectType
-  }
-  click: (e?: React.MouseEvent<Element, MouseEvent>) => void
+  bind: UsePopupBind
+  click: (e: React.MouseEvent<Element, MouseEvent>) => void
   toggle: () => void
 }
 
-export const usePopup = () => {
+export const usePopup = (): UsePopupReturn => {
   const ref = useRef<HTMLDivElement>(null)
   const [isShowing, setIsShowing] = useState(false)
 
@@ -41,8 +43,8 @@ export const usePopup = () => {
     if (shouldClose) setIsShowing(false)
   }
 
-  const click = (e?: React.MouseEvent<Element, MouseEvent>) => {
-    e?.stopPropagation()
+  const click = (e: React.MouseEvent<Element, MouseEvent>) => {
+    e.stopPropagation()
     toggle()
   }
 

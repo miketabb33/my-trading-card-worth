@@ -4,6 +4,12 @@ import { usePopup } from '../../../src/react/components/Popup'
 const ADD_EVENT_LISTENER = jest.spyOn(document, 'addEventListener')
 const REMOVE_EVENT_LISTENER = jest.spyOn(document, 'removeEventListener')
 
+const STOP_PROPAGATION = jest.fn()
+
+const EVENT = {
+  stopPropagation: STOP_PROPAGATION,
+} as unknown as React.MouseEvent<Element, MouseEvent>
+
 beforeEach(jest.clearAllMocks)
 
 describe('Use Popup', () => {
@@ -15,10 +21,11 @@ describe('Use Popup', () => {
   it('toggle is showing on invoking click', () => {
     const { result } = renderHook(usePopup)
 
-    act(result.current.click)
+    act(() => result.current.click(EVENT))
     expect(result.current.bind.isShowing).toEqual(true)
+    expect(STOP_PROPAGATION).toHaveBeenCalled()
 
-    act(result.current.click)
+    act(() => result.current.click(EVENT))
     expect(result.current.bind.isShowing).toEqual(false)
   })
 
@@ -31,7 +38,7 @@ describe('Use Popup', () => {
 
   it('calls listener in effect correctly', () => {
     const { result } = renderHook(usePopup)
-    act(result.current.click)
+    act(() => result.current.click(EVENT))
 
     act(() => {
       const cleanup = result.current.bind.closeHandlerEffect.effect()

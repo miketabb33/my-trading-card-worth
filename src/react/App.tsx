@@ -1,13 +1,18 @@
 import React from 'react'
 import { StyledProvider } from './providers/StyledProvider'
-import Home from './Home'
+import HomePage from './pages/HomePage'
+import GlobalOverlays from './GlobalOverlays'
+import { GlobalPopupContextProvider } from './providers/GlobalPopupProvider'
 
 const App = () => {
   return (
     <React.StrictMode>
-      <StyledProvider>
-        <Home />
-      </StyledProvider>
+      <GlobalPopupContextProvider>
+        <StyledProvider>
+          <GlobalOverlays />
+          <HomePage />
+        </StyledProvider>
+      </GlobalPopupContextProvider>
     </React.StrictMode>
   )
 }

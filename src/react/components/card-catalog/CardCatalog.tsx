@@ -13,7 +13,9 @@ const Container = styled.div`
 const CardCatalog = () => {
   const { setSearchBarBind, blueprints, fetchBlueprintEffect } =
     useInCardCatalog()
+
   useEffect(fetchBlueprintEffect.effect, fetchBlueprintEffect.deps)
+
   return (
     <Container>
       <p>Search Pokemon Cards by set</p>
