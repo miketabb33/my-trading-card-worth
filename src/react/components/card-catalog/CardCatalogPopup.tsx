@@ -9,6 +9,8 @@ const Image = styled.img`
 const Container = styled.div`
   width: 95vw;
   aspect-ratio: 371/520;
+  background-color: lightgray;
+  border: 1px solid gray;
 
   @media screen and (min-width: 630px) {
     width: auto;
