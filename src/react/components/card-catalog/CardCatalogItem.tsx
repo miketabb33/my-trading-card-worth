@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
 import { useGlobalPopup } from '../../providers/GlobalPopupProvider'
+import CardCatalogPopup from './CardCatalogPopup'
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +24,9 @@ const CardCatalogItem = ({ blueprint }: CardCatalogItemProps) => {
     <Container>
       <Image
         src={blueprint.imageUrlPreview}
-        onClick={(e) => show(e, <img src={blueprint.imageUrlShow} />)}
+        onClick={(e) =>
+          show(e, <CardCatalogPopup imageUrl={blueprint.imageUrlShow} />)
+        }
       />
       <p>{blueprint.name}</p>
       <p>{blueprint.version}</p>
