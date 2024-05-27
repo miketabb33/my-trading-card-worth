@@ -1,9 +1,13 @@
 import express from 'express'
 import path from 'path'
 import ControllerRegistry from './controllers/ControllerRegistry'
+import { auth } from 'express-openid-connect'
+import { auth0Config } from './auth0/auth0Config'
 
 const app = express()
 const port = process.env.PORT || 3000
+
+app.use(auth(auth0Config))
 
 app.use(express.static(`${__dirname}/public`))
 app.use('/api', ControllerRegistry)

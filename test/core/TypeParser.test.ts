@@ -7,6 +7,7 @@ const PARSER_NAME = 'testParser'
 const unknownData = {
   name: 'Bob',
   age: 100,
+  isAdult: true,
 }
 
 const parser = new TypeParser(unknownData, PARSER_NAME)
@@ -44,7 +45,7 @@ describe('Type Parser', () => {
       expect(result).toEqual('Bob')
     })
 
-    it('should throw when could not parse STRING correctly', () => {
+    it('should return null when can not parse STRING correctly', () => {
       const result = parser.strOrNull('age')
       expect(result).toBeNull()
     })
@@ -60,6 +61,43 @@ describe('Type Parser', () => {
       expect(() => parser.num('name')).toThrow(
         'Unable to parse "name" as "number" for "testParser"'
       )
+    })
+  })
+
+  describe('Number or null', () => {
+    it('should parse NUMBER correctly', () => {
+      const result = parser.numOrNull('age')
+      expect(result).toEqual(100)
+    })
+
+    it('should return null when can not parse NUMBER correctly', () => {
+      const result = parser.numOrNull('name')
+      expect(result).toBeNull()
+    })
+  })
+
+  describe('Boolean', () => {
+    it('should parse BOOLEAN correctly', () => {
+      const result = parser.bool('isAdult')
+      expect(result).toEqual(true)
+    })
+
+    it('should throw when could not parse BOOLEAN correctly', () => {
+      expect(() => parser.bool('name')).toThrow(
+        'Unable to parse "name" as "boolean" for "testParser"'
+      )
+    })
+  })
+
+  describe('Boolean or null', () => {
+    it('should parse BOOLEAN correctly', () => {
+      const result = parser.boolOrNull('isAdult')
+      expect(result).toEqual(true)
+    })
+
+    it('should return null when can not parse BOOLEAN correctly', () => {
+      const result = parser.boolOrNull('age')
+      expect(result).toBeNull()
     })
   })
 })

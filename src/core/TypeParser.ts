@@ -29,16 +29,36 @@ class TypeParser {
   strOrNull = (key: string): string | null => {
     if (typeof this.data[key] === 'string') {
       return this.data[key] as string
-    } else {
-      return null
     }
+    return null
   }
 
   num = (key: string): number => {
+    const value = this.numOrNull(key)
+    if (!value)
+      throw new Error(TypeParser.parserError(key, 'number', this.parserName))
+    return value
+  }
+
+  numOrNull = (key: string): number | null => {
     if (typeof this.data[key] === 'number') {
       return this.data[key] as number
     }
-    throw new Error(TypeParser.parserError(key, 'number', this.parserName))
+    return null
+  }
+
+  bool = (key: string): boolean => {
+    const value = this.boolOrNull(key)
+    if (!value)
+      throw new Error(TypeParser.parserError(key, 'boolean', this.parserName))
+    return value
+  }
+
+  boolOrNull = (key: string): boolean | null => {
+    if (typeof this.data[key] === 'boolean') {
+      return this.data[key] as boolean
+    }
+    return null
   }
 
   private static parserError = (
