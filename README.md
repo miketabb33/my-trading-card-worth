@@ -1,3 +1,16 @@
 # My Trading Card Worth
 
-Not much to see here, more to come.
+## Start
+
+`npm run dev`
+visit `http://localhost:3000/`
+
+## Start With Docker
+
+`docker compose up`
+visit `http://localhost:3000/`
+
+## Run Unit Tests
+
+`npm run test`
+`npm run test:watch`

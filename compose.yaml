@@ -1,0 +1,55 @@
+services:
+  server:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    # depends_on:
+    #   - mongodb
+    # volumes:
+    #   - .:/src
+    # networks:
+    #   - node-network
+
+  # mongodb:
+  #   image: mongo:6-jammy
+  #   ports:
+  #     - '27017:27017'
+  #   volumes:
+  #     - mongo-data-mtcw:/data/db
+  # networks:
+  #   - node-network
+# volumes:
+#   mongo-data-mtcw:
+# networks:
+#   node-network:
+#     driver: bridge
+
+# depends_on:
+#   db:
+#     condition: service_healthy
+# db:
+#   image: dock-to-do-db
+#   build:
+#     context: ./docker/db
+#   restart: always
+#   user: postgres
+#   secrets:
+#     - db-password
+#   environment:
+#     - POSTGRES_DB=example
+#     - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+#   expose:
+#     - 5432
+#   healthcheck:
+#     test: ['CMD', 'pg_isready']
+#     interval: 10s
+#     timeout: 5s
+#     retries: 5
+# secrets:
+#   db-password:
+#     file: db/password.txt

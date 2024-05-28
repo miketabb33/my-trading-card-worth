@@ -1,16 +1,17 @@
 import * as CardTraderAdaptor from '../../../../src/server/clients/CardTrader/CardTraderAdaptor'
 import * as CardTraderClient from '../../../../src/server/clients/CardTrader/CardTraderClient'
-import {
-  CARD_TRADER_BASE_URL,
-  POKEMON_GAME_ID,
-  POKEMON_SINGLE_CARD_CATEGORY,
-} from '../../../../src/server/clients/CardTrader/CardTraderConfig'
 import { CardTraderBlueprintDto } from '../../../../src/server/clients/CardTrader/types/CardTraderBlueprintDto'
 import { CardTraderExpansionDto } from '../../../../src/server/clients/CardTrader/types/CardTraderExpansionDto'
+import { ENV } from '../../../../src/server/env'
 import { makeBlueprintDto } from './__MOCKS__/CardTraderBlueprintDto.mock'
 
 const GET_EXPANSIONS = jest.spyOn(CardTraderClient, 'getExpansions')
 const GET_BLUEPRINTS = jest.spyOn(CardTraderClient, 'getBlueprints')
+
+const POKEMON_GAME_ID = ENV.CARD_TRADER.POKEMON_GAME_ID
+const POKEMON_SINGLE_CARD_CATEGORY =
+  ENV.CARD_TRADER.POKEMON_SINGLE_CARD_CATEGORY
+const CARD_TRADER_BASE_URL = ENV.CARD_TRADER.CARD_TRADER_BASE_URL
 
 beforeEach(jest.clearAllMocks)
 

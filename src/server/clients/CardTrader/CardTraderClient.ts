@@ -1,16 +1,12 @@
-import { CARD_TRADER_API_KEY, CARD_TRADER_API_URL } from './CardTraderConfig'
+import { ENV } from '../../env'
 import { tryToParseBlueprints } from './parseBlueprints'
 import { tryToParseExpansions } from './parseExpansions'
 
-const apiKey = (): string => {
-  const key = CARD_TRADER_API_KEY
-  if (!key) throw new Error('Missing Card Trader Api Key')
-  return key
-}
+const CARD_TRADER = ENV.CARD_TRADER
 
 const clientFetch = async <T>(path: string, parser: (data: unknown) => T) => {
-  const response = await fetch(`${CARD_TRADER_API_URL}${path}`, {
-    headers: { Authorization: apiKey() },
+  const response = await fetch(`${CARD_TRADER.CARD_TRADER_API_URL}${path}`, {
+    headers: { Authorization: CARD_TRADER.CARD_TRADER_API_KEY() },
   })
   const data = (await response.json()) as unknown
   return parser(data)
