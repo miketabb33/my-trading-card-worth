@@ -3,7 +3,7 @@ import { CardSetDto } from '../../core/types/CardSetDto'
 import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
 
-export const useSets = () => {
+export const useSetsData = () => {
   return useApi<CardSetDto[]>('/sets')
 }
 

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { CardSetDto } from '../../../core/types/CardSetDto'
 import { UseEffectType } from '../../types/UseEffectType'
 import Popup, { usePopup } from '../Popup'
-import { useSets } from '../../network/setsClient'
+import { useSetsData } from '../../network/setsClient'
 import SetSearchBarDropdown, {
   SetSearchBarDropdownProps,
 } from './SetSearchBarDropdown'
@@ -73,7 +73,7 @@ export type UseWithSetSearchBarReturn = {
 
 export const useWithSetSearchBar = (): UseWithSetSearchBarReturn => {
   const { click: popupClick, bind: popupBind, toggle: togglePopup } = usePopup()
-  const { data: sets } = useSets()
+  const { data: sets } = useSetsData()
   const [inputValue, setInputValue] = useState('')
   const [filteredSets, setFilteredSets] = useState<CardSetDto[]>([])
   const [selectedSet, setSelectedSet] = useState<CardSetDto | null>(null)

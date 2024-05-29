@@ -3,7 +3,6 @@ import { Router } from 'express'
 import { formatError, formatResponse } from './formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import Logger from '../logger'
-import UserIdLookupCRUD from '../database/UserIdLookupCRUD'
 import ProfileCRUD, { ProfileEntity } from '../database/ProfileCRUD'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
@@ -20,8 +19,7 @@ ProfileController.get('/', async (req, res) => {
     }
 
     const auth0User = parseAuth0User(user)
-    const userId = await getUserId(auth0User)
-    const profile = await getProfile(userId, auth0User)
+    const profile = await getProfile(auth0User)
 
     const dto: ProfileDto = {
       userId: profile.userId,
@@ -39,19 +37,12 @@ ProfileController.get('/', async (req, res) => {
   }
 })
 
-const getUserId = async (auth0User: Auth0User) => {
-  const userIdLookupCRUD = new UserIdLookupCRUD()
-  let userId = await userIdLookupCRUD.findUserId(auth0User.sub)
-  if (!userId) userId = await userIdLookupCRUD.create(auth0User.sub)
-  return userId
-}
-
-const getProfile = async (userId: string, auth0User: Auth0User) => {
+const getProfile = async (auth0User: Auth0User) => {
   const profileCRUD = new ProfileCRUD()
-  let profile = await profileCRUD.find(userId)
+  let profile = await profileCRUD.find(auth0User.sub)
   if (!profile) {
     const profileEntity: ProfileEntity = {
-      userId,
+      userId: auth0User.sub,
       email: auth0User.email,
       name: auth0User.name,
       nickname: auth0User.nickname,

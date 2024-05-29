@@ -9,7 +9,7 @@ import {
 import * as PopupModule from '../../../../src/react/components/Popup'
 import * as FilterSetsModule from '../../../../src/react/components/card-catalog/filterSets'
 
-const USE_SETS = jest.spyOn(SetsClientModule, 'useSets')
+const USE_SETS = jest.spyOn(SetsClientModule, 'useSetsData')
 
 const USE_POPUP = jest.spyOn(PopupModule, 'usePopup')
 const TOGGLE_POPUP = jest.fn()
