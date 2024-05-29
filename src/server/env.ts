@@ -17,4 +17,8 @@ export const ENV = {
     POKEMON_GAME_ID: 5,
     POKEMON_SINGLE_CARD_CATEGORY: 73,
   },
+  MONGO: {
+    CONNECTION_STRING: () =>
+      validatedEnv(process.env.MONGODB_CONNECTION_STRING),
+  },
 }

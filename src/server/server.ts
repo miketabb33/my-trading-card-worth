@@ -3,9 +3,12 @@ import path from 'path'
 import ControllerRegistry from './controllers/ControllerRegistry'
 import { auth } from 'express-openid-connect'
 import { auth0Config } from './auth0/auth0Config'
+import { connectToDb } from './database/connectToDb'
 
 const app = express()
 const port = process.env.PORT || 3000
+
+connectToDb().catch(console.dir)
 
 app.use(auth(auth0Config))
 
