@@ -19,6 +19,16 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: {
+      'mongodb-client-encryption': false,
+      aws4: false,
+      socks: false,
+      snappy: false,
+      'gcp-metadata': false,
+      '@aws-sdk/credential-providers': false,
+      '@mongodb-js/zstd': false,
+      kerberos: false,
+    },
   },
   output: {
     filename: '[name].js',
