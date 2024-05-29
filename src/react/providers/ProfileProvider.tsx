@@ -4,7 +4,7 @@ import { ChildrenProp } from '../types/ChildrenProp'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { useProfileData } from '../network/profileClient'
 
-type ProfileContextType = {
+export type ProfileContextType = {
   profile: ProfileDto | null
   isLoading: boolean
   logout: () => void

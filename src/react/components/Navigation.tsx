@@ -10,17 +10,14 @@ const Container = styled.div`
 `
 
 const Navigation = () => {
-  const { profile, isLoading, logout, login } = useProfile()
-
-  const showLoading = isLoading
-  const showLoggedOut = !isLoading && !profile
-  const showLoggedIn = !isLoading && profile
+  const { profile, showLoading, showLoggedIn, showLoggedOut, logout, login } =
+    useInNavigation()
 
   return (
     <Container>
       {showLoading && <p>Loading...</p>}
       {showLoggedOut && <button onClick={login}>Login</button>}
-      {showLoggedIn && (
+      {showLoggedIn && profile && (
         <>
           <p>Hi, {profile.nickname}</p>
           <button onClick={logout}>Logout</button>
@@ -28,6 +25,23 @@ const Navigation = () => {
       )}
     </Container>
   )
+}
+
+export const useInNavigation = () => {
+  const { profile, isLoading, logout, login } = useProfile()
+
+  const showLoading = isLoading
+  const showLoggedOut = !isLoading && !profile
+  const showLoggedIn = !isLoading && !!profile
+
+  return {
+    profile,
+    showLoading,
+    showLoggedOut,
+    showLoggedIn,
+    logout,
+    login,
+  }
 }
 
 export default Navigation
