@@ -5,8 +5,21 @@ import styled from 'styled-components'
 const Container = styled.div`
   display: flex;
   justify-content: end;
+  align-items: center;
   gap: 1rem;
   padding: 1rem;
+`
+const Button = styled.button`
+  padding: 0.5rem;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: none;
+  }
 `
 
 const Navigation = () => {
@@ -16,11 +29,11 @@ const Navigation = () => {
   return (
     <Container>
       {showLoading && <p>Loading...</p>}
-      {showLoggedOut && <button onClick={login}>Login</button>}
+      {showLoggedOut && <Button onClick={login}>Login</Button>}
       {showLoggedIn && profile && (
         <>
           <p>Hi, {profile.nickname}</p>
-          <button onClick={logout}>Logout</button>
+          <Button onClick={logout}>Logout</Button>
         </>
       )}
     </Container>
