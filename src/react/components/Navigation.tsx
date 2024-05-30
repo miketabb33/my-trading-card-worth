@@ -1,6 +1,7 @@
 import React from 'react'
 import { useProfile } from '../providers/ProfileProvider'
 import styled from 'styled-components'
+import { Button } from './base/Button'
 
 const Container = styled.div`
   display: flex;
@@ -8,18 +9,6 @@ const Container = styled.div`
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-`
-const Button = styled.button`
-  padding: 0.5rem;
-  cursor: pointer;
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  }
-
-  &:active {
-    transform: none;
-  }
 `
 
 const Navigation = () => {

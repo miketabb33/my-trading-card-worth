@@ -1,26 +1,18 @@
 import { renderHook } from '@testing-library/react'
 import { useInNavigation } from '../../../src/react/components/Navigation'
 import * as ProfileProviderModule from '../../../src/react/providers/ProfileProvider'
-import { ProfileDto } from '../../../src/core/types/ProfileDto'
+import { PROFILE_DTO } from '../../__MOCKS__/profileDto.mock'
+import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
 
 const LOGOUT = jest.fn()
 const LOGIN = jest.fn()
 
-const PROFILE_RETURN: ProfileProviderModule.ProfileContextType = {
-  profile: null,
-  isLoading: false,
+const PROFILE_RETURN = {
+  ...PROFILE_CONTEXT_TYPE,
   logout: LOGOUT,
   login: LOGIN,
-}
-
-const PROFILE: ProfileDto = {
-  userId: '',
-  name: '',
-  nickname: '',
-  email: null,
-  picture: null,
 }
 
 beforeEach(jest.clearAllMocks)
@@ -40,14 +32,14 @@ describe('Use In Navigation', () => {
     USE_PROFILE.mockReturnValue({
       ...PROFILE_RETURN,
       isLoading: false,
-      profile: PROFILE,
+      profile: PROFILE_DTO,
     })
 
     const { result } = renderHook(useInNavigation)
     expect(result.current.showLoading).toEqual(false)
     expect(result.current.showLoggedIn).toEqual(true)
     expect(result.current.showLoggedOut).toEqual(false)
-    expect(result.current.profile).toEqual(PROFILE)
+    expect(result.current.profile).toEqual(PROFILE_DTO)
   })
 
   it('should show logged out when not loading and profile is null', () => {

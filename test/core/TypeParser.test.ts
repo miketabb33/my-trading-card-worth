@@ -8,6 +8,8 @@ const unknownData = {
   name: 'Bob',
   age: 100,
   isAdult: true,
+  isChild: false,
+  zero: 0,
 }
 
 const parser = new TypeParser(unknownData, PARSER_NAME)
@@ -57,6 +59,11 @@ describe('Type Parser', () => {
       expect(result).toEqual(100)
     })
 
+    it('should parse 0 as number correctly', () => {
+      const result = parser.num('zero')
+      expect(result).toEqual(0)
+    })
+
     it('should throw when could not parse NUMBER correctly', () => {
       expect(() => parser.num('name')).toThrow(
         'Unable to parse "name" as "number" for "testParser"'
@@ -80,6 +87,11 @@ describe('Type Parser', () => {
     it('should parse BOOLEAN correctly', () => {
       const result = parser.bool('isAdult')
       expect(result).toEqual(true)
+    })
+
+    it('should parse false correctly', () => {
+      const result = parser.bool('isChild')
+      expect(result).toEqual(false)
     })
 
     it('should throw when could not parse BOOLEAN correctly', () => {

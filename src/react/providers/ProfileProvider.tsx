@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { createContext, useContext } from 'react'
 import { ChildrenProp } from '../types/ChildrenProp'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { useProfileData } from '../network/profileClient'
+import { UseEffectType } from '../types/UseEffectType'
 
 export type ProfileContextType = {
   profile: ProfileDto | null
   isLoading: boolean
+  isLoggedIn: boolean
   logout: () => void
   login: () => void
 }
@@ -20,21 +22,32 @@ const ProfileContext = createContext<ProfileContextType>({
     picture: null,
   },
   isLoading: false,
+  isLoggedIn: false,
   logout: () => {},
   login: () => {},
 })
 
 export const useProfileProvider = () => {
   const { data: profile, isLoading } = useProfileData()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  const loggedInEffect: UseEffectType = {
+    effect: () => setIsLoggedIn(!!profile),
+    deps: [profile],
+  }
 
   const logout = () => (location.pathname = '/logout')
   const login = () => (location.pathname = '/login')
 
-  return { profile, isLoading, logout, login }
+  return {
+    value: { profile, isLoading, isLoggedIn, logout, login },
+    loggedInEffect,
+  }
 }
 
 export const ProfileContextProvider = ({ children }: ChildrenProp) => {
-  const value = useProfileProvider()
+  const { value, loggedInEffect } = useProfileProvider()
+  useEffect(loggedInEffect.effect, loggedInEffect.deps)
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
   )

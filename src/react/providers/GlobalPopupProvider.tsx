@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react'
 import { ChildrenProp } from '../types/ChildrenProp'
 import { UsePopupBind, usePopup } from '../components/Popup'
 
-type GlobalPopupContextType = {
+export type GlobalPopupContextType = {
   show: (e: React.MouseEvent<Element, MouseEvent>, content: ReactNode) => void
   popupBind: UsePopupBind
   children: ReactNode

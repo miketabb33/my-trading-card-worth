@@ -1,8 +1,7 @@
 import { act, renderHook } from '@testing-library/react'
-import { useGlobalPopupProvider } from '../../src/react/providers/GlobalPopupProvider'
-import { CLICK_EVENT } from '../__MOCKS__/clickEvent.mock'
-import React from 'react'
-import * as PopupModule from '../../src/react/components/Popup'
+import { useGlobalPopupProvider } from '../../../src/react/providers/GlobalPopupProvider'
+import { CLICK_EVENT } from '../../__MOCKS__/clickEvent.mock'
+import * as PopupModule from '../../../src/react/components/Popup'
 
 const USE_POPUP = jest.spyOn(PopupModule, 'usePopup')
 
@@ -19,7 +18,7 @@ describe('Global Popup Context', () => {
     const { result } = renderHook(useGlobalPopupProvider)
     expect(result.current.children).toBeNull()
 
-    const children = (() => <>Test</>)()
+    const children = (() => 'Test')()
 
     act(() => result.current.show(CLICK_EVENT, children))
     expect(CLICK).toHaveBeenCalled()

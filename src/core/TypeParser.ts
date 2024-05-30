@@ -35,7 +35,7 @@ class TypeParser {
 
   num = (key: string): number => {
     const value = this.numOrNull(key)
-    if (!value)
+    if (value === null)
       throw new Error(TypeParser.parserError(key, 'number', this.parserName))
     return value
   }
@@ -49,7 +49,7 @@ class TypeParser {
 
   bool = (key: string): boolean => {
     const value = this.boolOrNull(key)
-    if (!value)
+    if (value === null)
       throw new Error(TypeParser.parserError(key, 'boolean', this.parserName))
     return value
   }

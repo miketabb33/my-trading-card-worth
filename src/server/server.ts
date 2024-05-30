@@ -4,6 +4,7 @@ import ControllerRegistry from './controllers/ControllerRegistry'
 import { auth } from 'express-openid-connect'
 import { auth0Config } from './auth0/auth0Config'
 import { connectToDb } from './database/connectToDb'
+import bodyParser from 'body-parser'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -11,6 +12,9 @@ const port = process.env.PORT || 3000
 connectToDb().catch(console.dir)
 
 app.use(auth(auth0Config))
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.use(express.static(`${__dirname}/public`))
 app.use('/api', ControllerRegistry)
