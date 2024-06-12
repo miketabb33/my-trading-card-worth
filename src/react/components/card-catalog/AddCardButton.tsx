@@ -3,9 +3,9 @@ import { Button } from '../base/Button'
 import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
 import { addMyCard } from '../../network/myCardClient'
 import { MyCardDto } from '../../../core/types/MyCardDto'
-import { MyCardCondition } from '../../../core/types/MyCardCondition'
-import { Loader } from './Loader'
-import Checkmark from './Checkmark'
+import { MyCardConditionType } from '../../../core/types/MyCardCondition'
+import { Loader } from '../base/Loader'
+import Checkmark from '../base/Checkmark'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -16,11 +16,14 @@ const Container = styled.div`
 
 type AddCardButtonProps = {
   blueprint: CardBlueprintDto
+  condition: MyCardConditionType
 }
 
-const AddCardButton = ({ blueprint }: AddCardButtonProps) => {
-  const { click, isLoading, showCheckmark, isDisabled } =
-    useInAddCardButton(blueprint)
+const AddCardButton = ({ blueprint, condition }: AddCardButtonProps) => {
+  const { click, isLoading, showCheckmark, isDisabled } = useInAddCardButton(
+    blueprint,
+    condition
+  )
 
   return (
     <Container>
@@ -33,7 +36,10 @@ const AddCardButton = ({ blueprint }: AddCardButtonProps) => {
   )
 }
 
-export const useInAddCardButton = (blueprint: CardBlueprintDto) => {
+export const useInAddCardButton = (
+  blueprint: CardBlueprintDto,
+  condition: MyCardConditionType
+) => {
   const [isLoading, setIsLoading] = useState(false)
   const [showCheckmark, setShowCheckmark] = useState(false)
 
@@ -47,7 +53,7 @@ export const useInAddCardButton = (blueprint: CardBlueprintDto) => {
     const dto: MyCardDto = {
       cardTraderId: blueprint.cardTraderId,
       name: blueprint.name,
-      condition: MyCardCondition.NearMint,
+      condition: condition.id,
     }
     setIsLoading(true)
     addMyCard(dto)

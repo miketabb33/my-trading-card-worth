@@ -5,6 +5,8 @@ import { useGlobalPopup } from '../../providers/GlobalPopupProvider'
 import CardCatalogPopup from './CardCatalogPopup'
 import { useProfile } from '../../providers/ProfileProvider'
 import AddCardButton from './AddCardButton'
+import Select, { useWithSelect } from '../base/form/Select'
+import { MyCardCondition } from '../../../core/types/MyCardCondition'
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +29,7 @@ type CardCatalogItemProps = {
 }
 
 const CardCatalogItem = ({ blueprint }: CardCatalogItemProps) => {
-  const { isLoggedIn, show } = useInCardCatalogItem()
+  const { isLoggedIn, selectBind, condition, show } = useInCardCatalogItem()
 
   return (
     <Container>
@@ -40,7 +42,12 @@ const CardCatalogItem = ({ blueprint }: CardCatalogItemProps) => {
       <ContentWell>
         <h2>{blueprint.name}</h2>
         <p>{blueprint.version}</p>
-        {isLoggedIn && <AddCardButton blueprint={blueprint} />}
+        {isLoggedIn && (
+          <>
+            <Select {...selectBind} />
+            <AddCardButton blueprint={blueprint} condition={condition} />
+          </>
+        )}
       </ContentWell>
     </Container>
   )
@@ -50,7 +57,14 @@ export const useInCardCatalogItem = () => {
   const { show } = useGlobalPopup()
   const { isLoggedIn } = useProfile()
 
-  return { show, isLoggedIn }
+  const { bind: selectBind, selectedOption } = useWithSelect(
+    MyCardCondition.asArray.map((condition) => ({
+      data: condition,
+      title: condition.title,
+    }))
+  )
+
+  return { isLoggedIn, selectBind, condition: selectedOption, show }
 }
 
 export default CardCatalogItem

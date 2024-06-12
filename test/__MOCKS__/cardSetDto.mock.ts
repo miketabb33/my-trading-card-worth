@@ -4,7 +4,6 @@ export const CARD_SET_DTO_1: CardSetDto = {
   id: 1469,
   name: 'Pokémon Products',
 }
-
 export const CARD_SET_DTO_2: CardSetDto = {
   id: 1470,
   name: 'Miscellaneous Promos',

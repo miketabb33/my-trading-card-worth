@@ -1,27 +1,35 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
 import { useInCardCatalog } from '../../../../src/react/components/card-catalog/CardCatalog'
-import * as SetSearchBarModule from '../../../../src/react/components/card-catalog/SetSearchBar'
+import * as AutocompleteModule from '../../../../src/react/components/base/form/Autocomplete'
 import { CardSetDto } from '../../../../src/core/types/CardSetDto'
 import * as setsClientModule from '../../../../src/react/network/setsClient'
 import { CARD_BLUEPRINT_DTO } from '../../../__MOCKS__/cardBlueprintDto.mock'
 
 const FETCH_SETS = jest.spyOn(setsClientModule, 'fetchSet')
+const USE_SETS_DATA = jest.spyOn(setsClientModule, 'useSetsData')
 
-const USE_WITH_SET_SEARCH_BAR = jest.spyOn(
-  SetSearchBarModule,
-  'useWithSetSearchBar'
+USE_SETS_DATA.mockReturnValue({
+  data: [],
+  isLoading: false,
+  refresh: () => {},
+})
+
+const USE_WITH_AUTOCOMPLETE = jest.spyOn(
+  AutocompleteModule,
+  'useWithAutocomplete'
 )
 
-const USE_WITH_SET_SEARCH_BAR_RETURN: SetSearchBarModule.UseWithSetSearchBarReturn =
+const USE_WITH_AUTOCOMPLETE_RETURN: AutocompleteModule.UseWithAutocompleteReturn<object> =
   {
-    selectedSet: null,
-    bind: {} as unknown as SetSearchBarModule.SetSearchBarProps,
+    selectedOption: null,
+    bind: {} as unknown as AutocompleteModule.AutocompleteProps<object>,
+    setOptions: () => {},
   }
 
 describe('Use In Card Catalog', () => {
   it('should init as null', () => {
-    USE_WITH_SET_SEARCH_BAR.mockReturnValue(USE_WITH_SET_SEARCH_BAR_RETURN)
+    USE_WITH_AUTOCOMPLETE.mockReturnValue(USE_WITH_AUTOCOMPLETE_RETURN)
     const { result } = renderHook(useInCardCatalog)
     expect(result.current.blueprints).toEqual(null)
   })
@@ -32,9 +40,9 @@ describe('Use In Card Catalog', () => {
       name: 'Any set',
     }
 
-    USE_WITH_SET_SEARCH_BAR.mockReturnValue({
-      ...USE_WITH_SET_SEARCH_BAR_RETURN,
-      selectedSet,
+    USE_WITH_AUTOCOMPLETE.mockReturnValue({
+      ...USE_WITH_AUTOCOMPLETE_RETURN,
+      selectedOption: selectedSet,
     })
 
     FETCH_SETS.mockResolvedValue({

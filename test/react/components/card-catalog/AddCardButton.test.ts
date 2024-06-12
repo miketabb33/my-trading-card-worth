@@ -9,16 +9,20 @@ const ADD_MY_CARD = jest.spyOn(MyCardClientModule, 'addMyCard')
 
 ADD_MY_CARD.mockResolvedValue()
 
+const CONDITION = MyCardCondition.Mint
+
 describe('Use In Add Card Button', () => {
   it('should set loading to false and set showCheckmark to true after add my card completes', async () => {
-    const { result } = renderHook(() => useInAddCardButton(CARD_BLUEPRINT_DTO))
+    const { result } = renderHook(() =>
+      useInAddCardButton(CARD_BLUEPRINT_DTO, CONDITION)
+    )
 
     await act(async () => await result.current.click())
 
     expect(ADD_MY_CARD).toHaveBeenCalledWith({
       cardTraderId: CARD_BLUEPRINT_DTO.cardTraderId,
       name: CARD_BLUEPRINT_DTO.name,
-      condition: MyCardCondition.NearMint,
+      condition: CONDITION.id,
     })
 
     expect(result.current.showCheckmark).toEqual(true)
