@@ -8,7 +8,6 @@ import { tryToParseAddMyCardBody } from './parseAddMyCardBody'
 import { AddCardLogic } from './AddCardLogic'
 import CardTraderCRUD from '../../database/CardTraderCRUD'
 import MyCardCRUD from '../../database/MyCardCRUD'
-import MyCardCardTraderLookupCRUD from '../../database/MyCardCardTraderLookupCRUD'
 
 const MyCardController = Router()
 
@@ -19,8 +18,7 @@ MyCardController.post('/add', requiresAuth(), async (req, res) => {
 
     const addCardLogic = new AddCardLogic(
       new CardTraderCRUD(),
-      new MyCardCRUD(),
-      new MyCardCardTraderLookupCRUD()
+      new MyCardCRUD()
     )
     await addCardLogic.add(auth0User.sub, myCardDto)
 

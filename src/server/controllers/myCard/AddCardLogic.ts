@@ -3,51 +3,22 @@ import {
   CardTraderEntity,
   ICardTraderCRUD,
 } from '../../database/CardTraderCRUD'
-import { IMyCardCRUD, MyCardEntity } from '../../database/MyCardCRUD'
-import {
-  IMyCardCardTraderLookupCRUD,
-  MyCardCardTraderLookupEntity,
-} from '../../database/MyCardCardTraderLookupCRUD'
+import { AddMyCardArgs, IMyCardCRUD } from '../../database/MyCardCRUD'
+
 import { createMongoId } from '../../database/createMongoId'
 
 export class AddCardLogic {
   private readonly cardTraderCRUD: ICardTraderCRUD
   private readonly myCardCRUD: IMyCardCRUD
-  private readonly myCardCardTraderLookupCRUD: IMyCardCardTraderLookupCRUD
 
-  constructor(
-    cardTraderCRUD: ICardTraderCRUD,
-    myCardCRUD: IMyCardCRUD,
-    myCardCardTraderLookupCRUD: IMyCardCardTraderLookupCRUD
-  ) {
+  constructor(cardTraderCRUD: ICardTraderCRUD, myCardCRUD: IMyCardCRUD) {
     this.cardTraderCRUD = cardTraderCRUD
     this.myCardCRUD = myCardCRUD
-    this.myCardCardTraderLookupCRUD = myCardCardTraderLookupCRUD
   }
 
   add = async (userId: string, myCardDto: MyCardDto) => {
-    const myCardId = await this.addMyCardToDatabase(userId, myCardDto)
     const cardTraderId = await this.getCardTraderId(myCardDto)
-
-    await this.addMyCardCardTraderLookupToDatabase(myCardId, cardTraderId)
-  }
-
-  private addMyCardToDatabase = async (
-    userId: string,
-    myCardDto: MyCardDto
-  ): Promise<string> => {
-    const entity: MyCardEntity = {
-      _id: createMongoId(),
-      userId,
-      name: myCardDto.name,
-      condition: myCardDto.condition,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-
-    await this.myCardCRUD.add(entity)
-
-    return entity._id
+    await this.addMyCardToDatabase(userId, cardTraderId, myCardDto)
   }
 
   private getCardTraderId = async (myCardDto: MyCardDto): Promise<string> => {
@@ -75,18 +46,23 @@ export class AddCardLogic {
     return entity._id
   }
 
-  private addMyCardCardTraderLookupToDatabase = async (
-    myCardId: string,
-    cardTraderId: string
-  ) => {
-    const entity: MyCardCardTraderLookupEntity = {
+  private addMyCardToDatabase = async (
+    userId: string,
+    cardTraderId: string,
+    myCardDto: MyCardDto
+  ): Promise<string> => {
+    const args: AddMyCardArgs = {
       _id: createMongoId(),
-      myCardId,
-      cardTraderId,
+      userId,
+      name: myCardDto.name,
+      condition: myCardDto.condition,
+      cardTrader: cardTraderId,
       createdAt: new Date(),
       updatedAt: new Date(),
     }
 
-    await this.myCardCardTraderLookupCRUD.add(entity)
+    await this.myCardCRUD.add(args)
+
+    return args._id
   }
 }
