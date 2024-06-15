@@ -1,18 +1,17 @@
-import mongoose, { Schema, model } from 'mongoose'
-import { CardTraderEntity } from './CardTraderCRUD'
+import { Schema, model } from 'mongoose'
 
-type MyCardBaseEntity = {
+export type MyCardEntity = {
   _id: string
   userId: string
   name: string
   condition: number
+  cardTrader: {
+    blueprintId: number
+    expansionId: number
+  }
   createdAt: Date
   updatedAt: Date
 }
-
-export type MyCardEntity = {
-  cardTrader: CardTraderEntity
-} & MyCardBaseEntity
 
 const myCardSchema = new Schema(
   {
@@ -29,8 +28,16 @@ const myCardSchema = new Schema(
       required: true,
     },
     cardTrader: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'card_trader',
+      type: {
+        blueprintId: {
+          type: Number,
+          required: true,
+        },
+        expansionId: {
+          type: Number,
+          required: true,
+        },
+      },
       required: true,
     },
   },
@@ -40,36 +47,39 @@ const myCardSchema = new Schema(
 const MyCardModel = model('my_card', myCardSchema)
 
 export interface IMyCardCRUD {
-  add: (entity: AddMyCardArgs) => Promise<void>
-  find: (userId: string) => Promise<MyCardEntity | null>
+  add: (entity: MyCardEntity) => Promise<void>
+  findBySet: (userId: string, setId: number) => Promise<MyCardEntity[]>
 }
 
-export type AddMyCardArgs = {
-  cardTrader: string
-} & MyCardBaseEntity
-
 class MyCardCRUD implements IMyCardCRUD {
-  add = async (args: AddMyCardArgs) => {
+  add = async (args: MyCardEntity) => {
     const context = new MyCardModel(args)
     await context.save()
   }
 
-  find = async (userId: string): Promise<MyCardEntity | null> => {
-    const context = await MyCardModel.findOne({ userId }).populate<{
-      cardTrader: CardTraderEntity
-    }>('cardTrader')
-    if (!context) return null
+  findBySet = async (
+    userId: string,
+    setId: number
+  ): Promise<MyCardEntity[]> => {
+    const contexts = await MyCardModel.find({
+      userId,
+      'cardTrader.expansionId': setId,
+    })
+    if (!contexts) return []
 
-    const myCard: MyCardEntity = {
+    const myCards: MyCardEntity[] = contexts.map((context) => ({
       _id: context._id.toString(),
       userId: context.userId,
       name: context.name,
-      cardTrader: context.cardTrader,
+      cardTrader: {
+        blueprintId: context.cardTrader.blueprintId,
+        expansionId: context.cardTrader.expansionId,
+      },
       condition: context.condition,
       createdAt: context.createdAt,
       updatedAt: context.updatedAt,
-    }
-    return myCard
+    }))
+    return myCards
   }
 }
 

@@ -1,11 +1,8 @@
 import { AddCardLogic } from '../../../../src/server/controllers/myCard/AddCardLogic'
-import { ICardTraderCRUD } from '../../../../src/server/database/CardTraderCRUD'
 import { IMyCardCRUD } from '../../../../src/server/database/MyCardCRUD'
 import { MY_CARD_DTO } from '../../../__MOCKS__/myCardDto.mock'
 
 const ADD_MY_CARD = jest.fn()
-const ADD_CARD_TRADER = jest.fn()
-const FIND_CARD_TRADER = jest.fn()
 
 const USER_ID = 'anyUserId'
 
@@ -14,39 +11,17 @@ describe('Add Card Logic', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    addCardLogic = new AddCardLogic(
-      new FakeCardTraderCRUD(),
-      new FakeMyCardCRUD()
-    )
+    addCardLogic = new AddCardLogic(new FakeMyCardCRUD())
   })
 
   it('should not add a card trader item when one exists', async () => {
-    FIND_CARD_TRADER.mockResolvedValue({ something: 'something' })
-
     await addCardLogic.add(USER_ID, MY_CARD_DTO)
 
     expect(ADD_MY_CARD).toHaveBeenCalled()
-    expect(FIND_CARD_TRADER).toHaveBeenCalled()
-    expect(ADD_CARD_TRADER).not.toHaveBeenCalled()
-  })
-
-  it("should add a card trader item when one doesn't exists", async () => {
-    FIND_CARD_TRADER.mockResolvedValue(null)
-
-    await addCardLogic.add(USER_ID, MY_CARD_DTO)
-
-    expect(ADD_MY_CARD).toHaveBeenCalled()
-    expect(FIND_CARD_TRADER).toHaveBeenCalled()
-    expect(ADD_CARD_TRADER).toHaveBeenCalled()
   })
 })
 
 class FakeMyCardCRUD implements IMyCardCRUD {
   add = ADD_MY_CARD
-  find = ADD_MY_CARD
-}
-
-class FakeCardTraderCRUD implements ICardTraderCRUD {
-  add = ADD_CARD_TRADER
-  find = FIND_CARD_TRADER
+  findBySet = ADD_MY_CARD
 }

@@ -2,6 +2,7 @@ import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
 import { CardSetDto } from '../../../core/types/CardSetDto'
 import { ENV } from '../../env'
 import * as CardTraderClient from './CardTraderClient'
+import { EXCLUDED_SET_IDS } from './excludedSetIds'
 
 const CARD_TRADER = ENV.CARD_TRADER
 
@@ -10,7 +11,12 @@ export const getPokemonSets = async (): Promise<CardSetDto[]> => {
   const pokemonSets = expansionsDto.filter(
     (expansion) => expansion.gameId === CARD_TRADER.POKEMON_GAME_ID
   )
-  return pokemonSets.map((expansion) => {
+
+  const filteredPokemonSets = pokemonSets.filter(
+    (set) => !EXCLUDED_SET_IDS.includes(set.id)
+  )
+
+  return filteredPokemonSets.map((expansion) => {
     return {
       cardTraderExpansionId: expansion.id,
       name: expansion.name,

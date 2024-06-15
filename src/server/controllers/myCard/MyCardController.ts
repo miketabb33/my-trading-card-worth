@@ -6,7 +6,7 @@ import { requiresAuth } from 'express-openid-connect'
 import { parseAuth0User } from '../../auth0/parseAuth0User'
 import { tryToParseAddMyCardBody } from './parseAddMyCardBody'
 import { AddCardLogic } from './AddCardLogic'
-import CardTraderCRUD from '../../database/CardTraderCRUD'
+
 import MyCardCRUD from '../../database/MyCardCRUD'
 
 const MyCardController = Router()
@@ -16,10 +16,8 @@ MyCardController.post('/add', requiresAuth(), async (req, res) => {
     const auth0User = parseAuth0User(req.oidc.user)
     const myCardDto = tryToParseAddMyCardBody(req.body)
 
-    const addCardLogic = new AddCardLogic(
-      new CardTraderCRUD(),
-      new MyCardCRUD()
-    )
+    const addCardLogic = new AddCardLogic(new MyCardCRUD())
+
     await addCardLogic.add(auth0User.sub, myCardDto)
 
     res.send(formatResponse({}))
