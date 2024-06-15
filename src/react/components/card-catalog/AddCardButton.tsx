@@ -52,6 +52,7 @@ export const useInAddCardButton = (
   const click = () => {
     const dto: MyCardDto = {
       cardTraderBlueprintId: blueprint.cardTraderBlueprintId,
+      cardTraderExpansionId: blueprint.cardTraderExpansionId,
       name: blueprint.name,
       condition: condition.id,
     }

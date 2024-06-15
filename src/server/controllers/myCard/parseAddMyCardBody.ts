@@ -6,6 +6,7 @@ export const tryToParseAddMyCardBody = (body: unknown): MyCardDto => {
 
   return {
     cardTraderBlueprintId: typeParser.num('cardTraderBlueprintId'),
+    cardTraderExpansionId: typeParser.num('cardTraderExpansionId'),
     name: typeParser.str('name'),
     condition: typeParser.num('condition'),
   }

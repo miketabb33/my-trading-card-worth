@@ -29,6 +29,7 @@ export const getPokemonSet = async (
   return singles.map((blueprint) => {
     return {
       cardTraderBlueprintId: blueprint.id,
+      cardTraderExpansionId: blueprint.expansionId,
       name: blueprint.name,
       version: blueprint.version || '',
       imageUrlPreview: `${CARD_TRADER.CARD_TRADER_BASE_URL}${blueprint.image.preview.url}`,

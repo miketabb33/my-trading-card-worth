@@ -29,7 +29,11 @@ const myCardSchema = new Schema(
 
 const MyCardModel = model('my_card', myCardSchema)
 
-class MyCardCRUD {
+export interface IMyCardCRUD {
+  add: (entity: MyCardEntity) => Promise<void>
+}
+
+class MyCardCRUD implements IMyCardCRUD {
   add = async (entity: MyCardEntity) => {
     const context = new MyCardModel(entity)
     await context.save()
