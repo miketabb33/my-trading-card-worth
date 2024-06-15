@@ -1,5 +1,5 @@
 export type MyCardDto = {
-  cardTraderId: number
+  cardTraderBlueprintId: number
   name: string
   condition: number
 }

@@ -1,35 +1,35 @@
 import { CardSetDto } from '../../src/core/types/CardSetDto'
 
 export const CARD_SET_DTO_1: CardSetDto = {
-  id: 1469,
+  cardTraderExpansionId: 1469,
   name: 'Pokémon Products',
 }
 export const CARD_SET_DTO_2: CardSetDto = {
-  id: 1470,
+  cardTraderExpansionId: 1470,
   name: 'Miscellaneous Promos',
 }
 export const CARD_SET_DTO_3: CardSetDto = {
-  id: 1471,
+  cardTraderExpansionId: 1471,
   name: 'League Promos',
 }
 export const CARD_SET_DTO_4: CardSetDto = {
-  id: 1472,
+  cardTraderExpansionId: 1472,
   name: 'Base Set',
 }
 export const CARD_SET_DTO_5: CardSetDto = {
-  id: 1473,
+  cardTraderExpansionId: 1473,
   name: 'Jungle',
 }
 export const CARD_SET_DTO_6: CardSetDto = {
-  id: 1474,
+  cardTraderExpansionId: 1474,
   name: 'Wizards Black Star Promos',
 }
 export const CARD_SET_DTO_7: CardSetDto = {
-  id: 1475,
+  cardTraderExpansionId: 1475,
   name: 'W Promos',
 }
 export const CARD_SET_DTO_8: CardSetDto = {
-  id: 1476,
+  cardTraderExpansionId: 1476,
   name: 'Fossil',
 }
 

@@ -16,7 +16,7 @@ MyCardController.post('/add', requiresAuth(), async (req, res) => {
 
     const entity: MyCardEntity = {
       userId: auth0User.sub,
-      cardTraderId: myCardDto.cardTraderId,
+      cardTraderId: myCardDto.cardTraderBlueprintId,
       name: myCardDto.name,
       condition: myCardDto.condition,
     }

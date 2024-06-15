@@ -20,7 +20,7 @@ describe('Use In Add Card Button', () => {
     await act(async () => await result.current.click())
 
     expect(ADD_MY_CARD).toHaveBeenCalledWith({
-      cardTraderId: CARD_BLUEPRINT_DTO.cardTraderId,
+      cardTraderBlueprintId: CARD_BLUEPRINT_DTO.cardTraderBlueprintId,
       name: CARD_BLUEPRINT_DTO.name,
       condition: CONDITION.id,
     })

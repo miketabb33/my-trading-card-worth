@@ -32,7 +32,7 @@ describe('Card Trader Adaptor', () => {
       GET_EXPANSIONS.mockResolvedValue(expansionDto)
       const result = await CardTraderAdaptor.getPokemonSets()
       expect(result.length).toEqual(1)
-      expect(result[0].id).toEqual(Id)
+      expect(result[0].cardTraderExpansionId).toEqual(Id)
       expect(result[0].name).toEqual(NAME)
     })
     it('filters out none pokemon set items', async () => {
@@ -81,7 +81,7 @@ describe('Card Trader Adaptor', () => {
 
       GET_BLUEPRINTS.mockResolvedValue(blueprintDto)
       const result = await CardTraderAdaptor.getPokemonSet(3)
-      expect(result[0].cardTraderId).toEqual(id)
+      expect(result[0].cardTraderBlueprintId).toEqual(id)
       expect(result[0].name).toEqual(name)
       expect(result[0].version).toEqual(version)
       expect(result[0].imageUrlPreview).toEqual(

@@ -1,5 +1,5 @@
 export type CardBlueprintDto = {
-  cardTraderId: number
+  cardTraderBlueprintId: number
   name: string
   version: string
   imageUrlPreview: string

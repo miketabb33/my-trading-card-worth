@@ -1,4 +1,4 @@
 export type CardSetDto = {
-  id: number
+  cardTraderExpansionId: number
   name: string
 }

@@ -3,14 +3,14 @@ import { tryToParseAddMyCardBody } from '../../../../src/server/controllers/myCa
 describe('Try To Parse Add My Card Body', () => {
   it('should parse', () => {
     const body = {
-      cardTraderId: 123,
+      cardTraderBlueprintId: 123,
       name: 'Any',
       condition: 1,
     }
 
     const result = tryToParseAddMyCardBody(body)
 
-    expect(result.cardTraderId).toEqual(body.cardTraderId)
+    expect(result.cardTraderBlueprintId).toEqual(body.cardTraderBlueprintId)
     expect(result.name).toEqual(body.name)
     expect(result.condition).toEqual(body.condition)
   })

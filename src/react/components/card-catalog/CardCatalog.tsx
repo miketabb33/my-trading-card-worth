@@ -27,7 +27,10 @@ const CardCatalog = () => {
       <p>Search Pokemon Cards by set</p>
       <Autocomplete {...setSearchBarBind} />
       {blueprints?.map((blueprint) => (
-        <CardCatalogItem key={blueprint.cardTraderId} blueprint={blueprint} />
+        <CardCatalogItem
+          key={blueprint.cardTraderBlueprintId}
+          blueprint={blueprint}
+        />
       ))}
     </Container>
   )
@@ -57,7 +60,7 @@ export const useInCardCatalog = () => {
   const fetchBlueprintEffect: UseEffectType = {
     effect: () => {
       if (selectedSet) {
-        fetchSet(selectedSet.id)
+        fetchSet(selectedSet.cardTraderExpansionId)
           .then((res) => setBlueprints(res.data))
           .catch((err) => console.log(err))
       }

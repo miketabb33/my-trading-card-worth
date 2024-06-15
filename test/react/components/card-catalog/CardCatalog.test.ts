@@ -36,7 +36,7 @@ describe('Use In Card Catalog', () => {
 
   it('should fetch set and set state when selected set has a value', async () => {
     const selectedSet: CardSetDto = {
-      id: 23,
+      cardTraderExpansionId: 23,
       name: 'Any set',
     }
 
@@ -55,7 +55,7 @@ describe('Use In Card Catalog', () => {
 
     await act(async () => await result.current.fetchBlueprintEffect.effect())
 
-    expect(FETCH_SETS).toHaveBeenCalledWith(selectedSet.id)
+    expect(FETCH_SETS).toHaveBeenCalledWith(selectedSet.cardTraderExpansionId)
     expect(result.current.blueprints).toEqual([CARD_BLUEPRINT_DTO])
     expect(result.current.fetchBlueprintEffect.deps).toEqual([selectedSet])
   })
