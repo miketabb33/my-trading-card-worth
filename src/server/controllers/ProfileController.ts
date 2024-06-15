@@ -6,6 +6,7 @@ import Logger from '../logger'
 import ProfileCRUD, { ProfileEntity } from '../database/ProfileCRUD'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
+import { createMongoId } from '../database/createMongoId'
 
 const ProfileController = Router()
 
@@ -42,11 +43,14 @@ const getProfile = async (auth0User: Auth0User) => {
   let profile = await profileCRUD.find(auth0User.sub)
   if (!profile) {
     const profileEntity: ProfileEntity = {
+      _id: createMongoId(),
       userId: auth0User.sub,
       email: auth0User.email,
       name: auth0User.name,
       nickname: auth0User.nickname,
       picture: auth0User.picture,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     }
     await profileCRUD.create(profileEntity)
     profile = profileEntity

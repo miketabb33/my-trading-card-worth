@@ -1,20 +1,18 @@
 import { Schema, model } from 'mongoose'
 
 export type MyCardEntity = {
+  _id: string
   userId: string
-  cardTraderId: number
   name: string
   condition: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 const myCardSchema = new Schema(
   {
     userId: {
       type: String,
-      required: true,
-    },
-    cardTraderId: {
-      type: Number,
       required: true,
     },
     name: {
