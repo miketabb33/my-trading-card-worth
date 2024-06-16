@@ -1,12 +1,12 @@
-import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
-import { CardSetDto } from '../../../core/types/CardSetDto'
 import { ENV } from '../../env'
+import { CardBlueprint } from '../../types/CardBlueprint'
+import { CardSet } from '../../types/CardSet'
 import * as CardTraderClient from './CardTraderClient'
 import { EXCLUDED_SET_IDS } from './excludedSetIds'
 
 const CARD_TRADER = ENV.CARD_TRADER
 
-export const getPokemonSets = async (): Promise<CardSetDto[]> => {
+export const getPokemonSets = async (): Promise<CardSet[]> => {
   const expansionsDto = await CardTraderClient.getExpansions()
   const pokemonSets = expansionsDto.filter(
     (expansion) => expansion.gameId === CARD_TRADER.POKEMON_GAME_ID
@@ -18,15 +18,15 @@ export const getPokemonSets = async (): Promise<CardSetDto[]> => {
 
   return filteredPokemonSets.map((expansion) => {
     return {
-      cardTraderExpansionId: expansion.id,
+      expansionId: expansion.id,
       name: expansion.name,
     }
   })
 }
 
-export const getPokemonSet = async (
+export const getPokemonSetBlueprints = async (
   expansionId: number
-): Promise<CardBlueprintDto[]> => {
+): Promise<CardBlueprint[]> => {
   const blueprints = await CardTraderClient.getBlueprints(expansionId)
   const singles = blueprints.filter(
     (blueprint) =>
@@ -34,8 +34,8 @@ export const getPokemonSet = async (
   )
   return singles.map((blueprint) => {
     return {
-      cardTraderBlueprintId: blueprint.id,
-      cardTraderExpansionId: blueprint.expansionId,
+      blueprintId: blueprint.id,
+      expansionId: blueprint.expansionId,
       name: blueprint.name,
       version: blueprint.version || '',
       imageUrlPreview: `${CARD_TRADER.CARD_TRADER_BASE_URL}${blueprint.image.preview.url}`,

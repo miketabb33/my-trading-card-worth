@@ -1,4 +1,4 @@
-import { getPokemonSet, getPokemonSets } from '../CardTraderAdaptor'
+import { getPokemonSetBlueprints, getPokemonSets } from '../CardTraderAdaptor'
 
 export const findCardTraderSetsWith0Cards = async () => {
   const pokemonSets = await getPokemonSets()
@@ -6,9 +6,9 @@ export const findCardTraderSetsWith0Cards = async () => {
 
   for (let i = 0; i < pokemonSets.length; i++) {
     const set = pokemonSets[i]
-    const cards = await getPokemonSet(set.cardTraderExpansionId)
-    if (cards.length === 0) zeroItems.push(set.cardTraderExpansionId)
-    console.log(set.cardTraderExpansionId, set.name, cards.length)
+    const cards = await getPokemonSetBlueprints(set.expansionId)
+    if (cards.length === 0) zeroItems.push(set.expansionId)
+    console.log(set.expansionId, set.name, cards.length)
   }
 
   return zeroItems
