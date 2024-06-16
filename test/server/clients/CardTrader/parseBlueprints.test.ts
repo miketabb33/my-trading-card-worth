@@ -23,4 +23,11 @@ describe('Parse Blueprint', () => {
     expect(result[0].image.show.url).toEqual(DEWGONG.image.show.url)
     expect(result[0].image.preview.url).toEqual(DEWGONG.image.preview.url)
   })
+
+  it('should return empty string when image is missing', () => {
+    const response = { ...DEWGONG, image: {} }
+    const result = tryToParseBlueprints([response])
+    expect(result[0].image.show.url).toEqual('')
+    expect(result[0].image.preview.url).toEqual('')
+  })
 })

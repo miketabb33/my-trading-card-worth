@@ -15,10 +15,7 @@ export const tryToParseBlueprints = (
     const id = parser.num('id')
     const name = parser.str('name')
 
-    const showUrl = item.image.show.url as string
-    const previewUrl = item.image.preview.url as string
-    if (!showUrl)
-      throw new Error(`Failed to parse ${name} images. Trader Card ID: ${id}`)
+    const [showUrl, previewUrl] = parseImageUrls(item)
 
     const blueprint: CardTraderBlueprintDto = {
       id,
@@ -38,4 +35,17 @@ export const tryToParseBlueprints = (
     }
     return blueprint
   })
+}
+
+const parseImageUrls = (item: any): [string, string] => {
+  if (!item.image) return ['', '']
+
+  let showUrl = ''
+  let previewUrl = ''
+
+  if (item.image.show && item.image.show.url) showUrl = item.image.show.url
+  if (item.image.preview && item.image.preview.url)
+    previewUrl = item.image.preview.url
+
+  return [showUrl, previewUrl]
 }
