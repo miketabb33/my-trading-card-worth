@@ -24,6 +24,17 @@ const ContentWell = styled.div`
   gap: 1rem;
 `
 
+const LoggedInContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
+
+const ConditionField = styled.div`
+  display: flex;
+  gap: 1rem;
+`
+
 type CardCatalogItemProps = {
   blueprint: CardBlueprintDto
 }
@@ -43,10 +54,15 @@ const CardCatalogItem = ({ blueprint }: CardCatalogItemProps) => {
         <h2>{blueprint.name}</h2>
         <p>{blueprint.version}</p>
         {isLoggedIn && (
-          <>
-            <Select {...selectBind} />
+          <LoggedInContent>
+            <i>Owned: {blueprint.owned}</i>
+            <h3>Add to your collection</h3>
+            <ConditionField>
+              Condition:
+              <Select {...selectBind} />
+            </ConditionField>
             <AddCardButton blueprint={blueprint} condition={condition} />
-          </>
+          </LoggedInContent>
         )}
       </ContentWell>
     </Container>

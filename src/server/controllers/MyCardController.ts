@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { formatError, formatResponse } from '../formatResponse'
-import Logger from '../../logger'
+import { formatError, formatResponse } from '../logic/formatResponse'
+import Logger from '../logger'
 import { requiresAuth } from 'express-openid-connect'
-import { parseAuth0User } from '../../auth0/parseAuth0User'
-import { tryToParseAddMyCardBody } from './parseAddMyCardBody'
-import { AddCardLogic } from './AddCardLogic'
-
-import MyCardCRUD from '../../database/MyCardCRUD'
+import { parseAuth0User } from '../auth0/parseAuth0User'
+import { tryToParseAddMyCardBody } from '../logic/myCard/parseAddMyCardBody'
+import { AddCardLogic } from '../logic/myCard/AddCardLogic'
+import MyCardCRUD from '../database/repository/MyCardCRUD'
 
 const MyCardController = Router()
 

@@ -1,7 +1,7 @@
 import {
   formatError,
   formatResponse,
-} from '../../../src/server/controllers/formatResponse'
+} from '../../../src/server/logic/formatResponse'
 
 describe('Format Response', () => {
   it('should build data response correctly', () => {

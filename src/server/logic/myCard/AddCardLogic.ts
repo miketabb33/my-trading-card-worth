@@ -1,5 +1,5 @@
 import { MyCardDto } from '../../../core/types/MyCardDto'
-import { IMyCardCRUD, MyCardEntity } from '../../database/MyCardCRUD'
+import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
 
 import { createMongoId } from '../../database/createMongoId'
 

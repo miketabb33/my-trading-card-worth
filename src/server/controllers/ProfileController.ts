@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { formatError, formatResponse } from './formatResponse'
+import { formatError, formatResponse } from '../logic/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import Logger from '../logger'
-import ProfileCRUD, { ProfileEntity } from '../database/ProfileCRUD'
+import ProfileCRUD, { ProfileEntity } from '../database/repository/ProfileCRUD'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
 import { createMongoId } from '../database/createMongoId'

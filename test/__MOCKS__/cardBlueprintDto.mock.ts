@@ -7,4 +7,5 @@ export const CARD_BLUEPRINT_DTO: CardBlueprintDto = {
   version: '',
   imageUrlPreview: '',
   imageUrlShow: '',
+  owned: 0,
 }

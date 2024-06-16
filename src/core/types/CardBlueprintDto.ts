@@ -5,4 +5,5 @@ export type CardBlueprintDto = {
   version: string
   imageUrlPreview: string
   imageUrlShow: string
+  owned: number
 }

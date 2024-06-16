@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { formatError, formatResponse } from './formatResponse'
+import { formatError, formatResponse } from '../logic/formatResponse'
 import Logger from '../logger'
 import * as CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
 import { parseAuth0User } from '../auth0/parseAuth0User'
-import MyCardCRUD from '../database/MyCardCRUD'
+import MyCardCRUD from '../database/repository/MyCardCRUD'
 import { CardSetDto } from '../../core/types/CardSetDto'
 import { CardBlueprintDto } from '../../core/types/CardBlueprintDto'
 
-const SetsController = Router()
+const SetController = Router()
 
-SetsController.get('/', async (_, res) => {
+SetController.get('/', async (_, res) => {
   try {
     const pokemonSets = await CardTraderAdaptor.getPokemonSets()
 
@@ -27,7 +27,7 @@ SetsController.get('/', async (_, res) => {
   }
 })
 
-SetsController.get('/:id', async (req, res) => {
+SetController.get('/:id', async (req, res) => {
   try {
     const cardTraderExpansionId = +req.params.id
     if (!cardTraderExpansionId)
@@ -44,6 +44,7 @@ SetsController.get('/:id', async (req, res) => {
       version: item.version,
       imageUrlPreview: item.imageUrlPreview,
       imageUrlShow: item.imageUrlShow,
+      owned: 0,
     }))
 
     if (req.oidc.user) {
@@ -55,7 +56,18 @@ SetsController.get('/:id', async (req, res) => {
         cardTraderExpansionId
       )
 
-      console.log(myCards)
+      const myCardMap = new Map<number, number>()
+
+      myCards.forEach((card) => {
+        const existingMapItemCount = myCardMap.get(card.cardTrader.blueprintId)
+        if (!existingMapItemCount) {
+          myCardMap.set(card.cardTrader.blueprintId, 1)
+        } else {
+          myCardMap.set(card.cardTrader.blueprintId, existingMapItemCount + 1)
+        }
+      })
+
+      console.log(myCardMap)
 
       res.send(formatResponse({ data: dto }))
     } else {
@@ -68,4 +80,4 @@ SetsController.get('/:id', async (req, res) => {
   }
 })
 
-export default SetsController
+export default SetController

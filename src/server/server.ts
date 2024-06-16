@@ -1,6 +1,6 @@
 import express from 'express'
 import path from 'path'
-import ControllerRegistry from './controllers/ControllerRegistry'
+import ControllerRegistry from './ControllerRegistry'
 import { auth } from 'express-openid-connect'
 import { auth0Config } from './auth0/auth0Config'
 import { connectToDb } from './database/connectToDb'

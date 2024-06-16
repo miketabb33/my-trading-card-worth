@@ -1,5 +1,5 @@
-import { AddCardLogic } from '../../../../src/server/controllers/myCard/AddCardLogic'
-import { IMyCardCRUD } from '../../../../src/server/database/MyCardCRUD'
+import { AddCardLogic } from '../../../../src/server/logic/myCard/AddCardLogic'
+import { IMyCardCRUD } from '../../../../src/server/database/repository/MyCardCRUD'
 import { MY_CARD_DTO } from '../../../__MOCKS__/myCardDto.mock'
 
 const ADD_MY_CARD = jest.fn()
