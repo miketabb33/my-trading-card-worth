@@ -17,6 +17,7 @@ const CardCatalog = () => {
     blueprints,
     fetchBlueprintEffect,
     setsLoadedEffect,
+    refreshBlueprints,
   } = useInCardCatalog()
 
   useEffect(fetchBlueprintEffect.effect, fetchBlueprintEffect.deps)
@@ -30,6 +31,7 @@ const CardCatalog = () => {
         <CardCatalogItem
           key={blueprint.cardTraderBlueprintId}
           blueprint={blueprint}
+          refreshBlueprints={refreshBlueprints}
         />
       ))}
     </Container>
@@ -57,14 +59,16 @@ export const useInCardCatalog = () => {
     deps: [sets],
   }
 
+  const fetchBlueprints = () => {
+    if (selectedSet) {
+      fetchSet(selectedSet.cardTraderExpansionId)
+        .then((res) => setBlueprints(res.data))
+        .catch((err) => console.log(err))
+    }
+  }
+
   const fetchBlueprintEffect: UseEffectType = {
-    effect: () => {
-      if (selectedSet) {
-        fetchSet(selectedSet.cardTraderExpansionId)
-          .then((res) => setBlueprints(res.data))
-          .catch((err) => console.log(err))
-      }
-    },
+    effect: fetchBlueprints,
     deps: [selectedSet],
   }
 
@@ -73,6 +77,7 @@ export const useInCardCatalog = () => {
     blueprints,
     fetchBlueprintEffect,
     setsLoadedEffect,
+    refreshBlueprints: fetchBlueprints,
   }
 }
 export default CardCatalog

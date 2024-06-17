@@ -17,12 +17,18 @@ const Container = styled.div`
 type AddCardButtonProps = {
   blueprint: CardBlueprintDto
   condition: MyCardConditionType
+  refreshBlueprints: () => void
 }
 
-const AddCardButton = ({ blueprint, condition }: AddCardButtonProps) => {
+const AddCardButton = ({
+  blueprint,
+  condition,
+  refreshBlueprints,
+}: AddCardButtonProps) => {
   const { click, isLoading, showCheckmark, isDisabled } = useInAddCardButton(
     blueprint,
-    condition
+    condition,
+    refreshBlueprints
   )
 
   return (
@@ -38,7 +44,8 @@ const AddCardButton = ({ blueprint, condition }: AddCardButtonProps) => {
 
 export const useInAddCardButton = (
   blueprint: CardBlueprintDto,
-  condition: MyCardConditionType
+  condition: MyCardConditionType,
+  refreshBlueprints: () => void
 ) => {
   const [isLoading, setIsLoading] = useState(false)
   const [showCheckmark, setShowCheckmark] = useState(false)
@@ -58,7 +65,10 @@ export const useInAddCardButton = (
     }
     setIsLoading(true)
     addMyCard(dto)
-      .then(() => setShowCheckmark(true))
+      .then(() => {
+        refreshBlueprints()
+        setShowCheckmark(true)
+      })
       .catch(console.dir)
       .finally(() => setIsLoading(false))
   }

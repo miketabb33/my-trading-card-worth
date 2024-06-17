@@ -6,18 +6,23 @@ import { MyCardCondition } from '../../../../src/core/types/MyCardCondition'
 import { useInAddCardButton } from '../../../../src/react/components/card-catalog/AddCardButton'
 
 const ADD_MY_CARD = jest.spyOn(MyCardClientModule, 'addMyCard')
+const REFRESH = jest.fn()
 
 ADD_MY_CARD.mockResolvedValue()
 
 const CONDITION = MyCardCondition.Mint
 
+beforeEach(jest.clearAllMocks)
+
 describe('Use In Add Card Button', () => {
   it('should set loading to false and set showCheckmark to true after add my card completes', async () => {
     const { result } = renderHook(() =>
-      useInAddCardButton(CARD_BLUEPRINT_DTO, CONDITION)
+      useInAddCardButton(CARD_BLUEPRINT_DTO, CONDITION, REFRESH)
     )
 
     await act(async () => await result.current.click())
+
+    expect(REFRESH).toHaveBeenCalled()
 
     expect(ADD_MY_CARD).toHaveBeenCalledWith({
       cardTraderBlueprintId: CARD_BLUEPRINT_DTO.cardTraderBlueprintId,

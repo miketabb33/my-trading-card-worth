@@ -44,9 +44,13 @@ const Line = styled.div`
 
 type CardCatalogItemProps = {
   blueprint: CardBlueprintDto
+  refreshBlueprints: () => void
 }
 
-const CardCatalogItem = ({ blueprint }: CardCatalogItemProps) => {
+const CardCatalogItem = ({
+  blueprint,
+  refreshBlueprints,
+}: CardCatalogItemProps) => {
   const { isLoggedIn, selectBind, condition, show } = useInCardCatalogItem()
 
   return (
@@ -74,7 +78,11 @@ const CardCatalogItem = ({ blueprint }: CardCatalogItemProps) => {
               Condition:
               <Select {...selectBind} />
             </ConditionField>
-            <AddCardButton blueprint={blueprint} condition={condition} />
+            <AddCardButton
+              blueprint={blueprint}
+              condition={condition}
+              refreshBlueprints={refreshBlueprints}
+            />
           </LoggedInContent>
         )}
       </ContentWell>
