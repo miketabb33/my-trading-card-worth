@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { usePopup } from '../../../src/react/components/Popup'
-import { CLICK_EVENT } from '../../__MOCKS__/clickEvent.mock'
+import { CLICK_EVENT } from '../__MOCKS__/clickEvent.mock'
 
 const ADD_EVENT_LISTENER = jest.spyOn(document, 'addEventListener')
 const REMOVE_EVENT_LISTENER = jest.spyOn(document, 'removeEventListener')

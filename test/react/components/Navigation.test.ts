@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react'
 import { useInNavigation } from '../../../src/react/components/Navigation'
 import * as ProfileProviderModule from '../../../src/react/providers/ProfileProvider'
-import { PROFILE_DTO } from '../../__MOCKS__/profileDto.mock'
-import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
+import { PROFILE_DTO } from '../../core/__MOCKS__/profileDto.mock'
+import { PROFILE_CONTEXT_TYPE } from '../__MOCKS__/profileContextType.mock'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
 

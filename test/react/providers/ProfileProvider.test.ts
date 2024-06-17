@@ -3,7 +3,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { useProfileProvider } from '../../../src/react/providers/ProfileProvider'
 import * as ProfileClientModule from '../../../src/react/network/profileClient'
-import { PROFILE_DTO } from '../../__MOCKS__/profileDto.mock'
+import { PROFILE_DTO } from '../../core/__MOCKS__/profileDto.mock'
 
 const USE_PROFILE_DATA = jest.spyOn(ProfileClientModule, 'useProfileData')
 

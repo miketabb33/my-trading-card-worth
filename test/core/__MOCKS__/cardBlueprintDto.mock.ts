@@ -1,4 +1,4 @@
-import { CardBlueprintDto } from '../../src/core/types/CardBlueprintDto'
+import { CardBlueprintDto } from '../../../src/core/types/CardBlueprintDto'
 
 export const CARD_BLUEPRINT_DTO: CardBlueprintDto = {
   cardTraderBlueprintId: 0,

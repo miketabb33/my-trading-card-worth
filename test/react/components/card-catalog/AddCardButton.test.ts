@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
-import { CARD_BLUEPRINT_DTO } from '../../../__MOCKS__/cardBlueprintDto.mock'
+import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.mock'
 import * as MyCardClientModule from '../../../../src/react/network/myCardClient'
 import { MyCardCondition } from '../../../../src/core/types/MyCardCondition'
 import { useInAddCardButton } from '../../../../src/react/components/card-catalog/AddCardButton'

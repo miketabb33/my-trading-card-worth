@@ -1,27 +1,22 @@
-import { AddCardLogic } from '../../../../src/server/logic/myCard/AddCardLogic'
-import { IMyCardCRUD } from '../../../../src/server/database/repository/MyCardCRUD'
-import { MY_CARD_DTO } from '../../../__MOCKS__/myCardDto.mock'
-
-const ADD_MY_CARD = jest.fn()
+import AddCardLogic from '../../../../src/server/logic/myCard/AddCardLogic'
+import { MY_CARD_DTO } from '../../../core/__MOCKS__/myCardDto.mock'
+import MyCardCRUD_FAKE from '../../__FAKES__/MyCardCRUD.fake'
 
 const USER_ID = 'anyUserId'
 
 describe('Add Card Logic', () => {
   let addCardLogic: AddCardLogic
+  let myCardCRUD_FAKE: MyCardCRUD_FAKE
 
   beforeEach(() => {
     jest.clearAllMocks()
-    addCardLogic = new AddCardLogic(new FakeMyCardCRUD())
+    myCardCRUD_FAKE = new MyCardCRUD_FAKE()
+    addCardLogic = new AddCardLogic(myCardCRUD_FAKE)
   })
 
   it('should not add a card trader item when one exists', async () => {
     await addCardLogic.add(USER_ID, MY_CARD_DTO)
 
-    expect(ADD_MY_CARD).toHaveBeenCalled()
+    expect(myCardCRUD_FAKE.ADD_MY_CARD).toHaveBeenCalled()
   })
 })
-
-class FakeMyCardCRUD implements IMyCardCRUD {
-  add = ADD_MY_CARD
-  findBySet = ADD_MY_CARD
-}

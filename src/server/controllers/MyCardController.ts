@@ -5,7 +5,7 @@ import Logger from '../logger'
 import { requiresAuth } from 'express-openid-connect'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import { tryToParseAddMyCardBody } from '../logic/myCard/parseAddMyCardBody'
-import { AddCardLogic } from '../logic/myCard/AddCardLogic'
+import AddCardLogic from '../logic/myCard/AddCardLogic'
 import MyCardCRUD from '../database/repository/MyCardCRUD'
 
 const MyCardController = Router()

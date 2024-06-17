@@ -1,4 +1,4 @@
-import { DropdownOption } from '../../src/react/components/base/form/utilities/InputFieldDropdown'
+import { DropdownOption } from '../../../src/react/components/base/form/utilities/InputFieldDropdown'
 
 export type FakeDropdownData = {
   cardTraderExpansionId: number

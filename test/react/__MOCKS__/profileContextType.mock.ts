@@ -1,4 +1,4 @@
-import { ProfileContextType } from '../../src/react/providers/ProfileProvider'
+import { ProfileContextType } from '../../../src/react/providers/ProfileProvider'
 
 export const PROFILE_CONTEXT_TYPE: ProfileContextType = {
   profile: null,

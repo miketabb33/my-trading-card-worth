@@ -1,4 +1,4 @@
-import { CardSetDto } from '../../src/core/types/CardSetDto'
+import { CardSetDto } from '../../../src/core/types/CardSetDto'
 
 export const CARD_SET_DTO_1: CardSetDto = {
   cardTraderExpansionId: 1469,

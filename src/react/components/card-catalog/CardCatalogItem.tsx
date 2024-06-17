@@ -25,6 +25,7 @@ const ContentWell = styled.div`
 `
 
 const LoggedInContent = styled.div`
+  width: min-content;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -33,6 +34,12 @@ const LoggedInContent = styled.div`
 const ConditionField = styled.div`
   display: flex;
   gap: 1rem;
+`
+
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: lightgray;
 `
 
 type CardCatalogItemProps = {
@@ -51,11 +58,17 @@ const CardCatalogItem = ({ blueprint }: CardCatalogItemProps) => {
         }
       />
       <ContentWell>
+        <Line />
         <h2>{blueprint.name}</h2>
-        <p>{blueprint.version}</p>
+        <Line />
+        <p>
+          <strong>Version:</strong> {blueprint.version}
+        </p>
         {isLoggedIn && (
           <LoggedInContent>
-            <i>Owned: {blueprint.owned}</i>
+            <p>
+              <strong>Owned:</strong> {blueprint.owned}
+            </p>
             <h3>Add to your collection</h3>
             <ConditionField>
               Condition:

@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { useWithSelect } from '../../../../../src/react/components/base/form/Select'
-import * as Dropdown from '../../../../__MOCKS__/dropdownOption.mock'
+import * as Dropdown from '../../../__MOCKS__/dropdownOption.mock'
 import * as PopupModule from '../../../../../src/react/components/Popup'
 
 const DROPDOWN_OPTIONS = [

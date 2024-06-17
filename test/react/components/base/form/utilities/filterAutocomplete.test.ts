@@ -1,5 +1,5 @@
 import { filterAutocomplete } from '../../../../../../src/react/components/base/form/utilities/filterAutocomplete'
-import * as Dropdown from '../../../../../__MOCKS__/dropdownOption.mock'
+import * as Dropdown from '../../../../__MOCKS__/dropdownOption.mock'
 
 const DROPDOWN_OPTIONS = [
   Dropdown.DROPDOWN_OPTION_1,

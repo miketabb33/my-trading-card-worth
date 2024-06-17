@@ -4,7 +4,7 @@ import { useInCardCatalog } from '../../../../src/react/components/card-catalog/
 import * as AutocompleteModule from '../../../../src/react/components/base/form/Autocomplete'
 import { CardSetDto } from '../../../../src/core/types/CardSetDto'
 import * as setsClientModule from '../../../../src/react/network/setsClient'
-import { CARD_BLUEPRINT_DTO } from '../../../__MOCKS__/cardBlueprintDto.mock'
+import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.mock'
 
 const FETCH_SETS = jest.spyOn(setsClientModule, 'fetchSet')
 const USE_SETS_DATA = jest.spyOn(setsClientModule, 'useSetsData')

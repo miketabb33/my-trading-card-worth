@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { useGlobalPopupProvider } from '../../../src/react/providers/GlobalPopupProvider'
-import { CLICK_EVENT } from '../../__MOCKS__/clickEvent.mock'
+import { CLICK_EVENT } from '../__MOCKS__/clickEvent.mock'
 import * as PopupModule from '../../../src/react/components/Popup'
 
 const USE_POPUP = jest.spyOn(PopupModule, 'usePopup')

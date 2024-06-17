@@ -1,4 +1,4 @@
-import { GlobalPopupContextType } from '../../src/react/providers/GlobalPopupProvider'
+import { GlobalPopupContextType } from '../../../src/react/providers/GlobalPopupProvider'
 
 export const GLOBAL_CONTEXT_POPUP_CONTEXT: GlobalPopupContextType = {
   show: () => {},

@@ -3,7 +3,7 @@ import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
 
 import { createMongoId } from '../../database/createMongoId'
 
-export class AddCardLogic {
+class AddCardLogic {
   private readonly myCardCRUD: IMyCardCRUD
 
   constructor(myCardCRUD: IMyCardCRUD) {
@@ -29,3 +29,5 @@ export class AddCardLogic {
     return args._id
   }
 }
+
+export default AddCardLogic
