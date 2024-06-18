@@ -1,6 +1,11 @@
-import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
+import {
+  CardBlueprintDto,
+  SetDetailsDto,
+  SetDto,
+} from '../../../core/types/CardBlueprintDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IMyCardCRUD } from '../../database/repository/MyCardCRUD'
+import { setStoreMap } from '../../setStoreMap'
 import { CardBlueprint } from '../../types/CardBlueprint'
 
 class GetSetBlueprintsLogic {
@@ -10,7 +15,7 @@ class GetSetBlueprintsLogic {
     this.myCardCRUD = myCardCRUD
     this.cardTraderAdaptor = cardTraderAdaptor
   }
-  get = async (userId: string | null, expansionId: number) => {
+  get = async (userId: string | null, expansionId: number): Promise<SetDto> => {
     const set =
       await this.cardTraderAdaptor.getPokemonSetBlueprints(expansionId)
 
@@ -18,14 +23,19 @@ class GetSetBlueprintsLogic {
 
     if (userId) myCardMap = await this.buildMyCardMap(userId, expansionId)
 
-    const dto: CardBlueprintDto[] = set.map((blueprint) =>
-      this.buildDto(blueprint, myCardMap)
+    const blueprints: CardBlueprintDto[] = set.map((blueprint) =>
+      this.buildBlueprints(blueprint, myCardMap)
     )
+
+    const dto: SetDto = {
+      details: this.buildDetails(expansionId),
+      blueprints,
+    }
 
     return dto
   }
 
-  private buildDto = (
+  private buildBlueprints = (
     item: CardBlueprint,
     myCardMap: Map<number, number> | null
   ) => {
@@ -42,6 +52,32 @@ class GetSetBlueprintsLogic {
     }
 
     return cardBlueprintDto
+  }
+
+  private buildDetails = (expansionId: number): SetDetailsDto | null => {
+    const setDetails = setStoreMap.get(expansionId)
+
+    if (!setDetails) return null
+
+    const release = new Date(setDetails.releaseDate)
+
+    const details: SetDetailsDto = {
+      name: setDetails.name,
+      setNumber: setDetails.setNumber,
+      series: setDetails.series,
+      cardCount: setDetails.numberOfCards,
+      secretCardCount: setDetails.numberOfSecretCards,
+      releaseDate: release.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+      logoUrl: setDetails.logoUrl,
+      symbolUrl: setDetails.symbolUrl,
+      bulbapediaUrl: setDetails.bulbapediaUrl,
+    }
+
+    return details
   }
 
   private buildMyCardMap = async (userId: string, expansionId: number) => {

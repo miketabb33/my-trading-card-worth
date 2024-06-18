@@ -7,6 +7,7 @@ import { CardSetDto } from '../../core/types/CardSetDto'
 import GetSetBlueprintsLogic from '../logic/set/GetSetBlueprintsLogic'
 import MyCardCRUD from '../database/repository/MyCardCRUD'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
+import { setStoreMap } from '../setStoreMap'
 
 const SetController = Router()
 
@@ -18,6 +19,7 @@ SetController.get('/', async (_, res) => {
     const dto: CardSetDto[] = pokemonSets.map((set) => ({
       name: set.name,
       cardTraderExpansionId: set.expansionId,
+      symbol: setStoreMap.get(set.expansionId)?.symbolUrl || null,
     }))
 
     res.send(formatResponse({ data: dto }))

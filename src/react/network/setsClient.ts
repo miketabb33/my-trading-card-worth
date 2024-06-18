@@ -1,4 +1,4 @@
-import { CardBlueprintDto } from '../../core/types/CardBlueprintDto'
+import { SetDto } from '../../core/types/CardBlueprintDto'
 import { CardSetDto } from '../../core/types/CardSetDto'
 import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
@@ -8,5 +8,5 @@ export const useSetsData = () => {
 }
 
 export const fetchSet = (setId: number) => {
-  return fetchApi<CardBlueprintDto[]>({ path: `/sets/${setId}` })
+  return fetchApi<SetDto>({ path: `/sets/${setId}` })
 }

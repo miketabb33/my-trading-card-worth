@@ -2,19 +2,26 @@ import styled from 'styled-components'
 import { fetchSet, useSetsData } from '../../network/setsClient'
 import Autocomplete, { useWithAutocomplete } from '../base/form/Autocomplete'
 import React, { useEffect, useState } from 'react'
-import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
+import { SetDto } from '../../../core/types/CardBlueprintDto'
 import { UseEffectType } from '../../types/UseEffectType'
 import CardCatalogItem from './CardCatalogItem'
 import { CardSetDto } from '../../../core/types/CardSetDto'
+import { DropdownOption } from '../base/form/utilities/InputFieldDropdown'
+import CardCatalogSetDetails from './CardCatalogSetDetails'
 
 const Container = styled.div`
   margin-top: 1rem;
+`
+
+const CardsHeader = styled.h1`
+  margin-top: 2rem;
 `
 
 const CardCatalog = () => {
   const {
     setSearchBarBind,
     blueprints,
+    details,
     fetchBlueprintEffect,
     setsLoadedEffect,
     refreshBlueprints,
@@ -27,7 +34,9 @@ const CardCatalog = () => {
     <Container>
       <p>Search Pokemon Cards by set</p>
       <Autocomplete {...setSearchBarBind} />
-      {blueprints?.map((blueprint) => (
+      {details && <CardCatalogSetDetails details={details} />}
+      {blueprints.length > 0 && <CardsHeader>Cards:</CardsHeader>}
+      {blueprints.map((blueprint) => (
         <CardCatalogItem
           key={blueprint.cardTraderBlueprintId}
           blueprint={blueprint}
@@ -47,12 +56,16 @@ export const useInCardCatalog = () => {
     setOptions,
   } = useWithAutocomplete<CardSetDto>()
 
-  const [blueprints, setBlueprints] = useState<CardBlueprintDto[] | null>(null)
+  const [set, setSet] = useState<SetDto | null>(null)
 
   const setsLoadedEffect: UseEffectType = {
     effect: () => {
       if (sets) {
-        const newOptions = sets.map((set) => ({ data: set, title: set.name }))
+        const newOptions: DropdownOption<CardSetDto>[] = sets.map((set) => ({
+          data: set,
+          title: set.name,
+          imageSource: set.symbol,
+        }))
         setOptions(newOptions)
       }
     },
@@ -62,7 +75,7 @@ export const useInCardCatalog = () => {
   const fetchBlueprints = () => {
     if (selectedSet) {
       fetchSet(selectedSet.cardTraderExpansionId)
-        .then((res) => setBlueprints(res.data))
+        .then((res) => setSet(res.data))
         .catch((err) => console.log(err))
     }
   }
@@ -74,7 +87,8 @@ export const useInCardCatalog = () => {
 
   return {
     setSearchBarBind,
-    blueprints,
+    blueprints: set?.blueprints || [],
+    details: set?.details || null,
     fetchBlueprintEffect,
     setsLoadedEffect,
     refreshBlueprints: fetchBlueprints,

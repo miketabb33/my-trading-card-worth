@@ -28,16 +28,17 @@ const USE_WITH_AUTOCOMPLETE_RETURN: AutocompleteModule.UseWithAutocompleteReturn
   }
 
 describe('Use In Card Catalog', () => {
-  it('should init as null', () => {
+  it('should init as empty array', () => {
     USE_WITH_AUTOCOMPLETE.mockReturnValue(USE_WITH_AUTOCOMPLETE_RETURN)
     const { result } = renderHook(useInCardCatalog)
-    expect(result.current.blueprints).toEqual(null)
+    expect(result.current.blueprints).toEqual([])
   })
 
   it('should fetch set and set state when selected set has a value', async () => {
     const selectedSet: CardSetDto = {
       cardTraderExpansionId: 23,
       name: 'Any set',
+      symbol: '',
     }
 
     USE_WITH_AUTOCOMPLETE.mockReturnValue({
@@ -46,7 +47,7 @@ describe('Use In Card Catalog', () => {
     })
 
     FETCH_SETS.mockResolvedValue({
-      data: [CARD_BLUEPRINT_DTO],
+      data: { blueprints: [CARD_BLUEPRINT_DTO], details: null },
       errors: null,
       isSuccessful: true,
     })

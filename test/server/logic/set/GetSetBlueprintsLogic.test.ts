@@ -27,7 +27,7 @@ describe('Get Set Blueprints Logic', () => {
     expect(
       cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS
     ).toHaveBeenCalledWith(EXPANSION_ID)
-    expect(result).toEqual([])
+    expect(result.blueprints).toEqual([])
   })
 
   it('should return blueprints when user is not logged in', async () => {
@@ -45,7 +45,7 @@ describe('Get Set Blueprints Logic', () => {
     ])
     const result = await getSetBlueprintsLogic.get(null, EXPANSION_ID)
 
-    expect(result[0]).toEqual({
+    expect(result.blueprints[0]).toEqual({
       cardTraderBlueprintId: 1,
       cardTraderExpansionId: 2,
       name: 'name',
@@ -106,11 +106,11 @@ describe('Get Set Blueprints Logic', () => {
       EXPANSION_ID
     )
 
-    expect(result.length).toEqual(5)
-    expect(result[0].owned).toEqual(0)
-    expect(result[1].owned).toEqual(3)
-    expect(result[2].owned).toEqual(2)
-    expect(result[3].owned).toEqual(0)
-    expect(result[4].owned).toEqual(1)
+    expect(result.blueprints.length).toEqual(5)
+    expect(result.blueprints[0].owned).toEqual(0)
+    expect(result.blueprints[1].owned).toEqual(3)
+    expect(result.blueprints[2].owned).toEqual(2)
+    expect(result.blueprints[3].owned).toEqual(0)
+    expect(result.blueprints[4].owned).toEqual(1)
   })
 })

@@ -29,12 +29,19 @@ const Items = styled.div<{ $dropdownStyle: DropdownStyle }>`
   `}
 `
 
+const RowImage = styled.img`
+  height: 2.4rem;
+`
+
 const Item = styled.div<{ $dropdownStyle: DropdownStyle }>`
   ${({ theme, $dropdownStyle }) => css`
     cursor: pointer;
     padding: 0.3rem 0;
     border-radius: 0.5rem;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
 
     &:hover {
       background-color: ${theme.staticColor.gray_200};
@@ -48,6 +55,7 @@ const Item = styled.div<{ $dropdownStyle: DropdownStyle }>`
 
     ${$dropdownStyle === 'default' &&
     css`
+      font-size: 1.8rem;
       &:hover {
         padding-left: 1rem;
       }
@@ -59,6 +67,7 @@ type DropdownStyle = 'default' | 'small'
 
 export type DropdownOption<T> = {
   title: string
+  imageSource?: string | null
   data: T
 }
 
@@ -90,6 +99,7 @@ const InputFieldDropdown = <T extends object>({
             key={i}
             onClick={() => onOptionClick(option)}
           >
+            {option.imageSource && <RowImage src={option.imageSource} />}
             <p>{option.title}</p>
           </Item>
         ))}
