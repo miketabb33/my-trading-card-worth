@@ -3,7 +3,7 @@ import { ExpansionData } from '../types/ExpansionData'
 export const callOfLegends: ExpansionData = {
   name: 'Pokémon TCG: Call of Legends',
   setNumber: 1,
-  series: 'Call Of Legends Series',
+  series: 'Call of Legends Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 95,
   numberOfSecretCards: 0,

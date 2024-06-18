@@ -4,6 +4,10 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 `
 const Header = styled.div`
   display: flex;
@@ -11,7 +15,6 @@ const Header = styled.div`
 `
 
 const Split = styled.div`
-  margin-top: 1rem;
   display: flex;
   gap: 2rem;
 `
@@ -35,8 +38,8 @@ const CardCatalogSetDetails = ({ details }: CardCatalogSetDetails) => {
   return (
     <Container>
       <Header>
-        <h1>{details.name} Set</h1>
         {details.symbolUrl && <img src={details.symbolUrl} />}
+        <h1>{details.name} Set</h1>
       </Header>
       <Split>
         <Side>{details.logoUrl && <img src={details.logoUrl}></img>}</Side>
