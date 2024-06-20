@@ -8,6 +8,9 @@ import * as legendaryCollectionStore from './expansion-data/legadaryCollectionSt
 import * as neoStore from './expansion-data/neoSeriesStore'
 import * as originalStore from './expansion-data/originalSeriesStore'
 import * as platinumStore from './expansion-data/platinumStore'
+import * as scarletAndVioletStore from './expansion-data/scarletAndVioletStore'
+import * as sunAndMoonStore from './expansion-data/sunAndMoonStore'
+import * as swordAndShieldStore from './expansion-data/swordAndShieldStore'
 import * as xyStore from './expansion-data/xyStore'
 import { ExpansionData } from './types/ExpansionData'
 
@@ -95,4 +98,48 @@ export const setStoreMap = new Map<number, ExpansionData>([
   [1577, xyStore.xyGenerations],
   [1580, xyStore.xySteamSiege],
   [1586, xyStore.xyEvolutions],
+
+  [1588, sunAndMoonStore.sunAndMoon],
+  [1590, sunAndMoonStore.sunAndMoonGuardiansRising],
+  [1913, sunAndMoonStore.sunAndMoonBurningShadows],
+  [1915, sunAndMoonStore.sunAndMoonShiningLegends],
+  [1594, sunAndMoonStore.sunAndMoonCrimsonInvasion],
+  [1599, sunAndMoonStore.sunAndMoonUltraPrism],
+  [1600, sunAndMoonStore.sunAndMoonForbiddenLight],
+  [1603, sunAndMoonStore.sunAndMoonCelestialStorm],
+  [1604, sunAndMoonStore.sunAndMoonDragonMajesty],
+  [1606, sunAndMoonStore.sunAndMoonLostThunder],
+  [1611, sunAndMoonStore.sunAndMoonTeamUp],
+  [1612, sunAndMoonStore.sunAndMoonDetectivePikachu],
+  [1613, sunAndMoonStore.sunAndMoonUnbrokenBonds],
+  [1614, sunAndMoonStore.sunAndMoonUnifiedMinds],
+  [1615, sunAndMoonStore.sunAndMoonHiddenFates],
+  [1617, sunAndMoonStore.sunAndMoonCosmicEclipse],
+
+  [1623, swordAndShieldStore.swordAndShield],
+  [1672, swordAndShieldStore.swordAndShieldRebelClash],
+  [2082, swordAndShieldStore.swordAndShieldDarknessAblaze],
+  [2084, swordAndShieldStore.swordAndShieldChampionsPath],
+  [2107, swordAndShieldStore.swordAndShieldVividVoltage],
+  [2126, swordAndShieldStore.swordAndShieldShiningFates],
+  [2130, swordAndShieldStore.swordAndShieldBattleStyles],
+  [2153, swordAndShieldStore.swordAndShieldChillingReign],
+  [2309, swordAndShieldStore.swordAndShieldEvolvingSkies],
+  [2310, swordAndShieldStore.swordAndShieldCelebrations],
+  [2547, swordAndShieldStore.swordAndShieldFusionStrike],
+  [2911, swordAndShieldStore.swordAndShieldBrilliantStars],
+  [3007, swordAndShieldStore.swordAndShieldAstralRadiance],
+  [3058, swordAndShieldStore.swordAndShieldPokemonGo],
+  [3108, swordAndShieldStore.swordAndShieldLostOrigin],
+  [3142, swordAndShieldStore.swordAndShieldSilverTempest],
+  [3171, swordAndShieldStore.swordAndShieldChillingReign],
+
+  [3239, scarletAndVioletStore.scarletAndViolet],
+  [3316, scarletAndVioletStore.scarletAndVioletPaldeaEvolved],
+  [3371, scarletAndVioletStore.scarletAndVioletObsidianFlames],
+  [3403, scarletAndVioletStore.scarletAndViolet151],
+  [3468, scarletAndVioletStore.scarletAndVioletParadoxRift],
+  [3561, scarletAndVioletStore.scarletAndVioletPaldeanFates],
+  [3605, scarletAndVioletStore.scarletAndVioletTemporalForces],
+  [3674, scarletAndVioletStore.scarletAndVioletTwilightMasquerade],
 ])
