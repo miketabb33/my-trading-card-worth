@@ -1,16 +1,21 @@
 import * as blackAndWhiteStore from './expansion-data/blackAndWhiteStore'
+import * as blackStarPromotionalStore from './expansion-data/blackStarPromotionalStore'
 import * as callOfLegendsStore from './expansion-data/callOfLegendsStore'
 import * as diamondAndPearlStore from './expansion-data/diamondAndPearlStore'
 import * as eCardStore from './expansion-data/eCardStore'
 import * as exStore from './expansion-data/exStore'
 import * as heartGoldAndSoulSilverStore from './expansion-data/heartGoldAndSoulSilverStore'
-import * as legendaryCollectionStore from './expansion-data/legadaryCollectionStore'
+import * as legendaryCollectionStore from './expansion-data/legendaryCollectionStore'
+import * as mcdonaldCollectionStore from './expansion-data/mcdonaldsCollectionStore'
+import * as miscellaneousStore from './expansion-data/miscellaneousStore'
 import * as neoStore from './expansion-data/neoSeriesStore'
 import * as originalStore from './expansion-data/originalSeriesStore'
 import * as platinumStore from './expansion-data/platinumStore'
+import * as popPlayStore from './expansion-data/popPlayPokemonPrizePackStore'
 import * as scarletAndVioletStore from './expansion-data/scarletAndVioletStore'
 import * as sunAndMoonStore from './expansion-data/sunAndMoonStore'
 import * as swordAndShieldStore from './expansion-data/swordAndShieldStore'
+import * as trickOrTradeStore from './expansion-data/trickOrTradeStore'
 import * as xyStore from './expansion-data/xyStore'
 import { ExpansionData } from './types/ExpansionData'
 
@@ -142,4 +147,52 @@ export const setStoreMap = new Map<number, ExpansionData>([
   [3561, scarletAndVioletStore.scarletAndVioletPaldeanFates],
   [3605, scarletAndVioletStore.scarletAndVioletTemporalForces],
   [3674, scarletAndVioletStore.scarletAndVioletTwilightMasquerade],
+
+  [1474, blackStarPromotionalStore.wizardsBlackStarPromos],
+  [1929, blackStarPromotionalStore.nintendoBlackStarPromos],
+  [1517, blackStarPromotionalStore.dpBlackStarPromos],
+  [1536, blackStarPromotionalStore.hgssBlackStarPromos],
+  [1543, blackStarPromotionalStore.bwBlackStarPromos],
+  [1558, blackStarPromotionalStore.xyBlackStarPromos],
+  [1587, blackStarPromotionalStore.smBlackStarPromos],
+  [1618, blackStarPromotionalStore.swshBlackStarPromos],
+  [3221, blackStarPromotionalStore.svpBlackStarPromos],
+
+  [1545, mcdonaldCollectionStore.mcdonaldCollection2011],
+  [1551, mcdonaldCollectionStore.mcdonaldCollection2012],
+  [1565, mcdonaldCollectionStore.mcdonaldCollection2014],
+  [1574, mcdonaldCollectionStore.mcdonaldCollection2015],
+  [1581, mcdonaldCollectionStore.mcdonaldCollection2016],
+  [1591, mcdonaldCollectionStore.mcdonaldCollection2017],
+  [1602, mcdonaldCollectionStore.mcdonaldCollection2018],
+  [1616, mcdonaldCollectionStore.mcdonaldCollection2019],
+  [2139, mcdonaldCollectionStore.mcdonaldCollection2021],
+  [3141, mcdonaldCollectionStore.mcdonaldCollection2022],
+  [3456, mcdonaldCollectionStore.mcdonaldCollection2023],
+
+  [3138, trickOrTradeStore.trickOrTrade2022],
+  [3467, trickOrTradeStore.trickOrTrade2023],
+
+  [1501, popPlayStore.popPlayPokemonPrizePackPopSeries1],
+  [1506, popPlayStore.popPlayPokemonPrizePackPopSeries2],
+  [1510, popPlayStore.popPlayPokemonPrizePackPopSeries3],
+  [1512, popPlayStore.popPlayPokemonPrizePackPopSeries4],
+  [1516, popPlayStore.popPlayPokemonPrizePackPopSeries5],
+  [1520, popPlayStore.popPlayPokemonPrizePackPopSeries6],
+  [1524, popPlayStore.popPlayPokemonPrizePackPopSeries7],
+  [1528, popPlayStore.popPlayPokemonPrizePackPopSeries8],
+  [1531, popPlayStore.popPlayPokemonPrizePackPopSeries9],
+  [3272, popPlayStore.popPlayPokemonPrizePackPlaySeries1],
+  [3312, popPlayStore.popPlayPokemonPrizePackPlaySeries2],
+  [3471, popPlayStore.popPlayPokemonPrizePackPlaySeries3],
+  [3615, popPlayStore.popPlayPokemonPrizePackPlaySeries4],
+
+  [1484, miscellaneousStore.southernIslands],
+  [1930, miscellaneousStore.bestOfGame],
+  [1928, miscellaneousStore.pokeCardCreatorPack],
+  [1535, miscellaneousStore.pokemonRumble],
+  [2112, miscellaneousStore.pokemonFutsal],
+  [3552, miscellaneousStore.pokemonTradingCardGameClassic],
+  [3553, miscellaneousStore.pokemonTradingCardGameClassic],
+  [3554, miscellaneousStore.pokemonTradingCardGameClassic],
 ])

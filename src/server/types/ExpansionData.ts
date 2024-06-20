@@ -12,7 +12,11 @@ export type ExpansionData = {
   bulbapediaUrl: string
 }
 
-type ExpansionType = 'Main Series Expansion' | 'Special Expansion'
+type ExpansionType =
+  | 'Main Series Expansion'
+  | 'Special Expansion'
+  | 'Other Expansion'
+
 type ExpansionSeries =
   | 'Original Series'
   | 'Neo Series'

@@ -1,5 +1,20 @@
 import { ExpansionData } from '../types/ExpansionData'
 
+export const baseSetShadowless: ExpansionData = {
+  name: 'Base Set Shadowless',
+  setNumber: 0,
+  series: 'Original Series',
+  expansionType: 'Main Series Expansion',
+  numberOfCards: 102,
+  numberOfSecretCards: 0,
+  releaseDate: new Date(1998, 12, 1).toUTCString(),
+  abbreviation: '',
+  symbolUrl: null,
+  logoUrl:
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/269px-International_Pok%C3%A9mon_logo.svg.png',
+  bulbapediaUrl: 'https://bulbapedia.bulbagarden.net/wiki/Base_Set_(TCG)',
+}
+
 export const baseSet: ExpansionData = {
   name: 'Base Set',
   setNumber: 1,
@@ -10,7 +25,8 @@ export const baseSet: ExpansionData = {
   releaseDate: new Date(1999, 1, 9).toUTCString(),
   abbreviation: 'BS',
   symbolUrl: null,
-  logoUrl: null,
+  logoUrl:
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/269px-International_Pok%C3%A9mon_logo.svg.png',
   bulbapediaUrl: 'https://bulbapedia.bulbagarden.net/wiki/Base_Set_(TCG)',
 }
 
