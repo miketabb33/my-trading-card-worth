@@ -3,26 +3,27 @@ import { Router } from 'express'
 import { formatError, formatResponse } from '../logic/formatResponse'
 import Logger from '../logger'
 import { parseAuth0User } from '../auth0/parseAuth0User'
-import { CardSetDto } from '../../core/types/CardSetDto'
 import GetSetBlueprintsLogic from '../logic/set/GetSetBlueprintsLogic'
 import MyCardCRUD from '../database/repository/MyCardCRUD'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
-import { setStoreMap } from '../setStoreMap'
+import GetSetsLogic from '../logic/set/GetSetsLogic'
+import { CardSetDto } from '../../core/types/CardSetDto'
+import ExpansionSorter from '../logic/set/ExpansionSorter'
 
 const SetController = Router()
 
+let setsCache: CardSetDto[] | null
+
 SetController.get('/', async (_, res) => {
   try {
-    const cardTraderAdaptor = new CardTraderAdaptor()
-    const pokemonSets = await cardTraderAdaptor.getPokemonSets()
+    const getSetsLogic = new GetSetsLogic(
+      new CardTraderAdaptor(),
+      new ExpansionSorter()
+    )
 
-    const dto: CardSetDto[] = pokemonSets.map((set) => ({
-      name: set.name,
-      cardTraderExpansionId: set.expansionId,
-      symbol: setStoreMap.get(set.expansionId)?.symbolUrl || null,
-    }))
+    if (!setsCache) setsCache = await getSetsLogic.get()
 
-    res.send(formatResponse({ data: dto }))
+    res.send(formatResponse({ data: setsCache }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)

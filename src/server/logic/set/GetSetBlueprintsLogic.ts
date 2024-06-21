@@ -5,7 +5,7 @@ import {
 } from '../../../core/types/CardBlueprintDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IMyCardCRUD } from '../../database/repository/MyCardCRUD'
-import { setStoreMap } from '../../setStoreMap'
+import { expansionStoreMap } from '../../expansionStoreMap'
 import { CardBlueprint } from '../../types/CardBlueprint'
 
 class GetSetBlueprintsLogic {
@@ -55,7 +55,7 @@ class GetSetBlueprintsLogic {
   }
 
   private buildDetails = (expansionId: number): SetDetailsDto | null => {
-    const setDetails = setStoreMap.get(expansionId)
+    const setDetails = expansionStoreMap.get(expansionId)
 
     if (!setDetails) return null
 

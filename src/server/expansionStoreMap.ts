@@ -19,7 +19,8 @@ import * as trickOrTradeStore from './expansion-data/trickOrTradeStore'
 import * as xyStore from './expansion-data/xyStore'
 import { ExpansionData } from './types/ExpansionData'
 
-export const setStoreMap = new Map<number, ExpansionData>([
+export const expansionStoreMap = new Map<number, ExpansionData>([
+  [1969, originalStore.baseSetShadowless],
   [1472, originalStore.baseSet],
   [1473, originalStore.jungle],
   [1476, originalStore.fossil],
@@ -137,7 +138,7 @@ export const setStoreMap = new Map<number, ExpansionData>([
   [3058, swordAndShieldStore.swordAndShieldPokemonGo],
   [3108, swordAndShieldStore.swordAndShieldLostOrigin],
   [3142, swordAndShieldStore.swordAndShieldSilverTempest],
-  [3171, swordAndShieldStore.swordAndShieldChillingReign],
+  [3171, swordAndShieldStore.swordAndShieldCrownZenith],
 
   [3239, scarletAndVioletStore.scarletAndViolet],
   [3316, scarletAndVioletStore.scarletAndVioletPaldeaEvolved],
