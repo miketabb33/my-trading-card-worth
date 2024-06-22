@@ -1,18 +1,21 @@
 import { CardSetDto } from '../../../core/types/CardSetDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
-import { expansionStoreMap } from '../../expansionStoreMap'
+import { ExpansionData } from '../../types/ExpansionData'
 import { IExpansionSorter, SortableExpansion } from './ExpansionSorter'
 
 class GetSetsLogic {
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionSorter: IExpansionSorter
+  private readonly expansionStoreMap: Map<number, ExpansionData>
 
   constructor(
     cardTraderAdaptor: ICardTraderAdaptor,
-    expansionSorter: IExpansionSorter
+    expansionSorter: IExpansionSorter,
+    expansionStoreMap: Map<number, ExpansionData>
   ) {
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionSorter = expansionSorter
+    this.expansionStoreMap = expansionStoreMap
   }
 
   get = async (): Promise<CardSetDto[]> => {
@@ -20,7 +23,7 @@ class GetSetsLogic {
 
     const sets: SortableExpansion[] = pokemonSets.map((set) => ({
       cardSet: set,
-      expansionData: expansionStoreMap.get(set.expansionId) || null,
+      expansionData: this.expansionStoreMap.get(set.expansionId) || null,
     }))
 
     const sortedSets = this.expansionSorter.sort(sets)

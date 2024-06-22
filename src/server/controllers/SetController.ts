@@ -9,6 +9,7 @@ import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
 import GetSetsLogic from '../logic/set/GetSetsLogic'
 import { CardSetDto } from '../../core/types/CardSetDto'
 import ExpansionSorter from '../logic/set/ExpansionSorter'
+import { expansionStoreMap } from '../expansionStoreMap'
 
 const SetController = Router()
 
@@ -18,7 +19,8 @@ SetController.get('/', async (_, res) => {
   try {
     const getSetsLogic = new GetSetsLogic(
       new CardTraderAdaptor(),
-      new ExpansionSorter()
+      new ExpansionSorter(),
+      expansionStoreMap
     )
 
     if (!setsCache) setsCache = await getSetsLogic.get()

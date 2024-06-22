@@ -1,9 +1,30 @@
 import { CardSet } from '../../types/CardSet'
-import {
-  EXPANSION_SERIES,
-  ExpansionData,
-  ExpansionSeries,
-} from '../../types/ExpansionData'
+import { ExpansionData, ExpansionSeries } from '../../types/ExpansionData'
+
+export const MAIN_SERIES: ExpansionSeries[] = [
+  'Original Series',
+  'Neo Series',
+  'Legendary Collection Series',
+  'e-Card Series',
+  'EX Series',
+  'Diamond & Pearl Series',
+  'Platinum Series',
+  'HeartGold & SoulSilver Series',
+  'Call of Legends Series',
+  'Black & White Series',
+  'XY Series',
+  'Sun & Moon Series',
+  'Sword & Shield Series',
+  'Scarlet & Violet Series',
+]
+
+export const OTHER_SERIES: ExpansionSeries[] = [
+  'Black Star Promotional Cards',
+  "McDonald's Collection",
+  'Trick or Trade',
+  'Pop / Play! Pokemon Prize Packs',
+  'Other Miscellaneous Sets',
+]
 
 export type SortableExpansion = {
   cardSet: CardSet
@@ -16,28 +37,52 @@ export interface IExpansionSorter {
 
 class ExpansionSorter implements IExpansionSorter {
   sort = (expansions: SortableExpansion[]): SortableExpansion[] => {
-    const structuredSets = this.buildStructuredSets(expansions)
-    const unstructuredSets = this.buildUnstructuredSets(expansions)
+    const mainSeriesSets = this.extractAndSortMainSeriesExpansions(expansions)
+    const otherSeriesSets = this.extractAndSortOtherSeriesExpansions(expansions)
+    const remainingExpansions = expansions
 
-    return [...structuredSets, ...unstructuredSets]
+    return [...mainSeriesSets, ...otherSeriesSets, ...remainingExpansions]
   }
 
-  private buildUnstructuredSets = (sets: SortableExpansion[]) => {
-    return sets.sort((a, b) => {
-      return (
-        new Date(a.expansionData?.releaseDate ?? 0).getTime() -
-        new Date(b.expansionData?.releaseDate ?? 0).getTime()
+  private extractAndSortMainSeriesExpansions = (
+    expansions: SortableExpansion[]
+  ) => {
+    return MAIN_SERIES.reverse().flatMap((expansionSeries) => {
+      const mainSeriesExpansions = this.extractExpansionSeries(
+        expansions,
+        expansionSeries
       )
+      return mainSeriesExpansions.sort(this.sortByOldest)
     })
   }
 
-  private buildStructuredSets = (sets: SortableExpansion[]) => {
-    return EXPANSION_SERIES.flatMap((expansionSeries) => {
-      return this.extractAndSortExpansion(sets, expansionSeries)
+  private extractAndSortOtherSeriesExpansions = (
+    expansions: SortableExpansion[]
+  ) => {
+    return OTHER_SERIES.flatMap((expansionSeries) => {
+      const otherSeriesExpansions = this.extractExpansionSeries(
+        expansions,
+        expansionSeries
+      )
+      return otherSeriesExpansions.sort(this.sortByMostRecent)
     })
   }
 
-  private extractAndSortExpansion = (
+  private sortByOldest = (a: SortableExpansion, b: SortableExpansion) => {
+    return (
+      new Date(b.expansionData?.releaseDate ?? 0).getTime() -
+      new Date(a.expansionData?.releaseDate ?? 0).getTime()
+    )
+  }
+
+  private sortByMostRecent = (a: SortableExpansion, b: SortableExpansion) => {
+    return (
+      new Date(a.expansionData?.releaseDate ?? 0).getTime() -
+      new Date(b.expansionData?.releaseDate ?? 0).getTime()
+    )
+  }
+
+  private extractExpansionSeries = (
     expansions: SortableExpansion[],
     expansionSeries: ExpansionSeries
   ): SortableExpansion[] => {
@@ -46,12 +91,7 @@ class ExpansionSorter implements IExpansionSorter {
 
     this.clearExpansionsFrom(expansions, expansionIdsToBeCleared)
 
-    return series.sort((a, b) => {
-      return (
-        new Date(a.expansionData?.releaseDate ?? 0).getTime() -
-        new Date(b.expansionData?.releaseDate ?? 0).getTime()
-      )
-    })
+    return series
   }
 
   private getSeriesAndExpansionsToClear = (
