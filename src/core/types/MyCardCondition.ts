@@ -1,6 +1,16 @@
+export type CardCondition =
+  | 'Unknown'
+  | 'Mint'
+  | 'Near Mint'
+  | 'Slightly Played'
+  | 'Moderately Played'
+  | 'Played'
+  | 'Heavily Played'
+  | 'Poor'
+
 export type MyCardConditionType = {
   id: number
-  title: string
+  title: CardCondition
 }
 
 const Unknown: MyCardConditionType = { id: 0, title: 'Unknown' }
@@ -12,8 +22,8 @@ const ModeratelyPlayed: MyCardConditionType = {
   title: 'Moderately Played',
 }
 const Played: MyCardConditionType = { id: 5, title: 'Played' }
-const Poor: MyCardConditionType = { id: 6, title: 'Poor' }
-const Damaged: MyCardConditionType = { id: 7, title: 'Damaged' }
+const HeavilyPlayed: MyCardConditionType = { id: 6, title: 'Heavily Played' }
+const Poor: MyCardConditionType = { id: 7, title: 'Poor' }
 
 export const MyCardCondition = {
   Unknown,
@@ -23,7 +33,7 @@ export const MyCardCondition = {
   ModeratelyPlayed,
   Played,
   Poor,
-  Damaged,
+  Damaged: HeavilyPlayed,
   asArray: [
     Unknown,
     Mint,
@@ -32,7 +42,7 @@ export const MyCardCondition = {
     ModeratelyPlayed,
     Played,
     Poor,
-    Damaged,
+    HeavilyPlayed,
   ],
 }
 

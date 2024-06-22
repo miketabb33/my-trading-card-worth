@@ -19,6 +19,31 @@ class TypeParser {
     throw new Error(TypeParser.parserError('root', 'array', parserName))
   }
 
+  static rootIsObject = (data: unknown, parserName: string) => {
+    if (typeof data === 'object' && !Array.isArray(data) && data !== null) {
+      return data as object
+    }
+    throw new Error(TypeParser.parserError('root', 'object', parserName))
+  }
+
+  obj = (key: string) => {
+    const value = this.objOrNull(key)
+    if (!value)
+      throw new Error(TypeParser.parserError(key, 'object', this.parserName))
+    return value
+  }
+
+  objOrNull = (key: string) => {
+    if (
+      typeof this.data[key] === 'object' &&
+      !Array.isArray(this.data[key]) &&
+      this.data[key] !== null
+    ) {
+      return this.data[key] as object
+    }
+    return null
+  }
+
   str = (key: string): string => {
     const value = this.strOrNull(key)
     if (!value)

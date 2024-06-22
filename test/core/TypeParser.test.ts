@@ -10,12 +10,13 @@ const unknownData = {
   isAdult: true,
   isChild: false,
   zero: 0,
+  object: { foo: 'bar' },
 }
 
 const parser = new TypeParser(unknownData, PARSER_NAME)
 
 describe('Type Parser', () => {
-  describe('Root Array', () => {
+  describe('Root Is Array', () => {
     it('should parse ROOT as array correctly', () => {
       const result = TypeParser.rootIsArray([], PARSER_NAME)
       expect(Array.isArray(result)).toEqual(true)
@@ -25,6 +26,55 @@ describe('Type Parser', () => {
       expect(() => TypeParser.rootIsArray('not array', PARSER_NAME)).toThrow(
         'Unable to parse "root" as "array" for "testParser"'
       )
+    })
+  })
+
+  describe('Root Is Object', () => {
+    it('should parse ROOT as object correctly', () => {
+      const result = TypeParser.rootIsObject({ foo: 'bar' }, PARSER_NAME)
+      expect(typeof result === 'object').toEqual(true)
+    })
+
+    it('should throw when ROOT is NOT an object', () => {
+      expect(() => TypeParser.rootIsObject('bar', PARSER_NAME)).toThrow(
+        'Unable to parse "root" as "object" for "testParser"'
+      )
+    })
+
+    it('should throw when ROOT is an array', () => {
+      expect(() => TypeParser.rootIsObject([], PARSER_NAME)).toThrow(
+        'Unable to parse "root" as "object" for "testParser"'
+      )
+    })
+    it('should throw when ROOT is null', () => {
+      expect(() => TypeParser.rootIsObject(null, PARSER_NAME)).toThrow(
+        'Unable to parse "root" as "object" for "testParser"'
+      )
+    })
+  })
+
+  describe('Obj', () => {
+    it('should parse OBJECT correctly', () => {
+      const result = parser.obj('object')
+      expect(result).toEqual({ foo: 'bar' })
+    })
+
+    it('should throw when could not parse OBJECT correctly', () => {
+      expect(() => parser.obj('age')).toThrow(
+        'Unable to parse "age" as "object" for "testParser"'
+      )
+    })
+  })
+
+  describe('Obj or null', () => {
+    it('should parse OBJECT correctly', () => {
+      const result = parser.objOrNull('object')
+      expect(result).toEqual({ foo: 'bar' })
+    })
+
+    it('should throw when could not parse OBJECT correctly', () => {
+      const result = parser.objOrNull('age')
+      expect(result).toBeNull()
     })
   })
 

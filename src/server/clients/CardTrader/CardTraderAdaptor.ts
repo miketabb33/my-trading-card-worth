@@ -1,8 +1,10 @@
 import { ENV } from '../../env'
 import { CardBlueprint } from '../../types/CardBlueprint'
 import { CardSet } from '../../types/CardSet'
+import { CardValue } from '../../types/CardValue'
 import * as CardTraderClient from './CardTraderClient'
 import { EXCLUDED_SET_IDS } from './excludedSetIds'
+import { parseCardCondition } from './parseCardCondition'
 
 export interface ICardTraderAdaptor {
   getPokemonSets: () => Promise<CardSet[]>
@@ -49,6 +51,30 @@ class CardTraderAdaptor implements ICardTraderAdaptor {
         imageUrlShow: `${this.cardTraderConfig.CARD_TRADER_BASE_URL}${blueprint.image.show.url}`,
       }
     })
+  }
+
+  getPokemonCardValues = async (
+    expansionId: number
+  ): Promise<Map<string, CardValue[]>> => {
+    const productsMap =
+      await CardTraderClient.getMarketplaceProducts(expansionId)
+
+    const valueMap = new Map<string, CardValue[]>()
+
+    productsMap.forEach((value, key) => {
+      const cardValues = value.map((v) => {
+        const cardValue: CardValue = {
+          blueprintId: v.blueprintId,
+          priceCents: v.price.cents,
+          condition: parseCardCondition(v.propertiesHash.condition),
+        }
+        return cardValue
+      })
+
+      valueMap.set(key, cardValues)
+    })
+
+    return valueMap
   }
 }
 

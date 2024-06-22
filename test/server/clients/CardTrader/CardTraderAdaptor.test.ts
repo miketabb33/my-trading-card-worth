@@ -1,12 +1,18 @@
 import CardTraderAdaptor from '../../../../src/server/clients/CardTrader/CardTraderAdaptor'
-import * as CardTraderClient from '../../../../src/server/clients/CardTrader/CardTraderClient'
+import * as CardTraderClientModule from '../../../../src/server/clients/CardTrader/CardTraderClient'
 import { CardTraderBlueprintDto } from '../../../../src/server/clients/CardTrader/types/CardTraderBlueprintDto'
 import { CardTraderExpansionDto } from '../../../../src/server/clients/CardTrader/types/CardTraderExpansionDto'
+import { CardTraderMarketplaceProductDto } from '../../../../src/server/clients/CardTrader/types/CardTraderMarketplaceProductDto'
 import { ENV } from '../../../../src/server/env'
 import { makeBlueprintDto } from './__MOCKS__/CardTraderBlueprintDto.mock'
+import { makeMarketplaceProductDto } from './__MOCKS__/CardTraderMarketplaceProductDto.mock'
 
-const GET_EXPANSIONS = jest.spyOn(CardTraderClient, 'getExpansions')
-const GET_BLUEPRINTS = jest.spyOn(CardTraderClient, 'getBlueprints')
+const GET_EXPANSIONS = jest.spyOn(CardTraderClientModule, 'getExpansions')
+const GET_BLUEPRINTS = jest.spyOn(CardTraderClientModule, 'getBlueprints')
+const GET_MARKETPLACE_PRODUCTS = jest.spyOn(
+  CardTraderClientModule,
+  'getMarketplaceProducts'
+)
 
 const POKEMON_GAME_ID = ENV.CARD_TRADER.POKEMON_GAME_ID
 const POKEMON_SINGLE_CARD_CATEGORY =
@@ -107,6 +113,47 @@ describe('Card Trader Adaptor', () => {
       GET_BLUEPRINTS.mockResolvedValue(blueprintDto)
       const result = await cardTraderAdaptor.getPokemonSetBlueprints(3)
       expect(result.length).toEqual(3)
+    })
+  })
+
+  describe('Get Pokemon Card Values', () => {
+    it('should port card trader market place products map to card value map', async () => {
+      const product1a = makeMarketplaceProductDto({
+        blueprintId: 1,
+        priceCents: 1,
+        condition: 'good',
+      })
+
+      const product1b = makeMarketplaceProductDto({
+        blueprintId: 1,
+        priceCents: 2,
+        condition: 'Mint',
+      })
+
+      const product1c = makeMarketplaceProductDto({
+        blueprintId: 1,
+        priceCents: 3,
+      })
+
+      const product2a = makeMarketplaceProductDto({
+        blueprintId: 2,
+        priceCents: 4,
+        condition: 'Poor',
+      })
+      const productsMap = new Map<string, CardTraderMarketplaceProductDto[]>([
+        ['1', [product1a, product1b, product1c]],
+        ['2', [product2a]],
+      ])
+      GET_MARKETPLACE_PRODUCTS.mockResolvedValue(productsMap)
+
+      const result = await cardTraderAdaptor.getPokemonCardValues(2)
+
+      expect(result.size).toEqual(2)
+      expect(result.get('1')!.length).toEqual(3)
+
+      expect(result.get('1')![1].blueprintId).toEqual(1)
+      expect(result.get('1')![1].priceCents).toEqual(2)
+      expect(result.get('1')![1].condition).toEqual('Mint')
     })
   })
 })
