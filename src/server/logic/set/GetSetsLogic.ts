@@ -2,8 +2,11 @@ import { CardSetDto } from '../../../core/types/CardSetDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { ExpansionData } from '../../types/ExpansionData'
 import { IExpansionSorter, SortableExpansion } from './ExpansionSorter'
+export interface IGetSetsLogic {
+  get: () => Promise<CardSetDto[]>
+}
 
-class GetSetsLogic {
+class GetSetsLogic implements IGetSetsLogic {
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionSorter: IExpansionSorter
   private readonly expansionStoreMap: Map<number, ExpansionData>

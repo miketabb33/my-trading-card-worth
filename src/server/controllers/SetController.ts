@@ -6,26 +6,14 @@ import { parseAuth0User } from '../auth0/parseAuth0User'
 import GetSetBlueprintsLogic from '../logic/set/GetSetBlueprintsLogic'
 import MyCardCRUD from '../database/repository/MyCardCRUD'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
-import GetSetsLogic from '../logic/set/GetSetsLogic'
-import { CardSetDto } from '../../core/types/CardSetDto'
-import ExpansionSorter from '../logic/set/ExpansionSorter'
-import { expansionStoreMap } from '../expansionStoreMap'
+import Store from '../StoreRegistry'
 
 const SetController = Router()
 
-let setsCache: CardSetDto[] | null
-
 SetController.get('/', async (_, res) => {
   try {
-    const getSetsLogic = new GetSetsLogic(
-      new CardTraderAdaptor(),
-      new ExpansionSorter(),
-      expansionStoreMap
-    )
-
-    if (!setsCache) setsCache = await getSetsLogic.get()
-
-    res.send(formatResponse({ data: setsCache }))
+    const sets = await Store.sets.get()
+    res.send(formatResponse({ data: sets }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)

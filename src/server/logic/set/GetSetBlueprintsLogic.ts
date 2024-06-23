@@ -5,7 +5,7 @@ import {
 } from '../../../core/types/CardBlueprintDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IMyCardCRUD } from '../../database/repository/MyCardCRUD'
-import { expansionStoreMap } from '../../expansionStoreMap'
+import { expansionStoreMap } from '../../stores/expansionStoreMap'
 import { CardBlueprint } from '../../types/CardBlueprint'
 
 class GetSetBlueprintsLogic {
