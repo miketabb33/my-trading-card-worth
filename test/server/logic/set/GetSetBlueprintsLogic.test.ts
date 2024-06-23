@@ -1,4 +1,5 @@
 import GetSetBlueprintsLogic from '../../../../src/server/logic/set/GetSetBlueprintsLogic'
+import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import MyCardCRUD_FAKE from '../../__FAKES__/MyCardCRUD.fake'
 import { makeCardBlueprintMock } from '../../__MOCKS__/cardBlueprint.mock'
@@ -12,6 +13,13 @@ describe('Get Set Blueprints Logic', () => {
   const EXPANSION_ID = 15
   const USER_ID = '10'
 
+  const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([
+    [
+      '1',
+      { minCents: 1000, maxCents: 2599, medianCents: 1534, averageCents: 1895 },
+    ],
+  ])
+
   beforeEach(() => {
     myCardCRUD_FAKE = new MyCardCRUD_FAKE()
     cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
@@ -23,7 +31,11 @@ describe('Get Set Blueprints Logic', () => {
 
   it('should return an empty array when no blueprints and user is not logged in', async () => {
     cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS.mockResolvedValue([])
-    const result = await getSetBlueprintsLogic.get(null, EXPANSION_ID)
+    const result = await getSetBlueprintsLogic.get(
+      null,
+      EXPANSION_ID,
+      BLUEPRINT_VALUES
+    )
     expect(
       cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS
     ).toHaveBeenCalledWith(EXPANSION_ID)
@@ -43,7 +55,11 @@ describe('Get Set Blueprints Logic', () => {
     cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS.mockResolvedValue([
       blueprint1,
     ])
-    const result = await getSetBlueprintsLogic.get(null, EXPANSION_ID)
+    const result = await getSetBlueprintsLogic.get(
+      null,
+      EXPANSION_ID,
+      BLUEPRINT_VALUES
+    )
 
     expect(result.blueprints[0]).toEqual({
       cardTraderBlueprintId: 1,
@@ -53,7 +69,36 @@ describe('Get Set Blueprints Logic', () => {
       imageUrlPreview: 'preview',
       imageUrlShow: 'show',
       owned: 0,
+      minMarketValue: '$10.00',
+      maxMarketValue: '$25.99',
+      averageMarketValue: '$18.95',
+      medianMarketValue: '$15.34',
     })
+  })
+
+  it('should return blueprints with no prices when prices are not available', async () => {
+    const blueprint1 = makeCardBlueprintMock({
+      blueprintId: 1,
+      expansionId: 2,
+      name: 'name',
+      version: 'version',
+      imageUrlPreview: 'preview',
+      imageUrlShow: 'show',
+    })
+
+    cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS.mockResolvedValue([
+      blueprint1,
+    ])
+    const result = await getSetBlueprintsLogic.get(
+      null,
+      EXPANSION_ID,
+      new Map<string, BlueprintValue>()
+    )
+
+    expect(result.blueprints[0].minMarketValue).toEqual('...')
+    expect(result.blueprints[0].maxMarketValue).toEqual('...')
+    expect(result.blueprints[0].averageMarketValue).toEqual('...')
+    expect(result.blueprints[0].medianMarketValue).toEqual('...')
   })
 
   it('should return blueprints with owned values when user is logged in', async () => {
@@ -99,7 +144,11 @@ describe('Get Set Blueprints Logic', () => {
       myCardEntity6,
     ])
 
-    const result = await getSetBlueprintsLogic.get(USER_ID, EXPANSION_ID)
+    const result = await getSetBlueprintsLogic.get(
+      USER_ID,
+      EXPANSION_ID,
+      BLUEPRINT_VALUES
+    )
 
     expect(myCardCRUD_FAKE.FIND_BY_SET).toHaveBeenCalledWith(
       USER_ID,

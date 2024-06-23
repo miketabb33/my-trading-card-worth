@@ -33,7 +33,11 @@ SetController.get('/:id', async (req, res) => {
     )
 
     const userId = req.oidc.user ? parseAuth0User(req.oidc.user).sub : null
-    const dto = await getSetBlueprintsLogic.get(userId, expansionId)
+    const dto = await getSetBlueprintsLogic.get(
+      userId,
+      expansionId,
+      Store.blueprintValues.get()
+    )
 
     res.send(formatResponse({ data: dto }))
   } catch (e) {

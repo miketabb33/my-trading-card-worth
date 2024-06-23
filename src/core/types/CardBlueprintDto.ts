@@ -23,4 +23,8 @@ export type CardBlueprintDto = {
   imageUrlPreview: string
   imageUrlShow: string
   owned: number
+  minMarketValue: string
+  maxMarketValue: string
+  averageMarketValue: string
+  medianMarketValue: string
 }
