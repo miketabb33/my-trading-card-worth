@@ -9,6 +9,9 @@ import { parseCardCondition } from './parseCardCondition'
 export interface ICardTraderAdaptor {
   getPokemonSets: () => Promise<CardSet[]>
   getPokemonSetBlueprints: (expansionId: number) => Promise<CardBlueprint[]>
+  getPokemonCardValues: (
+    expansionId: number
+  ) => Promise<Map<string, CardValue[]>>
 }
 
 class CardTraderAdaptor implements ICardTraderAdaptor {
