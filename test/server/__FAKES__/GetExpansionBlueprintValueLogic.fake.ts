@@ -4,7 +4,7 @@ class GetExpansionBlueprintValueLogic_FAKE
   implements IGetExpansionBlueprintValueLogic
 {
   ADD = jest.fn()
-  add = this.ADD
+  get = this.ADD
 }
 
 export default GetExpansionBlueprintValueLogic_FAKE

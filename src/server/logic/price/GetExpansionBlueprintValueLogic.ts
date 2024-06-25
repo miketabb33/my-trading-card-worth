@@ -2,10 +2,7 @@ import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { BlueprintValue } from '../../types/BlueprintValue'
 
 export interface IGetExpansionBlueprintValueLogic {
-  add: (
-    expansionId: number,
-    blueprintValueMap: Map<string, BlueprintValue>
-  ) => Promise<void>
+  get: (expansionId: number) => Promise<Map<string, BlueprintValue>>
 }
 
 class GetExpansionBlueprintValueLogic
@@ -16,10 +13,8 @@ class GetExpansionBlueprintValueLogic
   constructor(cardTraderAdaptor: ICardTraderAdaptor) {
     this.cardTraderAdaptor = cardTraderAdaptor
   }
-  add = async (
-    expansionId: number,
-    blueprintValueMap: Map<string, BlueprintValue>
-  ) => {
+  get = async (expansionId: number) => {
+    const expansionBlueprintPrices = new Map<string, BlueprintValue>()
     const cardValueMap =
       await this.cardTraderAdaptor.getPokemonCardValues(expansionId)
 
@@ -32,8 +27,9 @@ class GetExpansionBlueprintValueLogic
         averageCents: Math.round(this.average(cardPrices)),
         medianCents: Math.round(this.median(cardPrices)),
       }
-      blueprintValueMap.set(expansionId, blueprintValue)
+      expansionBlueprintPrices.set(expansionId, blueprintValue)
     })
+    return expansionBlueprintPrices
   }
 
   private average = (values: number[]): number => {

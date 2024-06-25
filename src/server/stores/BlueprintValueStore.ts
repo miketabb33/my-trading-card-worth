@@ -20,10 +20,9 @@ class BlueprintValueStore {
   initStore = async (expansionIds: number[]) => {
     for (let i = 0; i < expansionIds.length; i++) {
       try {
-        await this.getExpansionBlueprintValueLogic.add(
-          expansionIds[0],
-          this.cache
-        )
+        const blueprintValueMap =
+          await this.getExpansionBlueprintValueLogic.get(expansionIds[i])
+        this.cache = new Map([...this.cache, ...blueprintValueMap])
       } catch (e) {
         const error = formatError(e)
         Logger.error(error)
@@ -31,7 +30,6 @@ class BlueprintValueStore {
           `Failed Loading blueprint value store for ${expansionIds[i]}`
         )
       }
-      setTimeout(() => {}, 1100)
       console.log(`bv: ${i}/${expansionIds.length})`)
     }
   }
