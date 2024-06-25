@@ -113,10 +113,15 @@ export const useInCardCatalogItem = (blueprint: CardBlueprintDto) => {
     }))
   )
 
-  const formattedMin = formatCentsToDollars(blueprint.minMarketValueCents)
-  const formattedMax = formatCentsToDollars(blueprint.maxMarketValueCents)
-  const formattedAvg = formatCentsToDollars(blueprint.averageMarketValueCents)
-  const formattedMedian = formatCentsToDollars(blueprint.medianMarketValueCents)
+  const formatValue = (cents: number) => {
+    if (cents < 0) return '...'
+    return formatCentsToDollars(cents)
+  }
+
+  const formattedMin = formatValue(blueprint.minMarketValueCents)
+  const formattedMax = formatValue(blueprint.maxMarketValueCents)
+  const formattedAvg = formatValue(blueprint.averageMarketValueCents)
+  const formattedMedian = formatValue(blueprint.medianMarketValueCents)
 
   const mixMaxValue = `${formattedMin} - ${formattedMax}`
 
