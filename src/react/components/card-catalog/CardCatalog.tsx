@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { fetchSet, useSetsData } from '../../network/setsClient'
 import Autocomplete, { useWithAutocomplete } from '../base/form/Autocomplete'
 import React, { useEffect, useState } from 'react'
-import { SetDto } from '../../../core/types/CardBlueprintDto'
+import { CardBlueprintDto, SetDto } from '../../../core/types/CardBlueprintDto'
 import { UseEffectType } from '../../types/UseEffectType'
 import CardCatalogItem from './CardCatalogItem'
 import { CardSetDto } from '../../../core/types/CardSetDto'
@@ -57,6 +57,7 @@ export const useInCardCatalog = () => {
   } = useWithAutocomplete<CardSetDto>()
 
   const [set, setSet] = useState<SetDto | null>(null)
+  const [filteredSet, setFilteredSet] = useState<CardBlueprintDto[]>([])
 
   const setsLoadedEffect: UseEffectType = {
     effect: () => {
@@ -75,9 +76,16 @@ export const useInCardCatalog = () => {
   const fetchBlueprints = () => {
     if (selectedSet) {
       fetchSet(selectedSet.cardTraderExpansionId)
-        .then((res) => setSet(res.data))
+        .then((res) => {
+          setSet(res.data)
+          setFilteredSet(res.data?.blueprints.sort(sortByHighestMedian) ?? [])
+        })
         .catch((err) => console.log(err))
     }
+  }
+
+  const sortByHighestMedian = (a: CardBlueprintDto, b: CardBlueprintDto) => {
+    return b.medianMarketValueCents - a.medianMarketValueCents
   }
 
   const fetchBlueprintEffect: UseEffectType = {
@@ -87,7 +95,7 @@ export const useInCardCatalog = () => {
 
   return {
     setSearchBarBind,
-    blueprints: set?.blueprints || [],
+    blueprints: filteredSet,
     details: set?.details || null,
     fetchBlueprintEffect,
     setsLoadedEffect,
