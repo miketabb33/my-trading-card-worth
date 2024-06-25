@@ -69,10 +69,10 @@ describe('Get Set Blueprints Logic', () => {
       imageUrlPreview: 'preview',
       imageUrlShow: 'show',
       owned: 0,
-      minMarketValue: '$10.00',
-      maxMarketValue: '$25.99',
-      averageMarketValue: '$18.95',
-      medianMarketValue: '$15.34',
+      minMarketValueCents: 1000,
+      maxMarketValueCents: 2599,
+      averageMarketValueCents: 1895,
+      medianMarketValueCents: 1534,
     })
   })
 
@@ -95,10 +95,10 @@ describe('Get Set Blueprints Logic', () => {
       new Map<string, BlueprintValue>()
     )
 
-    expect(result.blueprints[0].minMarketValue).toEqual('...')
-    expect(result.blueprints[0].maxMarketValue).toEqual('...')
-    expect(result.blueprints[0].averageMarketValue).toEqual('...')
-    expect(result.blueprints[0].medianMarketValue).toEqual('...')
+    expect(result.blueprints[0].minMarketValueCents).toEqual(-1)
+    expect(result.blueprints[0].maxMarketValueCents).toEqual(-1)
+    expect(result.blueprints[0].averageMarketValueCents).toEqual(-1)
+    expect(result.blueprints[0].medianMarketValueCents).toEqual(-1)
   })
 
   it('should return blueprints with owned values when user is logged in', async () => {

@@ -70,10 +70,10 @@ const CardCatalogItem = ({
         </p>
         <p>
           Min/Max Value:{' '}
-          {`${blueprint.minMarketValue} / ${blueprint.maxMarketValue}`}
+          {`${blueprint.minMarketValueCents} / ${blueprint.maxMarketValueCents}`}
         </p>
-        <p>Average Value: {`${blueprint.averageMarketValue}`}</p>
-        <p>Median Value: {`${blueprint.medianMarketValue}`}</p>
+        <p>Average Value: {`${blueprint.averageMarketValueCents}`}</p>
+        <p>Median Value: {`${blueprint.medianMarketValueCents}`}</p>
         {isLoggedIn && (
           <LoggedInContent>
             <p>

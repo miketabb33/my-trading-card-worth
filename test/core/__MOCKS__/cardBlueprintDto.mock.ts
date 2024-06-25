@@ -8,8 +8,8 @@ export const CARD_BLUEPRINT_DTO: CardBlueprintDto = {
   imageUrlPreview: '',
   imageUrlShow: '',
   owned: 0,
-  minMarketValue: '',
-  maxMarketValue: '',
-  averageMarketValue: '',
-  medianMarketValue: '',
+  minMarketValueCents: -1,
+  maxMarketValueCents: -1,
+  averageMarketValueCents: -1,
+  medianMarketValueCents: -1,
 }

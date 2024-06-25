@@ -48,22 +48,6 @@ class GetSetBlueprintsLogic {
     const owned = myCardMap ? myCardMap.get(item.blueprintId) || 0 : 0
     const blueprintValue = blueprintValues.get(`${item.blueprintId}`)
 
-    const minMarketValue = blueprintValue
-      ? this.formatCentsToDollars(blueprintValue.minCents)
-      : '...'
-
-    const maxMarketValue = blueprintValue
-      ? this.formatCentsToDollars(blueprintValue.maxCents)
-      : '...'
-
-    const averageMarketValue = blueprintValue
-      ? this.formatCentsToDollars(blueprintValue.averageCents)
-      : '...'
-
-    const medianMarketValue = blueprintValue
-      ? this.formatCentsToDollars(blueprintValue.medianCents)
-      : '...'
-
     const cardBlueprintDto: CardBlueprintDto = {
       cardTraderBlueprintId: item.blueprintId,
       cardTraderExpansionId: item.expansionId,
@@ -72,20 +56,13 @@ class GetSetBlueprintsLogic {
       imageUrlPreview: item.imageUrlPreview,
       imageUrlShow: item.imageUrlShow,
       owned,
-      minMarketValue,
-      maxMarketValue,
-      averageMarketValue,
-      medianMarketValue,
+      minMarketValueCents: blueprintValue?.minCents ?? -1,
+      maxMarketValueCents: blueprintValue?.maxCents ?? -1,
+      averageMarketValueCents: blueprintValue?.averageCents ?? -1,
+      medianMarketValueCents: blueprintValue?.medianCents ?? -1,
     }
 
     return cardBlueprintDto
-  }
-
-  private formatCentsToDollars = (cents: number): string => {
-    return (cents / 100).toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    })
   }
 
   private buildDetails = (expansionId: number): SetDetailsDto | null => {
