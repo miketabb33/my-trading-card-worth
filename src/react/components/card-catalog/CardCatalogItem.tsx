@@ -7,6 +7,7 @@ import { useProfile } from '../../providers/ProfileProvider'
 import AddCardButton from './AddCardButton'
 import Select, { useWithSelect } from '../base/form/Select'
 import { MyCardCondition } from '../../../core/types/MyCardCondition'
+import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
 
 const Container = styled.div`
   display: flex;
@@ -51,7 +52,15 @@ const CardCatalogItem = ({
   blueprint,
   refreshBlueprints,
 }: CardCatalogItemProps) => {
-  const { isLoggedIn, selectBind, condition, show } = useInCardCatalogItem()
+  const {
+    isLoggedIn,
+    selectBind,
+    condition,
+    mixMaxValue,
+    formattedAvg,
+    formattedMedian,
+    show,
+  } = useInCardCatalogItem(blueprint)
 
   return (
     <Container>
@@ -68,12 +77,9 @@ const CardCatalogItem = ({
         <p>
           <strong>Version:</strong> {blueprint.version}
         </p>
-        <p>
-          Min/Max Value:{' '}
-          {`${blueprint.minMarketValueCents} / ${blueprint.maxMarketValueCents}`}
-        </p>
-        <p>Average Value: {`${blueprint.averageMarketValueCents}`}</p>
-        <p>Median Value: {`${blueprint.medianMarketValueCents}`}</p>
+        <p>Min-Max: {mixMaxValue}</p>
+        <p>Average Value: {formattedAvg}</p>
+        <p>Median Value: {formattedMedian}</p>
         {isLoggedIn && (
           <LoggedInContent>
             <p>
@@ -96,7 +102,7 @@ const CardCatalogItem = ({
   )
 }
 
-export const useInCardCatalogItem = () => {
+export const useInCardCatalogItem = (blueprint: CardBlueprintDto) => {
   const { show } = useGlobalPopup()
   const { isLoggedIn } = useProfile()
 
@@ -107,7 +113,22 @@ export const useInCardCatalogItem = () => {
     }))
   )
 
-  return { isLoggedIn, selectBind, condition: selectedOption, show }
+  const formattedMin = formatCentsToDollars(blueprint.minMarketValueCents)
+  const formattedMax = formatCentsToDollars(blueprint.maxMarketValueCents)
+  const formattedAvg = formatCentsToDollars(blueprint.averageMarketValueCents)
+  const formattedMedian = formatCentsToDollars(blueprint.medianMarketValueCents)
+
+  const mixMaxValue = `${formattedMin} - ${formattedMax}`
+
+  return {
+    isLoggedIn,
+    selectBind,
+    mixMaxValue,
+    formattedAvg,
+    formattedMedian,
+    condition: selectedOption,
+    show,
+  }
 }
 
 export default CardCatalogItem
