@@ -3,4 +3,6 @@ export type MyCardDto = {
   cardTraderExpansionId: number
   name: string
   condition: number
+  imageUrlPreview: string
+  imageUrlShow: string
 }

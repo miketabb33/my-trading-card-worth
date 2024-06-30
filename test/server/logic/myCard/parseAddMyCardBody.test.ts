@@ -7,6 +7,8 @@ describe('Try To Parse Add My Card Body', () => {
       cardTraderExpansionId: 456,
       name: 'Any',
       condition: 1,
+      imageUrlPreview: 'preview',
+      imageUrlShow: 'show',
     }
 
     const result = tryToParseAddMyCardBody(body)
@@ -15,6 +17,8 @@ describe('Try To Parse Add My Card Body', () => {
     expect(result.cardTraderExpansionId).toEqual(body.cardTraderExpansionId)
     expect(result.name).toEqual(body.name)
     expect(result.condition).toEqual(body.condition)
+    expect(result.imageUrlPreview).toEqual(body.imageUrlPreview)
+    expect(result.imageUrlShow).toEqual(body.imageUrlShow)
   })
 
   it('should throw when data is incorrect', () => {

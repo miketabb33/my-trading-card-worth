@@ -31,6 +31,8 @@ export const useInAddCardButton = (
       cardTraderExpansionId: blueprint.cardTraderExpansionId,
       name: blueprint.name,
       condition: condition.id,
+      imageUrlPreview: blueprint.imageUrlPreview,
+      imageUrlShow: blueprint.imageUrlShow,
     }
 
     return addMyCard(dto)

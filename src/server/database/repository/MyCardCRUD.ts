@@ -5,6 +5,8 @@ export type MyCardEntity = {
   userId: string
   name: string
   condition: number
+  imageUrlPreview: string
+  imageUrlShow: string
   cardTrader: {
     blueprintId: number
     expansionId: number
@@ -25,6 +27,14 @@ const myCardSchema = new Schema(
     },
     condition: {
       type: Number,
+      required: true,
+    },
+    imageUrlPreview: {
+      type: String,
+      required: true,
+    },
+    imageUrlShow: {
+      type: String,
       required: true,
     },
     cardTrader: {
@@ -78,6 +88,8 @@ class MyCardCRUD implements IMyCardCRUD {
       _id: context._id.toString(),
       userId: context.userId,
       name: context.name,
+      imageUrlPreview: context.imageUrlPreview,
+      imageUrlShow: context.imageUrlShow,
       cardTrader: {
         blueprintId: context.cardTrader.blueprintId,
         expansionId: context.cardTrader.expansionId,

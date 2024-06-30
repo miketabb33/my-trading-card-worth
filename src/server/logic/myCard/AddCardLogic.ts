@@ -16,6 +16,8 @@ class AddCardLogic {
       userId,
       name: myCardDto.name,
       condition: myCardDto.condition,
+      imageUrlPreview: myCardDto.imageUrlPreview,
+      imageUrlShow: myCardDto.imageUrlShow,
       cardTrader: {
         blueprintId: myCardDto.cardTraderBlueprintId,
         expansionId: myCardDto.cardTraderExpansionId,

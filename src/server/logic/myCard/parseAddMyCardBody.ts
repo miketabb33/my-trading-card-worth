@@ -9,5 +9,7 @@ export const tryToParseAddMyCardBody = (body: unknown): MyCardDto => {
     cardTraderExpansionId: typeParser.num('cardTraderExpansionId'),
     name: typeParser.str('name'),
     condition: typeParser.num('condition'),
+    imageUrlPreview: typeParser.str('imageUrlPreview'),
+    imageUrlShow: typeParser.str('imageUrlShow'),
   }
 }

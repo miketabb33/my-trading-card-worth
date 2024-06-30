@@ -24,7 +24,7 @@ export const initStores = async () => {
   const expansionIds = (await Store.sets.get()).map(
     (set) => set.cardTraderExpansionId
   )
-  // await Store.blueprintValues.initStore(expansionIds)
+  await Store.blueprintValues.initStore(expansionIds)
 }
 
 export default Store

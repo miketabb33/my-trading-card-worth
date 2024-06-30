@@ -5,6 +5,8 @@ type MakeMyCardEntityMockArgs = {
   userId?: string
   name?: string
   condition?: number
+  imageUrlPreview?: string
+  imageUrlShow?: string
   cardTrader?: {
     blueprintId?: number
     expansionId?: number
@@ -18,6 +20,8 @@ export const makeMyCardEntityMock = ({
   userId = 'userId',
   name = 'name',
   condition = 5,
+  imageUrlPreview = 'preview',
+  imageUrlShow = 'show',
   cardTrader = { blueprintId: 3, expansionId: 4 },
   createdAt = new Date(),
   updatedAt = new Date(),
@@ -26,6 +30,8 @@ export const makeMyCardEntityMock = ({
   userId,
   name,
   condition,
+  imageUrlPreview,
+  imageUrlShow,
   cardTrader: {
     blueprintId: cardTrader.blueprintId || 3,
     expansionId: cardTrader.expansionId || 4,

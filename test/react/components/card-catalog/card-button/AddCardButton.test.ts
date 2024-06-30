@@ -29,6 +29,8 @@ describe('Use In Add Card Button', () => {
       cardTraderExpansionId: CARD_BLUEPRINT_DTO.cardTraderExpansionId,
       name: CARD_BLUEPRINT_DTO.name,
       condition: CONDITION.id,
+      imageUrlPreview: CARD_BLUEPRINT_DTO.imageUrlPreview,
+      imageUrlShow: CARD_BLUEPRINT_DTO.imageUrlShow,
     })
 
     expect(result.current.shouldShowCheckmark).toEqual(true)
