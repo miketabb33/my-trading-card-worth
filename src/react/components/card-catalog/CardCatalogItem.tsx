@@ -5,7 +5,6 @@ import { useGlobalPopup } from '../../providers/GlobalPopupProvider'
 import CardCatalogPopup from './CardCatalogPopup'
 import { useProfile } from '../../providers/ProfileProvider'
 import AddCardButton from './AddCardButton'
-import Select, { useWithSelect } from '../base/form/Select'
 import { MyCardCondition } from '../../../core/types/MyCardCondition'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
 
@@ -13,6 +12,7 @@ const Container = styled.div`
   display: flex;
   gap: 1rem;
   padding: 1rem;
+  width: 100%;
 `
 
 const Image = styled.img`
@@ -23,24 +23,28 @@ const ContentWell = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
 `
 
 const LoggedInContent = styled.div`
-  width: min-content;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 `
 
-const ConditionField = styled.div`
+const PriceContent = styled.div`
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
 `
 
 const Line = styled.div`
   width: 100%;
   height: 1px;
   background-color: lightgray;
+`
+const Detail = styled.p`
+  margin-left: 0.8rem;
 `
 
 type CardCatalogItemProps = {
@@ -52,15 +56,8 @@ const CardCatalogItem = ({
   blueprint,
   refreshBlueprints,
 }: CardCatalogItemProps) => {
-  const {
-    isLoggedIn,
-    selectBind,
-    condition,
-    mixMaxValue,
-    formattedAvg,
-    formattedMedian,
-    show,
-  } = useInCardCatalogItem(blueprint)
+  const { isLoggedIn, mixMaxValue, formattedAvg, formattedMedian, show } =
+    useInCardCatalogItem(blueprint)
 
   return (
     <Container>
@@ -74,25 +71,19 @@ const CardCatalogItem = ({
         <Line />
         <h2>{blueprint.name}</h2>
         <Line />
-        <p>
-          <strong>Version:</strong> {blueprint.version}
-        </p>
-        <p>Min-Max: {mixMaxValue}</p>
-        <p>Average Value: {formattedAvg}</p>
-        <p>Median Value: {formattedMedian}</p>
+        <PriceContent>
+          <h3>Price:</h3>
+          <Detail>Min-Max: {mixMaxValue}</Detail>
+          <Detail>Average Value: {formattedAvg}</Detail>
+          <Detail>Median Value: {formattedMedian}</Detail>
+        </PriceContent>
         {isLoggedIn && (
           <LoggedInContent>
-            <p>
-              <strong>Owned:</strong> {blueprint.owned}
-            </p>
-            <h3>Add to your collection</h3>
-            <ConditionField>
-              Condition:
-              <Select {...selectBind} />
-            </ConditionField>
+            <h3>Your Collection:</h3>
+            <Detail>Owned: {blueprint.owned}</Detail>
             <AddCardButton
               blueprint={blueprint}
-              condition={condition}
+              condition={MyCardCondition.Unknown}
               refreshBlueprints={refreshBlueprints}
             />
           </LoggedInContent>
@@ -105,13 +96,6 @@ const CardCatalogItem = ({
 export const useInCardCatalogItem = (blueprint: CardBlueprintDto) => {
   const { show } = useGlobalPopup()
   const { isLoggedIn } = useProfile()
-
-  const { bind: selectBind, selectedOption } = useWithSelect(
-    MyCardCondition.asArray.map((condition) => ({
-      data: condition,
-      title: condition.title,
-    }))
-  )
 
   const formatValue = (cents: number) => {
     if (cents < 0) return '...'
@@ -127,11 +111,9 @@ export const useInCardCatalogItem = (blueprint: CardBlueprintDto) => {
 
   return {
     isLoggedIn,
-    selectBind,
     mixMaxValue,
     formattedAvg,
     formattedMedian,
-    condition: selectedOption,
     show,
   }
 }

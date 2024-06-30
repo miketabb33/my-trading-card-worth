@@ -52,7 +52,6 @@ class GetSetBlueprintsLogic {
       cardTraderBlueprintId: item.blueprintId,
       cardTraderExpansionId: item.expansionId,
       name: item.name,
-      version: item.version,
       imageUrlPreview: item.imageUrlPreview,
       imageUrlShow: item.imageUrlShow,
       owned,

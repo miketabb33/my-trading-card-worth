@@ -47,7 +47,6 @@ describe('Get Set Blueprints Logic', () => {
       blueprintId: 1,
       expansionId: 2,
       name: 'name',
-      version: 'version',
       imageUrlPreview: 'preview',
       imageUrlShow: 'show',
     })
@@ -65,7 +64,6 @@ describe('Get Set Blueprints Logic', () => {
       cardTraderBlueprintId: 1,
       cardTraderExpansionId: 2,
       name: 'name',
-      version: 'version',
       imageUrlPreview: 'preview',
       imageUrlShow: 'show',
       owned: 0,

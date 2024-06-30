@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { fetchSet, useSetsData } from '../../network/setsClient'
 import Autocomplete, { useWithAutocomplete } from '../base/form/Autocomplete'
 import React, { useEffect, useState } from 'react'
@@ -8,6 +8,7 @@ import CardCatalogItem from './CardCatalogItem'
 import { CardSetDto } from '../../../core/types/CardSetDto'
 import { DropdownOption } from '../base/form/utilities/InputFieldDropdown'
 import CardCatalogSetDetails from './CardCatalogSetDetails'
+import { tabLandAndUp } from '../../styles/Responsive'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -15,6 +16,14 @@ const Container = styled.div`
 
 const CardsHeader = styled.h1`
   margin-top: 2rem;
+`
+
+const Catalog = styled.div`
+  display: grid;
+
+  ${tabLandAndUp(css`
+    grid-template-columns: repeat(2, 1fr);
+  `)}
 `
 
 const CardCatalog = () => {
@@ -36,13 +45,15 @@ const CardCatalog = () => {
       <Autocomplete {...setSearchBarBind} />
       {details && <CardCatalogSetDetails details={details} />}
       {blueprints.length > 0 && <CardsHeader>Cards:</CardsHeader>}
-      {blueprints.map((blueprint) => (
-        <CardCatalogItem
-          key={blueprint.cardTraderBlueprintId}
-          blueprint={blueprint}
-          refreshBlueprints={refreshBlueprints}
-        />
-      ))}
+      <Catalog>
+        {blueprints.map((blueprint) => (
+          <CardCatalogItem
+            key={blueprint.cardTraderBlueprintId}
+            blueprint={blueprint}
+            refreshBlueprints={refreshBlueprints}
+          />
+        ))}
+      </Catalog>
     </Container>
   )
 }
