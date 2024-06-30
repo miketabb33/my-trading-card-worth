@@ -93,7 +93,11 @@ const CardCatalogItem = ({
                 condition={MyCardCondition.Unknown}
                 refreshBlueprints={refreshBlueprints}
               />
-              <RemoveCardButton refreshBlueprints={refreshBlueprints} />
+              <RemoveCardButton
+                blueprintId={blueprint.cardTraderBlueprintId}
+                cardsOwned={blueprint.owned}
+                refreshBlueprints={refreshBlueprints}
+              />
             </Actions>
           </LoggedInContent>
         )}

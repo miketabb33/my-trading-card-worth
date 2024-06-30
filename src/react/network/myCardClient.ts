@@ -5,6 +5,6 @@ export const addMyCard = async (dto: MyCardDto) => {
   await fetchApi({ path: '/my-card', method: 'POST', body: dto })
 }
 
-export const removeMyCard = async () => {
-  await fetchApi({ path: '/my-card', method: 'DELETE' })
+export const removeMyCard = async (blueprintId: number) => {
+  await fetchApi({ path: '/my-card', method: 'DELETE', body: { blueprintId } })
 }

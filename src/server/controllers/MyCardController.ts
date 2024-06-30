@@ -7,6 +7,7 @@ import { parseAuth0User } from '../auth0/parseAuth0User'
 import { tryToParseAddMyCardBody } from '../logic/myCard/parseAddMyCardBody'
 import AddCardLogic from '../logic/myCard/AddCardLogic'
 import MyCardCRUD from '../database/repository/MyCardCRUD'
+import { tryToParseRemoveMyCardBody } from '../logic/myCard/parseRemoveMyCardBody'
 
 const MyCardController = Router()
 
@@ -27,11 +28,16 @@ MyCardController.post('/', requiresAuth(), async (req, res) => {
   }
 })
 
-MyCardController.delete('/', requiresAuth(), (req, res) => {
+MyCardController.delete('/', requiresAuth(), async (req, res) => {
   try {
-    // const auth0User = parseAuth0User(req.oidc.user)
+    const auth0User = parseAuth0User(req.oidc.user)
+    const blueprintId = tryToParseRemoveMyCardBody(req.body)
 
-    res.send(formatResponse({ data: 'nailed it!' }))
+    const crud = new MyCardCRUD()
+
+    await crud.remove(auth0User.sub, blueprintId)
+
+    res.send(formatResponse({}))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)

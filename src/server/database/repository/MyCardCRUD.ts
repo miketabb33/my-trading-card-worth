@@ -57,6 +57,13 @@ class MyCardCRUD implements IMyCardCRUD {
     await context.save()
   }
 
+  remove = async (userId: string, blueprintId: number) => {
+    await MyCardModel.findOneAndDelete({
+      userId,
+      'cardTrader.blueprintId': blueprintId,
+    })
+  }
+
   findBySet = async (
     userId: string,
     setId: number
