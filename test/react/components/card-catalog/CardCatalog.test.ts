@@ -2,9 +2,9 @@
 import { act, renderHook } from '@testing-library/react'
 import { useInCardCatalog } from '../../../../src/react/components/card-catalog/CardCatalog'
 import * as AutocompleteModule from '../../../../src/react/components/base/form/Autocomplete'
-import { CardSetDto } from '../../../../src/core/types/CardSetDto'
 import * as setsClientModule from '../../../../src/react/network/setsClient'
 import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.mock'
+import * as UseRouterClient from '../../../../src/react/router/useRouter'
 
 const FETCH_SETS = jest.spyOn(setsClientModule, 'fetchSet')
 const USE_SETS_DATA = jest.spyOn(setsClientModule, 'useSetsData')
@@ -13,6 +13,18 @@ USE_SETS_DATA.mockReturnValue({
   data: [],
   isLoading: false,
   refresh: () => {},
+})
+
+const NAVIGATE_TO = jest.fn()
+const GET_PARAM = jest.fn()
+
+const USE_ROUTER = jest.spyOn(UseRouterClient, 'useRouter')
+
+USE_ROUTER.mockReturnValue({
+  navigateTo: NAVIGATE_TO,
+  getParam: GET_PARAM,
+  hostname: '',
+  pathname: '',
 })
 
 const USE_WITH_AUTOCOMPLETE = jest.spyOn(
@@ -35,16 +47,11 @@ describe('Use In Card Catalog', () => {
   })
 
   it('should fetch set and set state when selected set has a value', async () => {
-    const selectedSet: CardSetDto = {
-      cardTraderExpansionId: 23,
-      name: 'Any set',
-      symbol: '',
-    }
-
     USE_WITH_AUTOCOMPLETE.mockReturnValue({
       ...USE_WITH_AUTOCOMPLETE_RETURN,
-      selectedOption: selectedSet,
     })
+
+    GET_PARAM.mockReturnValue(23)
 
     FETCH_SETS.mockResolvedValue({
       data: { blueprints: [CARD_BLUEPRINT_DTO], details: null },
@@ -56,8 +63,8 @@ describe('Use In Card Catalog', () => {
 
     await act(async () => await result.current.fetchBlueprintEffect.effect())
 
-    expect(FETCH_SETS).toHaveBeenCalledWith(selectedSet.cardTraderExpansionId)
+    expect(FETCH_SETS).toHaveBeenCalledWith(23)
     expect(result.current.blueprints).toEqual([CARD_BLUEPRINT_DTO])
-    expect(result.current.fetchBlueprintEffect.deps).toEqual([selectedSet])
+    expect(result.current.fetchBlueprintEffect.deps).toEqual([23])
   })
 })

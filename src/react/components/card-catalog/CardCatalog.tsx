@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { fetchSet, useSetsData } from '../../network/setsClient'
+import { fetchSet } from '../../network/setsClient'
 import Autocomplete, { useWithAutocomplete } from '../base/form/Autocomplete'
 import React, { useEffect, useState } from 'react'
 import { CardBlueprintDto, SetDto } from '../../../core/types/CardBlueprintDto'
@@ -9,6 +9,8 @@ import { CardSetDto } from '../../../core/types/CardSetDto'
 import { DropdownOption } from '../base/form/utilities/InputFieldDropdown'
 import CardCatalogSetDetails from './CardCatalogSetDetails'
 import { tabLandAndUp } from '../../styles/Responsive'
+import { useRouter } from '../../router/useRouter'
+import { useExpansion } from '../../providers/ExpansionProvider'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -31,13 +33,13 @@ const CardCatalog = () => {
     setSearchBarBind,
     blueprints,
     details,
-    fetchBlueprintEffect,
     setsLoadedEffect,
+    fetchBlueprintEffect,
     refreshBlueprints,
   } = useInCardCatalog()
 
-  useEffect(fetchBlueprintEffect.effect, fetchBlueprintEffect.deps)
   useEffect(setsLoadedEffect.effect, setsLoadedEffect.deps)
+  useEffect(fetchBlueprintEffect.effect, fetchBlueprintEffect.deps)
 
   return (
     <Container>
@@ -59,57 +61,60 @@ const CardCatalog = () => {
 }
 
 export const useInCardCatalog = () => {
-  const { data: sets } = useSetsData()
+  const { expansions } = useExpansion()
+  const { getParam, navigateTo } = useRouter()
+  const expansionId = getParam('expansionId')
 
-  const {
-    bind: setSearchBarBind,
-    selectedOption: selectedSet,
-    setOptions,
-  } = useWithAutocomplete<CardSetDto>()
+  const fetchBlueprints = () => {
+    if (!expansionId) return
+    fetchSet(+expansionId)
+      .then((res) => {
+        setSelectedSet(res.data)
+        setFilteredSet(res.data?.blueprints.sort(sortByHighestMedian) ?? [])
+      })
+      .catch((err) => console.log(err))
+  }
 
-  const [set, setSet] = useState<SetDto | null>(null)
+  const { bind: setSearchBarBind, setOptions } =
+    useWithAutocomplete<CardSetDto>({
+      didSelectOption: (option) =>
+        navigateTo(`/${option.cardTraderExpansionId}`),
+    })
+
+  const [selectedSet, setSelectedSet] = useState<SetDto | null>(null)
   const [filteredSet, setFilteredSet] = useState<CardBlueprintDto[]>([])
 
   const setsLoadedEffect: UseEffectType = {
     effect: () => {
-      if (sets) {
-        const newOptions: DropdownOption<CardSetDto>[] = sets.map((set) => ({
-          data: set,
-          title: set.name,
-          imageSource: set.symbol,
-        }))
+      if (expansions) {
+        const newOptions: DropdownOption<CardSetDto>[] = expansions.map(
+          (expansion) => ({
+            data: expansion,
+            title: expansion.name,
+            imageSource: expansion.symbol,
+          })
+        )
         setOptions(newOptions)
       }
     },
-    deps: [sets],
+    deps: [expansions],
   }
 
-  const fetchBlueprints = () => {
-    if (selectedSet) {
-      fetchSet(selectedSet.cardTraderExpansionId)
-        .then((res) => {
-          setSet(res.data)
-          setFilteredSet(res.data?.blueprints.sort(sortByHighestMedian) ?? [])
-        })
-        .catch((err) => console.log(err))
-    }
+  const fetchBlueprintEffect: UseEffectType = {
+    effect: fetchBlueprints,
+    deps: [expansionId],
   }
 
   const sortByHighestMedian = (a: CardBlueprintDto, b: CardBlueprintDto) => {
     return b.medianMarketValueCents - a.medianMarketValueCents
   }
 
-  const fetchBlueprintEffect: UseEffectType = {
-    effect: fetchBlueprints,
-    deps: [selectedSet],
-  }
-
   return {
     setSearchBarBind,
     blueprints: filteredSet,
-    details: set?.details || null,
-    fetchBlueprintEffect,
+    details: selectedSet?.details || null,
     setsLoadedEffect,
+    fetchBlueprintEffect,
     refreshBlueprints: fetchBlueprints,
   }
 }

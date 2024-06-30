@@ -71,9 +71,15 @@ export type UseWithAutocompleteReturn<T> = {
   setOptions: (option: DropdownOption<T>[]) => void
 }
 
-export const useWithAutocomplete = <T extends object>(
+type UseWithAutocompleteArgs<T> = {
   initOptions?: DropdownOption<T>[]
-): UseWithAutocompleteReturn<T> => {
+  didSelectOption?: (option: T) => void
+}
+
+export const useWithAutocomplete = <T extends object>({
+  initOptions,
+  didSelectOption,
+}: UseWithAutocompleteArgs<T>): UseWithAutocompleteReturn<T> => {
   const { bind: popupBind, click: popupClick, toggle: togglePopup } = usePopup()
   const [options, setOptions] = useState<DropdownOption<T>[]>(initOptions ?? [])
 
@@ -94,6 +100,7 @@ export const useWithAutocomplete = <T extends object>(
   const onOptionClick = (option: DropdownOption<T>) => {
     setInputValue(option.title)
     setSelectedOption(option)
+    if (didSelectOption) didSelectOption(option.data)
     togglePopup()
   }
 

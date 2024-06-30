@@ -32,7 +32,7 @@ beforeEach(jest.clearAllMocks)
 
 describe('Use With Autocomplete', () => {
   it('should set filtered sets when sets load', async () => {
-    const { result } = renderHook(useWithAutocomplete<CardSetDto>)
+    const { result } = renderHook(() => useWithAutocomplete<CardSetDto>({}))
     expect(result.current.bind.dropdownBind.options).toEqual([])
 
     act(() => result.current.setOptions(DROPDOWN_OPTIONS))
@@ -45,7 +45,11 @@ describe('Use With Autocomplete', () => {
   })
 
   it('should trigger item selected functionality when on click item is invoked', async () => {
-    const { result } = renderHook(useWithAutocomplete<CardSetDto>)
+    const OPTION_SELECTED = jest.fn()
+
+    const { result } = renderHook(() =>
+      useWithAutocomplete<CardSetDto>({ didSelectOption: OPTION_SELECTED })
+    )
     expect(result.current.bind.inputValue).toEqual('')
     expect(result.current.selectedOption).toBeNull()
 
@@ -62,11 +66,15 @@ describe('Use With Autocomplete', () => {
       Dropdown.DROPDOWN_OPTION_1.data
     )
     expect(TOGGLE_POPUP).toHaveBeenCalled()
+
+    expect(OPTION_SELECTED).toHaveBeenCalledWith(
+      Dropdown.DROPDOWN_OPTION_1.data
+    )
   })
 
   it('should handle on input change', () => {
     FILTER_AUTOCOMPLETE.mockReturnValue(DROPDOWN_OPTIONS)
-    const { result } = renderHook(useWithAutocomplete<CardSetDto>)
+    const { result } = renderHook(() => useWithAutocomplete<CardSetDto>({}))
     expect(result.current.bind.inputValue).toEqual('')
     expect(result.current.bind.dropdownBind.options).toEqual([])
 
