@@ -4,9 +4,10 @@ import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
 import { useGlobalPopup } from '../../providers/GlobalPopupProvider'
 import CardCatalogPopup from './CardCatalogPopup'
 import { useProfile } from '../../providers/ProfileProvider'
-import AddCardButton from './AddCardButton'
+import AddCardButton from './card-button/AddCardButton'
 import { MyCardCondition } from '../../../core/types/MyCardCondition'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
+import RemoveCardButton from './card-button/RemoveCardButton'
 
 const Container = styled.div`
   display: flex;
@@ -43,8 +44,13 @@ const Line = styled.div`
   height: 1px;
   background-color: lightgray;
 `
+
 const Detail = styled.p`
   margin-left: 0.8rem;
+`
+
+const Actions = styled.div`
+  display: flex;
 `
 
 type CardCatalogItemProps = {
@@ -81,11 +87,14 @@ const CardCatalogItem = ({
           <LoggedInContent>
             <h3>Your Collection:</h3>
             <Detail>Owned: {blueprint.owned}</Detail>
-            <AddCardButton
-              blueprint={blueprint}
-              condition={MyCardCondition.Unknown}
-              refreshBlueprints={refreshBlueprints}
-            />
+            <Actions>
+              <AddCardButton
+                blueprint={blueprint}
+                condition={MyCardCondition.Unknown}
+                refreshBlueprints={refreshBlueprints}
+              />
+              <RemoveCardButton refreshBlueprints={refreshBlueprints} />
+            </Actions>
           </LoggedInContent>
         )}
       </ContentWell>

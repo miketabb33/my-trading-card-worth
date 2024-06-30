@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
-import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.mock'
-import * as MyCardClientModule from '../../../../src/react/network/myCardClient'
-import { MyCardCondition } from '../../../../src/core/types/MyCardCondition'
-import { useInAddCardButton } from '../../../../src/react/components/card-catalog/AddCardButton'
+import { CARD_BLUEPRINT_DTO } from '../../../../core/__MOCKS__/cardBlueprintDto.mock'
+import * as MyCardClientModule from '../../../../../src/react/network/myCardClient'
+import { MyCardCondition } from '../../../../../src/core/types/MyCardCondition'
+import { useInAddCardButton } from '../../../../../src/react/components/card-catalog/card-button/AddCardButton'
 
 const ADD_MY_CARD = jest.spyOn(MyCardClientModule, 'addMyCard')
 const REFRESH = jest.fn()
@@ -31,8 +31,9 @@ describe('Use In Add Card Button', () => {
       condition: CONDITION.id,
     })
 
-    expect(result.current.showCheckmark).toEqual(true)
-    expect(result.current.isLoading).toEqual(false)
+    expect(result.current.shouldShowCheckmark).toEqual(true)
+    expect(result.current.shouldShowLoading).toEqual(false)
     expect(result.current.isDisabled).toEqual(true)
+    expect(result.current.title).toEqual('Add')
   })
 })

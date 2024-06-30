@@ -10,7 +10,7 @@ import MyCardCRUD from '../database/repository/MyCardCRUD'
 
 const MyCardController = Router()
 
-MyCardController.post('/add', requiresAuth(), async (req, res) => {
+MyCardController.post('/', requiresAuth(), async (req, res) => {
   try {
     const auth0User = parseAuth0User(req.oidc.user)
     const myCardDto = tryToParseAddMyCardBody(req.body)
@@ -20,6 +20,18 @@ MyCardController.post('/add', requiresAuth(), async (req, res) => {
     await addCardLogic.add(auth0User.sub, myCardDto)
 
     res.send(formatResponse({}))
+  } catch (e) {
+    const error = formatError(e)
+    Logger.error(error)
+    res.send(formatResponse({ errors: [error.message] }))
+  }
+})
+
+MyCardController.delete('/', requiresAuth(), (req, res) => {
+  try {
+    // const auth0User = parseAuth0User(req.oidc.user)
+
+    res.send(formatResponse({ data: 'nailed it!' }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)
