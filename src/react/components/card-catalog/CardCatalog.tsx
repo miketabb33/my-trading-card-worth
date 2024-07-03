@@ -30,7 +30,7 @@ const Catalog = styled.div`
 
 const CardCatalog = () => {
   const {
-    setSearchBarBind,
+    autocompleteBind,
     blueprints,
     details,
     setsLoadedEffect,
@@ -44,7 +44,7 @@ const CardCatalog = () => {
   return (
     <Container>
       <p>Search Pokemon Cards by set</p>
-      <Autocomplete {...setSearchBarBind} />
+      <Autocomplete {...autocompleteBind} />
       {details && <CardCatalogSetDetails details={details} />}
       {blueprints.length > 0 && <CardsHeader>Cards:</CardsHeader>}
       <Catalog>
@@ -63,11 +63,17 @@ const CardCatalog = () => {
 export const useInCardCatalog = () => {
   const { expansions } = useExpansion()
   const { getParam, navigateTo } = useRouter()
-  const expansionId = getParam('expansionId')
+  const expansionSlug = getParam('expansionSlug')
+  const [selectedSet, setSelectedSet] = useState<SetDto | null>(null)
+  const [filteredSet, setFilteredSet] = useState<CardBlueprintDto[]>([])
 
   const fetchBlueprints = () => {
-    if (!expansionId) return
-    fetchSet(+expansionId)
+    if (!expansionSlug) return
+    const selectedExpansion = expansions?.find(
+      (expansion) => expansion.slug === expansionSlug
+    )
+    if (!selectedExpansion) return
+    fetchSet(selectedExpansion.cardTraderExpansionId)
       .then((res) => {
         setSelectedSet(res.data)
         setFilteredSet(res.data?.blueprints.sort(sortByHighestMedian) ?? [])
@@ -75,14 +81,14 @@ export const useInCardCatalog = () => {
       .catch((err) => console.log(err))
   }
 
-  const { bind: setSearchBarBind, setOptions } =
-    useWithAutocomplete<CardSetDto>({
-      didSelectOption: (option) =>
-        navigateTo(`/${option.cardTraderExpansionId}`),
-    })
+  const sortByHighestMedian = (a: CardBlueprintDto, b: CardBlueprintDto) => {
+    return b.medianMarketValueCents - a.medianMarketValueCents
+  }
 
-  const [selectedSet, setSelectedSet] = useState<SetDto | null>(null)
-  const [filteredSet, setFilteredSet] = useState<CardBlueprintDto[]>([])
+  const { bind: autocompleteBind, setOptions } =
+    useWithAutocomplete<CardSetDto>({
+      didSelectOption: (option) => navigateTo(`/${option.slug}`),
+    })
 
   const setsLoadedEffect: UseEffectType = {
     effect: () => {
@@ -102,15 +108,11 @@ export const useInCardCatalog = () => {
 
   const fetchBlueprintEffect: UseEffectType = {
     effect: fetchBlueprints,
-    deps: [expansionId],
-  }
-
-  const sortByHighestMedian = (a: CardBlueprintDto, b: CardBlueprintDto) => {
-    return b.medianMarketValueCents - a.medianMarketValueCents
+    deps: [expansionSlug, expansions],
   }
 
   return {
-    setSearchBarBind,
+    autocompleteBind,
     blueprints: filteredSet,
     details: selectedSet?.details || null,
     setsLoadedEffect,

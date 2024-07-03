@@ -32,7 +32,9 @@ beforeEach(jest.clearAllMocks)
 
 describe('Use With Autocomplete', () => {
   it('should set filtered sets when sets load', async () => {
-    const { result } = renderHook(() => useWithAutocomplete<CardSetDto>({}))
+    const { result } = renderHook(() =>
+      useWithAutocomplete<Dropdown.FakeDropdownData>({})
+    )
     expect(result.current.bind.dropdownBind.options).toEqual([])
 
     act(() => result.current.setOptions(DROPDOWN_OPTIONS))
@@ -48,7 +50,9 @@ describe('Use With Autocomplete', () => {
     const OPTION_SELECTED = jest.fn()
 
     const { result } = renderHook(() =>
-      useWithAutocomplete<CardSetDto>({ didSelectOption: OPTION_SELECTED })
+      useWithAutocomplete<Dropdown.FakeDropdownData>({
+        didSelectOption: OPTION_SELECTED,
+      })
     )
     expect(result.current.bind.inputValue).toEqual('')
     expect(result.current.selectedOption).toBeNull()

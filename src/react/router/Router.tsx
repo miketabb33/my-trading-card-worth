@@ -8,7 +8,7 @@ const Router = () => {
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
-  { path: '/:expansionId', element: <HomePage /> },
+  { path: '/:expansionSlug', element: <HomePage /> },
   { path: '*', element: 'Page not Found' },
 ])
 

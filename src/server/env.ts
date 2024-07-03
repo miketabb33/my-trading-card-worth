@@ -3,6 +3,8 @@ export const validatedEnv = (variable?: string) => {
   return variable
 }
 
+type EnvironmentId = 'production' | 'development'
+
 export const ENV = {
   AUTH_0: {
     ISSUER_BASE_URL: () => validatedEnv(process.env.AUTH_ISSUER_BASE_URL),
@@ -21,4 +23,5 @@ export const ENV = {
     CONNECTION_STRING: () =>
       validatedEnv(process.env.MONGODB_CONNECTION_STRING),
   },
+  ID: process.env.NODE_ENV as EnvironmentId,
 }

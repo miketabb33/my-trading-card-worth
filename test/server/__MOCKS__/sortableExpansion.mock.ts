@@ -5,6 +5,7 @@ import {
   CARD_SET_ORIGINAL_MOCK,
   CARD_SET_OTHER1_MOCK,
   CARD_SET_OTHER2_MOCK,
+  CARD_SET_PARADOX_RIFT,
   CARD_SET_PLATINUM_MOCK,
   CARD_SET_POP_MOCK,
 } from './cardSet.mock'
@@ -48,5 +49,10 @@ export const SORTABLE_EXPANSION_OTHER1_MOCK: SortableExpansion = {
 
 export const SORTABLE_EXPANSION_OTHER2_MOCK: SortableExpansion = {
   cardSet: CARD_SET_OTHER2_MOCK,
+  expansionData: null,
+}
+
+export const SORTABLE_EXPANSION_PARADOX_RIFT_MOCK: SortableExpansion = {
+  cardSet: CARD_SET_PARADOX_RIFT,
   expansionData: null,
 }

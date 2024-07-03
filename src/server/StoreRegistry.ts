@@ -1,4 +1,5 @@
 import CardTraderAdaptor from './clients/CardTrader/CardTraderAdaptor'
+import { ENV } from './env'
 import GetExpansionBlueprintValueLogic from './logic/price/GetExpansionBlueprintValueLogic'
 import ExpansionSorter from './logic/set/ExpansionSorter'
 import GetSetsLogic from './logic/set/GetSetsLogic'
@@ -24,7 +25,8 @@ export const initStores = async () => {
   const expansionIds = (await Store.sets.get()).map(
     (set) => set.cardTraderExpansionId
   )
-  await Store.blueprintValues.initStore(expansionIds)
+  if (ENV.ID === 'production')
+    await Store.blueprintValues.initStore(expansionIds)
 }
 
 export default Store

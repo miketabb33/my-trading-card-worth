@@ -35,9 +35,16 @@ class GetSetsLogic implements IGetSetsLogic {
       name: set.cardSet.name,
       cardTraderExpansionId: set.cardSet.expansionId,
       symbol: set.expansionData?.symbolUrl ?? null,
+      slug: this.formatSlug(set.cardSet.name),
     }))
 
     return dto
+  }
+
+  private formatSlug = (setName: string) => {
+    const withHyphens = setName.replace(' ', '-')
+    const onlyNumOrChar = withHyphens.replace(/[^a-zA-Z0-9|-]/g, '')
+    return onlyNumOrChar.toLowerCase()
   }
 }
 
