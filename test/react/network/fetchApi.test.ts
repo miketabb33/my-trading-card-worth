@@ -12,7 +12,7 @@ describe('Fetch Api', () => {
   it('should call fetch with params', async () => {
     const path = 'test'
     await fetchApi({ path })
-    expect(FETCH).toHaveBeenCalledWith(`api/${path}`, {
+    expect(FETCH).toHaveBeenCalledWith(`/api/${path}`, {
       headers: { 'content-type': 'application/json' },
       method: 'GET',
     })

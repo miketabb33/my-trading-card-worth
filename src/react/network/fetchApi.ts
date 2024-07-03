@@ -14,7 +14,7 @@ export const fetchApi = async <T, B = undefined>({
   body: bodyData,
 }: FetchApiArgs<B>): Promise<ResponseDto<T>> => {
   const body = bodyData ? { body: JSON.stringify(bodyData) } : undefined
-  const response = await fetch(`api/${path}`, {
+  const response = await fetch(`/api/${path}`, {
     ...body,
     method,
     headers: { 'content-type': 'application/json' },

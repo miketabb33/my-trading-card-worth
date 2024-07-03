@@ -11,6 +11,7 @@ import CardCatalogSetDetails from './CardCatalogSetDetails'
 import { tabLandAndUp } from '../../styles/Responsive'
 import { useRouter } from '../../router/useRouter'
 import { useExpansion } from '../../providers/ExpansionProvider'
+import { PATH_VALUES } from '../../router/pathValues'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -87,7 +88,7 @@ export const useInCardCatalog = () => {
 
   const { bind: autocompleteBind, setOptions } =
     useWithAutocomplete<CardSetDto>({
-      didSelectOption: (option) => navigateTo(`/${option.slug}`),
+      didSelectOption: (option) => navigateTo(PATH_VALUES.catalog(option.slug)),
     })
 
   const setsLoadedEffect: UseEffectType = {

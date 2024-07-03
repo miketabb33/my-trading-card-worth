@@ -1,15 +1,14 @@
-import React from 'react'
-import { PageLayout } from '../components/Layout'
-import CardCatalog from '../components/card-catalog/CardCatalog'
-import Navigation from '../components/Navigation'
+import React, { useEffect } from 'react'
+import { useRouter } from '../router/useRouter'
 
 const HomePage = () => {
-  return (
-    <PageLayout>
-      <Navigation />
-      <CardCatalog />
-    </PageLayout>
-  )
+  const { navigateTo } = useRouter()
+
+  useEffect(() => {
+    navigateTo('/catalog')
+  }, [])
+
+  return <></>
 }
 
 export default HomePage

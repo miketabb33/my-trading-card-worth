@@ -1,6 +1,7 @@
 import React from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import HomePage from '../pages/HomePage'
+import CatalogPage from '../pages/CatalogPage'
 
 const Router = () => {
   return <RouterProvider router={router} />
@@ -8,8 +9,9 @@ const Router = () => {
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
-  { path: '/:expansionSlug', element: <HomePage /> },
-  { path: '*', element: 'Page not Found' },
+  { path: '/catalog', element: <CatalogPage /> },
+  { path: '/catalog/:expansionSlug', element: <CatalogPage /> },
+  { path: '*', element: 'Page Not Found' },
 ])
 
 export default Router
