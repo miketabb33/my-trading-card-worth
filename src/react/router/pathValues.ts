@@ -6,4 +6,5 @@ const catalog = (slug?: string) => {
 
 export const PATH_VALUES = {
   catalog,
+  collection: '/collection',
 }

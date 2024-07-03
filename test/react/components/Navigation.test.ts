@@ -3,8 +3,17 @@ import { useInNavigation } from '../../../src/react/components/Navigation'
 import * as ProfileProviderModule from '../../../src/react/providers/ProfileProvider'
 import { PROFILE_DTO } from '../../core/__MOCKS__/profileDto.mock'
 import { PROFILE_CONTEXT_TYPE } from '../__MOCKS__/profileContextType.mock'
+import * as RouterModule from '../../../src/react/router/useRouter'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
+const USE_ROUTER = jest.spyOn(RouterModule, 'useRouter')
+
+USE_ROUTER.mockReturnValue({
+  getParam: () => null,
+  navigateTo: () => {},
+  pathname: '',
+  hostname: '',
+})
 
 const LOGOUT = jest.fn()
 const LOGIN = jest.fn()
