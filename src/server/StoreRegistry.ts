@@ -21,12 +21,15 @@ const Store = {
 }
 
 export const initStores = async () => {
-  await Store.sets.initStore()
-  const expansionIds = (await Store.sets.get()).map(
-    (set) => set.cardTraderExpansionId
-  )
-  if (ENV.ID === 'production')
+  if (ENV.ID === 'production') {
+    await Store.sets.initStore()
+    const expansionIds = (await Store.sets.get()).map(
+      (set) => set.cardTraderExpansionId
+    )
     await Store.blueprintValues.initStore(expansionIds)
+  } else {
+    Store.sets.initStubbedStore()
+  }
 }
 
 export default Store

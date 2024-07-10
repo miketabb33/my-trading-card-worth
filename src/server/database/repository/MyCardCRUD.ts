@@ -59,6 +59,7 @@ const MyCardModel = model('my_card', myCardSchema)
 export interface IMyCardCRUD {
   add: (entity: MyCardEntity) => Promise<void>
   findBySet: (userId: string, setId: number) => Promise<MyCardEntity[]>
+  getAll: (userId: string) => Promise<MyCardEntity[]>
 }
 
 class MyCardCRUD implements IMyCardCRUD {
@@ -98,6 +99,30 @@ class MyCardCRUD implements IMyCardCRUD {
       createdAt: context.createdAt,
       updatedAt: context.updatedAt,
     }))
+    return myCards
+  }
+
+  getAll = async (userId: string): Promise<MyCardEntity[]> => {
+    const contexts = await MyCardModel.find({
+      userId,
+    })
+    if (!contexts) return []
+
+    const myCards: MyCardEntity[] = contexts.map((context) => ({
+      _id: context._id.toString(),
+      userId: context.userId,
+      name: context.name,
+      imageUrlPreview: context.imageUrlPreview,
+      imageUrlShow: context.imageUrlShow,
+      cardTrader: {
+        blueprintId: context.cardTrader.blueprintId,
+        expansionId: context.cardTrader.expansionId,
+      },
+      condition: context.condition,
+      createdAt: context.createdAt,
+      updatedAt: context.updatedAt,
+    }))
+
     return myCards
   }
 }

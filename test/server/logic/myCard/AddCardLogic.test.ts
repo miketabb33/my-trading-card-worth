@@ -2,11 +2,11 @@ import AddCardLogic from '../../../../src/server/logic/myCard/AddCardLogic'
 import { MY_CARD_DTO } from '../../../core/__MOCKS__/myCardDto.mock'
 import MyCardCRUD_FAKE from '../../__FAKES__/MyCardCRUD.fake'
 
-const USER_ID = 'anyUserId'
-
 describe('Add Card Logic', () => {
   let addCardLogic: AddCardLogic
   let myCardCRUD_FAKE: MyCardCRUD_FAKE
+
+  const USER_ID = 'anyUserId'
 
   beforeEach(() => {
     jest.clearAllMocks()
