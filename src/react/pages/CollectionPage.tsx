@@ -1,12 +1,16 @@
 import React from 'react'
 import { PageLayout } from '../components/Layout'
 import Navigation from '../components/navigation/Navigation'
+import { useMyCards } from '../network/myCardClient'
+import BlueprintList from '../components/BlueprintList'
 
 const CollectionPage = () => {
+  const { data: myCards, refresh } = useMyCards()
+
   return (
     <PageLayout>
       <Navigation />
-      <h1>Collection Page (Under Construction...)</h1>
+      <BlueprintList blueprints={myCards || []} refreshBlueprints={refresh} />
     </PageLayout>
   )
 }
