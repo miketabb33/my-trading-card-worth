@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageLayout } from '../components/Layout'
-import Navigation from '../components/Navigation'
+import Navigation from '../components/navigation/Navigation'
 
 const CollectionPage = () => {
   return (
