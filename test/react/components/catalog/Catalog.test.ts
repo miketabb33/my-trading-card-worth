@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
-import { useInCardCatalog } from '../../../../src/react/components/card-catalog/CardCatalog'
+import { useInCatalog } from '../../../../src/react/components/catalog/Catalog'
 import * as AutocompleteModule from '../../../../src/react/components/base/form/Autocomplete'
 import * as setsClientModule from '../../../../src/react/network/setsClient'
 import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.mock'
@@ -56,9 +56,9 @@ USE_WITH_AUTOCOMPLETE.mockReturnValue(USE_WITH_AUTOCOMPLETE_RETURN)
 
 beforeEach(jest.clearAllMocks)
 
-describe('Use In Card Catalog', () => {
+describe('Use In Catalog', () => {
   it('should init as empty array', () => {
-    const { result } = renderHook(useInCardCatalog)
+    const { result } = renderHook(useInCatalog)
     expect(result.current.blueprints).toEqual([])
   })
 
@@ -71,7 +71,7 @@ describe('Use In Card Catalog', () => {
       isSuccessful: true,
     })
 
-    const { result } = renderHook(useInCardCatalog)
+    const { result } = renderHook(useInCatalog)
 
     await act(async () => await result.current.fetchBlueprintEffect.effect())
 
@@ -86,7 +86,7 @@ describe('Use In Card Catalog', () => {
   it('should NOT fetch set and set state when slug does not exist', async () => {
     GET_PARAM.mockReturnValue(null)
 
-    const { result } = renderHook(useInCardCatalog)
+    const { result } = renderHook(useInCatalog)
 
     await act(async () => await result.current.fetchBlueprintEffect.effect())
 

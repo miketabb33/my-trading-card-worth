@@ -6,7 +6,7 @@ import { CardBlueprintDto, SetDto } from '../../../core/types/CardBlueprintDto'
 import { UseEffectType } from '../../types/UseEffectType'
 import { CardSetDto } from '../../../core/types/CardSetDto'
 import { DropdownOption } from '../base/form/utilities/InputFieldDropdown'
-import CardCatalogSetDetails from './CardCatalogSetDetails'
+import CatalogExpansionDetails from './CatalogExpansionDetails'
 import { useRouter } from '../../router/useRouter'
 import { useExpansion } from '../../providers/ExpansionProvider'
 import { PATH_VALUES } from '../../router/pathValues'
@@ -20,7 +20,7 @@ const CardsHeader = styled.h1`
   margin-top: 2rem;
 `
 
-const CardCatalog = () => {
+const Catalog = () => {
   const {
     autocompleteBind,
     blueprints,
@@ -28,7 +28,7 @@ const CardCatalog = () => {
     setsLoadedEffect,
     fetchBlueprintEffect,
     refreshBlueprints,
-  } = useInCardCatalog()
+  } = useInCatalog()
 
   useEffect(setsLoadedEffect.effect, setsLoadedEffect.deps)
   useEffect(fetchBlueprintEffect.effect, fetchBlueprintEffect.deps)
@@ -37,14 +37,14 @@ const CardCatalog = () => {
     <Container>
       <p>Search Pokemon Cards by set</p>
       <Autocomplete {...autocompleteBind} />
-      {details && <CardCatalogSetDetails details={details} />}
+      {details && <CatalogExpansionDetails details={details} />}
       {blueprints.length > 0 && <CardsHeader>Cards:</CardsHeader>}
       <CardList blueprints={blueprints} refreshBlueprints={refreshBlueprints} />
     </Container>
   )
 }
 
-export const useInCardCatalog = () => {
+export const useInCatalog = () => {
   const { expansions } = useExpansion()
   const { getParam, navigateTo } = useRouter()
   const expansionSlug = getParam('expansionSlug')
@@ -104,4 +104,4 @@ export const useInCardCatalog = () => {
     refreshBlueprints: fetchBlueprints,
   }
 }
-export default CardCatalog
+export default Catalog

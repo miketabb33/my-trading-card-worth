@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
 import { fetchApi } from './fetchApi'
 
+export type UseApiReturn<T> = {
+  data: T | null
+  isLoading: boolean
+  refresh: () => void
+}
+
 export const useApiController = <T>(path: string) => {
   const [data, setData] = useState<T | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -22,7 +28,7 @@ export const useApiController = <T>(path: string) => {
   return { data, isLoading, makeRequest }
 }
 
-export const useApi = <T>(path: string) => {
+export const useApi = <T>(path: string): UseApiReturn<T> => {
   const { data, isLoading, makeRequest } = useApiController<T>(path)
 
   useEffect(makeRequest, [])

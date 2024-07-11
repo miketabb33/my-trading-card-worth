@@ -30,11 +30,11 @@ const Row = styled.div`
   gap: 1rem;
 `
 
-type CardCatalogSetDetails = {
+type CatalogExpansionDetailsProps = {
   details: SetDetailsDto
 }
 
-const CardCatalogSetDetails = ({ details }: CardCatalogSetDetails) => {
+const CatalogExpansionDetails = ({ details }: CatalogExpansionDetailsProps) => {
   return (
     <Container>
       <Header>
@@ -83,4 +83,4 @@ const RowItem = ({ title, value }: RowItemProps) => {
   )
 }
 
-export default CardCatalogSetDetails
+export default CatalogExpansionDetails
