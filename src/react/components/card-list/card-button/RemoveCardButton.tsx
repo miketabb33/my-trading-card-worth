@@ -1,7 +1,7 @@
 import React from 'react'
 import { removeMyCard } from '../../../network/myCardClient'
 
-import CardButton, { useWithCardButton } from './CardButton'
+import CardButtonBase, { useWithCardButtonBase } from './CardButton'
 
 type RemoveCardButtonProps = {
   blueprintId: number
@@ -20,7 +20,7 @@ const RemoveCardButton = ({
     refreshBlueprints
   )
 
-  return <CardButton {...cardButton} />
+  return <CardButtonBase {...cardButton} />
 }
 
 export const useInRemoveCardButton = (
@@ -32,10 +32,10 @@ export const useInRemoveCardButton = (
     return removeMyCard(blueprintId)
   }
 
-  const cardButton = useWithCardButton(removeCard, refreshBlueprints)
+  const cardButtonBase = useWithCardButtonBase(removeCard, refreshBlueprints)
 
-  const isDisabled = cardsOwned <= 0 ? true : cardButton.isDisabled
-  return { ...cardButton, title: 'Remove', isDisabled }
+  const isDisabled = cardsOwned <= 0 ? true : cardButtonBase.isDisabled
+  return { ...cardButtonBase, title: 'Remove', isDisabled }
 }
 
 export default RemoveCardButton

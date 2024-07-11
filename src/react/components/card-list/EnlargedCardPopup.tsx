@@ -18,11 +18,11 @@ const Container = styled.div`
   }
 `
 
-type CardCatalogPopupProps = {
+type EnlargedCardPopupProps = {
   imageUrl: string
 }
 
-const CardCatalogPopup = ({ imageUrl }: CardCatalogPopupProps) => {
+const EnlargedCardPopup = ({ imageUrl }: EnlargedCardPopupProps) => {
   return (
     <Container>
       <Image src={imageUrl} />
@@ -30,4 +30,4 @@ const CardCatalogPopup = ({ imageUrl }: CardCatalogPopupProps) => {
   )
 }
 
-export default CardCatalogPopup
+export default EnlargedCardPopup

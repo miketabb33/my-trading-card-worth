@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { useInCardCatalogItem } from '../../../../src/react/components/card-catalog/CardCatalogItem'
+import { useInCardItem } from '../../../../src/react/components/card-list/CardItem'
 import * as ProfileProviderModule from '../../../../src/react/providers/ProfileProvider'
 import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
 import * as GlobalPopupProviderModule from '../../../../src/react/providers/GlobalPopupProvider'
@@ -24,7 +24,7 @@ USE_GLOBAL_POPUP.mockReturnValue({
   show: SHOW,
 })
 
-describe('Use In Card Catalog Item', () => {
+describe('Use In Card Item', () => {
   it('should return values', () => {
     const dto: CardBlueprintDto = {
       ...CARD_BLUEPRINT_DTO,
@@ -33,7 +33,7 @@ describe('Use In Card Catalog Item', () => {
       averageMarketValueCents: 433,
       medianMarketValueCents: 300,
     }
-    const { result } = renderHook(() => useInCardCatalogItem(dto))
+    const { result } = renderHook(() => useInCardItem(dto))
 
     result.current.show(CLICK_EVENT, 'test')
 

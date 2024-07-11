@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
 import * as MyCardClientModule from '../../../../../src/react/network/myCardClient'
-import { useInRemoveCardButton } from '../../../../../src/react/components/card-catalog/card-button/RemoveCardButton'
+import { useInRemoveCardButton } from '../../../../../src/react/components/card-list/card-button/RemoveCardButton'
 
 const REMOVE_MY_CARD = jest.spyOn(MyCardClientModule, 'removeMyCard')
 const REFRESH = jest.fn()

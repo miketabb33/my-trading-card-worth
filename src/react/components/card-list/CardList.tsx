@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components'
-import { tabLandAndUp } from '../styles/Responsive'
+import { tabLandAndUp } from '../../styles/Responsive'
 import React from 'react'
-import CardCatalogItem from './card-catalog/CardCatalogItem'
-import { CardBlueprintDto } from '../../core/types/CardBlueprintDto'
+import CardItem from './CardItem'
+import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
 
-const Catalog = styled.div`
+const Container = styled.div`
   display: grid;
 
   ${tabLandAndUp(css`
@@ -17,21 +17,18 @@ type BlueprintListProps = {
   refreshBlueprints: () => void
 }
 
-const BlueprintList = ({
-  blueprints,
-  refreshBlueprints,
-}: BlueprintListProps) => {
+const CardList = ({ blueprints, refreshBlueprints }: BlueprintListProps) => {
   return (
-    <Catalog>
+    <Container>
       {blueprints.map((blueprint) => (
-        <CardCatalogItem
+        <CardItem
           key={blueprint.cardTraderBlueprintId}
           blueprint={blueprint}
           refreshBlueprints={refreshBlueprints}
         />
       ))}
-    </Catalog>
+    </Container>
   )
 }
 
-export default BlueprintList
+export default CardList

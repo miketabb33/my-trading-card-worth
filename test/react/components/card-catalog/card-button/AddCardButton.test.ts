@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react'
 import { CARD_BLUEPRINT_DTO } from '../../../../core/__MOCKS__/cardBlueprintDto.mock'
 import * as MyCardClientModule from '../../../../../src/react/network/myCardClient'
 import { MyCardCondition } from '../../../../../src/core/types/MyCardCondition'
-import { useInAddCardButton } from '../../../../../src/react/components/card-catalog/card-button/AddCardButton'
+import { useInAddCardButton } from '../../../../../src/react/components/card-list/card-button/AddCardButton'
 
 const ADD_MY_CARD = jest.spyOn(MyCardClientModule, 'addMyCard')
 const REFRESH = jest.fn()

@@ -14,7 +14,7 @@ const IconWell = styled.div`
   width: 3rem;
 `
 
-export type CardButtonProps = {
+export type CardButtonBaseProps = {
   title: string
   shouldShowLoading: boolean
   shouldShowCheckmark: boolean
@@ -22,13 +22,13 @@ export type CardButtonProps = {
   click: () => void
 }
 
-const CardButton = ({
+const CardButtonBase = ({
   title,
   shouldShowLoading,
   shouldShowCheckmark,
   isDisabled,
   click,
-}: CardButtonProps) => {
+}: CardButtonBaseProps) => {
   return (
     <Container>
       <Button onClick={click} disabled={isDisabled}>
@@ -42,10 +42,10 @@ const CardButton = ({
   )
 }
 
-export const useWithCardButton = (
+export const useWithCardButtonBase = (
   action: () => Promise<void>,
   onComplete: () => void
-): CardButtonProps => {
+): CardButtonBaseProps => {
   const [isLoading, setIsLoading] = useState(false)
   const [showCheckmark, setShowCheckmark] = useState(false)
 
@@ -75,4 +75,4 @@ export const useWithCardButton = (
   }
 }
 
-export default CardButton
+export default CardButtonBase

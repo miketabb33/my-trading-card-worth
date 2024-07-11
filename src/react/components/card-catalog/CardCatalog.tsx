@@ -10,7 +10,7 @@ import CardCatalogSetDetails from './CardCatalogSetDetails'
 import { useRouter } from '../../router/useRouter'
 import { useExpansion } from '../../providers/ExpansionProvider'
 import { PATH_VALUES } from '../../router/pathValues'
-import BlueprintList from '../BlueprintList'
+import CardList from '../card-list/CardList'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -39,10 +39,7 @@ const CardCatalog = () => {
       <Autocomplete {...autocompleteBind} />
       {details && <CardCatalogSetDetails details={details} />}
       {blueprints.length > 0 && <CardsHeader>Cards:</CardsHeader>}
-      <BlueprintList
-        blueprints={blueprints}
-        refreshBlueprints={refreshBlueprints}
-      />
+      <CardList blueprints={blueprints} refreshBlueprints={refreshBlueprints} />
     </Container>
   )
 }

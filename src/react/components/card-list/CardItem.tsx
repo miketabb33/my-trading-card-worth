@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
 import { useGlobalPopup } from '../../providers/GlobalPopupProvider'
-import CardCatalogPopup from './CardCatalogPopup'
+import EnlargedCardPopup from './EnlargedCardPopup'
 import { useProfile } from '../../providers/ProfileProvider'
 import AddCardButton from './card-button/AddCardButton'
 import { MyCardCondition } from '../../../core/types/MyCardCondition'
@@ -53,24 +53,21 @@ const Actions = styled.div`
   display: flex;
 `
 
-type CardCatalogItemProps = {
+type CardItemProps = {
   blueprint: CardBlueprintDto
   refreshBlueprints: () => void
 }
 
-const CardCatalogItem = ({
-  blueprint,
-  refreshBlueprints,
-}: CardCatalogItemProps) => {
+const CardItem = ({ blueprint, refreshBlueprints }: CardItemProps) => {
   const { isLoggedIn, mixMaxValue, formattedAvg, formattedMedian, show } =
-    useInCardCatalogItem(blueprint)
+    useInCardItem(blueprint)
 
   return (
     <Container>
       <Image
         src={blueprint.imageUrlPreview}
         onClick={(e) =>
-          show(e, <CardCatalogPopup imageUrl={blueprint.imageUrlShow} />)
+          show(e, <EnlargedCardPopup imageUrl={blueprint.imageUrlShow} />)
         }
       />
       <ContentWell>
@@ -106,7 +103,7 @@ const CardCatalogItem = ({
   )
 }
 
-export const useInCardCatalogItem = (blueprint: CardBlueprintDto) => {
+export const useInCardItem = (blueprint: CardBlueprintDto) => {
   const { show } = useGlobalPopup()
   const { isLoggedIn } = useProfile()
 
@@ -131,4 +128,4 @@ export const useInCardCatalogItem = (blueprint: CardBlueprintDto) => {
   }
 }
 
-export default CardCatalogItem
+export default CardItem

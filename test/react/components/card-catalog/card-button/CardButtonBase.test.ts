@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
-import { useWithCardButton } from '../../../../../src/react/components/card-catalog/card-button/CardButton'
+import { useWithCardButtonBase } from '../../../../../src/react/components/card-list/card-button/CardButton'
 
 const ACTION = jest.fn()
 const REFRESH = jest.fn()
@@ -9,9 +9,9 @@ ACTION.mockResolvedValue({})
 
 beforeEach(jest.clearAllMocks)
 
-describe('Use With Card Button', () => {
+describe('Use With Card Base Button', () => {
   it('should set loading to false and set showCheckmark to true after action completes', async () => {
-    const { result } = renderHook(() => useWithCardButton(ACTION, REFRESH))
+    const { result } = renderHook(() => useWithCardButtonBase(ACTION, REFRESH))
 
     await act(async () => await result.current.click())
 
