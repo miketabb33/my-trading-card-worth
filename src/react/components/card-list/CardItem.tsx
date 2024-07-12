@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
 import { useGlobalPopup } from '../../providers/GlobalPopupProvider'
 import EnlargedCardPopup from './EnlargedCardPopup'
 import { useProfile } from '../../providers/ProfileProvider'
@@ -8,6 +7,7 @@ import AddCardButton from './card-button/AddCardButton'
 import { MyCardCondition } from '../../../core/types/MyCardCondition'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
 import RemoveCardButton from './card-button/RemoveCardButton'
+import { CardDto } from '../../../core/types/CardDto'
 
 const Container = styled.div`
   display: flex;
@@ -54,25 +54,25 @@ const Actions = styled.div`
 `
 
 type CardItemProps = {
-  blueprint: CardBlueprintDto
-  refreshBlueprints: () => void
+  cardDto: CardDto
+  refreshCards: () => void
 }
 
-const CardItem = ({ blueprint, refreshBlueprints }: CardItemProps) => {
+const CardItem = ({ cardDto, refreshCards }: CardItemProps) => {
   const { isLoggedIn, mixMaxValue, formattedAvg, formattedMedian, show } =
-    useInCardItem(blueprint)
+    useInCardItem(cardDto)
 
   return (
     <Container>
       <Image
-        src={blueprint.imageUrlPreview}
+        src={cardDto.imageUrlPreview}
         onClick={(e) =>
-          show(e, <EnlargedCardPopup imageUrl={blueprint.imageUrlShow} />)
+          show(e, <EnlargedCardPopup imageUrl={cardDto.imageUrlShow} />)
         }
       />
       <ContentWell>
         <Line />
-        <h2>{blueprint.name}</h2>
+        <h2>{cardDto.name}</h2>
         <Line />
         <PriceContent>
           <h3>Price:</h3>
@@ -83,17 +83,17 @@ const CardItem = ({ blueprint, refreshBlueprints }: CardItemProps) => {
         {isLoggedIn && (
           <LoggedInContent>
             <h3>Your Collection:</h3>
-            <Detail>Owned: {blueprint.owned}</Detail>
+            <Detail>Owned: {cardDto.owned}</Detail>
             <Actions>
               <AddCardButton
-                blueprint={blueprint}
+                cardDto={cardDto}
                 condition={MyCardCondition.Unknown}
-                refreshBlueprints={refreshBlueprints}
+                refreshCards={refreshCards}
               />
               <RemoveCardButton
-                blueprintId={blueprint.cardTraderBlueprintId}
-                cardsOwned={blueprint.owned}
-                refreshBlueprints={refreshBlueprints}
+                blueprintId={cardDto.blueprintId}
+                cardsOwned={cardDto.owned}
+                refreshCards={refreshCards}
               />
             </Actions>
           </LoggedInContent>
@@ -103,7 +103,7 @@ const CardItem = ({ blueprint, refreshBlueprints }: CardItemProps) => {
   )
 }
 
-export const useInCardItem = (blueprint: CardBlueprintDto) => {
+export const useInCardItem = (cardDto: CardDto) => {
   const { show } = useGlobalPopup()
   const { isLoggedIn } = useProfile()
 
@@ -112,10 +112,10 @@ export const useInCardItem = (blueprint: CardBlueprintDto) => {
     return formatCentsToDollars(cents)
   }
 
-  const formattedMin = formatValue(blueprint.minMarketValueCents)
-  const formattedMax = formatValue(blueprint.maxMarketValueCents)
-  const formattedAvg = formatValue(blueprint.averageMarketValueCents)
-  const formattedMedian = formatValue(blueprint.medianMarketValueCents)
+  const formattedMin = formatValue(cardDto.minMarketValueCents)
+  const formattedMax = formatValue(cardDto.maxMarketValueCents)
+  const formattedAvg = formatValue(cardDto.averageMarketValueCents)
+  const formattedMedian = formatValue(cardDto.medianMarketValueCents)
 
   const mixMaxValue = `${formattedMin} - ${formattedMax}`
 

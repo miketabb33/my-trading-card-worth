@@ -4,7 +4,7 @@ import { useMyCards } from '../../network/myCardClient'
 
 const Collection = () => {
   const { myCards, refresh } = useInCollection()
-  return <CardList blueprints={myCards} refreshBlueprints={refresh} />
+  return <CardList cardsDto={myCards} refreshCards={refresh} />
 }
 
 export const useInCollection = () => {

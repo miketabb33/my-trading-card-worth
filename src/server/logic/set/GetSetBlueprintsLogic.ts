@@ -1,8 +1,5 @@
-import {
-  CardBlueprintDto,
-  SetDetailsDto,
-  SetDto,
-} from '../../../core/types/CardBlueprintDto'
+import { SetDetailsDto, SetDto } from '../../../core/types/CardBlueprintDto'
+import { CardDto } from '../../../core/types/CardDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IMyCardCRUD } from '../../database/repository/MyCardCRUD'
 import { expansionStoreMap } from '../../stores/expansionStoreMap'
@@ -21,39 +18,39 @@ class GetSetBlueprintsLogic {
     expansionId: number,
     blueprintValues: Map<string, BlueprintValue>
   ): Promise<SetDto> => {
-    const set =
+    const cardBlueprints =
       await this.cardTraderAdaptor.getPokemonSetBlueprints(expansionId)
 
     let myCardMap: Map<number, number> | null
 
     if (userId) myCardMap = await this.buildMyCardMap(userId, expansionId)
 
-    const blueprints: CardBlueprintDto[] = set.map((blueprint) =>
-      this.buildBlueprints(blueprint, myCardMap, blueprintValues)
+    const cardDto: CardDto[] = cardBlueprints.map((blueprint) =>
+      this.buildCardDto(blueprint, myCardMap, blueprintValues)
     )
 
     const dto: SetDto = {
       details: this.buildDetails(expansionId),
-      blueprints,
+      blueprints: cardDto,
     }
 
     return dto
   }
 
-  private buildBlueprints = (
-    item: CardBlueprint,
+  private buildCardDto = (
+    cardBlueprint: CardBlueprint,
     myCardMap: Map<number, number> | null,
     blueprintValues: Map<string, BlueprintValue>
   ) => {
-    const owned = myCardMap ? myCardMap.get(item.blueprintId) || 0 : 0
-    const blueprintValue = blueprintValues.get(`${item.blueprintId}`)
+    const owned = myCardMap ? myCardMap.get(cardBlueprint.blueprintId) || 0 : 0
+    const blueprintValue = blueprintValues.get(`${cardBlueprint.blueprintId}`)
 
-    const cardBlueprintDto: CardBlueprintDto = {
-      cardTraderBlueprintId: item.blueprintId,
-      cardTraderExpansionId: item.expansionId,
-      name: item.name,
-      imageUrlPreview: item.imageUrlPreview,
-      imageUrlShow: item.imageUrlShow,
+    const cardDto: CardDto = {
+      blueprintId: cardBlueprint.blueprintId,
+      expansionId: cardBlueprint.expansionId,
+      name: cardBlueprint.name,
+      imageUrlPreview: cardBlueprint.imageUrlPreview,
+      imageUrlShow: cardBlueprint.imageUrlShow,
       owned,
       minMarketValueCents: blueprintValue?.minCents ?? -1,
       maxMarketValueCents: blueprintValue?.maxCents ?? -1,
@@ -61,7 +58,7 @@ class GetSetBlueprintsLogic {
       medianMarketValueCents: blueprintValue?.medianCents ?? -1,
     }
 
-    return cardBlueprintDto
+    return cardDto
   }
 
   private buildDetails = (expansionId: number): SetDetailsDto | null => {

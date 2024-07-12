@@ -1,4 +1,4 @@
-import { MyCardDto } from '../../../core/types/MyCardDto'
+import { AddMyCardDto } from '../../../core/types/AddMyCardDto'
 import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
 
 import { createMongoId } from '../../database/createMongoId'
@@ -10,7 +10,7 @@ class AddCardLogic {
     this.myCardCRUD = myCardCRUD
   }
 
-  add = async (userId: string, myCardDto: MyCardDto) => {
+  add = async (userId: string, myCardDto: AddMyCardDto) => {
     const args: MyCardEntity = {
       _id: createMongoId(),
       userId,
@@ -19,8 +19,8 @@ class AddCardLogic {
       imageUrlPreview: myCardDto.imageUrlPreview,
       imageUrlShow: myCardDto.imageUrlShow,
       cardTrader: {
-        blueprintId: myCardDto.cardTraderBlueprintId,
-        expansionId: myCardDto.cardTraderExpansionId,
+        blueprintId: myCardDto.blueprintId,
+        expansionId: myCardDto.expansionId,
       },
       createdAt: new Date(),
       updatedAt: new Date(),

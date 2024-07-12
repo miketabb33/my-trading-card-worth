@@ -1,44 +1,44 @@
 import React from 'react'
-import { CardBlueprintDto } from '../../../../core/types/CardBlueprintDto'
 import { addMyCard } from '../../../network/myCardClient'
-import { MyCardDto } from '../../../../core/types/MyCardDto'
+import { AddMyCardDto } from '../../../../core/types/AddMyCardDto'
 import { MyCardConditionType } from '../../../../core/types/MyCardCondition'
 import CardButtonBase, { useWithCardButtonBase } from './CardButton'
+import { CardDto } from '../../../../core/types/CardDto'
 
 type AddCardButtonProps = {
-  blueprint: CardBlueprintDto
+  cardDto: CardDto
   condition: MyCardConditionType
-  refreshBlueprints: () => void
+  refreshCards: () => void
 }
 
 const AddCardButton = ({
-  blueprint,
+  cardDto,
   condition,
-  refreshBlueprints,
+  refreshCards: refreshCards,
 }: AddCardButtonProps) => {
-  const cardButton = useInAddCardButton(blueprint, condition, refreshBlueprints)
+  const cardButton = useInAddCardButton(cardDto, condition, refreshCards)
   return <CardButtonBase {...cardButton} />
 }
 
 export const useInAddCardButton = (
-  blueprint: CardBlueprintDto,
+  cardDto: CardDto,
   condition: MyCardConditionType,
-  refreshBlueprints: () => void
+  refreshCards: () => void
 ) => {
   const addCard = () => {
-    const dto: MyCardDto = {
-      cardTraderBlueprintId: blueprint.cardTraderBlueprintId,
-      cardTraderExpansionId: blueprint.cardTraderExpansionId,
-      name: blueprint.name,
+    const dto: AddMyCardDto = {
+      blueprintId: cardDto.blueprintId,
+      expansionId: cardDto.expansionId,
+      name: cardDto.name,
       condition: condition.id,
-      imageUrlPreview: blueprint.imageUrlPreview,
-      imageUrlShow: blueprint.imageUrlShow,
+      imageUrlPreview: cardDto.imageUrlPreview,
+      imageUrlShow: cardDto.imageUrlShow,
     }
 
     return addMyCard(dto)
   }
 
-  const cardButtonBase = useWithCardButtonBase(addCard, refreshBlueprints)
+  const cardButtonBase = useWithCardButtonBase(addCard, refreshCards)
   return { ...cardButtonBase, title: 'Add' }
 }
 

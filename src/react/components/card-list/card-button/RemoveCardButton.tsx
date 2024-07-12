@@ -6,18 +6,18 @@ import CardButtonBase, { useWithCardButtonBase } from './CardButton'
 type RemoveCardButtonProps = {
   blueprintId: number
   cardsOwned: number
-  refreshBlueprints: () => void
+  refreshCards: () => void
 }
 
 const RemoveCardButton = ({
   blueprintId,
   cardsOwned,
-  refreshBlueprints,
+  refreshCards,
 }: RemoveCardButtonProps) => {
   const cardButton = useInRemoveCardButton(
     blueprintId,
     cardsOwned,
-    refreshBlueprints
+    refreshCards
   )
 
   return <CardButtonBase {...cardButton} />
@@ -26,13 +26,13 @@ const RemoveCardButton = ({
 export const useInRemoveCardButton = (
   blueprintId: number,
   cardsOwned: number,
-  refreshBlueprints: () => void
+  refreshCards: () => void
 ) => {
   const removeCard = () => {
     return removeMyCard(blueprintId)
   }
 
-  const cardButtonBase = useWithCardButtonBase(removeCard, refreshBlueprints)
+  const cardButtonBase = useWithCardButtonBase(removeCard, refreshCards)
 
   const isDisabled = cardsOwned <= 0 ? true : cardButtonBase.isDisabled
   return { ...cardButtonBase, title: 'Remove', isDisabled }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
+import { CardDto } from '../../../core/types/CardDto'
 import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
 import { BlueprintValue } from '../../types/BlueprintValue'
 
@@ -13,34 +13,28 @@ class GetCardLogic {
   get = async (
     userId: string,
     blueprintValues: Map<string, BlueprintValue>
-  ): Promise<CardBlueprintDto[]> => {
+  ): Promise<CardDto[]> => {
     const myCardEntities = await this.myCardCRUD.getAll(userId)
 
-    const cardBlueprintDtoMap = new Map<number, CardBlueprintDto>()
+    const cardsDtoMap = new Map<number, CardDto>()
 
     myCardEntities.forEach((myCardEntity) => {
-      const existingCardBlueprint = cardBlueprintDtoMap.get(
+      const existingCardInMap = cardsDtoMap.get(
         myCardEntity.cardTrader.blueprintId
       )
 
-      if (existingCardBlueprint) {
-        existingCardBlueprint.owned += 1
+      if (existingCardInMap) {
+        existingCardInMap.owned += 1
       } else {
-        const cardBlueprintDto = this.makeBlueprintItem(
-          myCardEntity,
-          blueprintValues
-        )
-        cardBlueprintDtoMap.set(
-          cardBlueprintDto.cardTraderBlueprintId,
-          cardBlueprintDto
-        )
+        const cardDto = this.makeCardDto(myCardEntity, blueprintValues)
+        cardsDtoMap.set(cardDto.blueprintId, cardDto)
       }
     })
 
-    return Array.from(cardBlueprintDtoMap, ([_, value]) => value)
+    return Array.from(cardsDtoMap, ([_, value]) => value)
   }
 
-  private makeBlueprintItem = (
+  private makeCardDto = (
     myCardEntity: MyCardEntity,
     blueprintValues: Map<string, BlueprintValue>
   ) => {
@@ -48,9 +42,9 @@ class GetCardLogic {
       `${myCardEntity.cardTrader.blueprintId}`
     )
 
-    const blueprint: CardBlueprintDto = {
-      cardTraderBlueprintId: myCardEntity.cardTrader.blueprintId,
-      cardTraderExpansionId: myCardEntity.cardTrader.expansionId,
+    const cardDto: CardDto = {
+      blueprintId: myCardEntity.cardTrader.blueprintId,
+      expansionId: myCardEntity.cardTrader.expansionId,
       name: myCardEntity.name,
       imageUrlPreview: myCardEntity.imageUrlPreview,
       imageUrlShow: myCardEntity.imageUrlShow,
@@ -60,7 +54,7 @@ class GetCardLogic {
       averageMarketValueCents: blueprintValue?.averageCents || -1,
       medianMarketValueCents: blueprintValue?.medianCents || -1,
     }
-    return blueprint
+    return cardDto
   }
 }
 

@@ -47,8 +47,8 @@ describe('Add Card Logic', () => {
 
     expect(myCardCRUD_FAKE.GET_ALL).toHaveBeenCalled()
     expect(result.length).toEqual(1)
-    expect(result[0].cardTraderBlueprintId).toEqual(blueprintId)
-    expect(result[0].cardTraderExpansionId).toEqual(expansionId)
+    expect(result[0].blueprintId).toEqual(blueprintId)
+    expect(result[0].expansionId).toEqual(expansionId)
     expect(result[0].name).toEqual(name)
     expect(result[0].imageUrlPreview).toEqual(previewUrl)
     expect(result[0].imageUrlShow).toEqual(showUrl)

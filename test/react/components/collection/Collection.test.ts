@@ -5,12 +5,12 @@ import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.moc
 import * as MyCardClient from '../../../../src/react/network/myCardClient'
 import { useInCollection } from '../../../../src/react/components/collection/Collection'
 import { UseApiReturn } from '../../../../src/react/network/useApi'
-import { CardBlueprintDto } from '../../../../src/core/types/CardBlueprintDto'
+import { CardDto } from '../../../../src/core/types/CardDto'
 
 const REFRESH = jest.fn()
 const USE_MY_CARDS = jest.spyOn(MyCardClient, 'useMyCards')
 
-const USE_MY_CARDS_RETURN: UseApiReturn<CardBlueprintDto[]> = {
+const USE_MY_CARDS_RETURN: UseApiReturn<CardDto[]> = {
   data: null,
   isLoading: false,
   refresh: REFRESH,

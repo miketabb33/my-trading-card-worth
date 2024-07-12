@@ -13,6 +13,25 @@ import Store from '../StoreRegistry'
 
 const MyCardController = Router()
 
+MyCardController.get('/', requiresAuth(), async (req, res) => {
+  try {
+    const auth0User = parseAuth0User(req.oidc.user)
+
+    const getCardLogic = new GetCardLogic(new MyCardCRUD())
+
+    const cardBlueprintDto = await getCardLogic.get(
+      auth0User.sub,
+      Store.blueprintValues.get()
+    )
+
+    res.send(formatResponse({ data: cardBlueprintDto }))
+  } catch (e) {
+    const error = formatError(e)
+    Logger.error(error)
+    res.send(formatResponse({ errors: [error.message] }))
+  }
+})
+
 MyCardController.post('/', requiresAuth(), async (req, res) => {
   try {
     const auth0User = parseAuth0User(req.oidc.user)
@@ -40,25 +59,6 @@ MyCardController.delete('/', requiresAuth(), async (req, res) => {
     await crud.remove(auth0User.sub, blueprintId)
 
     res.send(formatResponse({}))
-  } catch (e) {
-    const error = formatError(e)
-    Logger.error(error)
-    res.send(formatResponse({ errors: [error.message] }))
-  }
-})
-
-MyCardController.get('/', requiresAuth(), async (req, res) => {
-  try {
-    const auth0User = parseAuth0User(req.oidc.user)
-
-    const getCardLogic = new GetCardLogic(new MyCardCRUD())
-
-    const cardBlueprintDto = await getCardLogic.get(
-      auth0User.sub,
-      Store.blueprintValues.get()
-    )
-
-    res.send(formatResponse({ data: cardBlueprintDto }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)

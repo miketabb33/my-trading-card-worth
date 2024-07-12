@@ -25,8 +25,8 @@ describe('Use In Add Card Button', () => {
     expect(REFRESH).toHaveBeenCalled()
 
     expect(ADD_MY_CARD).toHaveBeenCalledWith({
-      cardTraderBlueprintId: CARD_BLUEPRINT_DTO.cardTraderBlueprintId,
-      cardTraderExpansionId: CARD_BLUEPRINT_DTO.cardTraderExpansionId,
+      blueprintId: CARD_BLUEPRINT_DTO.blueprintId,
+      expansionId: CARD_BLUEPRINT_DTO.expansionId,
       name: CARD_BLUEPRINT_DTO.name,
       condition: CONDITION.id,
       imageUrlPreview: CARD_BLUEPRINT_DTO.imageUrlPreview,

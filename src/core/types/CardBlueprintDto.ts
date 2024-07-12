@@ -1,6 +1,8 @@
+import { CardDto } from './CardDto'
+
 export type SetDto = {
   details: SetDetailsDto | null
-  blueprints: CardBlueprintDto[]
+  blueprints: CardDto[]
 }
 
 export type SetDetailsDto = {
@@ -13,17 +15,4 @@ export type SetDetailsDto = {
   logoUrl: string | null
   symbolUrl: string | null
   bulbapediaUrl: string
-}
-
-export type CardBlueprintDto = {
-  cardTraderBlueprintId: number
-  cardTraderExpansionId: number
-  name: string
-  imageUrlPreview: string
-  imageUrlShow: string
-  owned: number
-  minMarketValueCents: number
-  maxMarketValueCents: number
-  averageMarketValueCents: number
-  medianMarketValueCents: number
 }

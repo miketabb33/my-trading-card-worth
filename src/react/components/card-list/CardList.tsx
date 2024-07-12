@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 import { tabLandAndUp } from '../../styles/Responsive'
 import React from 'react'
 import CardItem from './CardItem'
-import { CardBlueprintDto } from '../../../core/types/CardBlueprintDto'
+import { CardDto } from '../../../core/types/CardDto'
 
 const Container = styled.div`
   display: grid;
@@ -13,18 +13,18 @@ const Container = styled.div`
 `
 
 type BlueprintListProps = {
-  blueprints: CardBlueprintDto[]
-  refreshBlueprints: () => void
+  cardsDto: CardDto[]
+  refreshCards: () => void
 }
 
-const CardList = ({ blueprints, refreshBlueprints }: BlueprintListProps) => {
+const CardList = ({ cardsDto, refreshCards }: BlueprintListProps) => {
   return (
     <Container>
-      {blueprints.map((blueprint) => (
+      {cardsDto.map((cardDto) => (
         <CardItem
-          key={blueprint.cardTraderBlueprintId}
-          blueprint={blueprint}
-          refreshBlueprints={refreshBlueprints}
+          key={cardDto.blueprintId}
+          cardDto={cardDto}
+          refreshCards={refreshCards}
         />
       ))}
     </Container>

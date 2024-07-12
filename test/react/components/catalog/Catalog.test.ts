@@ -59,7 +59,7 @@ beforeEach(jest.clearAllMocks)
 describe('Use In Catalog', () => {
   it('should init as empty array', () => {
     const { result } = renderHook(useInCatalog)
-    expect(result.current.blueprints).toEqual([])
+    expect(result.current.cardsDto).toEqual([])
   })
 
   it('should fetch set and set state when slug exists', async () => {
@@ -73,11 +73,14 @@ describe('Use In Catalog', () => {
 
     const { result } = renderHook(useInCatalog)
 
-    await act(async () => await result.current.fetchBlueprintEffect.effect())
+    await act(
+      async () =>
+        await result.current.fetchExpansionDetailsAndCardsEffect.effect()
+    )
 
     expect(FETCH_SET).toHaveBeenCalledWith(CARD_SET_DTO_1.cardTraderExpansionId)
-    expect(result.current.blueprints).toEqual([CARD_BLUEPRINT_DTO])
-    expect(result.current.fetchBlueprintEffect.deps).toEqual([
+    expect(result.current.cardsDto).toEqual([CARD_BLUEPRINT_DTO])
+    expect(result.current.fetchExpansionDetailsAndCardsEffect.deps).toEqual([
       CARD_SET_DTO_1.slug,
       EXPANSIONS,
     ])
@@ -88,7 +91,10 @@ describe('Use In Catalog', () => {
 
     const { result } = renderHook(useInCatalog)
 
-    await act(async () => await result.current.fetchBlueprintEffect.effect())
+    await act(
+      async () =>
+        await result.current.fetchExpansionDetailsAndCardsEffect.effect()
+    )
 
     expect(FETCH_SET).not.toHaveBeenCalled()
   })

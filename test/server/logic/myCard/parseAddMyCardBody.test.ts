@@ -3,8 +3,8 @@ import { tryToParseAddMyCardBody } from '../../../../src/server/logic/myCard/par
 describe('Try To Parse Add My Card Body', () => {
   it('should parse', () => {
     const body = {
-      cardTraderBlueprintId: 123,
-      cardTraderExpansionId: 456,
+      blueprintId: 123,
+      expansionId: 456,
       name: 'Any',
       condition: 1,
       imageUrlPreview: 'preview',
@@ -13,8 +13,8 @@ describe('Try To Parse Add My Card Body', () => {
 
     const result = tryToParseAddMyCardBody(body)
 
-    expect(result.cardTraderBlueprintId).toEqual(body.cardTraderBlueprintId)
-    expect(result.cardTraderExpansionId).toEqual(body.cardTraderExpansionId)
+    expect(result.blueprintId).toEqual(body.blueprintId)
+    expect(result.expansionId).toEqual(body.expansionId)
     expect(result.name).toEqual(body.name)
     expect(result.condition).toEqual(body.condition)
     expect(result.imageUrlPreview).toEqual(body.imageUrlPreview)

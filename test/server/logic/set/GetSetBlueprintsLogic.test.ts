@@ -61,8 +61,8 @@ describe('Get Set Blueprints Logic', () => {
     )
 
     expect(result.blueprints[0]).toEqual({
-      cardTraderBlueprintId: 1,
-      cardTraderExpansionId: 2,
+      blueprintId: 1,
+      expansionId: 2,
       name: 'name',
       imageUrlPreview: 'preview',
       imageUrlShow: 'show',

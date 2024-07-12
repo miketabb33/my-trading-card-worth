@@ -1,10 +1,10 @@
-import { CardBlueprintDto } from '../../core/types/CardBlueprintDto'
-import { MyCardDto } from '../../core/types/MyCardDto'
+import { CardDto } from '../../core/types/CardDto'
+import { AddMyCardDto } from '../../core/types/AddMyCardDto'
 import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
 
-export const addMyCard = async (dto: MyCardDto) => {
-  await fetchApi({ path: '/my-card', method: 'POST', body: dto })
+export const addMyCard = async (addMyCardDto: AddMyCardDto) => {
+  await fetchApi({ path: '/my-card', method: 'POST', body: addMyCardDto })
 }
 
 export const removeMyCard = async (blueprintId: number) => {
@@ -12,5 +12,5 @@ export const removeMyCard = async (blueprintId: number) => {
 }
 
 export const useMyCards = () => {
-  return useApi<CardBlueprintDto[]>('/my-card')
+  return useApi<CardDto[]>('/my-card')
 }

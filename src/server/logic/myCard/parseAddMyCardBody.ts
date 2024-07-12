@@ -1,12 +1,12 @@
 import TypeParser from '../../../core/TypeParser'
-import { MyCardDto } from '../../../core/types/MyCardDto'
+import { AddMyCardDto } from '../../../core/types/AddMyCardDto'
 
-export const tryToParseAddMyCardBody = (body: unknown): MyCardDto => {
+export const tryToParseAddMyCardBody = (body: unknown): AddMyCardDto => {
   const typeParser = new TypeParser(body, 'Add my card body')
 
   return {
-    cardTraderBlueprintId: typeParser.num('cardTraderBlueprintId'),
-    cardTraderExpansionId: typeParser.num('cardTraderExpansionId'),
+    blueprintId: typeParser.num('blueprintId'),
+    expansionId: typeParser.num('expansionId'),
     name: typeParser.str('name'),
     condition: typeParser.num('condition'),
     imageUrlPreview: typeParser.str('imageUrlPreview'),

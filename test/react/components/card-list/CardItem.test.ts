@@ -6,7 +6,7 @@ import * as GlobalPopupProviderModule from '../../../../src/react/providers/Glob
 import { GLOBAL_CONTEXT_POPUP_CONTEXT } from '../../__MOCKS__/globalPopupContextType.mock'
 import { CLICK_EVENT } from '../../__MOCKS__/clickEvent.mock'
 import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.mock'
-import { CardBlueprintDto } from '../../../../src/core/types/CardBlueprintDto'
+import { CardDto } from '../../../../src/core/types/CardDto'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
 const USE_GLOBAL_POPUP = jest.spyOn(GlobalPopupProviderModule, 'useGlobalPopup')
@@ -26,7 +26,7 @@ USE_GLOBAL_POPUP.mockReturnValue({
 
 describe('Use In Card Item', () => {
   it('should return values', () => {
-    const dto: CardBlueprintDto = {
+    const dto: CardDto = {
       ...CARD_BLUEPRINT_DTO,
       minMarketValueCents: 1000,
       maxMarketValueCents: 1344,
