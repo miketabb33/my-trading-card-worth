@@ -12,6 +12,7 @@ import { useExpansion } from '../../providers/ExpansionProvider'
 import { PATH_VALUES } from '../../router/pathValues'
 import CardList from '../card-list/CardList'
 import { CardDto } from '../../../core/types/CardDto'
+import { setCatalogReturnUrl } from '../../router/catologReturnUrl'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -62,6 +63,7 @@ export const useInCatalog = () => {
     if (!selectedExpansion) return
     fetchCatalog(selectedExpansion.expansionId)
       .then((res) => {
+        setCatalogReturnUrl(selectedExpansion.slug)
         setSelectedExpansion(res.data)
         setFilteredCardsDto(res.data?.cards.sort(sortByHighestMedian) ?? [])
       })

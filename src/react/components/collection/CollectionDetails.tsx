@@ -36,8 +36,8 @@ const CollectionDetails = ({ details }: CollectionDetailsProps) => {
       content={
         <Row>
           <Item>Min-Max: {minMaxValue}</Item>
-          <Item>Average: {averageValue}</Item>
           <Item>Median: {medianValue}</Item>
+          <Item>Average: {averageValue}</Item>
         </Row>
       }
     />

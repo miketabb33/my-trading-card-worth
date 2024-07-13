@@ -1,7 +1,14 @@
+import { getCatalogReturnUrl } from './catologReturnUrl'
+
 const catalog = (slug?: string) => {
   const base = '/catalog'
-  if (!slug) return base
-  return `${base}/${slug}`
+  if (slug) {
+    return `${base}/${slug}`
+  } else {
+    const returnSlug = getCatalogReturnUrl()
+    if (returnSlug) return `${base}/${returnSlug}`
+    return base
+  }
 }
 
 export const PATH_VALUES = {
