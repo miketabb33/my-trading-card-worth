@@ -16,6 +16,42 @@ describe('Add Card Logic', () => {
 
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([
     ['1234', { minCents, maxCents, medianCents, averageCents }],
+    [
+      '1001',
+      {
+        minCents: 1,
+        maxCents: 2,
+        averageCents: 3,
+        medianCents: 4,
+      },
+    ],
+    [
+      '1002',
+      {
+        minCents: 10,
+        maxCents: 20,
+        averageCents: 30,
+        medianCents: 40,
+      },
+    ],
+    [
+      '1003',
+      {
+        minCents: 100,
+        maxCents: 200,
+        averageCents: 300,
+        medianCents: 400,
+      },
+    ],
+    [
+      '1004',
+      {
+        minCents: 1000,
+        maxCents: 2000,
+        averageCents: 3000,
+        medianCents: 4000,
+      },
+    ],
   ])
 
   beforeEach(() => {
@@ -122,5 +158,62 @@ describe('Add Card Logic', () => {
     expect(cards[0].owned).toEqual(4)
     expect(cards[1].owned).toEqual(2)
     expect(cards[2].owned).toEqual(1)
+  })
+  it('should total up blueprint values for my cards', async () => {
+    myCardCRUD_FAKE.GET_ALL.mockResolvedValue([
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1001, expansionId: 11 },
+        items: [{ condition: 0 }],
+      }),
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1002, expansionId: 21 },
+        items: [{ condition: 0 }],
+      }),
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1003, expansionId: 31 },
+        items: [{ condition: 0 }],
+      }),
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1004, expansionId: 31 },
+        items: [{ condition: 0 }],
+      }),
+    ])
+    const { details } = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
+    expect(details.minMarketValueCents).toEqual(1111)
+    expect(details.maxMarketValueCents).toEqual(2222)
+    expect(details.averageMarketValueCents).toEqual(3333)
+    expect(details.medianMarketValueCents).toEqual(4444)
+  })
+
+  it('should total up blueprint values for a single my cards with multiple items', async () => {
+    myCardCRUD_FAKE.GET_ALL.mockResolvedValue([
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1001, expansionId: 11 },
+        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }],
+      }),
+    ])
+    const { details } = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
+    expect(details.minMarketValueCents).toEqual(3)
+    expect(details.maxMarketValueCents).toEqual(6)
+    expect(details.averageMarketValueCents).toEqual(9)
+    expect(details.medianMarketValueCents).toEqual(12)
+  })
+
+  it('should total up blueprint values for many my cards with multiple items', async () => {
+    myCardCRUD_FAKE.GET_ALL.mockResolvedValue([
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1001, expansionId: 11 },
+        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }],
+      }),
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1002, expansionId: 11 },
+        items: [{ condition: 0 }, { condition: 0 }],
+      }),
+    ])
+    const { details } = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
+    expect(details.minMarketValueCents).toEqual(23)
+    expect(details.maxMarketValueCents).toEqual(46)
+    expect(details.averageMarketValueCents).toEqual(69)
+    expect(details.medianMarketValueCents).toEqual(92)
   })
 })

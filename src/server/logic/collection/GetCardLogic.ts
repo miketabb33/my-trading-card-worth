@@ -4,6 +4,7 @@ import { CardDto } from '../../../core/types/CardDto'
 import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CollectionDto } from '../../../core/types/CollectionDto'
+import { MyCollectionDetailsDto } from '../../../core/types/MyCollectionDetailsDto'
 
 class GetCardLogic {
   private readonly myCardCRUD: IMyCardCRUD
@@ -18,29 +19,35 @@ class GetCardLogic {
   ): Promise<CollectionDto> => {
     const myCardEntities = await this.myCardCRUD.getAll(userId)
 
-    const myCards = myCardEntities.map((myCardEntity) =>
-      this.buildCardDto(myCardEntity, blueprintValues)
-    )
+    const totalValue = this.getEmptyBlueprintValue()
+
+    const myCards = myCardEntities.map((myCardEntity) => {
+      let blueprintValue = blueprintValues.get(
+        `${myCardEntity.cardTrader.blueprintId}`
+      )
+
+      if (blueprintValue)
+        this.addBlueprintValueToTotalValues(
+          totalValue,
+          blueprintValue,
+          myCardEntity.items.length
+        )
+
+      if (!blueprintValue) blueprintValue = this.getMissingBlueprintValue()
+
+      return this.buildCardDto(myCardEntity, blueprintValue)
+    })
 
     return {
       cards: myCards,
-      details: {
-        minMarketValueCents: 100,
-        maxMarketValueCents: 200,
-        medianMarketValueCents: 120,
-        averageMarketValueCents: 150,
-      },
+      details: this.buildMyCollectionDetailsDto(totalValue),
     }
   }
 
   private buildCardDto = (
     myCardEntity: MyCardEntity,
-    blueprintValues: Map<string, BlueprintValue>
+    blueprintValue: BlueprintValue
   ) => {
-    const blueprintValue = blueprintValues.get(
-      `${myCardEntity.cardTrader.blueprintId}`
-    )
-
     const cardDto: CardDto = {
       blueprintId: myCardEntity.cardTrader.blueprintId,
       expansionId: myCardEntity.cardTrader.expansionId,
@@ -48,12 +55,54 @@ class GetCardLogic {
       imageUrlPreview: myCardEntity.imageUrlPreview,
       imageUrlShow: myCardEntity.imageUrlShow,
       owned: myCardEntity.items.length,
-      minMarketValueCents: blueprintValue?.minCents || -1,
-      maxMarketValueCents: blueprintValue?.maxCents || -1,
-      averageMarketValueCents: blueprintValue?.averageCents || -1,
-      medianMarketValueCents: blueprintValue?.medianCents || -1,
+      minMarketValueCents: blueprintValue.minCents,
+      maxMarketValueCents: blueprintValue.maxCents,
+      averageMarketValueCents: blueprintValue.averageCents,
+      medianMarketValueCents: blueprintValue.medianCents,
     }
     return cardDto
+  }
+
+  private buildMyCollectionDetailsDto = (
+    totalValue: BlueprintValue
+  ): MyCollectionDetailsDto => {
+    return {
+      minMarketValueCents: totalValue.minCents,
+      maxMarketValueCents: totalValue.maxCents,
+      averageMarketValueCents: totalValue.averageCents,
+      medianMarketValueCents: totalValue.medianCents,
+    }
+  }
+
+  private addBlueprintValueToTotalValues = (
+    totalValues: BlueprintValue,
+    blueprintValue: BlueprintValue,
+    blueprintCount: number
+  ) => {
+    for (let i = 1; i <= blueprintCount; i++) {
+      totalValues.minCents += blueprintValue.minCents
+      totalValues.maxCents += blueprintValue.maxCents
+      totalValues.averageCents += blueprintValue.averageCents
+      totalValues.medianCents += blueprintValue.medianCents
+    }
+  }
+
+  private getEmptyBlueprintValue = (): BlueprintValue => {
+    return {
+      minCents: 0,
+      maxCents: 0,
+      medianCents: 0,
+      averageCents: 0,
+    }
+  }
+
+  private getMissingBlueprintValue = (): BlueprintValue => {
+    return {
+      minCents: -1,
+      maxCents: -1,
+      averageCents: -1,
+      medianCents: -1,
+    }
   }
 }
 
