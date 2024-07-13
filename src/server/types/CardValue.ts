@@ -1,7 +1,7 @@
-import { CardCondition } from '../../core/types/MyCardCondition'
+import { CardConditionOptions } from '../../core/types/CardCondition'
 
 export type CardValue = {
   blueprintId: number
   priceCents: number
-  condition: CardCondition
+  condition: CardConditionOptions
 }

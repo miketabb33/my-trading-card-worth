@@ -39,7 +39,7 @@ describe('Get Set Blueprints Logic', () => {
     expect(
       cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS
     ).toHaveBeenCalledWith(EXPANSION_ID)
-    expect(result.blueprints).toEqual([])
+    expect(result.cards).toEqual([])
   })
 
   it('should return blueprints when user is not logged in', async () => {
@@ -60,7 +60,7 @@ describe('Get Set Blueprints Logic', () => {
       BLUEPRINT_VALUES
     )
 
-    expect(result.blueprints[0]).toEqual({
+    expect(result.cards[0]).toEqual({
       blueprintId: 1,
       expansionId: 2,
       name: 'name',
@@ -93,10 +93,10 @@ describe('Get Set Blueprints Logic', () => {
       new Map<string, BlueprintValue>()
     )
 
-    expect(result.blueprints[0].minMarketValueCents).toEqual(-1)
-    expect(result.blueprints[0].maxMarketValueCents).toEqual(-1)
-    expect(result.blueprints[0].averageMarketValueCents).toEqual(-1)
-    expect(result.blueprints[0].medianMarketValueCents).toEqual(-1)
+    expect(result.cards[0].minMarketValueCents).toEqual(-1)
+    expect(result.cards[0].maxMarketValueCents).toEqual(-1)
+    expect(result.cards[0].averageMarketValueCents).toEqual(-1)
+    expect(result.cards[0].medianMarketValueCents).toEqual(-1)
   })
 
   it('should return blueprints with owned values when user is logged in', async () => {
@@ -153,11 +153,11 @@ describe('Get Set Blueprints Logic', () => {
       EXPANSION_ID
     )
 
-    expect(result.blueprints.length).toEqual(5)
-    expect(result.blueprints[0].owned).toEqual(0)
-    expect(result.blueprints[1].owned).toEqual(3)
-    expect(result.blueprints[2].owned).toEqual(2)
-    expect(result.blueprints[3].owned).toEqual(0)
-    expect(result.blueprints[4].owned).toEqual(1)
+    expect(result.cards.length).toEqual(5)
+    expect(result.cards[0].owned).toEqual(0)
+    expect(result.cards[1].owned).toEqual(3)
+    expect(result.cards[2].owned).toEqual(2)
+    expect(result.cards[3].owned).toEqual(0)
+    expect(result.cards[4].owned).toEqual(1)
   })
 })

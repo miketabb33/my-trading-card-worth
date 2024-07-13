@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
-import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.mock'
+import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
 
 import * as MyCardClient from '../../../../src/react/network/myCardClient'
 import { useInCollection } from '../../../../src/react/components/collection/Collection'
@@ -26,7 +26,7 @@ describe('Use In Collection', () => {
   })
 
   it('should return cards when available', () => {
-    const cards = [CARD_BLUEPRINT_DTO, CARD_BLUEPRINT_DTO]
+    const cards = [CARD_DTO, CARD_DTO]
     USE_MY_CARDS.mockReturnValue({ ...USE_MY_CARDS_RETURN, data: cards })
     const { result } = renderHook(useInCollection)
     expect(result.current.myCards).toEqual(cards)

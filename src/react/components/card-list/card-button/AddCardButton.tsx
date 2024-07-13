@@ -1,13 +1,13 @@
 import React from 'react'
 import { addMyCard } from '../../../network/myCardClient'
 import { AddMyCardDto } from '../../../../core/types/AddMyCardDto'
-import { MyCardConditionType } from '../../../../core/types/MyCardCondition'
+import { CardCondition } from '../../../../core/types/CardCondition'
 import CardButtonBase, { useWithCardButtonBase } from './CardButton'
 import { CardDto } from '../../../../core/types/CardDto'
 
 type AddCardButtonProps = {
   cardDto: CardDto
-  condition: MyCardConditionType
+  condition: CardCondition
   refreshCards: () => void
 }
 
@@ -22,7 +22,7 @@ const AddCardButton = ({
 
 export const useInAddCardButton = (
   cardDto: CardDto,
-  condition: MyCardConditionType,
+  condition: CardCondition,
   refreshCards: () => void
 ) => {
   const addCard = () => {

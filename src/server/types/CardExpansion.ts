@@ -1,4 +1,4 @@
-export type CardSet = {
+export type CardExpansion = {
   expansionId: number
   name: string
 }

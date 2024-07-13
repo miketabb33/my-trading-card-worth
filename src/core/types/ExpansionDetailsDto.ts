@@ -1,13 +1,6 @@
-import { CardDto } from './CardDto'
-
-export type SetDto = {
-  details: SetDetailsDto | null
-  blueprints: CardDto[]
-}
-
-export type SetDetailsDto = {
+export type ExpansionDetailsDto = {
   name: string
-  setNumber: number
+  expansionNumber: number
   series: string
   cardCount: number
   secretCardCount: number

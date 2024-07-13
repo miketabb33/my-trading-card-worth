@@ -1,11 +1,11 @@
 import React from 'react'
 import { createContext, useContext } from 'react'
 import { ChildrenProp } from '../types/ChildrenProp'
-import { CardSetDto } from '../../core/types/CardSetDto'
-import { useSetsData } from '../network/setsClient'
+import { ExpansionDto } from '../../core/types/ExpansionDto'
+import { useExpansionsData } from '../network/expansionClient'
 
 export type ExpansionContextType = {
-  expansions: CardSetDto[] | null
+  expansions: ExpansionDto[] | null
   isLoading: boolean
 }
 
@@ -15,7 +15,7 @@ const ProfileContext = createContext<ExpansionContextType>({
 })
 
 export const useExpansionProvider = () => {
-  const { data, isLoading } = useSetsData()
+  const { data, isLoading } = useExpansionsData()
 
   return {
     expansions: data,

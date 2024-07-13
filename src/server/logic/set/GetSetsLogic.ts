@@ -1,9 +1,9 @@
-import { CardSetDto } from '../../../core/types/CardSetDto'
+import { ExpansionDto } from '../../../core/types/ExpansionDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { ExpansionData } from '../../types/ExpansionData'
 import { IExpansionSorter, SortableExpansion } from './ExpansionSorter'
 export interface IGetSetsLogic {
-  get: () => Promise<CardSetDto[]>
+  get: () => Promise<ExpansionDto[]>
 }
 
 class GetSetsLogic implements IGetSetsLogic {
@@ -21,7 +21,7 @@ class GetSetsLogic implements IGetSetsLogic {
     this.expansionStoreMap = expansionStoreMap
   }
 
-  get = async (): Promise<CardSetDto[]> => {
+  get = async (): Promise<ExpansionDto[]> => {
     const pokemonSets = await this.cardTraderAdaptor.getPokemonSets()
 
     const sets: SortableExpansion[] = pokemonSets.map((set) => ({
@@ -31,9 +31,9 @@ class GetSetsLogic implements IGetSetsLogic {
 
     const sortedSets = this.expansionSorter.sort(sets)
 
-    const dto: CardSetDto[] = sortedSets.map((set) => ({
+    const dto: ExpansionDto[] = sortedSets.map((set) => ({
       name: set.cardSet.name,
-      cardTraderExpansionId: set.cardSet.expansionId,
+      expansionId: set.cardSet.expansionId,
       symbol: set.expansionData?.symbolUrl ?? null,
       slug: this.formatSlug(set.cardSet.name),
     }))

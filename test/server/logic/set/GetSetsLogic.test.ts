@@ -1,15 +1,15 @@
 import { SortableExpansion } from '../../../../src/server/logic/set/ExpansionSorter'
 import GetSetsLogic from '../../../../src/server/logic/set/GetSetsLogic'
-import { CardSet } from '../../../../src/server/types/CardSet'
+import { CardExpansion } from '../../../../src/server/types/CardExpansion'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import ExpansionSorter_FAKE from '../../__FAKES__/ExpansionSorter.fake'
 import {
-  CARD_SET_FOSSIL_MOCK,
-  CARD_SET_MCDONALD_MOCK,
-  CARD_SET_ORIGINAL_MOCK,
-  CARD_SET_OTHER2_MOCK,
-  CARD_SET_PARADOX_RIFT,
-} from '../../__MOCKS__/cardSet.mock'
+  CARD_EXPANSION_FOSSIL_MOCK,
+  CARD_EXPANSION_MCDONALD_MOCK,
+  CARD_EXPANSION_ORIGINAL_MOCK,
+  CARD_EXPANSION_OTHER2_MOCK,
+  CARD_EXPANSION_PARADOX_RIFT,
+} from '../../__MOCKS__/cardExpansion.mock'
 import { EXPANSION_STORE_MAP_MOCK } from '../../__MOCKS__/expansionStoreMap.mock'
 import {
   SORTABLE_EXPANSION_FOSSIL_MOCK,
@@ -24,12 +24,12 @@ describe('Get Sets Logic', () => {
   let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
   let expansionSorter_FAKE: ExpansionSorter_FAKE
 
-  const cardSets: CardSet[] = [
-    CARD_SET_ORIGINAL_MOCK,
-    CARD_SET_FOSSIL_MOCK,
-    CARD_SET_MCDONALD_MOCK,
-    CARD_SET_OTHER2_MOCK,
-    CARD_SET_PARADOX_RIFT,
+  const cardExpansions: CardExpansion[] = [
+    CARD_EXPANSION_ORIGINAL_MOCK,
+    CARD_EXPANSION_FOSSIL_MOCK,
+    CARD_EXPANSION_MCDONALD_MOCK,
+    CARD_EXPANSION_OTHER2_MOCK,
+    CARD_EXPANSION_PARADOX_RIFT,
   ]
 
   const sortableExpansions: SortableExpansion[] = [
@@ -51,7 +51,7 @@ describe('Get Sets Logic', () => {
   })
 
   it("should get pokemon sets and return card dto's", async () => {
-    cardTraderAdaptor_FAKE.GET_POKEMON_SETS.mockResolvedValue(cardSets)
+    cardTraderAdaptor_FAKE.GET_POKEMON_SETS.mockResolvedValue(cardExpansions)
     expansionSorter_FAKE.SORT.mockReturnValue(sortableExpansions)
 
     const result = await getSetsLogic.get()
@@ -62,7 +62,7 @@ describe('Get Sets Logic', () => {
     expect(result[0].name).toEqual(
       SORTABLE_EXPANSION_ORIGINAL_MOCK.cardSet.name
     )
-    expect(result[0].cardTraderExpansionId).toEqual(
+    expect(result[0].expansionId).toEqual(
       SORTABLE_EXPANSION_ORIGINAL_MOCK.cardSet.expansionId
     )
     expect(result[0].symbol).toEqual(
@@ -70,14 +70,14 @@ describe('Get Sets Logic', () => {
     )
 
     expect(result[3].name).toEqual(SORTABLE_EXPANSION_OTHER2_MOCK.cardSet.name)
-    expect(result[3].cardTraderExpansionId).toEqual(
+    expect(result[3].expansionId).toEqual(
       SORTABLE_EXPANSION_OTHER2_MOCK.cardSet.expansionId
     )
     expect(result[3].symbol).toBeNull()
   })
 
   it('should format slug', async () => {
-    cardTraderAdaptor_FAKE.GET_POKEMON_SETS.mockResolvedValue(cardSets)
+    cardTraderAdaptor_FAKE.GET_POKEMON_SETS.mockResolvedValue(cardExpansions)
     expansionSorter_FAKE.SORT.mockReturnValue(sortableExpansions)
 
     const result = await getSetsLogic.get()

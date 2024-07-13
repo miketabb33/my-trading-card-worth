@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react'
 import { useWithAutocomplete } from '../../../../../src/react/components/base/form/Autocomplete'
 import * as PopupModule from '../../../../../src/react/components/Popup'
 import * as FilterAutocompleteModule from '../../../../../src/react/components/base/form/utilities/filterAutocomplete'
-import { CardSetDto } from '../../../../../src/core/types/CardSetDto'
+import { ExpansionDto } from '../../../../../src/core/types/ExpansionDto'
 import * as Dropdown from '../../../__MOCKS__/dropdownOption.mock'
 
 const USE_POPUP = jest.spyOn(PopupModule, 'usePopup')
@@ -78,7 +78,7 @@ describe('Use With Autocomplete', () => {
 
   it('should handle on input change', () => {
     FILTER_AUTOCOMPLETE.mockReturnValue(DROPDOWN_OPTIONS)
-    const { result } = renderHook(() => useWithAutocomplete<CardSetDto>({}))
+    const { result } = renderHook(() => useWithAutocomplete<ExpansionDto>({}))
     expect(result.current.bind.inputValue).toEqual('')
     expect(result.current.bind.dropdownBind.options).toEqual([])
 

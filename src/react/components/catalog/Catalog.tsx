@@ -1,10 +1,10 @@
 import styled from 'styled-components'
-import { fetchSet } from '../../network/setsClient'
+import { fetchExpansion } from '../../network/expansionClient'
 import Autocomplete, { useWithAutocomplete } from '../base/form/Autocomplete'
 import React, { useEffect, useState } from 'react'
-import { SetDto } from '../../../core/types/CardBlueprintDto'
+import { CatalogDto } from '../../../core/types/CatalogDto'
 import { UseEffectType } from '../../types/UseEffectType'
-import { CardSetDto } from '../../../core/types/CardSetDto'
+import { ExpansionDto } from '../../../core/types/ExpansionDto'
 import { DropdownOption } from '../base/form/utilities/InputFieldDropdown'
 import CatalogExpansionDetails from './CatalogExpansionDetails'
 import { useRouter } from '../../router/useRouter'
@@ -42,7 +42,7 @@ const Catalog = () => {
       <p>Search Pokemon Cards by set</p>
       <Autocomplete {...autocompleteBind} />
       {expansionDetailsDto && (
-        <CatalogExpansionDetails details={expansionDetailsDto} />
+        <CatalogExpansionDetails expansionDetailsDto={expansionDetailsDto} />
       )}
       {cardsDto.length > 0 && <CardsHeader>Cards:</CardsHeader>}
       <CardList cardsDto={cardsDto} refreshCards={refreshCards} />
@@ -54,7 +54,9 @@ export const useInCatalog = () => {
   const { expansions } = useExpansion()
   const { getParam, navigateTo } = useRouter()
   const expansionSlug = getParam('expansionSlug')
-  const [selectedSet, setSelectedSet] = useState<SetDto | null>(null)
+  const [selectedExpansion, setSelectedExpansion] = useState<CatalogDto | null>(
+    null
+  )
   const [filteredCardsDto, setFilteredCardsDto] = useState<CardDto[]>([])
 
   const fetchExpansionDetailsAndCards = () => {
@@ -63,12 +65,10 @@ export const useInCatalog = () => {
       (expansion) => expansion.slug === expansionSlug
     )
     if (!selectedExpansion) return
-    fetchSet(selectedExpansion.cardTraderExpansionId)
+    fetchExpansion(selectedExpansion.expansionId)
       .then((res) => {
-        setSelectedSet(res.data)
-        setFilteredCardsDto(
-          res.data?.blueprints.sort(sortByHighestMedian) ?? []
-        )
+        setSelectedExpansion(res.data)
+        setFilteredCardsDto(res.data?.cards.sort(sortByHighestMedian) ?? [])
       })
       .catch((err) => console.log(err))
   }
@@ -78,14 +78,14 @@ export const useInCatalog = () => {
   }
 
   const { bind: autocompleteBind, setOptions } =
-    useWithAutocomplete<CardSetDto>({
+    useWithAutocomplete<ExpansionDto>({
       didSelectOption: (option) => navigateTo(PATH_VALUES.catalog(option.slug)),
     })
 
   const setsLoadedEffect: UseEffectType = {
     effect: () => {
       if (expansions) {
-        const newOptions: DropdownOption<CardSetDto>[] = expansions.map(
+        const newOptions: DropdownOption<ExpansionDto>[] = expansions.map(
           (expansion) => ({
             data: expansion,
             title: expansion.name,
@@ -106,7 +106,7 @@ export const useInCatalog = () => {
   return {
     autocompleteBind,
     cardsDto: filteredCardsDto,
-    expansionDetailsDto: selectedSet?.details || null,
+    expansionDetailsDto: selectedExpansion?.details || null,
     setsLoadedEffect,
     fetchExpansionDetailsAndCardsEffect,
     refreshCards: fetchExpansionDetailsAndCards,

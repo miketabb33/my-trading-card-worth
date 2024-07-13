@@ -2,27 +2,27 @@
 import { act, renderHook } from '@testing-library/react'
 import { useInCatalog } from '../../../../src/react/components/catalog/Catalog'
 import * as AutocompleteModule from '../../../../src/react/components/base/form/Autocomplete'
-import * as setsClientModule from '../../../../src/react/network/setsClient'
-import { CARD_BLUEPRINT_DTO } from '../../../core/__MOCKS__/cardBlueprintDto.mock'
+import * as setsClientModule from '../../../../src/react/network/expansionClient'
+import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
 import * as UseRouterClient from '../../../../src/react/router/useRouter'
 import * as ExpansionProviderClient from '../../../../src/react/providers/ExpansionProvider'
 import {
-  CARD_SET_DTO_1,
-  CARD_SET_DTO_2,
-} from '../../../core/__MOCKS__/cardSetDto.mock'
+  EXPANSION_DTO_1,
+  EXPANSION_DTO_2,
+} from '../../../core/__MOCKS__/expansionDto.mock'
 
-const FETCH_SET = jest.spyOn(setsClientModule, 'fetchSet')
-const USE_SETS_DATA = jest.spyOn(setsClientModule, 'useSetsData')
+const FETCH_EXPANSION = jest.spyOn(setsClientModule, 'fetchExpansion')
+const USE_EXPANSIONS_DATA = jest.spyOn(setsClientModule, 'useExpansionsData')
 const USE_EXPANSION = jest.spyOn(ExpansionProviderClient, 'useExpansion')
 
-const EXPANSIONS = [CARD_SET_DTO_1, CARD_SET_DTO_2]
+const EXPANSIONS = [EXPANSION_DTO_1, EXPANSION_DTO_2]
 
 USE_EXPANSION.mockReturnValue({
   expansions: EXPANSIONS,
   isLoading: false,
 })
 
-USE_SETS_DATA.mockReturnValue({
+USE_EXPANSIONS_DATA.mockReturnValue({
   data: [],
   isLoading: false,
   refresh: () => {},
@@ -63,10 +63,10 @@ describe('Use In Catalog', () => {
   })
 
   it('should fetch set and set state when slug exists', async () => {
-    GET_PARAM.mockReturnValue(CARD_SET_DTO_1.slug)
+    GET_PARAM.mockReturnValue(EXPANSION_DTO_1.slug)
 
-    FETCH_SET.mockResolvedValue({
-      data: { blueprints: [CARD_BLUEPRINT_DTO], details: null },
+    FETCH_EXPANSION.mockResolvedValue({
+      data: { cards: [CARD_DTO], details: null },
       errors: null,
       isSuccessful: true,
     })
@@ -78,10 +78,10 @@ describe('Use In Catalog', () => {
         await result.current.fetchExpansionDetailsAndCardsEffect.effect()
     )
 
-    expect(FETCH_SET).toHaveBeenCalledWith(CARD_SET_DTO_1.cardTraderExpansionId)
-    expect(result.current.cardsDto).toEqual([CARD_BLUEPRINT_DTO])
+    expect(FETCH_EXPANSION).toHaveBeenCalledWith(EXPANSION_DTO_1.expansionId)
+    expect(result.current.cardsDto).toEqual([CARD_DTO])
     expect(result.current.fetchExpansionDetailsAndCardsEffect.deps).toEqual([
-      CARD_SET_DTO_1.slug,
+      EXPANSION_DTO_1.slug,
       EXPANSIONS,
     ])
   })
@@ -96,6 +96,6 @@ describe('Use In Catalog', () => {
         await result.current.fetchExpansionDetailsAndCardsEffect.effect()
     )
 
-    expect(FETCH_SET).not.toHaveBeenCalled()
+    expect(FETCH_EXPANSION).not.toHaveBeenCalled()
   })
 })

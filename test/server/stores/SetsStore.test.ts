@@ -1,5 +1,5 @@
 import SetsStore from '../../../src/server/stores/SetsStore'
-import { CARD_SET_DTO_1 } from '../../core/__MOCKS__/cardSetDto.mock'
+import { EXPANSION_DTO_1 } from '../../core/__MOCKS__/expansionDto.mock'
 import GetSetsLogic_FAKE from '../__FAKES__/GetSetsLogic.fake'
 
 describe('Sets Store', () => {
@@ -12,15 +12,15 @@ describe('Sets Store', () => {
   })
 
   it('should call Get Sets Logic when cache is not initialized', async () => {
-    getSetsLogic_FAKE.GET.mockResolvedValue([CARD_SET_DTO_1])
+    getSetsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
 
     const result = await setsStore.get()
 
-    expect(result).toEqual([CARD_SET_DTO_1])
+    expect(result).toEqual([EXPANSION_DTO_1])
   })
 
   it('should use cache for Get Sets Logic', async () => {
-    getSetsLogic_FAKE.GET.mockResolvedValue([CARD_SET_DTO_1])
+    getSetsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
 
     await setsStore.initStore()
 
@@ -29,7 +29,7 @@ describe('Sets Store', () => {
 
     expect(getSetsLogic_FAKE.GET).toHaveBeenCalledTimes(1)
 
-    expect(result1).toEqual([CARD_SET_DTO_1])
-    expect(result2).toEqual([CARD_SET_DTO_1])
+    expect(result1).toEqual([EXPANSION_DTO_1])
+    expect(result2).toEqual([EXPANSION_DTO_1])
   })
 })

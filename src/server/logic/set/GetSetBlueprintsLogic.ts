@@ -1,5 +1,6 @@
-import { SetDetailsDto, SetDto } from '../../../core/types/CardBlueprintDto'
+import { CatalogDto } from '../../../core/types/CatalogDto'
 import { CardDto } from '../../../core/types/CardDto'
+import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IMyCardCRUD } from '../../database/repository/MyCardCRUD'
 import { expansionStoreMap } from '../../stores/expansionStoreMap'
@@ -17,7 +18,7 @@ class GetSetBlueprintsLogic {
     userId: string | null,
     expansionId: number,
     blueprintValues: Map<string, BlueprintValue>
-  ): Promise<SetDto> => {
+  ): Promise<CatalogDto> => {
     const cardBlueprints =
       await this.cardTraderAdaptor.getPokemonSetBlueprints(expansionId)
 
@@ -29,9 +30,11 @@ class GetSetBlueprintsLogic {
       this.buildCardDto(blueprint, myCardMap, blueprintValues)
     )
 
-    const dto: SetDto = {
-      details: this.buildDetails(expansionId),
-      blueprints: cardDto,
+    const details = this.buildExpansionDetailsDto(expansionId)
+
+    const dto: CatalogDto = {
+      details,
+      cards: cardDto,
     }
 
     return dto
@@ -61,16 +64,18 @@ class GetSetBlueprintsLogic {
     return cardDto
   }
 
-  private buildDetails = (expansionId: number): SetDetailsDto | null => {
+  private buildExpansionDetailsDto = (
+    expansionId: number
+  ): ExpansionDetailsDto | null => {
     const setDetails = expansionStoreMap.get(expansionId)
 
     if (!setDetails) return null
 
     const release = new Date(setDetails.releaseDate)
 
-    const details: SetDetailsDto = {
+    const details: ExpansionDetailsDto = {
       name: setDetails.name,
-      setNumber: setDetails.setNumber,
+      expansionNumber: setDetails.setNumber,
       series: setDetails.series,
       cardCount: setDetails.numberOfCards,
       secretCardCount: setDetails.numberOfSecretCards,

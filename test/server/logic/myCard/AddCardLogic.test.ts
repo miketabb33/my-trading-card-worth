@@ -1,5 +1,5 @@
 import AddCardLogic from '../../../../src/server/logic/myCard/AddCardLogic'
-import { MY_CARD_DTO } from '../../../core/__MOCKS__/myCardDto.mock'
+import { ADD_MY_CARD_DTO } from '../../../core/__MOCKS__/addMyCardDto.mock'
 import MyCardCRUD_FAKE from '../../__FAKES__/MyCardCRUD.fake'
 
 describe('Add Card Logic', () => {
@@ -15,7 +15,7 @@ describe('Add Card Logic', () => {
   })
 
   it('should not add a card trader item when one exists', async () => {
-    await addCardLogic.add(USER_ID, MY_CARD_DTO)
+    await addCardLogic.add(USER_ID, ADD_MY_CARD_DTO)
 
     expect(myCardCRUD_FAKE.ADD_MY_CARD).toHaveBeenCalled()
   })

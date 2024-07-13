@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import { SetDetailsDto } from '../../../core/types/CardBlueprintDto'
 import styled from 'styled-components'
+import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
 
 const Container = styled.div`
   margin-top: 2rem;
@@ -31,10 +31,12 @@ const Row = styled.div`
 `
 
 type CatalogExpansionDetailsProps = {
-  details: SetDetailsDto
+  expansionDetailsDto: ExpansionDetailsDto
 }
 
-const CatalogExpansionDetails = ({ details }: CatalogExpansionDetailsProps) => {
+const CatalogExpansionDetails = ({
+  expansionDetailsDto: details,
+}: CatalogExpansionDetailsProps) => {
   return (
     <Container>
       <Header>
@@ -56,7 +58,7 @@ const CatalogExpansionDetails = ({ details }: CatalogExpansionDetailsProps) => {
             title="Series:"
             value={
               <>
-                {details.series} <i>(set number {details.setNumber})</i>
+                {details.series} <i>(set number {details.expansionNumber})</i>
               </>
             }
           />

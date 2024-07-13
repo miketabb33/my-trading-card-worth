@@ -1,4 +1,4 @@
-import { CardSet } from '../../types/CardSet'
+import { CardExpansion } from '../../types/CardExpansion'
 import { ExpansionData, ExpansionSeries } from '../../types/ExpansionData'
 
 export const MAIN_SERIES: ExpansionSeries[] = [
@@ -27,7 +27,7 @@ export const OTHER_SERIES: ExpansionSeries[] = [
 ]
 
 export type SortableExpansion = {
-  cardSet: CardSet
+  cardSet: CardExpansion
   expansionData: ExpansionData | null
 }
 

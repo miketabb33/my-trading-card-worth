@@ -4,7 +4,7 @@ import { useGlobalPopup } from '../../providers/GlobalPopupProvider'
 import EnlargedCardPopup from './EnlargedCardPopup'
 import { useProfile } from '../../providers/ProfileProvider'
 import AddCardButton from './card-button/AddCardButton'
-import { MyCardCondition } from '../../../core/types/MyCardCondition'
+import { CardConditions } from '../../../core/types/CardCondition'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
 import RemoveCardButton from './card-button/RemoveCardButton'
 import { CardDto } from '../../../core/types/CardDto'
@@ -87,7 +87,7 @@ const CardItem = ({ cardDto, refreshCards }: CardItemProps) => {
             <Actions>
               <AddCardButton
                 cardDto={cardDto}
-                condition={MyCardCondition.Unknown}
+                condition={CardConditions.Unknown}
                 refreshCards={refreshCards}
               />
               <RemoveCardButton

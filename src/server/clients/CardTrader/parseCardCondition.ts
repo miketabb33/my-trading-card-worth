@@ -1,6 +1,8 @@
-import { CardCondition } from '../../../core/types/MyCardCondition'
+import { CardConditionOptions } from '../../../core/types/CardCondition'
 
-export const parseCardCondition = (condition: string | null): CardCondition => {
+export const parseCardCondition = (
+  condition: string | null
+): CardConditionOptions => {
   if (condition === 'Mint') return 'Mint'
   if (condition === 'Near Mint') return 'Near Mint'
   if (condition === 'Slightly Played') return 'Slightly Played'

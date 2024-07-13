@@ -1,13 +1,13 @@
 import { ENV } from '../../env'
 import { CardBlueprint } from '../../types/CardBlueprint'
-import { CardSet } from '../../types/CardSet'
+import { CardExpansion } from '../../types/CardExpansion'
 import { CardValue } from '../../types/CardValue'
 import * as CardTraderClient from './CardTraderClient'
 import { EXCLUDED_SET_IDS } from './excludedSetIds'
 import { parseCardCondition } from './parseCardCondition'
 
 export interface ICardTraderAdaptor {
-  getPokemonSets: () => Promise<CardSet[]>
+  getPokemonSets: () => Promise<CardExpansion[]>
   getPokemonSetBlueprints: (expansionId: number) => Promise<CardBlueprint[]>
   getPokemonCardValues: (
     expansionId: number
@@ -17,7 +17,7 @@ export interface ICardTraderAdaptor {
 class CardTraderAdaptor implements ICardTraderAdaptor {
   cardTraderConfig = ENV.CARD_TRADER
 
-  getPokemonSets = async (): Promise<CardSet[]> => {
+  getPokemonSets = async (): Promise<CardExpansion[]> => {
     const expansionsDto = await CardTraderClient.getExpansions()
     const pokemonSets = expansionsDto.filter(
       (expansion) => expansion.gameId === this.cardTraderConfig.POKEMON_GAME_ID
