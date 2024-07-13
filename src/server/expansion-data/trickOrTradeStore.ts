@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const trickOrTrade2022: ExpansionData = {
   name: 'Trick or Trade 2022',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Trick or Trade',
   expansionType: 'Other Expansion',
   numberOfCards: 30,
@@ -18,7 +18,7 @@ export const trickOrTrade2022: ExpansionData = {
 
 export const trickOrTrade2023: ExpansionData = {
   name: 'Trick or Trade 2023',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Trick or Trade',
   expansionType: 'Other Expansion',
   numberOfCards: 30,

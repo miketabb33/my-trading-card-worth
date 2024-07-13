@@ -2,7 +2,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
 
-import * as MyCardClient from '../../../../src/react/network/myCardClient'
+import * as MyCardClient from '../../../../src/react/network/collectionClient'
 import { useInCollection } from '../../../../src/react/components/collection/Collection'
 import { UseApiReturn } from '../../../../src/react/network/useApi'
 import { CardDto } from '../../../../src/core/types/CardDto'

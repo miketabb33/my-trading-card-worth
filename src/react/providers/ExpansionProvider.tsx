@@ -2,7 +2,7 @@ import React from 'react'
 import { createContext, useContext } from 'react'
 import { ChildrenProp } from '../types/ChildrenProp'
 import { ExpansionDto } from '../../core/types/ExpansionDto'
-import { useExpansionsData } from '../network/expansionClient'
+import { useExpansionsData } from '../network/catalogClient'
 
 export type ExpansionContextType = {
   expansions: ExpansionDto[] | null

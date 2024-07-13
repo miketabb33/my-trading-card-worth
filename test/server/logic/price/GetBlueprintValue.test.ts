@@ -1,4 +1,4 @@
-import GetExpansionBlueprintValueLogic from '../../../../src/server/logic/price/GetExpansionBlueprintValueLogic'
+import GetBlueprintValueLogic from '../../../../src/server/logic/price/GetBlueprintValueLogic'
 import { CardValue } from '../../../../src/server/types/CardValue'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import { makeCardValueMock } from '../../__MOCKS__/cardValue.mock'
@@ -6,13 +6,11 @@ import { makeCardValueMock } from '../../__MOCKS__/cardValue.mock'
 describe('Get Expansion Blueprint Value Logic', () => {
   const EXPANSION_ID = 1234
   let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
-  let getExpansionBlueprintValueLogic: GetExpansionBlueprintValueLogic
+  let getBlueprintValueLogic: GetBlueprintValueLogic
 
   beforeEach(() => {
     cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
-    getExpansionBlueprintValueLogic = new GetExpansionBlueprintValueLogic(
-      cardTraderAdaptor_FAKE
-    )
+    getBlueprintValueLogic = new GetBlueprintValueLogic(cardTraderAdaptor_FAKE)
   })
 
   it('should get results from map', async () => {
@@ -44,8 +42,7 @@ describe('Get Expansion Blueprint Value Logic', () => {
       cardValueMap
     )
 
-    const blueprintValueMap =
-      await getExpansionBlueprintValueLogic.get(EXPANSION_ID)
+    const blueprintValueMap = await getBlueprintValueLogic.get(EXPANSION_ID)
 
     expect(cardTraderAdaptor_FAKE.GET_POKEMON_CARD_VALUES).toHaveBeenCalledWith(
       EXPANSION_ID

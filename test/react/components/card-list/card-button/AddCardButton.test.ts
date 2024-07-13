@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
 import { CARD_DTO } from '../../../../core/__MOCKS__/cardDto.mock'
-import * as MyCardClientModule from '../../../../../src/react/network/myCardClient'
+import * as MyCardClientModule from '../../../../../src/react/network/collectionClient'
 import { CardConditions } from '../../../../../src/core/types/CardCondition'
 import { useInAddCardButton } from '../../../../../src/react/components/card-list/card-button/AddCardButton'
 

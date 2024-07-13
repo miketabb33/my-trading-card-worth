@@ -2,7 +2,7 @@ import { ExpansionData } from '../../../src/server/types/ExpansionData'
 
 export const EXPANSION_DATA_ORIGINAL: ExpansionData = {
   name: 'Base Set',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 102,
@@ -17,7 +17,7 @@ export const EXPANSION_DATA_ORIGINAL: ExpansionData = {
 
 export const EXPANSION_DATA_FOSSIL: ExpansionData = {
   name: 'Fossil',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 62,
@@ -33,7 +33,7 @@ export const EXPANSION_DATA_FOSSIL: ExpansionData = {
 
 export const EXPANSION_DATA_PLATINUM: ExpansionData = {
   name: 'Platinum',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Platinum Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 127,
@@ -49,7 +49,7 @@ export const EXPANSION_DATA_PLATINUM: ExpansionData = {
 
 export const EXPANSION_DATA_MCDONALD: ExpansionData = {
   name: "McDonald's Collection 2014",
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -65,7 +65,7 @@ export const EXPANSION_DATA_MCDONALD: ExpansionData = {
 
 export const EXPANSION_DATA_POP: ExpansionData = {
   name: 'POP Series 3',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,

@@ -1,13 +1,11 @@
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { BlueprintValue } from '../../types/BlueprintValue'
 
-export interface IGetExpansionBlueprintValueLogic {
+export interface IGetBlueprintValueLogic {
   get: (expansionId: number) => Promise<Map<string, BlueprintValue>>
 }
 
-class GetExpansionBlueprintValueLogic
-  implements IGetExpansionBlueprintValueLogic
-{
+class GetBlueprintValueLogic implements IGetBlueprintValueLogic {
   private cardTraderAdaptor: ICardTraderAdaptor
 
   constructor(cardTraderAdaptor: ICardTraderAdaptor) {
@@ -49,4 +47,4 @@ class GetExpansionBlueprintValueLogic
   }
 }
 
-export default GetExpansionBlueprintValueLogic
+export default GetBlueprintValueLogic

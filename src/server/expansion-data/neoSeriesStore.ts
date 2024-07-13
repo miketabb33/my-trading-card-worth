@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const neoGenesis: ExpansionData = {
   name: 'Neo Genesis',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Neo Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 111,
@@ -18,7 +18,7 @@ export const neoGenesis: ExpansionData = {
 
 export const neoDiscovery: ExpansionData = {
   name: 'Neo Discovery',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Neo Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 75,
@@ -34,7 +34,7 @@ export const neoDiscovery: ExpansionData = {
 
 export const neoRevelation: ExpansionData = {
   name: 'Neo Revelation',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Neo Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 64,
@@ -50,7 +50,7 @@ export const neoRevelation: ExpansionData = {
 
 export const neoDestiny: ExpansionData = {
   name: 'Neo Destiny',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Neo Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 105,

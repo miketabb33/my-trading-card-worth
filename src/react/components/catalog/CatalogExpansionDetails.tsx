@@ -41,7 +41,7 @@ const CatalogExpansionDetails = ({
     <Container>
       <Header>
         {details.symbolUrl && <img src={details.symbolUrl} />}
-        <h1>{details.name} Set</h1>
+        <h1>{details.name} Expansion</h1>
       </Header>
       <Split>
         <Side>{details.logoUrl && <img src={details.logoUrl}></img>}</Side>
@@ -58,7 +58,8 @@ const CatalogExpansionDetails = ({
             title="Series:"
             value={
               <>
-                {details.series} <i>(set number {details.expansionNumber})</i>
+                {details.series}{' '}
+                <i>(expansion number {details.expansionNumber})</i>
               </>
             }
           />

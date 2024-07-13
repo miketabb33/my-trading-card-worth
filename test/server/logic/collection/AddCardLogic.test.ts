@@ -1,4 +1,4 @@
-import AddCardLogic from '../../../../src/server/logic/myCard/AddCardLogic'
+import AddCardLogic from '../../../../src/server/logic/collection/AddCardLogic'
 import { ADD_MY_CARD_DTO } from '../../../core/__MOCKS__/addMyCardDto.mock'
 import MyCardCRUD_FAKE from '../../__FAKES__/MyCardCRUD.fake'
 

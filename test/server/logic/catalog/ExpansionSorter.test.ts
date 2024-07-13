@@ -1,4 +1,4 @@
-import ExpansionSorter from '../../../../src/server/logic/set/ExpansionSorter'
+import ExpansionSorter from '../../../../src/server/logic/catalog/ExpansionSorter'
 import {
   SORTABLE_EXPANSION_FOSSIL_MOCK,
   SORTABLE_EXPANSION_MCDONALD_MOCK,

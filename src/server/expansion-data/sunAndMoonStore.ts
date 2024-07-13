@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const sunAndMoon: ExpansionData = {
   name: 'Sun & Moon',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 149,
@@ -18,7 +18,7 @@ export const sunAndMoon: ExpansionData = {
 
 export const sunAndMoonGuardiansRising: ExpansionData = {
   name: 'Sun & Moon - Guardians Rising',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 145,
@@ -35,7 +35,7 @@ export const sunAndMoonGuardiansRising: ExpansionData = {
 
 export const sunAndMoonBurningShadows: ExpansionData = {
   name: 'Sun & Moon - Burning Shadows',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 147,
@@ -52,7 +52,7 @@ export const sunAndMoonBurningShadows: ExpansionData = {
 
 export const sunAndMoonShiningLegends: ExpansionData = {
   name: 'Shining Legends',
-  setNumber: 3.5,
+  expansionNumberInSeries: 3.5,
   series: 'Sun & Moon Series',
   expansionType: 'Special Expansion',
   numberOfCards: 73,
@@ -69,7 +69,7 @@ export const sunAndMoonShiningLegends: ExpansionData = {
 
 export const sunAndMoonCrimsonInvasion: ExpansionData = {
   name: 'Sun & Moon - Crimson Invasion',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 111,
@@ -86,7 +86,7 @@ export const sunAndMoonCrimsonInvasion: ExpansionData = {
 
 export const sunAndMoonUltraPrism: ExpansionData = {
   name: 'Sun & Moon - Ultra Prism',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 156,
@@ -102,7 +102,7 @@ export const sunAndMoonUltraPrism: ExpansionData = {
 
 export const sunAndMoonForbiddenLight: ExpansionData = {
   name: 'Sun & Moon - Forbidden Light',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 131,
@@ -119,7 +119,7 @@ export const sunAndMoonForbiddenLight: ExpansionData = {
 
 export const sunAndMoonCelestialStorm: ExpansionData = {
   name: 'Sun & Moon - Celestial Storm',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 168,
@@ -136,7 +136,7 @@ export const sunAndMoonCelestialStorm: ExpansionData = {
 
 export const sunAndMoonDragonMajesty: ExpansionData = {
   name: 'Dragon Majesty',
-  setNumber: 7.5,
+  expansionNumberInSeries: 7.5,
   series: 'Sun & Moon Series',
   expansionType: 'Special Expansion',
   numberOfCards: 70,
@@ -152,7 +152,7 @@ export const sunAndMoonDragonMajesty: ExpansionData = {
 
 export const sunAndMoonLostThunder: ExpansionData = {
   name: 'Sun & Moon - Lost Thunder',
-  setNumber: 8,
+  expansionNumberInSeries: 8,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 214,
@@ -168,7 +168,7 @@ export const sunAndMoonLostThunder: ExpansionData = {
 
 export const sunAndMoonTeamUp: ExpansionData = {
   name: 'Sun & Moon - Team Up',
-  setNumber: 9,
+  expansionNumberInSeries: 9,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 181,
@@ -184,7 +184,7 @@ export const sunAndMoonTeamUp: ExpansionData = {
 
 export const sunAndMoonDetectivePikachu: ExpansionData = {
   name: 'Detective Pikachu',
-  setNumber: 9.5,
+  expansionNumberInSeries: 9.5,
   series: 'Sun & Moon Series',
   expansionType: 'Special Expansion',
   numberOfCards: 18,
@@ -201,7 +201,7 @@ export const sunAndMoonDetectivePikachu: ExpansionData = {
 
 export const sunAndMoonUnbrokenBonds: ExpansionData = {
   name: 'Sun & Moon - Unbroken Bonds',
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 214,
@@ -217,7 +217,7 @@ export const sunAndMoonUnbrokenBonds: ExpansionData = {
 
 export const sunAndMoonUnifiedMinds: ExpansionData = {
   name: 'Sun & Moon - Unified Minds',
-  setNumber: 11,
+  expansionNumberInSeries: 11,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 236,
@@ -233,7 +233,7 @@ export const sunAndMoonUnifiedMinds: ExpansionData = {
 
 export const sunAndMoonHiddenFates: ExpansionData = {
   name: 'Hidden Fates',
-  setNumber: 11.5,
+  expansionNumberInSeries: 11.5,
   series: 'Sun & Moon Series',
   expansionType: 'Special Expansion',
   numberOfCards: 68,
@@ -249,7 +249,7 @@ export const sunAndMoonHiddenFates: ExpansionData = {
 
 export const sunAndMoonCosmicEclipse: ExpansionData = {
   name: 'Sun & Moon - Cosmic Eclipse',
-  setNumber: 12,
+  expansionNumberInSeries: 12,
   series: 'Sun & Moon Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 236,

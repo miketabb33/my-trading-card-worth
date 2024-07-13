@@ -34,7 +34,7 @@ export type AutocompleteProps<T> = {
   inputValue: string
   popupBind: { isShowing: boolean; closeHandlerEffect: UseEffectType }
   dropdownBind: InputFieldDropdownProps<T>
-  setsLoadedEffect: UseEffectType
+  optionsChangedEffect: UseEffectType
   popupClick: (e: React.MouseEvent<Element, MouseEvent>) => void
   onInputValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -43,11 +43,11 @@ const Autocomplete = <T extends object>({
   inputValue,
   popupBind,
   dropdownBind,
-  setsLoadedEffect,
+  optionsChangedEffect,
   popupClick,
   onInputValueChange,
 }: AutocompleteProps<T>) => {
-  useEffect(setsLoadedEffect.effect, setsLoadedEffect.deps)
+  useEffect(optionsChangedEffect.effect, optionsChangedEffect.deps)
 
   return (
     <Container>
@@ -90,7 +90,7 @@ export const useWithAutocomplete = <T extends object>({
   const [selectedOption, setSelectedOption] =
     useState<DropdownOption<T> | null>(null)
 
-  const setsLoadedEffect: UseEffectType = {
+  const optionsChangedEffect: UseEffectType = {
     effect: () => {
       if (options) setFilteredOptions(options)
     },
@@ -123,7 +123,7 @@ export const useWithAutocomplete = <T extends object>({
       inputValue,
       popupBind,
       dropdownBind,
-      setsLoadedEffect,
+      optionsChangedEffect,
       popupClick,
       onInputValueChange,
     },

@@ -1,5 +1,5 @@
 import React from 'react'
-import { removeMyCard } from '../../../network/myCardClient'
+import { removeMyCard } from '../../../network/collectionClient'
 
 import CardButtonBase, { useWithCardButtonBase } from './CardButton'
 

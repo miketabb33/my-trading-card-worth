@@ -1,4 +1,4 @@
-import { IExpansionSorter } from '../../../src/server/logic/set/ExpansionSorter'
+import { IExpansionSorter } from '../../../src/server/logic/catalog/ExpansionSorter'
 
 class ExpansionSorter_FAKE implements IExpansionSorter {
   SORT = jest.fn()

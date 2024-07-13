@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const southernIslands: ExpansionData = {
   name: 'Southern Islands',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Other Miscellaneous Sets',
   expansionType: 'Other Expansion',
   numberOfCards: 18,
@@ -19,7 +19,7 @@ export const southernIslands: ExpansionData = {
 
 export const bestOfGame: ExpansionData = {
   name: 'Best of Game',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Other Miscellaneous Sets',
   expansionType: 'Other Expansion',
   numberOfCards: 9,
@@ -34,7 +34,7 @@ export const bestOfGame: ExpansionData = {
 
 export const pokeCardCreatorPack: ExpansionData = {
   name: 'Poké Card Creator Pack',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Other Miscellaneous Sets',
   expansionType: 'Other Expansion',
   numberOfCards: 5,
@@ -50,7 +50,7 @@ export const pokeCardCreatorPack: ExpansionData = {
 
 export const pokemonRumble: ExpansionData = {
   name: 'Pokémon Rumble',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Other Miscellaneous Sets',
   expansionType: 'Other Expansion',
   numberOfCards: 16,
@@ -67,7 +67,7 @@ export const pokemonRumble: ExpansionData = {
 
 export const pokemonFutsal: ExpansionData = {
   name: 'Pokémon Futsal',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Other Miscellaneous Sets',
   expansionType: 'Other Expansion',
   numberOfCards: 5,
@@ -84,7 +84,7 @@ export const pokemonFutsal: ExpansionData = {
 
 export const pokemonTradingCardGameClassic: ExpansionData = {
   name: 'Pokémon Trading Card Game Classic',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Other Miscellaneous Sets',
   expansionType: 'Other Expansion',
   numberOfCards: 102,

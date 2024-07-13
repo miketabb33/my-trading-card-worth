@@ -4,9 +4,9 @@ import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
 
 export const useExpansionsData = () => {
-  return useApi<ExpansionDto[]>('/sets')
+  return useApi<ExpansionDto[]>('/catalog')
 }
 
-export const fetchExpansion = (setId: number) => {
-  return fetchApi<CatalogDto>({ path: `/sets/${setId}` })
+export const fetchCatalog = (expansionId: number) => {
+  return fetchApi<CatalogDto>({ path: `/catalog/${expansionId}` })
 }

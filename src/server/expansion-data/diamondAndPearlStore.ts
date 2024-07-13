@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const diamondAndPearl: ExpansionData = {
   name: 'Diamond & Pearl',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Diamond & Pearl Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 130,
@@ -19,7 +19,7 @@ export const diamondAndPearl: ExpansionData = {
 
 export const diamondAndPearlMysteriousTreasures: ExpansionData = {
   name: 'Diamond & Pearl - Mysterious Treasures',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Diamond & Pearl Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 123,
@@ -36,7 +36,7 @@ export const diamondAndPearlMysteriousTreasures: ExpansionData = {
 
 export const diamondAndPearlSecretWonders: ExpansionData = {
   name: 'Diamond & Pearl - Secret Wonders',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Diamond & Pearl Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 132,
@@ -52,7 +52,7 @@ export const diamondAndPearlSecretWonders: ExpansionData = {
 
 export const diamondAndPearlGreatEncounters: ExpansionData = {
   name: 'Diamond & Pearl - Great Encounters',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Diamond & Pearl Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 106,
@@ -69,7 +69,7 @@ export const diamondAndPearlGreatEncounters: ExpansionData = {
 
 export const diamondAndPearlMajesticDawn: ExpansionData = {
   name: 'Diamond & Pearl - Majestic Dawn',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Diamond & Pearl Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 100,
@@ -85,7 +85,7 @@ export const diamondAndPearlMajesticDawn: ExpansionData = {
 
 export const diamondAndPearlLegendsAwakened: ExpansionData = {
   name: 'Diamond & Pearl - Legends Awakened',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Diamond & Pearl Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 146,
@@ -102,7 +102,7 @@ export const diamondAndPearlLegendsAwakened: ExpansionData = {
 
 export const diamondAndPearlStormfront: ExpansionData = {
   name: 'Diamond & Pearl - Stormfront',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'Diamond & Pearl Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 100,

@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const exRubyAndSapphire: ExpansionData = {
   name: 'EX Ruby & Sapphire',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 109,
@@ -19,7 +19,7 @@ export const exRubyAndSapphire: ExpansionData = {
 
 export const exSandstorm: ExpansionData = {
   name: 'EX Sandstorm',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 100,
@@ -35,7 +35,7 @@ export const exSandstorm: ExpansionData = {
 
 export const exDragon: ExpansionData = {
   name: 'EX Dragon',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 97,
@@ -51,7 +51,7 @@ export const exDragon: ExpansionData = {
 
 export const exTeamMagmaVsTeamAqua: ExpansionData = {
   name: 'EX Team Magma vs Team Aqua',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 95,
@@ -68,7 +68,7 @@ export const exTeamMagmaVsTeamAqua: ExpansionData = {
 
 export const exHiddenLegends: ExpansionData = {
   name: 'EX Hidden Legends',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 101,
@@ -85,7 +85,7 @@ export const exHiddenLegends: ExpansionData = {
 
 export const exFireRedAndLeafGreen: ExpansionData = {
   name: 'EX FireRed & LeafGreen',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 112,
@@ -102,7 +102,7 @@ export const exFireRedAndLeafGreen: ExpansionData = {
 
 export const exTeamRocketReturns: ExpansionData = {
   name: 'EX Team Rocket Returns',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 109,
@@ -119,7 +119,7 @@ export const exTeamRocketReturns: ExpansionData = {
 
 export const exDeoxys: ExpansionData = {
   name: 'EX Deoxys',
-  setNumber: 8,
+  expansionNumberInSeries: 8,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 107,
@@ -135,7 +135,7 @@ export const exDeoxys: ExpansionData = {
 
 export const exEmerald: ExpansionData = {
   name: 'EX Emerald',
-  setNumber: 9,
+  expansionNumberInSeries: 9,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 106,
@@ -151,7 +151,7 @@ export const exEmerald: ExpansionData = {
 
 export const exUnseenForces: ExpansionData = {
   name: 'EX Unseen Forces',
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 115,
@@ -168,7 +168,7 @@ export const exUnseenForces: ExpansionData = {
 
 export const exDeltaSpecies: ExpansionData = {
   name: 'EX Delta Species',
-  setNumber: 11,
+  expansionNumberInSeries: 11,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 113,
@@ -185,7 +185,7 @@ export const exDeltaSpecies: ExpansionData = {
 
 export const exLegendMaker: ExpansionData = {
   name: 'EX Legend Maker',
-  setNumber: 12,
+  expansionNumberInSeries: 12,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 92,
@@ -202,7 +202,7 @@ export const exLegendMaker: ExpansionData = {
 
 export const exHolonPhantoms: ExpansionData = {
   name: 'EX Holon Phantoms',
-  setNumber: 13,
+  expansionNumberInSeries: 13,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 110,
@@ -219,7 +219,7 @@ export const exHolonPhantoms: ExpansionData = {
 
 export const exCrystalGuardians: ExpansionData = {
   name: 'EX Crystal Guardians',
-  setNumber: 14,
+  expansionNumberInSeries: 14,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 100,
@@ -236,7 +236,7 @@ export const exCrystalGuardians: ExpansionData = {
 
 export const exDragonFrontiers: ExpansionData = {
   name: 'EX Dragon Frontiers',
-  setNumber: 15,
+  expansionNumberInSeries: 15,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 101,
@@ -253,7 +253,7 @@ export const exDragonFrontiers: ExpansionData = {
 
 export const exPowerKeepers: ExpansionData = {
   name: 'EX Power Keepers',
-  setNumber: 16,
+  expansionNumberInSeries: 16,
   series: 'EX Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 108,

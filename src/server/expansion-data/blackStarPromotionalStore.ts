@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const wizardsBlackStarPromos: ExpansionData = {
   name: 'Wizards Black Star Promos',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 53,
@@ -17,7 +17,7 @@ export const wizardsBlackStarPromos: ExpansionData = {
 
 export const nintendoBlackStarPromos: ExpansionData = {
   name: 'Nintendo Black Star Promos',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 40,
@@ -32,7 +32,7 @@ export const nintendoBlackStarPromos: ExpansionData = {
 
 export const dpBlackStarPromos: ExpansionData = {
   name: 'DP Black Star Promos',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 56,
@@ -47,7 +47,7 @@ export const dpBlackStarPromos: ExpansionData = {
 
 export const hgssBlackStarPromos: ExpansionData = {
   name: 'HGSS Black Star Promos',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 25,
@@ -62,7 +62,7 @@ export const hgssBlackStarPromos: ExpansionData = {
 
 export const bwBlackStarPromos: ExpansionData = {
   name: 'BW Black Star Promos',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 99,
@@ -77,7 +77,7 @@ export const bwBlackStarPromos: ExpansionData = {
 
 export const xyBlackStarPromos: ExpansionData = {
   name: 'XY Black Star Promos',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 211,
@@ -92,7 +92,7 @@ export const xyBlackStarPromos: ExpansionData = {
 
 export const smBlackStarPromos: ExpansionData = {
   name: 'SM Black Star Promos',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 248,
@@ -107,7 +107,7 @@ export const smBlackStarPromos: ExpansionData = {
 
 export const swshBlackStarPromos: ExpansionData = {
   name: 'SWSH Black Star Promos',
-  setNumber: 8,
+  expansionNumberInSeries: 8,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 307,
@@ -122,7 +122,7 @@ export const swshBlackStarPromos: ExpansionData = {
 
 export const svpBlackStarPromos: ExpansionData = {
   name: 'SVP Black Star Promos',
-  setNumber: 9,
+  expansionNumberInSeries: 9,
   series: 'Black Star Promotional Cards',
   expansionType: 'Other Expansion',
   numberOfCards: 0,

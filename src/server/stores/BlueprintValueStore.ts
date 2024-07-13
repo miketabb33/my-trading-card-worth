@@ -1,15 +1,13 @@
 import Logger from '../logger'
 import { formatError } from '../logic/formatResponse'
-import { IGetExpansionBlueprintValueLogic } from '../logic/price/GetExpansionBlueprintValueLogic'
+import { IGetBlueprintValueLogic } from '../logic/price/GetBlueprintValueLogic'
 import { BlueprintValue } from '../types/BlueprintValue'
 
 class BlueprintValueStore {
-  private readonly getExpansionBlueprintValueLogic: IGetExpansionBlueprintValueLogic
+  private readonly getExpansionBlueprintValueLogic: IGetBlueprintValueLogic
   private cache = new Map<string, BlueprintValue>()
 
-  constructor(
-    getExpansionBlueprintValueLogic: IGetExpansionBlueprintValueLogic
-  ) {
+  constructor(getExpansionBlueprintValueLogic: IGetBlueprintValueLogic) {
     this.getExpansionBlueprintValueLogic = getExpansionBlueprintValueLogic
   }
 

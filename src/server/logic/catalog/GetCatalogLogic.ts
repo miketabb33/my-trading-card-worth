@@ -7,7 +7,7 @@ import { expansionStoreMap } from '../../stores/expansionStoreMap'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
 
-class GetSetBlueprintsLogic {
+class GetCatalogLogic {
   private readonly myCardCRUD: IMyCardCRUD
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   constructor(myCardCRUD: IMyCardCRUD, cardTraderAdaptor: ICardTraderAdaptor) {
@@ -20,7 +20,7 @@ class GetSetBlueprintsLogic {
     blueprintValues: Map<string, BlueprintValue>
   ): Promise<CatalogDto> => {
     const cardBlueprints =
-      await this.cardTraderAdaptor.getPokemonSetBlueprints(expansionId)
+      await this.cardTraderAdaptor.getPokemonBlueprints(expansionId)
 
     let myCardMap: Map<number, number> | null
 
@@ -67,33 +67,33 @@ class GetSetBlueprintsLogic {
   private buildExpansionDetailsDto = (
     expansionId: number
   ): ExpansionDetailsDto | null => {
-    const setDetails = expansionStoreMap.get(expansionId)
+    const expansionsData = expansionStoreMap.get(expansionId)
 
-    if (!setDetails) return null
+    if (!expansionsData) return null
 
-    const release = new Date(setDetails.releaseDate)
+    const release = new Date(expansionsData.releaseDate)
 
     const details: ExpansionDetailsDto = {
-      name: setDetails.name,
-      expansionNumber: setDetails.setNumber,
-      series: setDetails.series,
-      cardCount: setDetails.numberOfCards,
-      secretCardCount: setDetails.numberOfSecretCards,
+      name: expansionsData.name,
+      expansionNumber: expansionsData.expansionNumberInSeries,
+      series: expansionsData.series,
+      cardCount: expansionsData.numberOfCards,
+      secretCardCount: expansionsData.numberOfSecretCards,
       releaseDate: release.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
       }),
-      logoUrl: setDetails.logoUrl,
-      symbolUrl: setDetails.symbolUrl,
-      bulbapediaUrl: setDetails.bulbapediaUrl,
+      logoUrl: expansionsData.logoUrl,
+      symbolUrl: expansionsData.symbolUrl,
+      bulbapediaUrl: expansionsData.bulbapediaUrl,
     }
 
     return details
   }
 
   private buildMyCardMap = async (userId: string, expansionId: number) => {
-    const myCards = await this.myCardCRUD.findBySet(userId, expansionId)
+    const myCards = await this.myCardCRUD.findByExpansion(userId, expansionId)
 
     const myCardMap = new Map<number, number>()
 
@@ -109,4 +109,4 @@ class GetSetBlueprintsLogic {
   }
 }
 
-export default GetSetBlueprintsLogic
+export default GetCatalogLogic

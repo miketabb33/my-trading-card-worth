@@ -1,4 +1,4 @@
-import { tryToParseAddMyCardBody } from '../../../../src/server/logic/myCard/parseAddMyCardBody'
+import { tryToParseAddMyCardBody } from '../../../../src/server/logic/collection/parseAddMyCardBody'
 
 describe('Try To Parse Add My Card Body', () => {
   it('should parse', () => {

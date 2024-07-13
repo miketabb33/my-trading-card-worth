@@ -1,5 +1,5 @@
 import React from 'react'
-import { addMyCard } from '../../../network/myCardClient'
+import { addMyCard } from '../../../network/collectionClient'
 import { AddMyCardDto } from '../../../../core/types/AddMyCardDto'
 import { CardCondition } from '../../../../core/types/CardCondition'
 import CardButtonBase, { useWithCardButtonBase } from './CardButton'

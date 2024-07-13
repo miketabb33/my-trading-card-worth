@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const expeditionBaseSet: ExpansionData = {
   name: 'Expedition Base Set',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'e-Card Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 165,
@@ -19,7 +19,7 @@ export const expeditionBaseSet: ExpansionData = {
 
 export const aquapolis: ExpansionData = {
   name: 'Aquapolis',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'e-Card Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 147,
@@ -34,7 +34,7 @@ export const aquapolis: ExpansionData = {
 
 export const skyridge: ExpansionData = {
   name: 'Skyridge',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'e-Card Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 144,

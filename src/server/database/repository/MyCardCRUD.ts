@@ -58,7 +58,10 @@ const MyCardModel = model('my_card', myCardSchema)
 
 export interface IMyCardCRUD {
   add: (entity: MyCardEntity) => Promise<void>
-  findBySet: (userId: string, setId: number) => Promise<MyCardEntity[]>
+  findByExpansion: (
+    userId: string,
+    expansionId: number
+  ) => Promise<MyCardEntity[]>
   getAll: (userId: string) => Promise<MyCardEntity[]>
 }
 
@@ -75,13 +78,13 @@ class MyCardCRUD implements IMyCardCRUD {
     })
   }
 
-  findBySet = async (
+  findByExpansion = async (
     userId: string,
-    setId: number
+    expansionId: number
   ): Promise<MyCardEntity[]> => {
     const contexts = await MyCardModel.find({
       userId,
-      'cardTrader.expansionId': setId,
+      'cardTrader.expansionId': expansionId,
     })
     if (!contexts) return []
 

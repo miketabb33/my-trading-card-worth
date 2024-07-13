@@ -1,12 +1,12 @@
-import GetSetBlueprintsLogic from '../../../../src/server/logic/set/GetSetBlueprintsLogic'
+import GetCatalogLogic from '../../../../src/server/logic/catalog/GetCatalogLogic'
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import MyCardCRUD_FAKE from '../../__FAKES__/MyCardCRUD.fake'
 import { makeCardBlueprintMock } from '../../__MOCKS__/cardBlueprint.mock'
 import { makeMyCardEntityMock } from '../../__MOCKS__/myCardEntity.mock'
 
-describe('Get Set Blueprints Logic', () => {
-  let getSetBlueprintsLogic: GetSetBlueprintsLogic
+describe('Get Catalog Logic', () => {
+  let getCatalogLogic: GetCatalogLogic
   let myCardCRUD_FAKE: MyCardCRUD_FAKE
   let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
 
@@ -23,22 +23,22 @@ describe('Get Set Blueprints Logic', () => {
   beforeEach(() => {
     myCardCRUD_FAKE = new MyCardCRUD_FAKE()
     cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
-    getSetBlueprintsLogic = new GetSetBlueprintsLogic(
+    getCatalogLogic = new GetCatalogLogic(
       myCardCRUD_FAKE,
       cardTraderAdaptor_FAKE
     )
   })
 
   it('should return an empty array when no blueprints and user is not logged in', async () => {
-    cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS.mockResolvedValue([])
-    const result = await getSetBlueprintsLogic.get(
+    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
+    const result = await getCatalogLogic.get(
       null,
       EXPANSION_ID,
       BLUEPRINT_VALUES
     )
-    expect(
-      cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS
-    ).toHaveBeenCalledWith(EXPANSION_ID)
+    expect(cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS).toHaveBeenCalledWith(
+      EXPANSION_ID
+    )
     expect(result.cards).toEqual([])
   })
 
@@ -51,10 +51,10 @@ describe('Get Set Blueprints Logic', () => {
       imageUrlShow: 'show',
     })
 
-    cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS.mockResolvedValue([
+    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
       blueprint1,
     ])
-    const result = await getSetBlueprintsLogic.get(
+    const result = await getCatalogLogic.get(
       null,
       EXPANSION_ID,
       BLUEPRINT_VALUES
@@ -84,10 +84,10 @@ describe('Get Set Blueprints Logic', () => {
       imageUrlShow: 'show',
     })
 
-    cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS.mockResolvedValue([
+    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
       blueprint1,
     ])
-    const result = await getSetBlueprintsLogic.get(
+    const result = await getCatalogLogic.get(
       null,
       EXPANSION_ID,
       new Map<string, BlueprintValue>()
@@ -106,7 +106,7 @@ describe('Get Set Blueprints Logic', () => {
     const blueprint4 = makeCardBlueprintMock({ blueprintId: 4 })
     const blueprint5 = makeCardBlueprintMock({ blueprintId: 5 })
 
-    cardTraderAdaptor_FAKE.GET_POKEMON_SET_BLUEPRINTS.mockResolvedValue([
+    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
       blueprint1,
       blueprint2,
       blueprint3,
@@ -133,7 +133,7 @@ describe('Get Set Blueprints Logic', () => {
       cardTrader: { blueprintId: 5 },
     })
 
-    myCardCRUD_FAKE.FIND_BY_SET.mockResolvedValue([
+    myCardCRUD_FAKE.FIND_BY_EXPANSION.mockResolvedValue([
       myCardEntity1,
       myCardEntity2,
       myCardEntity3,
@@ -142,13 +142,13 @@ describe('Get Set Blueprints Logic', () => {
       myCardEntity6,
     ])
 
-    const result = await getSetBlueprintsLogic.get(
+    const result = await getCatalogLogic.get(
       USER_ID,
       EXPANSION_ID,
       BLUEPRINT_VALUES
     )
 
-    expect(myCardCRUD_FAKE.FIND_BY_SET).toHaveBeenCalledWith(
+    expect(myCardCRUD_FAKE.FIND_BY_EXPANSION).toHaveBeenCalledWith(
       USER_ID,
       EXPANSION_ID
     )

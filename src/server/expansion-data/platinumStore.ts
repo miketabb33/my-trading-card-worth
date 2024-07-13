@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const platinum: ExpansionData = {
   name: 'Platinum',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Platinum Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 127,
@@ -18,7 +18,7 @@ export const platinum: ExpansionData = {
 
 export const platinumRisingRivals: ExpansionData = {
   name: 'Platinum - Rising Rivals',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Platinum Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 111,
@@ -34,7 +34,7 @@ export const platinumRisingRivals: ExpansionData = {
 
 export const platinumSupremeVictors: ExpansionData = {
   name: 'Platinum - SupremeVictors',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Platinum Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 147,
@@ -51,7 +51,7 @@ export const platinumSupremeVictors: ExpansionData = {
 
 export const platinumArceus: ExpansionData = {
   name: 'Platinum - Arceus',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Platinum Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 99,

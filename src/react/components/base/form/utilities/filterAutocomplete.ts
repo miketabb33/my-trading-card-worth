@@ -13,9 +13,9 @@ const filterAutocompleteFromInput = <T extends object>(
   options: DropdownOption<T>[],
   inputValue: string
 ) => {
-  return options.filter((set) => {
-    const downcaseSetName = set.title.toLowerCase()
-    const noEAcute = downcaseSetName.replace(/é/g, 'e')
+  return options.filter((option) => {
+    const downcaseOptionName = option.title.toLowerCase()
+    const noEAcute = downcaseOptionName.replace(/é/g, 'e')
     const downcaseNewValue = inputValue.toLowerCase()
     return noEAcute.includes(downcaseNewValue)
   })

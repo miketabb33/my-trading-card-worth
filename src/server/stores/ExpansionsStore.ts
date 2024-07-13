@@ -1,21 +1,21 @@
 import { ExpansionDto } from '../../core/types/ExpansionDto'
-import { IGetSetsLogic } from '../logic/set/GetSetsLogic'
+import { IGetExpansionsLogic } from '../logic/catalog/GetExpansionsLogic'
 
-class SetsStore {
+class ExpansionsStore {
   private cache: ExpansionDto[] | null = null
-  private readonly getSetsLogic: IGetSetsLogic
+  private readonly getExpansionsLogic: IGetExpansionsLogic
 
-  constructor(getSetsLogic: IGetSetsLogic) {
-    this.getSetsLogic = getSetsLogic
+  constructor(getExpansionsLogic: IGetExpansionsLogic) {
+    this.getExpansionsLogic = getExpansionsLogic
   }
 
   get = async (): Promise<ExpansionDto[]> => {
-    if (!this.cache) return await this.getSetsLogic.get()
+    if (!this.cache) return await this.getExpansionsLogic.get()
     return this.cache
   }
 
   initStore = async () => {
-    if (!this.cache) this.cache = await this.getSetsLogic.get()
+    if (!this.cache) this.cache = await this.getExpansionsLogic.get()
   }
 
   initStubbedStore = () => {
@@ -23,7 +23,7 @@ class SetsStore {
   }
 }
 
-export default SetsStore
+export default ExpansionsStore
 
 const stubData: ExpansionDto[] = [
   {

@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const scarletAndViolet: ExpansionData = {
   name: 'Scarlet & Violet',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Scarlet & Violet Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 198,
@@ -19,7 +19,7 @@ export const scarletAndViolet: ExpansionData = {
 
 export const scarletAndVioletPaldeaEvolved: ExpansionData = {
   name: 'Scarlet & Violet - Paldea Evolved',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Scarlet & Violet Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 193,
@@ -35,7 +35,7 @@ export const scarletAndVioletPaldeaEvolved: ExpansionData = {
 
 export const scarletAndVioletObsidianFlames: ExpansionData = {
   name: 'Scarlet & Violet - ObsidianFlames',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Scarlet & Violet Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 197,
@@ -52,7 +52,7 @@ export const scarletAndVioletObsidianFlames: ExpansionData = {
 
 export const scarletAndViolet151: ExpansionData = {
   name: 'Scarlet & Violet - 151',
-  setNumber: 3.5,
+  expansionNumberInSeries: 3.5,
   series: 'Scarlet & Violet Series',
   expansionType: 'Special Expansion',
   numberOfCards: 165,
@@ -68,7 +68,7 @@ export const scarletAndViolet151: ExpansionData = {
 
 export const scarletAndVioletParadoxRift: ExpansionData = {
   name: 'Scarlet & Violet - Paradox Rift',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Scarlet & Violet Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 182,
@@ -84,7 +84,7 @@ export const scarletAndVioletParadoxRift: ExpansionData = {
 
 export const scarletAndVioletPaldeanFates: ExpansionData = {
   name: 'Scarlet & Violet - Paldean Fates',
-  setNumber: 4.5,
+  expansionNumberInSeries: 4.5,
   series: 'Scarlet & Violet Series',
   expansionType: 'Special Expansion',
   numberOfCards: 91,
@@ -100,7 +100,7 @@ export const scarletAndVioletPaldeanFates: ExpansionData = {
 
 export const scarletAndVioletTemporalForces: ExpansionData = {
   name: 'Scarlet & Violet - Temporal Forces',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Scarlet & Violet Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 162,
@@ -117,7 +117,7 @@ export const scarletAndVioletTemporalForces: ExpansionData = {
 
 export const scarletAndVioletTwilightMasquerade: ExpansionData = {
   name: 'Scarlet & Violet - Twilight Masquerade',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Scarlet & Violet Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 167,

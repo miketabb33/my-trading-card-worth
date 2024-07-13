@@ -24,26 +24,26 @@ const cardTraderAdaptor = new CardTraderAdaptor()
 beforeEach(jest.clearAllMocks)
 
 describe('Card Trader Adaptor', () => {
-  describe('Get Pokemon Sets', () => {
+  describe('Get Pokemon Expansions', () => {
     it('return empty array when given empty array', async () => {
       const expansionDto: CardTraderExpansionDto[] = []
       GET_EXPANSIONS.mockResolvedValue(expansionDto)
-      const result = await cardTraderAdaptor.getPokemonSets()
+      const result = await cardTraderAdaptor.getPokemonExpansions()
       expect(result.length).toEqual(0)
     })
-    it('formats pokemon set object correctly', async () => {
+    it('formats pokemon expansion object correctly', async () => {
       const Id = 1234
       const NAME = 'Jungle'
       const expansionDto: CardTraderExpansionDto[] = [
         { code: 'Code', id: Id, name: NAME, gameId: POKEMON_GAME_ID },
       ]
       GET_EXPANSIONS.mockResolvedValue(expansionDto)
-      const result = await cardTraderAdaptor.getPokemonSets()
+      const result = await cardTraderAdaptor.getPokemonExpansions()
       expect(result.length).toEqual(1)
       expect(result[0].expansionId).toEqual(Id)
       expect(result[0].name).toEqual(NAME)
     })
-    it('filters out none pokemon set items', async () => {
+    it('filters out none pokemon expansion items', async () => {
       const expansionDto: CardTraderExpansionDto[] = [
         { code: '', id: 0, name: '', gameId: POKEMON_GAME_ID },
         { code: '', id: 0, name: '', gameId: 1 },
@@ -53,17 +53,17 @@ describe('Card Trader Adaptor', () => {
         { code: '', id: 0, name: '', gameId: 6 },
       ]
       GET_EXPANSIONS.mockResolvedValue(expansionDto)
-      const result = await cardTraderAdaptor.getPokemonSets()
+      const result = await cardTraderAdaptor.getPokemonExpansions()
       expect(result.length).toEqual(3)
     })
   })
 
-  describe('Get Pokemon Set', () => {
+  describe('Get Pokemon Blueprints', () => {
     it('return empty array when given empty array', async () => {
       const blueprintDto: CardTraderBlueprintDto[] = []
       const id = 3
       GET_BLUEPRINTS.mockResolvedValue(blueprintDto)
-      const result = await cardTraderAdaptor.getPokemonSetBlueprints(id)
+      const result = await cardTraderAdaptor.getPokemonBlueprints(id)
       expect(result.length).toEqual(0)
       expect(GET_BLUEPRINTS).toHaveBeenCalledWith(id)
     })
@@ -88,7 +88,7 @@ describe('Card Trader Adaptor', () => {
       ]
 
       GET_BLUEPRINTS.mockResolvedValue(blueprintDto)
-      const result = await cardTraderAdaptor.getPokemonSetBlueprints(3)
+      const result = await cardTraderAdaptor.getPokemonBlueprints(3)
       expect(result[0].blueprintId).toEqual(id)
       expect(result[0].name).toEqual(name)
       expect(result[0].version).toEqual(version)
@@ -111,7 +111,7 @@ describe('Card Trader Adaptor', () => {
       ]
 
       GET_BLUEPRINTS.mockResolvedValue(blueprintDto)
-      const result = await cardTraderAdaptor.getPokemonSetBlueprints(3)
+      const result = await cardTraderAdaptor.getPokemonBlueprints(3)
       expect(result.length).toEqual(3)
     })
   })

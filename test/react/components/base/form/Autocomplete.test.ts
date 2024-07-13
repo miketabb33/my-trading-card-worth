@@ -31,17 +31,19 @@ const DROPDOWN_OPTIONS = [
 beforeEach(jest.clearAllMocks)
 
 describe('Use With Autocomplete', () => {
-  it('should set filtered sets when sets load', async () => {
+  it('should set filtered options when options change', async () => {
     const { result } = renderHook(() =>
       useWithAutocomplete<Dropdown.FakeDropdownData>({})
     )
     expect(result.current.bind.dropdownBind.options).toEqual([])
 
     act(() => result.current.setOptions(DROPDOWN_OPTIONS))
-    await act(async () => await result.current.bind.setsLoadedEffect.effect())
+    await act(
+      async () => await result.current.bind.optionsChangedEffect.effect()
+    )
 
     expect(result.current.bind.dropdownBind.options).toEqual(DROPDOWN_OPTIONS)
-    expect(result.current.bind.setsLoadedEffect.deps).toEqual([
+    expect(result.current.bind.optionsChangedEffect.deps).toEqual([
       DROPDOWN_OPTIONS,
     ])
   })
@@ -57,7 +59,9 @@ describe('Use With Autocomplete', () => {
     expect(result.current.bind.inputValue).toEqual('')
     expect(result.current.selectedOption).toBeNull()
 
-    await act(async () => await result.current.bind.setsLoadedEffect.effect())
+    await act(
+      async () => await result.current.bind.optionsChangedEffect.effect()
+    )
 
     act(() =>
       result.current.bind.dropdownBind.onOptionClick(Dropdown.DROPDOWN_OPTION_1)

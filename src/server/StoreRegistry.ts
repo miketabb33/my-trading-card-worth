@@ -1,32 +1,34 @@
 import CardTraderAdaptor from './clients/CardTrader/CardTraderAdaptor'
 import { ENV } from './env'
-import GetExpansionBlueprintValueLogic from './logic/price/GetExpansionBlueprintValueLogic'
-import ExpansionSorter from './logic/set/ExpansionSorter'
-import GetSetsLogic from './logic/set/GetSetsLogic'
+import GetBlueprintValueLogic from './logic/price/GetBlueprintValueLogic'
+import ExpansionSorter from './logic/catalog/ExpansionSorter'
+import GetExpansionsLogic from './logic/catalog/GetExpansionsLogic'
 import BlueprintValueStore from './stores/BlueprintValueStore'
-import SetsStore from './stores/SetsStore'
+import ExpansionsStore from './stores/ExpansionsStore'
 import { expansionStoreMap } from './stores/expansionStoreMap'
 
 const Store = {
-  sets: new SetsStore(
-    new GetSetsLogic(
+  expansions: new ExpansionsStore(
+    new GetExpansionsLogic(
       new CardTraderAdaptor(),
       new ExpansionSorter(),
       expansionStoreMap
     )
   ),
   blueprintValues: new BlueprintValueStore(
-    new GetExpansionBlueprintValueLogic(new CardTraderAdaptor())
+    new GetBlueprintValueLogic(new CardTraderAdaptor())
   ),
 }
 
 export const initStores = async () => {
   if (ENV.ID === 'production') {
-    await Store.sets.initStore()
-    const expansionIds = (await Store.sets.get()).map((set) => set.expansionId)
+    await Store.expansions.initStore()
+    const expansionIds = (await Store.expansions.get()).map(
+      (expansion) => expansion.expansionId
+    )
     await Store.blueprintValues.initStore(expansionIds)
   } else {
-    Store.sets.initStubbedStore()
+    Store.expansions.initStubbedStore()
   }
 }
 

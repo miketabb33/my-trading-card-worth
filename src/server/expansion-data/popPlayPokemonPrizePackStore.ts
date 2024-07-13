@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const popPlayPokemonPrizePackPopSeries1: ExpansionData = {
   name: 'POP Series 1',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -17,7 +17,7 @@ export const popPlayPokemonPrizePackPopSeries1: ExpansionData = {
 
 export const popPlayPokemonPrizePackPopSeries2: ExpansionData = {
   name: 'POP Series 2',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -32,7 +32,7 @@ export const popPlayPokemonPrizePackPopSeries2: ExpansionData = {
 
 export const popPlayPokemonPrizePackPopSeries3: ExpansionData = {
   name: 'POP Series 3',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -47,7 +47,7 @@ export const popPlayPokemonPrizePackPopSeries3: ExpansionData = {
 
 export const popPlayPokemonPrizePackPopSeries4: ExpansionData = {
   name: 'POP Series 4',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -62,7 +62,7 @@ export const popPlayPokemonPrizePackPopSeries4: ExpansionData = {
 
 export const popPlayPokemonPrizePackPopSeries5: ExpansionData = {
   name: 'POP Series 5',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -77,7 +77,7 @@ export const popPlayPokemonPrizePackPopSeries5: ExpansionData = {
 
 export const popPlayPokemonPrizePackPopSeries6: ExpansionData = {
   name: 'POP Series 6',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -92,7 +92,7 @@ export const popPlayPokemonPrizePackPopSeries6: ExpansionData = {
 
 export const popPlayPokemonPrizePackPopSeries7: ExpansionData = {
   name: 'POP Series 7',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -107,7 +107,7 @@ export const popPlayPokemonPrizePackPopSeries7: ExpansionData = {
 
 export const popPlayPokemonPrizePackPopSeries8: ExpansionData = {
   name: 'POP Series 8',
-  setNumber: 8,
+  expansionNumberInSeries: 8,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -122,7 +122,7 @@ export const popPlayPokemonPrizePackPopSeries8: ExpansionData = {
 
 export const popPlayPokemonPrizePackPopSeries9: ExpansionData = {
   name: 'POP Series 9',
-  setNumber: 9,
+  expansionNumberInSeries: 9,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 17,
@@ -137,7 +137,7 @@ export const popPlayPokemonPrizePackPopSeries9: ExpansionData = {
 
 export const popPlayPokemonPrizePackPlaySeries1: ExpansionData = {
   name: 'Play! Pokémon Prize Pack Series One',
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 170,
@@ -152,7 +152,7 @@ export const popPlayPokemonPrizePackPlaySeries1: ExpansionData = {
 
 export const popPlayPokemonPrizePackPlaySeries2: ExpansionData = {
   name: 'Play! Pokémon Prize Pack Series Two',
-  setNumber: 11,
+  expansionNumberInSeries: 11,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 154,
@@ -167,7 +167,7 @@ export const popPlayPokemonPrizePackPlaySeries2: ExpansionData = {
 
 export const popPlayPokemonPrizePackPlaySeries3: ExpansionData = {
   name: 'Play! Pokémon Prize Pack Series Three',
-  setNumber: 12,
+  expansionNumberInSeries: 12,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 163,
@@ -182,7 +182,7 @@ export const popPlayPokemonPrizePackPlaySeries3: ExpansionData = {
 
 export const popPlayPokemonPrizePackPlaySeries4: ExpansionData = {
   name: 'Play! Pokémon Prize Pack Series Four',
-  setNumber: 13,
+  expansionNumberInSeries: 13,
   series: 'Pop / Play! Pokemon Prize Packs',
   expansionType: 'Other Expansion',
   numberOfCards: 86,

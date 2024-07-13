@@ -1,6 +1,6 @@
 import React from 'react'
 import CardList from '../card-list/CardList'
-import { useMyCards } from '../../network/myCardClient'
+import { useMyCards } from '../../network/collectionClient'
 
 const Collection = () => {
   const { myCards, refresh } = useInCollection()

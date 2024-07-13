@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const legendaryCollection: ExpansionData = {
   name: 'Legendary Collection',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Legendary Collection Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 110,

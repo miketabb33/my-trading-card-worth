@@ -13,19 +13,19 @@ const DROPDOWN_OPTIONS = [
 ]
 
 describe('Filter Autocomplete', () => {
-  it('should return empty array when sets is null', () => {
+  it('should return empty array when options are null', () => {
     const results = filterAutocomplete(null, 'any')
     expect(results).toEqual([])
   })
-  it('should return all sets when search is empty', () => {
+  it('should return all options when search is empty', () => {
     const results = filterAutocomplete(DROPDOWN_OPTIONS, '')
     expect(results).toEqual(DROPDOWN_OPTIONS)
   })
-  it('should return a specific set', () => {
+  it('should return a specific option', () => {
     const results = filterAutocomplete(DROPDOWN_OPTIONS, 'Fossil')
     expect(results).toEqual([Dropdown.DROPDOWN_OPTION_8])
   })
-  it('should return sets with the text', () => {
+  it('should return options with the text', () => {
     const results = filterAutocomplete(DROPDOWN_OPTIONS, 'Promos')
     expect(results.length).toEqual(4)
     expect(results).toEqual([

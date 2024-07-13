@@ -1,13 +1,13 @@
 import { Router } from 'express'
 import ProfileController from './controllers/ProfileController'
-import MyCardController from './controllers/MyCardController'
-import SetController from './controllers/SetController'
+import CollectionController from './controllers/CollectionController'
+import CatalogController from './controllers/CatalogController'
 
 const ControllerRegistry = Router()
 
-ControllerRegistry.use('/sets', SetController)
+ControllerRegistry.use('/catalog', CatalogController)
 ControllerRegistry.use('/profile', ProfileController)
-ControllerRegistry.use('/my-card', MyCardController)
+ControllerRegistry.use('/collection', CollectionController)
 
 ControllerRegistry.get('*', (_, res) => res.send('Nothing here'))
 

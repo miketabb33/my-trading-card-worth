@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const blackAndWhite: ExpansionData = {
   name: 'Black & White',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 114,
@@ -19,7 +19,7 @@ export const blackAndWhite: ExpansionData = {
 
 export const blackAndWhiteEmergingPowers: ExpansionData = {
   name: 'Black & White - Emerging Powers',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 98,
@@ -36,7 +36,7 @@ export const blackAndWhiteEmergingPowers: ExpansionData = {
 
 export const blackAndWhiteNobleVictories: ExpansionData = {
   name: 'Black & White - Noble Victories',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 101,
@@ -53,7 +53,7 @@ export const blackAndWhiteNobleVictories: ExpansionData = {
 
 export const blackAndWhiteNextDestinies: ExpansionData = {
   name: 'Black & White - Next Destinies',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 99,
@@ -69,7 +69,7 @@ export const blackAndWhiteNextDestinies: ExpansionData = {
 
 export const blackAndWhiteDarkExplorers: ExpansionData = {
   name: 'Black & White - Dark Explorers',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 108,
@@ -85,7 +85,7 @@ export const blackAndWhiteDarkExplorers: ExpansionData = {
 
 export const blackAndWhiteDragonsExalted: ExpansionData = {
   name: 'Black & White - Dragons Exalted',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 124,
@@ -102,7 +102,7 @@ export const blackAndWhiteDragonsExalted: ExpansionData = {
 
 export const blackAndWhiteDragonVault: ExpansionData = {
   name: 'Dragon Vault',
-  setNumber: 6.5,
+  expansionNumberInSeries: 6.5,
   series: 'Black & White Series',
   expansionType: 'Special Expansion',
   numberOfCards: 20,
@@ -118,7 +118,7 @@ export const blackAndWhiteDragonVault: ExpansionData = {
 
 export const blackAndWhiteBoundariesCrossed: ExpansionData = {
   name: 'Black & White - Boundaries Crossed',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 149,
@@ -135,7 +135,7 @@ export const blackAndWhiteBoundariesCrossed: ExpansionData = {
 
 export const blackAndWhitePlasmaStorm: ExpansionData = {
   name: 'Black & White - Plasma Storm',
-  setNumber: 8,
+  expansionNumberInSeries: 8,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 136,
@@ -151,7 +151,7 @@ export const blackAndWhitePlasmaStorm: ExpansionData = {
 
 export const blackAndWhitePlasmaFreeze: ExpansionData = {
   name: 'Black & White - Plasma Freeze',
-  setNumber: 9,
+  expansionNumberInSeries: 9,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 116,
@@ -167,7 +167,7 @@ export const blackAndWhitePlasmaFreeze: ExpansionData = {
 
 export const blackAndWhitePlasmaBlast: ExpansionData = {
   name: 'Black & White - Plasma Blast',
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 101,
@@ -183,7 +183,7 @@ export const blackAndWhitePlasmaBlast: ExpansionData = {
 
 export const blackAndWhiteLegendaryTreasures: ExpansionData = {
   name: 'Black & White - Legendary Treasures',
-  setNumber: 11,
+  expansionNumberInSeries: 11,
   series: 'Black & White Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 113,

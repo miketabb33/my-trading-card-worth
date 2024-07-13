@@ -27,29 +27,35 @@ export const OTHER_SERIES: ExpansionSeries[] = [
 ]
 
 export type SortableExpansion = {
-  cardSet: CardExpansion
+  cardExpansion: CardExpansion
   expansionData: ExpansionData | null
 }
 
 export interface IExpansionSorter {
-  sort: (expansions: SortableExpansion[]) => SortableExpansion[]
+  sort: (sortableExpansions: SortableExpansion[]) => SortableExpansion[]
 }
 
 class ExpansionSorter implements IExpansionSorter {
-  sort = (expansions: SortableExpansion[]): SortableExpansion[] => {
-    const mainSeriesSets = this.extractAndSortMainSeriesExpansions(expansions)
-    const otherSeriesSets = this.extractAndSortOtherSeriesExpansions(expansions)
-    const remainingExpansions = expansions
+  sort = (sortableExpansions: SortableExpansion[]): SortableExpansion[] => {
+    const mainSeriesExpansions =
+      this.extractAndSortMainSeriesExpansions(sortableExpansions)
+    const otherSeriesExpansions =
+      this.extractAndSortOtherSeriesExpansions(sortableExpansions)
+    const remainingExpansions = sortableExpansions
 
-    return [...mainSeriesSets, ...otherSeriesSets, ...remainingExpansions]
+    return [
+      ...mainSeriesExpansions,
+      ...otherSeriesExpansions,
+      ...remainingExpansions,
+    ]
   }
 
   private extractAndSortMainSeriesExpansions = (
-    expansions: SortableExpansion[]
+    sortableExpansions: SortableExpansion[]
   ) => {
     return MAIN_SERIES.reverse().flatMap((expansionSeries) => {
       const mainSeriesExpansions = this.extractExpansionSeries(
-        expansions,
+        sortableExpansions,
         expansionSeries
       )
       return mainSeriesExpansions.sort(this.sortByOldest)
@@ -57,11 +63,11 @@ class ExpansionSorter implements IExpansionSorter {
   }
 
   private extractAndSortOtherSeriesExpansions = (
-    expansions: SortableExpansion[]
+    sortableExpansions: SortableExpansion[]
   ) => {
     return OTHER_SERIES.flatMap((expansionSeries) => {
       const otherSeriesExpansions = this.extractExpansionSeries(
-        expansions,
+        sortableExpansions,
         expansionSeries
       )
       return otherSeriesExpansions.sort(this.sortByMostRecent)
@@ -83,26 +89,28 @@ class ExpansionSorter implements IExpansionSorter {
   }
 
   private extractExpansionSeries = (
-    expansions: SortableExpansion[],
+    sortableExpansions: SortableExpansion[],
     expansionSeries: ExpansionSeries
   ): SortableExpansion[] => {
     const { series, expansionIdsToBeCleared } =
-      this.getSeriesAndExpansionsToClear(expansions, expansionSeries)
+      this.getSeriesAndExpansionsToClear(sortableExpansions, expansionSeries)
 
-    this.clearExpansionsFrom(expansions, expansionIdsToBeCleared)
+    this.clearExpansionsFrom(sortableExpansions, expansionIdsToBeCleared)
 
     return series
   }
 
   private getSeriesAndExpansionsToClear = (
-    expansions: SortableExpansion[],
+    sortableExpansions: SortableExpansion[],
     expansionSeries: ExpansionSeries
   ) => {
     const expansionIdsToBeCleared: number[] = []
 
-    const series = expansions.filter((set) => {
-      if (set.expansionData?.series === expansionSeries) {
-        expansionIdsToBeCleared.push(set.cardSet.expansionId)
+    const series = sortableExpansions.filter((sortableExpansion) => {
+      if (sortableExpansion.expansionData?.series === expansionSeries) {
+        expansionIdsToBeCleared.push(
+          sortableExpansion.cardExpansion.expansionId
+        )
         return true
       }
       return false
@@ -112,20 +120,20 @@ class ExpansionSorter implements IExpansionSorter {
   }
 
   private clearExpansionsFrom = (
-    expansions: SortableExpansion[],
+    sortableExpansions: SortableExpansion[],
     expansionIdsToBeCleared: number[]
   ) => {
     expansionIdsToBeCleared.forEach((expansionId) => {
       let index: number | null = null
-      expansions.find((set, i) => {
-        if (set.cardSet?.expansionId === expansionId) {
+      sortableExpansions.find((sortableExpansion, i) => {
+        if (sortableExpansion.cardExpansion?.expansionId === expansionId) {
           index = i
           return true
         }
         return false
       })
 
-      if (index) expansions.splice(index, 1)
+      if (index) sortableExpansions.splice(index, 1)
     })
   }
 }

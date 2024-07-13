@@ -3,17 +3,17 @@ import { Router } from 'express'
 import { formatError, formatResponse } from '../logic/formatResponse'
 import Logger from '../logger'
 import { parseAuth0User } from '../auth0/parseAuth0User'
-import GetSetBlueprintsLogic from '../logic/set/GetSetBlueprintsLogic'
+import GetCatalogLogic from '../logic/catalog/GetCatalogLogic'
 import MyCardCRUD from '../database/repository/MyCardCRUD'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
 import Store from '../StoreRegistry'
 
-const SetController = Router()
+const CatalogController = Router()
 
-SetController.get('/', async (_, res) => {
+CatalogController.get('/', async (_, res) => {
   try {
-    const sets = await Store.sets.get()
-    res.send(formatResponse({ data: sets }))
+    const expansionsDto = await Store.expansions.get()
+    res.send(formatResponse({ data: expansionsDto }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)
@@ -21,25 +21,25 @@ SetController.get('/', async (_, res) => {
   }
 })
 
-SetController.get('/:id', async (req, res) => {
+CatalogController.get('/:id', async (req, res) => {
   try {
     const expansionId = +req.params.id
     if (!expansionId)
       throw new Error(`${req.params.id} is not a valid expansion id`)
 
-    const getSetBlueprintsLogic = new GetSetBlueprintsLogic(
+    const getCatalogLogic = new GetCatalogLogic(
       new MyCardCRUD(),
       new CardTraderAdaptor()
     )
 
     const userId = req.oidc.user ? parseAuth0User(req.oidc.user).sub : null
-    const dto = await getSetBlueprintsLogic.get(
+    const catalogDto = await getCatalogLogic.get(
       userId,
       expansionId,
       Store.blueprintValues.get()
     )
 
-    res.send(formatResponse({ data: dto }))
+    res.send(formatResponse({ data: catalogDto }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)
@@ -47,4 +47,4 @@ SetController.get('/:id', async (req, res) => {
   }
 })
 
-export default SetController
+export default CatalogController

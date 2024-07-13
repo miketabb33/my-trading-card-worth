@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const xyKalosStarterSet: ExpansionData = {
   name: 'XY - Kalos Starter Set',
-  setNumber: 0,
+  expansionNumberInSeries: 0,
   series: 'XY Series',
   expansionType: 'Special Expansion',
   numberOfCards: 39,
@@ -19,7 +19,7 @@ export const xyKalosStarterSet: ExpansionData = {
 
 export const xy: ExpansionData = {
   name: 'XY',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 146,
@@ -35,7 +35,7 @@ export const xy: ExpansionData = {
 
 export const xyFlashfire: ExpansionData = {
   name: 'XY - Flashfire',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 106,
@@ -51,7 +51,7 @@ export const xyFlashfire: ExpansionData = {
 
 export const xyFuriousFists: ExpansionData = {
   name: 'XY - Furious Fists',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 111,
@@ -67,7 +67,7 @@ export const xyFuriousFists: ExpansionData = {
 
 export const xyPhantomForces: ExpansionData = {
   name: 'XY - Phantom Forces',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 119,
@@ -83,7 +83,7 @@ export const xyPhantomForces: ExpansionData = {
 
 export const xyPrimalClash: ExpansionData = {
   name: 'XY - Primal Clash',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 160,
@@ -99,7 +99,7 @@ export const xyPrimalClash: ExpansionData = {
 
 export const xyDoubleCrisis: ExpansionData = {
   name: 'Double Crisis',
-  setNumber: 5.5,
+  expansionNumberInSeries: 5.5,
   series: 'XY Series',
   expansionType: 'Special Expansion',
   numberOfCards: 34,
@@ -115,7 +115,7 @@ export const xyDoubleCrisis: ExpansionData = {
 
 export const xyRoaringSkies: ExpansionData = {
   name: 'XY - Roaring Skies',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 108,
@@ -131,7 +131,7 @@ export const xyRoaringSkies: ExpansionData = {
 
 export const xyAncientOrigins: ExpansionData = {
   name: 'XY - Ancient Origins',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 98,
@@ -148,7 +148,7 @@ export const xyAncientOrigins: ExpansionData = {
 
 export const xyBREAKthrough: ExpansionData = {
   name: 'XY - BREAKthrough',
-  setNumber: 8,
+  expansionNumberInSeries: 8,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 162,
@@ -164,7 +164,7 @@ export const xyBREAKthrough: ExpansionData = {
 
 export const xyBREAKpoint: ExpansionData = {
   name: 'XY - BREAKpoint',
-  setNumber: 9,
+  expansionNumberInSeries: 9,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 122,
@@ -180,7 +180,7 @@ export const xyBREAKpoint: ExpansionData = {
 
 export const xyGenerations: ExpansionData = {
   name: 'Generations',
-  setNumber: 9.5,
+  expansionNumberInSeries: 9.5,
   series: 'XY Series',
   expansionType: 'Special Expansion',
   numberOfCards: 83,
@@ -196,7 +196,7 @@ export const xyGenerations: ExpansionData = {
 
 export const xyFatesCollide: ExpansionData = {
   name: 'XY - Fates Collide',
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 124,
@@ -212,7 +212,7 @@ export const xyFatesCollide: ExpansionData = {
 
 export const xySteamSiege: ExpansionData = {
   name: 'XY - Steam Siege',
-  setNumber: 11,
+  expansionNumberInSeries: 11,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 114,
@@ -228,7 +228,7 @@ export const xySteamSiege: ExpansionData = {
 
 export const xyEvolutions: ExpansionData = {
   name: 'XY - Evolutions',
-  setNumber: 12,
+  expansionNumberInSeries: 12,
   series: 'XY Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 108,

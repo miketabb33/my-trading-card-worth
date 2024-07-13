@@ -1,4 +1,4 @@
-import GetCardLogic from '../../../../src/server/logic/myCard/GetCardLogic'
+import GetCardLogic from '../../../../src/server/logic/collection/GetCardLogic'
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
 import MyCardCRUD_FAKE from '../../__FAKES__/MyCardCRUD.fake'
 import { makeMyCardEntityMock } from '../../__MOCKS__/myCardEntity.mock'

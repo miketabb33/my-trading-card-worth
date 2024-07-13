@@ -22,7 +22,7 @@ ProfileController.get('/', async (req, res) => {
     const auth0User = parseAuth0User(user)
     const profile = await getProfile(auth0User)
 
-    const dto: ProfileDto = {
+    const profileDto: ProfileDto = {
       userId: profile.userId,
       name: profile.name ?? 'Unknown Name',
       nickname: profile.nickname ?? 'Unknown Nickname',
@@ -30,7 +30,7 @@ ProfileController.get('/', async (req, res) => {
       picture: profile.picture,
     }
 
-    res.send(formatResponse({ data: dto }))
+    res.send(formatResponse({ data: profileDto }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)

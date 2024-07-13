@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const heartGoldAndSilverSoul: ExpansionData = {
   name: 'HeartGold & SoulSilver',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'HeartGold & SoulSilver Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 123,
@@ -19,7 +19,7 @@ export const heartGoldAndSilverSoul: ExpansionData = {
 
 export const hsUnleashed: ExpansionData = {
   name: 'HS - Unleashed',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'HeartGold & SoulSilver Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 95,
@@ -35,7 +35,7 @@ export const hsUnleashed: ExpansionData = {
 
 export const hsUndaunted: ExpansionData = {
   name: 'HS - Undaunted',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'HeartGold & SoulSilver Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 90,
@@ -51,7 +51,7 @@ export const hsUndaunted: ExpansionData = {
 
 export const hsTriumphant: ExpansionData = {
   name: 'HS - Triumphant',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'HeartGold & SoulSilver Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 102,

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { fetchExpansion } from '../../network/expansionClient'
+import { fetchCatalog } from '../../network/catalogClient'
 import Autocomplete, { useWithAutocomplete } from '../base/form/Autocomplete'
 import React, { useEffect, useState } from 'react'
 import { CatalogDto } from '../../../core/types/CatalogDto'
@@ -26,12 +26,12 @@ const Catalog = () => {
     autocompleteBind,
     cardsDto,
     expansionDetailsDto,
-    setsLoadedEffect,
+    expansionsLoadedEffect,
     fetchExpansionDetailsAndCardsEffect,
     refreshCards,
   } = useInCatalog()
 
-  useEffect(setsLoadedEffect.effect, setsLoadedEffect.deps)
+  useEffect(expansionsLoadedEffect.effect, expansionsLoadedEffect.deps)
   useEffect(
     fetchExpansionDetailsAndCardsEffect.effect,
     fetchExpansionDetailsAndCardsEffect.deps
@@ -39,7 +39,7 @@ const Catalog = () => {
 
   return (
     <Container>
-      <p>Search Pokemon Cards by set</p>
+      <p>Search Pokemon Cards By Expansion</p>
       <Autocomplete {...autocompleteBind} />
       {expansionDetailsDto && (
         <CatalogExpansionDetails expansionDetailsDto={expansionDetailsDto} />
@@ -65,7 +65,7 @@ export const useInCatalog = () => {
       (expansion) => expansion.slug === expansionSlug
     )
     if (!selectedExpansion) return
-    fetchExpansion(selectedExpansion.expansionId)
+    fetchCatalog(selectedExpansion.expansionId)
       .then((res) => {
         setSelectedExpansion(res.data)
         setFilteredCardsDto(res.data?.cards.sort(sortByHighestMedian) ?? [])
@@ -82,7 +82,7 @@ export const useInCatalog = () => {
       didSelectOption: (option) => navigateTo(PATH_VALUES.catalog(option.slug)),
     })
 
-  const setsLoadedEffect: UseEffectType = {
+  const expansionsLoadedEffect: UseEffectType = {
     effect: () => {
       if (expansions) {
         const newOptions: DropdownOption<ExpansionDto>[] = expansions.map(
@@ -107,7 +107,7 @@ export const useInCatalog = () => {
     autocompleteBind,
     cardsDto: filteredCardsDto,
     expansionDetailsDto: selectedExpansion?.details || null,
-    setsLoadedEffect,
+    expansionsLoadedEffect,
     fetchExpansionDetailsAndCardsEffect,
     refreshCards: fetchExpansionDetailsAndCards,
   }

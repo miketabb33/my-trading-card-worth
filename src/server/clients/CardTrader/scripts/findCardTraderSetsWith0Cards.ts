@@ -1,18 +1,18 @@
 import CardTraderAdaptor from '../CardTraderAdaptor'
 
-export const findCardTraderSetsWith0Cards = async () => {
+export const findCardTraderExpansionsWith0Cards = async () => {
   const cardTraderAdaptor = new CardTraderAdaptor()
 
-  const pokemonSets = await cardTraderAdaptor.getPokemonSets()
+  const pokemonExpansions = await cardTraderAdaptor.getPokemonExpansions()
   const zeroItems: number[] = []
 
-  for (let i = 0; i < pokemonSets.length; i++) {
-    const set = pokemonSets[i]
-    const cards = await cardTraderAdaptor.getPokemonSetBlueprints(
-      set.expansionId
+  for (let i = 0; i < pokemonExpansions.length; i++) {
+    const expansion = pokemonExpansions[i]
+    const cardBlueprints = await cardTraderAdaptor.getPokemonBlueprints(
+      expansion.expansionId
     )
-    if (cards.length === 0) zeroItems.push(set.expansionId)
-    console.log(set.expansionId, set.name, cards.length)
+    if (cardBlueprints.length === 0) zeroItems.push(expansion.expansionId)
+    console.log(expansion.expansionId, expansion.name, cardBlueprints.length)
   }
 
   return zeroItems

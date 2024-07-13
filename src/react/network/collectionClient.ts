@@ -4,13 +4,17 @@ import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
 
 export const addMyCard = async (addMyCardDto: AddMyCardDto) => {
-  await fetchApi({ path: '/my-card', method: 'POST', body: addMyCardDto })
+  await fetchApi({ path: '/collection', method: 'POST', body: addMyCardDto })
 }
 
 export const removeMyCard = async (blueprintId: number) => {
-  await fetchApi({ path: '/my-card', method: 'DELETE', body: { blueprintId } })
+  await fetchApi({
+    path: '/collection',
+    method: 'DELETE',
+    body: { blueprintId },
+  })
 }
 
 export const useMyCards = () => {
-  return useApi<CardDto[]>('/my-card')
+  return useApi<CardDto[]>('/collection')
 }

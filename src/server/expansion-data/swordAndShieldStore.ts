@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const swordAndShield: ExpansionData = {
   name: 'Sword & Shield',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 202,
@@ -19,7 +19,7 @@ export const swordAndShield: ExpansionData = {
 
 export const swordAndShieldRebelClash: ExpansionData = {
   name: 'Sword & Shield - Rebel Clash',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 192,
@@ -35,7 +35,7 @@ export const swordAndShieldRebelClash: ExpansionData = {
 
 export const swordAndShieldDarknessAblaze: ExpansionData = {
   name: 'Sword & Shield - Darkness Ablaze',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 189,
@@ -52,7 +52,7 @@ export const swordAndShieldDarknessAblaze: ExpansionData = {
 
 export const swordAndShieldChampionsPath: ExpansionData = {
   name: "Sword & Shield - Champion's Path",
-  setNumber: 3.5,
+  expansionNumberInSeries: 3.5,
   series: 'Sword & Shield Series',
   expansionType: 'Special Expansion',
   numberOfCards: 73,
@@ -69,7 +69,7 @@ export const swordAndShieldChampionsPath: ExpansionData = {
 
 export const swordAndShieldVividVoltage: ExpansionData = {
   name: 'Sword & Shield - Vivid Voltage',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 185,
@@ -85,7 +85,7 @@ export const swordAndShieldVividVoltage: ExpansionData = {
 
 export const swordAndShieldShiningFates: ExpansionData = {
   name: 'Shining Fates',
-  setNumber: 4.5,
+  expansionNumberInSeries: 4.5,
   series: 'Sword & Shield Series',
   expansionType: 'Special Expansion',
   numberOfCards: 72,
@@ -101,7 +101,7 @@ export const swordAndShieldShiningFates: ExpansionData = {
 
 export const swordAndShieldBattleStyles: ExpansionData = {
   name: 'Sword & Shield - Battle Styles',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 163,
@@ -117,7 +117,7 @@ export const swordAndShieldBattleStyles: ExpansionData = {
 
 export const swordAndShieldChillingReign: ExpansionData = {
   name: 'Sword & Shield - Chilling Reign',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 198,
@@ -133,7 +133,7 @@ export const swordAndShieldChillingReign: ExpansionData = {
 
 export const swordAndShieldEvolvingSkies: ExpansionData = {
   name: 'Sword & Shield - Evolving Skies',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 203,
@@ -149,7 +149,7 @@ export const swordAndShieldEvolvingSkies: ExpansionData = {
 
 export const swordAndShieldCelebrations: ExpansionData = {
   name: 'Celebrations',
-  setNumber: 7.5,
+  expansionNumberInSeries: 7.5,
   series: 'Sword & Shield Series',
   expansionType: 'Special Expansion',
   numberOfCards: 25,
@@ -165,7 +165,7 @@ export const swordAndShieldCelebrations: ExpansionData = {
 
 export const swordAndShieldFusionStrike: ExpansionData = {
   name: 'Sword & Shield - Fusion Strike',
-  setNumber: 8,
+  expansionNumberInSeries: 8,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 264,
@@ -181,7 +181,7 @@ export const swordAndShieldFusionStrike: ExpansionData = {
 
 export const swordAndShieldBrilliantStars: ExpansionData = {
   name: 'Sword & Shield - Brilliant Stars',
-  setNumber: 9,
+  expansionNumberInSeries: 9,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 172,
@@ -198,7 +198,7 @@ export const swordAndShieldBrilliantStars: ExpansionData = {
 
 export const swordAndShieldAstralRadiance: ExpansionData = {
   name: 'Sword & Shield - Astral Radiance',
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 189,
@@ -215,7 +215,7 @@ export const swordAndShieldAstralRadiance: ExpansionData = {
 
 export const swordAndShieldPokemonGo: ExpansionData = {
   name: 'Pokémon TCG: Pokémon GO',
-  setNumber: 10.5,
+  expansionNumberInSeries: 10.5,
   series: 'Sword & Shield Series',
   expansionType: 'Special Expansion',
   numberOfCards: 78,
@@ -232,7 +232,7 @@ export const swordAndShieldPokemonGo: ExpansionData = {
 
 export const swordAndShieldLostOrigin: ExpansionData = {
   name: 'Sword & Shield - Lost Origin',
-  setNumber: 11,
+  expansionNumberInSeries: 11,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 196,
@@ -248,7 +248,7 @@ export const swordAndShieldLostOrigin: ExpansionData = {
 
 export const swordAndShieldSilverTempest: ExpansionData = {
   name: 'Sword & Shield - Silver Tempest',
-  setNumber: 12,
+  expansionNumberInSeries: 12,
   series: 'Sword & Shield Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 195,
@@ -264,7 +264,7 @@ export const swordAndShieldSilverTempest: ExpansionData = {
 
 export const swordAndShieldCrownZenith: ExpansionData = {
   name: 'Crown Zenith',
-  setNumber: 12.5,
+  expansionNumberInSeries: 12.5,
   series: 'Sword & Shield Series',
   expansionType: 'Special Expansion',
   numberOfCards: 159,

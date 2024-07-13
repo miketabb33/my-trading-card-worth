@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const baseSetShadowless: ExpansionData = {
   name: 'Base Set Shadowless',
-  setNumber: 0,
+  expansionNumberInSeries: 0,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 102,
@@ -17,7 +17,7 @@ export const baseSetShadowless: ExpansionData = {
 
 export const baseSet: ExpansionData = {
   name: 'Base Set',
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 102,
@@ -32,7 +32,7 @@ export const baseSet: ExpansionData = {
 
 export const jungle: ExpansionData = {
   name: 'Jungle',
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 64,
@@ -48,7 +48,7 @@ export const jungle: ExpansionData = {
 
 export const fossil: ExpansionData = {
   name: 'Fossil',
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 62,
@@ -64,7 +64,7 @@ export const fossil: ExpansionData = {
 
 export const baseSet2: ExpansionData = {
   name: 'Base Set 2',
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 130,
@@ -80,7 +80,7 @@ export const baseSet2: ExpansionData = {
 
 export const teamRocket: ExpansionData = {
   name: 'Team Rocket',
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 82,
@@ -96,7 +96,7 @@ export const teamRocket: ExpansionData = {
 
 export const gymHeros: ExpansionData = {
   name: 'Gym Heroes',
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 132,
@@ -112,7 +112,7 @@ export const gymHeros: ExpansionData = {
 
 export const gymChallenge: ExpansionData = {
   name: 'Gym Challenge',
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: 'Original Series',
   expansionType: 'Main Series Expansion',
   numberOfCards: 132,

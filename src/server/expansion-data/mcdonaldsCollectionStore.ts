@@ -2,7 +2,7 @@ import { ExpansionData } from '../types/ExpansionData'
 
 export const mcdonaldCollection2011: ExpansionData = {
   name: "McDonald's Collection 2011",
-  setNumber: 1,
+  expansionNumberInSeries: 1,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -18,7 +18,7 @@ export const mcdonaldCollection2011: ExpansionData = {
 
 export const mcdonaldCollection2012: ExpansionData = {
   name: "McDonald's Collection 2012",
-  setNumber: 2,
+  expansionNumberInSeries: 2,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -34,7 +34,7 @@ export const mcdonaldCollection2012: ExpansionData = {
 
 export const mcdonaldCollection2013: ExpansionData = {
   name: "McDonald's Collection 2013",
-  setNumber: 3,
+  expansionNumberInSeries: 3,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -50,7 +50,7 @@ export const mcdonaldCollection2013: ExpansionData = {
 
 export const mcdonaldCollection2014: ExpansionData = {
   name: "McDonald's Collection 2014",
-  setNumber: 4,
+  expansionNumberInSeries: 4,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -66,7 +66,7 @@ export const mcdonaldCollection2014: ExpansionData = {
 
 export const mcdonaldCollection2015: ExpansionData = {
   name: "McDonald's Collection 2015",
-  setNumber: 5,
+  expansionNumberInSeries: 5,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -82,7 +82,7 @@ export const mcdonaldCollection2015: ExpansionData = {
 
 export const mcdonaldCollection2016: ExpansionData = {
   name: "McDonald's Collection 2016",
-  setNumber: 6,
+  expansionNumberInSeries: 6,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -98,7 +98,7 @@ export const mcdonaldCollection2016: ExpansionData = {
 
 export const mcdonaldCollection2017: ExpansionData = {
   name: "McDonald's Collection 2017",
-  setNumber: 7,
+  expansionNumberInSeries: 7,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -114,7 +114,7 @@ export const mcdonaldCollection2017: ExpansionData = {
 
 export const mcdonaldCollection2018: ExpansionData = {
   name: "McDonald's Collection 2018",
-  setNumber: 8,
+  expansionNumberInSeries: 8,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -130,7 +130,7 @@ export const mcdonaldCollection2018: ExpansionData = {
 
 export const mcdonaldCollection2019: ExpansionData = {
   name: "McDonald's Collection 2019",
-  setNumber: 9,
+  expansionNumberInSeries: 9,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 12,
@@ -146,7 +146,7 @@ export const mcdonaldCollection2019: ExpansionData = {
 
 export const mcdonaldCollection2021: ExpansionData = {
   name: "McDonald's Collection 2021",
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 25,
@@ -162,7 +162,7 @@ export const mcdonaldCollection2021: ExpansionData = {
 
 export const mcdonaldCollection2022: ExpansionData = {
   name: "McDonald's Collection 2022",
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 15,
@@ -178,7 +178,7 @@ export const mcdonaldCollection2022: ExpansionData = {
 
 export const mcdonaldCollection2023: ExpansionData = {
   name: "McDonald's Collection 2023",
-  setNumber: 10,
+  expansionNumberInSeries: 10,
   series: "McDonald's Collection",
   expansionType: 'Other Expansion',
   numberOfCards: 15,

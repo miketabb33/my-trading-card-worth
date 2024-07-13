@@ -1,6 +1,6 @@
 export type ExpansionData = {
   name: string
-  setNumber: number
+  expansionNumberInSeries: number
   series: ExpansionSeries
   expansionType: ExpansionType
   numberOfCards: number

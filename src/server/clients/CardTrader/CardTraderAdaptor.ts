@@ -3,12 +3,12 @@ import { CardBlueprint } from '../../types/CardBlueprint'
 import { CardExpansion } from '../../types/CardExpansion'
 import { CardValue } from '../../types/CardValue'
 import * as CardTraderClient from './CardTraderClient'
-import { EXCLUDED_SET_IDS } from './excludedSetIds'
+import { EXCLUDED_EXPANSION_IDS } from './excludedExpansionIds'
 import { parseCardCondition } from './parseCardCondition'
 
 export interface ICardTraderAdaptor {
-  getPokemonSets: () => Promise<CardExpansion[]>
-  getPokemonSetBlueprints: (expansionId: number) => Promise<CardBlueprint[]>
+  getPokemonExpansions: () => Promise<CardExpansion[]>
+  getPokemonBlueprints: (expansionId: number) => Promise<CardBlueprint[]>
   getPokemonCardValues: (
     expansionId: number
   ) => Promise<Map<string, CardValue[]>>
@@ -17,17 +17,17 @@ export interface ICardTraderAdaptor {
 class CardTraderAdaptor implements ICardTraderAdaptor {
   cardTraderConfig = ENV.CARD_TRADER
 
-  getPokemonSets = async (): Promise<CardExpansion[]> => {
+  getPokemonExpansions = async (): Promise<CardExpansion[]> => {
     const expansionsDto = await CardTraderClient.getExpansions()
-    const pokemonSets = expansionsDto.filter(
+    const pokemonExpansions = expansionsDto.filter(
       (expansion) => expansion.gameId === this.cardTraderConfig.POKEMON_GAME_ID
     )
 
-    const filteredPokemonSets = pokemonSets.filter(
-      (set) => !EXCLUDED_SET_IDS.includes(set.id)
+    const filteredPokemonExpansions = pokemonExpansions.filter(
+      (expansion) => !EXCLUDED_EXPANSION_IDS.includes(expansion.id)
     )
 
-    return filteredPokemonSets.map((expansion) => {
+    return filteredPokemonExpansions.map((expansion) => {
       return {
         expansionId: expansion.id,
         name: expansion.name,
@@ -35,7 +35,7 @@ class CardTraderAdaptor implements ICardTraderAdaptor {
     })
   }
 
-  getPokemonSetBlueprints = async (
+  getPokemonBlueprints = async (
     expansionId: number
   ): Promise<CardBlueprint[]> => {
     const blueprints = await CardTraderClient.getBlueprints(expansionId)
