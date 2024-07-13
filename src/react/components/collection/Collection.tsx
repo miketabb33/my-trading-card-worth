@@ -1,16 +1,24 @@
 import React from 'react'
 import CardList from '../card-list/CardList'
 import { useMyCards } from '../../network/collectionClient'
+import CollectionDetails from './CollectionDetails'
 
 const Collection = () => {
-  const { myCards, refresh } = useInCollection()
-  return <CardList cardsDto={myCards} refreshCards={refresh} />
+  const { myCards, details, refresh } = useInCollection()
+
+  return (
+    <>
+      {details && <CollectionDetails details={details} />}
+      <CardList cardsDto={myCards} refreshCards={refresh} />
+    </>
+  )
 }
 
 export const useInCollection = () => {
-  const { data: myCards, refresh } = useMyCards()
+  const { data: collectionDto, refresh } = useMyCards()
   return {
-    myCards: myCards || [],
+    myCards: collectionDto?.cards || [],
+    details: collectionDto?.details,
     refresh,
   }
 }

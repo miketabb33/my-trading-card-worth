@@ -17,10 +17,6 @@ const Container = styled.div`
   margin-top: 1rem;
 `
 
-const CardsHeader = styled.h1`
-  margin-top: 2rem;
-`
-
 const Catalog = () => {
   const {
     autocompleteBind,
@@ -44,7 +40,6 @@ const Catalog = () => {
       {expansionDetailsDto && (
         <CatalogExpansionDetails expansionDetailsDto={expansionDetailsDto} />
       )}
-      {cardsDto.length > 0 && <CardsHeader>Cards:</CardsHeader>}
       <CardList cardsDto={cardsDto} refreshCards={refreshCards} />
     </Container>
   )

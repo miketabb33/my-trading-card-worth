@@ -5,12 +5,12 @@ import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
 import * as MyCardClient from '../../../../src/react/network/collectionClient'
 import { useInCollection } from '../../../../src/react/components/collection/Collection'
 import { UseApiReturn } from '../../../../src/react/network/useApi'
-import { CardDto } from '../../../../src/core/types/CardDto'
+import { CollectionDto } from '../../../../src/core/types/CollectionDto'
 
 const REFRESH = jest.fn()
 const USE_MY_CARDS = jest.spyOn(MyCardClient, 'useMyCards')
 
-const USE_MY_CARDS_RETURN: UseApiReturn<CardDto[]> = {
+const USE_MY_CARDS_RETURN: UseApiReturn<CollectionDto> = {
   data: null,
   isLoading: false,
   refresh: REFRESH,
@@ -27,7 +27,18 @@ describe('Use In Collection', () => {
 
   it('should return cards when available', () => {
     const cards = [CARD_DTO, CARD_DTO]
-    USE_MY_CARDS.mockReturnValue({ ...USE_MY_CARDS_RETURN, data: cards })
+    USE_MY_CARDS.mockReturnValue({
+      ...USE_MY_CARDS_RETURN,
+      data: {
+        cards,
+        details: {
+          minMarketValueCents: 0,
+          maxMarketValueCents: 0,
+          medianMarketValueCents: 0,
+          averageMarketValueCents: 0,
+        },
+      },
+    })
     const { result } = renderHook(useInCollection)
     expect(result.current.myCards).toEqual(cards)
   })

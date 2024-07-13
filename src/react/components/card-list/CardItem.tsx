@@ -8,6 +8,7 @@ import { CardConditions } from '../../../core/types/CardCondition'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
 import RemoveCardButton from './card-button/RemoveCardButton'
 import { CardDto } from '../../../core/types/CardDto'
+import { Line } from '../base/Line'
 
 const Container = styled.div`
   display: flex;
@@ -37,12 +38,6 @@ const PriceContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-`
-
-const Line = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: lightgray;
 `
 
 const Detail = styled.p`

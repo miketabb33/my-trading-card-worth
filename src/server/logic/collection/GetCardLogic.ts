@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Collection } from 'mongoose'
 import { CardDto } from '../../../core/types/CardDto'
 import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
 import { BlueprintValue } from '../../types/BlueprintValue'
+import { CollectionDto } from '../../../core/types/CollectionDto'
 
 class GetCardLogic {
   private readonly myCardCRUD: IMyCardCRUD
@@ -13,12 +15,22 @@ class GetCardLogic {
   get = async (
     userId: string,
     blueprintValues: Map<string, BlueprintValue>
-  ): Promise<CardDto[]> => {
+  ): Promise<CollectionDto> => {
     const myCardEntities = await this.myCardCRUD.getAll(userId)
 
-    return myCardEntities.map((myCardEntity) =>
+    const myCards = myCardEntities.map((myCardEntity) =>
       this.buildCardDto(myCardEntity, blueprintValues)
     )
+
+    return {
+      cards: myCards,
+      details: {
+        minMarketValueCents: 100,
+        maxMarketValueCents: 200,
+        medianMarketValueCents: 120,
+        averageMarketValueCents: 150,
+      },
+    }
   }
 
   private buildCardDto = (

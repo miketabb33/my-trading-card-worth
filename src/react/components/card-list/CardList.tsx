@@ -12,6 +12,10 @@ const Container = styled.div`
   `)}
 `
 
+const CardsHeader = styled.h1`
+  margin-top: 2rem;
+`
+
 type BlueprintListProps = {
   cardsDto: CardDto[]
   refreshCards: () => void
@@ -19,15 +23,18 @@ type BlueprintListProps = {
 
 const CardList = ({ cardsDto, refreshCards }: BlueprintListProps) => {
   return (
-    <Container>
-      {cardsDto.map((cardDto) => (
-        <CardItem
-          key={cardDto.blueprintId}
-          cardDto={cardDto}
-          refreshCards={refreshCards}
-        />
-      ))}
-    </Container>
+    <>
+      {cardsDto.length > 0 && <CardsHeader>Cards:</CardsHeader>}
+      <Container>
+        {cardsDto.map((cardDto) => (
+          <CardItem
+            key={cardDto.blueprintId}
+            cardDto={cardDto}
+            refreshCards={refreshCards}
+          />
+        ))}
+      </Container>
+    </>
   )
 }
 

@@ -43,31 +43,31 @@ describe('Add Card Logic', () => {
       }),
     ])
 
-    const result = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
+    const { cards } = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
 
     expect(myCardCRUD_FAKE.GET_ALL).toHaveBeenCalled()
-    expect(result.length).toEqual(1)
-    expect(result[0].blueprintId).toEqual(blueprintId)
-    expect(result[0].expansionId).toEqual(expansionId)
-    expect(result[0].name).toEqual(name)
-    expect(result[0].imageUrlPreview).toEqual(previewUrl)
-    expect(result[0].imageUrlShow).toEqual(showUrl)
-    expect(result[0].owned).toEqual(1)
-    expect(result[0].minMarketValueCents).toEqual(minCents)
-    expect(result[0].maxMarketValueCents).toEqual(maxCents)
-    expect(result[0].medianMarketValueCents).toEqual(medianCents)
-    expect(result[0].averageMarketValueCents).toEqual(averageCents)
+    expect(cards.length).toEqual(1)
+    expect(cards[0].blueprintId).toEqual(blueprintId)
+    expect(cards[0].expansionId).toEqual(expansionId)
+    expect(cards[0].name).toEqual(name)
+    expect(cards[0].imageUrlPreview).toEqual(previewUrl)
+    expect(cards[0].imageUrlShow).toEqual(showUrl)
+    expect(cards[0].owned).toEqual(1)
+    expect(cards[0].minMarketValueCents).toEqual(minCents)
+    expect(cards[0].maxMarketValueCents).toEqual(maxCents)
+    expect(cards[0].medianMarketValueCents).toEqual(medianCents)
+    expect(cards[0].averageMarketValueCents).toEqual(averageCents)
   })
 
   it('should return default values for values when blueprint cant be found', async () => {
     myCardCRUD_FAKE.GET_ALL.mockResolvedValue([makeMyCardEntityMock({})])
 
-    const result = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
+    const { cards } = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
 
-    expect(result[0].minMarketValueCents).toEqual(-1)
-    expect(result[0].maxMarketValueCents).toEqual(-1)
-    expect(result[0].medianMarketValueCents).toEqual(-1)
-    expect(result[0].averageMarketValueCents).toEqual(-1)
+    expect(cards[0].minMarketValueCents).toEqual(-1)
+    expect(cards[0].maxMarketValueCents).toEqual(-1)
+    expect(cards[0].medianMarketValueCents).toEqual(-1)
+    expect(cards[0].averageMarketValueCents).toEqual(-1)
   })
 
   it('should return many items', async () => {
@@ -89,9 +89,9 @@ describe('Add Card Logic', () => {
       }),
     ])
 
-    const result = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
+    const { cards } = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
 
-    expect(result.length).toEqual(5)
+    expect(cards.length).toEqual(5)
   })
 
   it('should return owned amounts', async () => {
@@ -116,11 +116,11 @@ describe('Add Card Logic', () => {
       }),
     ])
 
-    const result = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
+    const { cards } = await getCardLogic.get(USER_ID, BLUEPRINT_VALUES)
 
-    expect(result.length).toEqual(3)
-    expect(result[0].owned).toEqual(4)
-    expect(result[1].owned).toEqual(2)
-    expect(result[2].owned).toEqual(1)
+    expect(cards.length).toEqual(3)
+    expect(cards[0].owned).toEqual(4)
+    expect(cards[1].owned).toEqual(2)
+    expect(cards[2].owned).toEqual(1)
   })
 })
