@@ -2,7 +2,7 @@ import { CatalogDto } from '../../../core/types/CatalogDto'
 import { CardDto } from '../../../core/types/CardDto'
 import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
-import { IMyCardCRUD } from '../../database/repository/MyCardCRUD'
+import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
 import { expansionStoreMap } from '../../stores/expansionStoreMap'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
@@ -22,13 +22,22 @@ class GetCatalogLogic {
     const cardBlueprints =
       await this.cardTraderAdaptor.getPokemonBlueprints(expansionId)
 
-    let myCardMap: Map<number, number> | null
+    let myCardsInExpansion: MyCardEntity[] = []
 
-    if (userId) myCardMap = await this.buildMyCardMap(userId, expansionId)
+    if (userId)
+      myCardsInExpansion = await this.myCardCRUD.findByExpansion(
+        userId,
+        expansionId
+      )
 
-    const cardDto: CardDto[] = cardBlueprints.map((blueprint) =>
-      this.buildCardDto(blueprint, myCardMap, blueprintValues)
-    )
+    const cardDto: CardDto[] = cardBlueprints.map((blueprint) => {
+      const ownedCard = myCardsInExpansion.find(
+        (myCard) => myCard.cardTrader.blueprintId === blueprint.blueprintId
+      )
+      const owned = ownedCard?.items.length || 0
+
+      return this.buildCardDto(blueprint, owned, blueprintValues)
+    })
 
     const details = this.buildExpansionDetailsDto(expansionId)
 
@@ -42,10 +51,9 @@ class GetCatalogLogic {
 
   private buildCardDto = (
     cardBlueprint: CardBlueprint,
-    myCardMap: Map<number, number> | null,
+    owned: number,
     blueprintValues: Map<string, BlueprintValue>
   ) => {
-    const owned = myCardMap ? myCardMap.get(cardBlueprint.blueprintId) || 0 : 0
     const blueprintValue = blueprintValues.get(`${cardBlueprint.blueprintId}`)
 
     const cardDto: CardDto = {
@@ -90,22 +98,6 @@ class GetCatalogLogic {
     }
 
     return details
-  }
-
-  private buildMyCardMap = async (userId: string, expansionId: number) => {
-    const myCards = await this.myCardCRUD.findByExpansion(userId, expansionId)
-
-    const myCardMap = new Map<number, number>()
-
-    myCards.forEach((card) => {
-      const existingMapItemCount = myCardMap.get(card.cardTrader.blueprintId)
-      if (!existingMapItemCount) {
-        myCardMap.set(card.cardTrader.blueprintId, 1)
-      } else {
-        myCardMap.set(card.cardTrader.blueprintId, existingMapItemCount + 1)
-      }
-    })
-    return myCardMap
   }
 }
 

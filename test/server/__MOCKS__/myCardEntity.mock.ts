@@ -1,10 +1,13 @@
-import { MyCardEntity } from '../../../src/server/database/repository/MyCardCRUD'
+import {
+  MyCardEntity,
+  MyCardItemEntity,
+} from '../../../src/server/database/repository/MyCardCRUD'
 
 type MakeMyCardEntityMockArgs = {
   _id?: string
   userId?: string
   name?: string
-  condition?: number
+  items?: MyCardItemEntity[]
   imageUrlPreview?: string
   imageUrlShow?: string
   cardTrader?: {
@@ -19,7 +22,7 @@ export const makeMyCardEntityMock = ({
   _id = '_id',
   userId = 'userId',
   name = 'name',
-  condition = 5,
+  items = [{ condition: 5 }],
   imageUrlPreview = 'preview',
   imageUrlShow = 'show',
   cardTrader = { blueprintId: 3, expansionId: 4 },
@@ -29,7 +32,7 @@ export const makeMyCardEntityMock = ({
   _id,
   userId,
   name,
-  condition,
+  items,
   imageUrlPreview,
   imageUrlShow,
   cardTrader: {

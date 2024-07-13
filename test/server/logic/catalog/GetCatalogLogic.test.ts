@@ -116,30 +116,23 @@ describe('Get Catalog Logic', () => {
 
     const myCardEntity1 = makeMyCardEntityMock({
       cardTrader: { blueprintId: 2 },
+      items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }],
     })
+
     const myCardEntity2 = makeMyCardEntityMock({
-      cardTrader: { blueprintId: 2 },
+      cardTrader: { blueprintId: 3 },
+      items: [{ condition: 0 }, { condition: 0 }],
     })
+
     const myCardEntity3 = makeMyCardEntityMock({
-      cardTrader: { blueprintId: 2 },
-    })
-    const myCardEntity4 = makeMyCardEntityMock({
-      cardTrader: { blueprintId: 3 },
-    })
-    const myCardEntity5 = makeMyCardEntityMock({
-      cardTrader: { blueprintId: 3 },
-    })
-    const myCardEntity6 = makeMyCardEntityMock({
       cardTrader: { blueprintId: 5 },
+      items: [{ condition: 0 }],
     })
 
     myCardCRUD_FAKE.FIND_BY_EXPANSION.mockResolvedValue([
       myCardEntity1,
       myCardEntity2,
       myCardEntity3,
-      myCardEntity4,
-      myCardEntity5,
-      myCardEntity6,
     ])
 
     const result = await getCatalogLogic.get(

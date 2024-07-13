@@ -16,25 +16,12 @@ class GetCardLogic {
   ): Promise<CardDto[]> => {
     const myCardEntities = await this.myCardCRUD.getAll(userId)
 
-    const cardsDtoMap = new Map<number, CardDto>()
-
-    myCardEntities.forEach((myCardEntity) => {
-      const existingCardInMap = cardsDtoMap.get(
-        myCardEntity.cardTrader.blueprintId
-      )
-
-      if (existingCardInMap) {
-        existingCardInMap.owned += 1
-      } else {
-        const cardDto = this.makeCardDto(myCardEntity, blueprintValues)
-        cardsDtoMap.set(cardDto.blueprintId, cardDto)
-      }
-    })
-
-    return Array.from(cardsDtoMap, ([_, value]) => value)
+    return myCardEntities.map((myCardEntity) =>
+      this.buildCardDto(myCardEntity, blueprintValues)
+    )
   }
 
-  private makeCardDto = (
+  private buildCardDto = (
     myCardEntity: MyCardEntity,
     blueprintValues: Map<string, BlueprintValue>
   ) => {
@@ -48,7 +35,7 @@ class GetCardLogic {
       name: myCardEntity.name,
       imageUrlPreview: myCardEntity.imageUrlPreview,
       imageUrlShow: myCardEntity.imageUrlShow,
-      owned: 1,
+      owned: myCardEntity.items.length,
       minMarketValueCents: blueprintValue?.minCents || -1,
       maxMarketValueCents: blueprintValue?.maxCents || -1,
       averageMarketValueCents: blueprintValue?.averageCents || -1,

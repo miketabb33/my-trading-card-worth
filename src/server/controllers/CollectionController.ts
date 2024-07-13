@@ -10,6 +10,7 @@ import MyCardCRUD from '../database/repository/MyCardCRUD'
 import { tryToParseRemoveMyCardBody } from '../logic/collection/parseRemoveMyCardBody'
 import GetCardLogic from '../logic/collection/GetCardLogic'
 import Store from '../StoreRegistry'
+import RemoveCardLogic from '../logic/collection/RemoveCardLogic'
 
 const CollectionController = Router()
 
@@ -54,9 +55,9 @@ CollectionController.delete('/', requiresAuth(), async (req, res) => {
     const auth0User = parseAuth0User(req.oidc.user)
     const blueprintId = tryToParseRemoveMyCardBody(req.body)
 
-    const crud = new MyCardCRUD()
+    const removeCardLogic = new RemoveCardLogic(new MyCardCRUD())
 
-    await crud.remove(auth0User.sub, blueprintId)
+    await removeCardLogic.remove(auth0User.sub, blueprintId)
 
     res.send(formatResponse({}))
   } catch (e) {

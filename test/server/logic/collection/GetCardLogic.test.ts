@@ -94,28 +94,25 @@ describe('Add Card Logic', () => {
     expect(result.length).toEqual(5)
   })
 
-  it('should increment owned count and prune duplicates when duplicate blueprint ids exist', async () => {
+  it('should return owned amounts', async () => {
     myCardCRUD_FAKE.GET_ALL.mockResolvedValue([
       makeMyCardEntityMock({
         cardTrader: { blueprintId: 10, expansionId: 11 },
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 10, expansionId: 11 },
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 10, expansionId: 11 },
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 20, expansionId: 21 },
+        items: [
+          { condition: 0 },
+          { condition: 0 },
+          { condition: 0 },
+          { condition: 0 },
+        ],
       }),
       makeMyCardEntityMock({
         cardTrader: { blueprintId: 20, expansionId: 21 },
+        items: [{ condition: 0 }, { condition: 0 }],
       }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 10, expansionId: 11 },
-      }),
+
       makeMyCardEntityMock({
         cardTrader: { blueprintId: 30, expansionId: 31 },
+        items: [{ condition: 0 }],
       }),
     ])
 
