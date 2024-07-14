@@ -4,6 +4,7 @@ import { ChildrenProp } from '../types/ChildrenProp'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { useProfileData } from '../network/profileClient'
 import { UseEffectType } from '../types/UseEffectType'
+import { setAuthReturnUrl } from '../router/authReturnUrl'
 
 export type ProfileContextType = {
   profile: ProfileDto | null
@@ -36,8 +37,14 @@ export const useProfileProvider = () => {
     deps: [profile],
   }
 
-  const logout = () => (location.pathname = '/logout')
-  const login = () => (location.pathname = '/login')
+  const logout = () => {
+    setAuthReturnUrl(location.pathname)
+    location.pathname = '/logout'
+  }
+  const login = () => {
+    setAuthReturnUrl(location.pathname)
+    location.pathname = '/login'
+  }
 
   return {
     value: { profile, isLoading, isLoggedIn, logout, login },
