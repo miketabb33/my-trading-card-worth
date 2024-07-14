@@ -1,25 +1,76 @@
 import React from 'react'
-import CardList from '../card-list/CardList'
+import CardList, { CardListProps } from '../card-list/CardList'
 import { useMyCards } from '../../network/collectionClient'
 import CollectionDetails from './CollectionDetails'
+import { useProfile } from '../../providers/ProfileProvider'
+import CollectionNotLoggedIn from './CollectionNotLoggedIn'
+import CollectionNoItems from './CollectionNoItems'
+import Spinner from '../base/Spinner'
+import { CenterContent } from '../Layout'
 
 const Collection = () => {
-  const { myCards, details, refresh } = useInCollection()
+  const {
+    details,
+    cardListProps,
+    showNotLoggedIn,
+    showNoItems,
+    showLoading,
+    showDetails,
+  } = useInCollection()
 
   return (
     <>
-      {details && <CollectionDetails details={details} />}
-      <CardList cardsDto={myCards} refreshCards={refresh} />
+      {showDetails && details && <CollectionDetails details={details} />}
+      <CardList {...cardListProps} />
+
+      {showNotLoggedIn && (
+        <CenterContent>
+          <CollectionNotLoggedIn />
+        </CenterContent>
+      )}
+
+      {showNoItems && (
+        <CenterContent>
+          <CollectionNoItems />
+        </CenterContent>
+      )}
+
+      {showLoading && (
+        <CenterContent>
+          <Spinner />
+        </CenterContent>
+      )}
     </>
   )
 }
 
 export const useInCollection = () => {
-  const { data: collectionDto, refresh } = useMyCards()
-  return {
-    myCards: collectionDto?.cards || [],
-    details: collectionDto?.details,
+  const { isLoggedIn, isLoading: isLoadingProfile } = useProfile()
+
+  const {
+    data: collectionDto,
     refresh,
+    isLoading: isLoadingCollection,
+  } = useMyCards(isLoggedIn)
+
+  const cardsDto = collectionDto?.cards || []
+  const detailsDto = collectionDto?.details
+
+  const cardListProps: CardListProps = {
+    cardsDto,
+    refreshCards: refresh,
+  }
+
+  const isLoading = isLoadingProfile || isLoadingCollection
+  const showNoItems = !isLoading && cardsDto.length === 0 && isLoggedIn
+
+  return {
+    cardListProps,
+    details: detailsDto,
+    showNotLoggedIn: !isLoading && !isLoggedIn,
+    showNoItems,
+    showDetails: !showNoItems && !!detailsDto,
+    showLoading: isLoading && cardsDto.length === 0,
   }
 }
 

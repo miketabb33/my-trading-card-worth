@@ -1,4 +1,4 @@
-import { getCatalogReturnUrl } from './catologReturnUrl'
+import { getCatalogReturnUrl } from './catalogReturnUrl'
 
 const catalog = (slug?: string) => {
   const base = '/catalog'

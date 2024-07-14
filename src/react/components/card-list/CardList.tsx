@@ -16,12 +16,12 @@ const CardsHeader = styled.h1`
   margin-top: 2rem;
 `
 
-type BlueprintListProps = {
+export type CardListProps = {
   cardsDto: CardDto[]
   refreshCards: () => void
 }
 
-const CardList = ({ cardsDto, refreshCards }: BlueprintListProps) => {
+const CardList = ({ cardsDto, refreshCards }: CardListProps) => {
   return (
     <>
       {cardsDto.length > 0 && <CardsHeader>Cards:</CardsHeader>}

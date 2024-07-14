@@ -4,10 +4,6 @@ import { MyCollectionDetailsDto } from '../../../core/types/MyCollectionDetailsD
 import styled from 'styled-components'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
 
-type CollectionDetailsProps = {
-  details: MyCollectionDetailsDto
-}
-
 const Row = styled.div`
   display: flex;
   gap: 8rem;
@@ -23,9 +19,13 @@ const Header = styled.div`
 
 const Item = styled.h2``
 
+export type CollectionDetailsProps = {
+  details: MyCollectionDetailsDto
+}
+
 const CollectionDetails = ({ details }: CollectionDetailsProps) => {
   const { minMaxValue, averageValue, medianValue } =
-    useInCollectionDetails(details)
+    collectionDetailsController(details)
   return (
     <PageDetailsLayout
       header={
@@ -44,7 +44,9 @@ const CollectionDetails = ({ details }: CollectionDetailsProps) => {
   )
 }
 
-export const useInCollectionDetails = (details: MyCollectionDetailsDto) => {
+export const collectionDetailsController = (
+  details: MyCollectionDetailsDto
+) => {
   const minValue = formatCentsToDollars(details.minMarketValueCents)
   const maxValue = formatCentsToDollars(details.maxMarketValueCents)
   return {

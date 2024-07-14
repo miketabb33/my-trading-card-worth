@@ -12,7 +12,9 @@ import { useExpansion } from '../../providers/ExpansionProvider'
 import { PATH_VALUES } from '../../router/pathValues'
 import CardList from '../card-list/CardList'
 import { CardDto } from '../../../core/types/CardDto'
-import { setCatalogReturnUrl } from '../../router/catologReturnUrl'
+import { setCatalogReturnUrl } from '../../router/catalogReturnUrl'
+import Spinner from '../base/Spinner'
+import { CenterContent } from '../Layout'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -26,6 +28,7 @@ const Catalog = () => {
     expansionsLoadedEffect,
     fetchExpansionDetailsAndCardsEffect,
     refreshCards,
+    showLoading,
   } = useInCatalog()
 
   useEffect(expansionsLoadedEffect.effect, expansionsLoadedEffect.deps)
@@ -38,16 +41,24 @@ const Catalog = () => {
     <Container>
       <p>Search Pokemon Cards By Expansion</p>
       <Autocomplete {...autocompleteBind} />
-      {expansionDetailsDto && (
+
+      {!showLoading && expansionDetailsDto && (
         <CatalogExpansionDetails expansionDetailsDto={expansionDetailsDto} />
       )}
+
       <CardList cardsDto={cardsDto} refreshCards={refreshCards} />
+      {showLoading && (
+        <CenterContent>
+          <Spinner />
+        </CenterContent>
+      )}
     </Container>
   )
 }
 
 export const useInCatalog = () => {
   const { expansions } = useExpansion()
+  const [isLoadingCatalog, setIsLoadingCatalog] = useState(false)
   const { getParam, navigateTo } = useRouter()
   const expansionSlug = getParam('expansionSlug')
   const [selectedExpansion, setSelectedExpansion] = useState<CatalogDto | null>(
@@ -61,6 +72,7 @@ export const useInCatalog = () => {
       (expansion) => expansion.slug === expansionSlug
     )
     if (!selectedExpansion) return
+    setIsLoadingCatalog(true)
     fetchCatalog(selectedExpansion.expansionId)
       .then((res) => {
         setCatalogReturnUrl(selectedExpansion.slug)
@@ -68,15 +80,22 @@ export const useInCatalog = () => {
         setFilteredCardsDto(res.data?.cards.sort(sortByHighestMedian) ?? [])
       })
       .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoadingCatalog(false)
+      })
   }
 
   const sortByHighestMedian = (a: CardDto, b: CardDto) => {
     return b.medianMarketValueCents - a.medianMarketValueCents
   }
 
+  const redirectToOptionSlug = (option: ExpansionDto) => {
+    navigateTo(PATH_VALUES.catalog(option.slug))
+  }
+
   const { bind: autocompleteBind, setOptions } =
     useWithAutocomplete<ExpansionDto>({
-      didSelectOption: (option) => navigateTo(PATH_VALUES.catalog(option.slug)),
+      didSelectOption: redirectToOptionSlug,
     })
 
   const expansionsLoadedEffect: UseEffectType = {
@@ -96,7 +115,10 @@ export const useInCatalog = () => {
   }
 
   const fetchExpansionDetailsAndCardsEffect: UseEffectType = {
-    effect: fetchExpansionDetailsAndCards,
+    effect: () => {
+      setFilteredCardsDto([])
+      fetchExpansionDetailsAndCards()
+    },
     deps: [expansionSlug, expansions],
   }
 
@@ -107,6 +129,7 @@ export const useInCatalog = () => {
     expansionsLoadedEffect,
     fetchExpansionDetailsAndCardsEffect,
     refreshCards: fetchExpansionDetailsAndCards,
+    showLoading: isLoadingCatalog && filteredCardsDto.length === 0,
   }
 }
 export default Catalog

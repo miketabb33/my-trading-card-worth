@@ -3,6 +3,7 @@ import { desktopAndUp, tabPortAndUp } from '../styles/Responsive'
 
 const layout = css`
   width: 100%;
+  height: 100%;
   padding-left: 1.9rem;
   padding-right: 1.9rem;
 
@@ -23,4 +24,13 @@ export const SectionLayout = styled.section`
 
 export const PageLayout = styled.div`
   ${layout}
+`
+
+export const CenterContent = styled.div`
+  margin-top: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
 `

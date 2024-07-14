@@ -15,6 +15,9 @@ export const removeMyCard = async (blueprintId: number) => {
   })
 }
 
-export const useMyCards = () => {
-  return useApi<CollectionDto>('/collection')
+export const useMyCards = (isLoggedIn: boolean) => {
+  return useApi<CollectionDto>({
+    path: '/collection',
+    shouldMakeRequest: isLoggedIn,
+  })
 }
