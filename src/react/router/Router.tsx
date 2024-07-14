@@ -4,14 +4,20 @@ import HomePage from '../pages/HomePage'
 import CatalogPage from '../pages/CatalogPage'
 import CollectionPage from '../pages/CollectionPage'
 import { getAuthReturnUrl } from './authReturnUrl'
+import { useProfile } from '../providers/ProfileProvider'
+import SpinnerPage from '../pages/SpinnerPage'
 
-const redirects = () => {
+const redirectToAuthReturnUrlUnlessMissing = () => {
   const authReturnUrl = getAuthReturnUrl()
   if (authReturnUrl) location.pathname = authReturnUrl
 }
 
 const Router = () => {
-  redirects()
+  const { isLoading } = useProfile()
+
+  redirectToAuthReturnUrlUnlessMissing()
+
+  if (isLoading) return <SpinnerPage />
   return <RouterProvider router={router} />
 }
 
