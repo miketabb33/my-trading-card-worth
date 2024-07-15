@@ -56,7 +56,7 @@ describe('Use With Autocomplete', () => {
         didSelectOption: OPTION_SELECTED,
       })
     )
-    expect(result.current.bind.inputValue).toEqual('')
+    expect(result.current.bind.inputBind.value).toEqual('')
     expect(result.current.selectedOption).toBeNull()
 
     await act(
@@ -67,7 +67,7 @@ describe('Use With Autocomplete', () => {
       result.current.bind.dropdownBind.onOptionClick(Dropdown.DROPDOWN_OPTION_1)
     )
 
-    expect(result.current.bind.inputValue).toEqual(
+    expect(result.current.bind.inputBind.value).toEqual(
       Dropdown.DROPDOWN_OPTION_1.title
     )
     expect(result.current.selectedOption).toEqual(
@@ -83,7 +83,7 @@ describe('Use With Autocomplete', () => {
   it('should handle on input change', () => {
     FILTER_AUTOCOMPLETE.mockReturnValue(DROPDOWN_OPTIONS)
     const { result } = renderHook(() => useWithAutocomplete<ExpansionDto>({}))
-    expect(result.current.bind.inputValue).toEqual('')
+    expect(result.current.bind.inputBind.value).toEqual('')
     expect(result.current.bind.dropdownBind.options).toEqual([])
 
     const VALUE = 'value'
@@ -91,9 +91,9 @@ describe('Use With Autocomplete', () => {
       target: { value: VALUE },
     } as unknown as React.ChangeEvent<HTMLInputElement>
 
-    act(() => result.current.bind.onInputValueChange(CHANGE_EVENT))
+    act(() => result.current.bind.inputBind.onChange(CHANGE_EVENT))
 
-    expect(result.current.bind.inputValue).toEqual(VALUE)
+    expect(result.current.bind.inputBind.value).toEqual(VALUE)
     expect(result.current.bind.dropdownBind.options).toEqual(DROPDOWN_OPTIONS)
   })
 })

@@ -1,10 +1,14 @@
 import styled, { css } from 'styled-components'
 import { tabLandAndUp } from '../../styles/Responsive'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CardItem from './CardItem'
 import { CardDto } from '../../../core/types/CardDto'
+import Input, { useWithInput } from '../base/form/Input'
+import { CenterContent } from '../Layout'
+import { Button } from '../base/Button'
+import { UseEffectType } from '../../types/UseEffectType'
 
-const Container = styled.div`
+const CardContainer = styled.div`
   display: grid;
 
   ${tabLandAndUp(css`
@@ -12,8 +16,20 @@ const Container = styled.div`
   `)}
 `
 
+const SearchBarContainer = styled.div`
+  max-width: 45rem;
+`
+
 const CardsHeader = styled.h1`
   margin-top: 2rem;
+`
+
+const SearchBarControls = styled.div`
+  display: flex;
+`
+
+const InputContainer = styled.div`
+  flex: 1;
 `
 
 export type CardListProps = {
@@ -22,20 +38,81 @@ export type CardListProps = {
 }
 
 const CardList = ({ cardsDto, refreshCards }: CardListProps) => {
+  const {
+    filteredCardsDto,
+    inputBind,
+    showSearchBar,
+    showNoCardsMatchingFilter,
+    showCardsTitle,
+    cardsWillChangeEffect,
+    clearInput,
+  } = useInCardList(cardsDto)
+
+  useEffect(cardsWillChangeEffect.effect, cardsWillChangeEffect.deps)
+
   return (
     <>
-      {cardsDto.length > 0 && <CardsHeader>Cards:</CardsHeader>}
-      <Container>
-        {cardsDto.map((cardDto) => (
+      {showCardsTitle && <CardsHeader>Cards:</CardsHeader>}
+      {showSearchBar && (
+        <SearchBarContainer>
+          <p>Search By Name:</p>
+          <SearchBarControls>
+            <InputContainer>
+              <Input {...inputBind} />
+            </InputContainer>
+            <Button onClick={clearInput}>Clear</Button>
+          </SearchBarControls>
+        </SearchBarContainer>
+      )}
+
+      {showNoCardsMatchingFilter && (
+        <CenterContent>
+          <h1>No Matching Cards</h1>
+          <p>Try searching something else.</p>
+        </CenterContent>
+      )}
+
+      <CardContainer>
+        {filteredCardsDto.map((cardDto) => (
           <CardItem
             key={cardDto.blueprintId}
             cardDto={cardDto}
             refreshCards={refreshCards}
           />
         ))}
-      </Container>
+      </CardContainer>
     </>
   )
+}
+
+export const useInCardList = (cardsDto: CardDto[]) => {
+  const input = useWithInput({})
+  const [filteredCardsDto, setFilteredCardsDto] = useState<CardDto[]>([])
+
+  const filterCards = () => {
+    return cardsDto.filter((cardDto) => {
+      const downcaseValue = input.value.toLowerCase()
+      const downcaseName = cardDto.name.toLowerCase()
+      return downcaseName.includes(downcaseValue)
+    })
+  }
+
+  const cardsWillChangeEffect: UseEffectType = {
+    effect: () => setFilteredCardsDto(filterCards()),
+    deps: [cardsDto, input.value],
+  }
+
+  const cardsExist = cardsDto.length > 0
+
+  return {
+    filteredCardsDto,
+    inputBind: input.bind,
+    showSearchBar: cardsDto.length > 8,
+    showNoCardsMatchingFilter: cardsExist && filteredCardsDto.length === 0,
+    showCardsTitle: cardsExist,
+    cardsWillChangeEffect,
+    clearInput: () => input.setValue(''),
+  }
 }
 
 export default CardList

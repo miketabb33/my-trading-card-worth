@@ -1,12 +1,20 @@
 import React from 'react'
 import PageDetailsLayout from '../PageDetailsLayout'
 import { MyCollectionDetailsDto } from '../../../core/types/MyCollectionDetailsDto'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
+import { tabLandAndUp } from '../../styles/Responsive'
 
 const Row = styled.div`
   display: flex;
-  gap: 8rem;
+  flex-direction: column;
+  gap: 2rem;
+
+  ${tabLandAndUp(css`
+    gap: 8rem;
+    flex-direction: row;
+    font-size: 2rem;
+  `)};
 `
 
 const Header = styled.div`
@@ -17,7 +25,7 @@ const Header = styled.div`
   gap: 1.5rem;
 `
 
-const Item = styled.h2``
+const Item = styled.h3``
 
 export type CollectionDetailsProps = {
   details: MyCollectionDetailsDto
