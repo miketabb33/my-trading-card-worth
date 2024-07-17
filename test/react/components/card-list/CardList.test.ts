@@ -18,16 +18,15 @@ const CARD_5 = { ...CARD_DTO, name: 'Giovannis Charisma' }
 const CARDS = [CARD_1, CARD_2, CARD_3, CARD_4, CARD_5]
 
 describe('Use In Card List', () => {
-  it('should show searchbar when cards dto has more than 8 cards', () => {
+  it('should show searchbar when cards exist', () => {
     const cardDto = Array(9).fill(CARD_DTO) as CardDto[]
     const { result } = renderHook(() => useInCardList(cardDto))
 
     expect(result.current.showSearchBar).toEqual(true)
   })
 
-  it('should NOT show searchbar when cards dto has 8 or less cards', () => {
-    const cardDto = Array(7).fill(CARD_DTO) as CardDto[]
-    const { result } = renderHook(() => useInCardList(cardDto))
+  it('should NOT show searchbar when no cards exist', () => {
+    const { result } = renderHook(() => useInCardList([]))
 
     expect(result.current.showSearchBar).toEqual(false)
   })

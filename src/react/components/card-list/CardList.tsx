@@ -107,7 +107,7 @@ export const useInCardList = (cardsDto: CardDto[]) => {
   return {
     filteredCardsDto,
     inputBind: input.bind,
-    showSearchBar: cardsDto.length > 8,
+    showSearchBar: cardsExist,
     showNoCardsMatchingFilter: cardsExist && filteredCardsDto.length === 0,
     showCardsTitle: cardsExist,
     cardsWillChangeEffect,

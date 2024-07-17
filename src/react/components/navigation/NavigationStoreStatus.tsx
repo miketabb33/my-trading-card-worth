@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useStoreStatus } from '../../network/storeClient'
+import { useStoreStatus } from '../../providers/StoreStatusProvider'
 
 const Container = styled.div`
   display: flex;
@@ -21,18 +21,18 @@ const NavigationStoreStatus = () => {
   )
 }
 
-const useInNavigationStoreStatus = () => {
-  const { data: storeStatusDto } = useStoreStatus()
+export const useInNavigationStoreStatus = () => {
+  const { storeStatus } = useStoreStatus()
 
-  if (!storeStatusDto) {
+  if (!storeStatus) {
     return {
       expansionStatus: '',
       pricesStatus: '',
     }
   } else {
     return {
-      expansionStatus: storeStatusDto.expansionsStatus,
-      pricesStatus: storeStatusDto.pricesStatus,
+      expansionStatus: storeStatus.expansionsStatus,
+      pricesStatus: storeStatus.pricesStatus,
     }
   }
 }
