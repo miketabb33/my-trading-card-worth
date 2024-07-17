@@ -11,7 +11,7 @@ describe('Blueprint Value Store', () => {
     blueprintValueStore = new BlueprintValueStore(getBlueprintValueLogic_FAKE)
   })
 
-  it('should init and get', async () => {
+  it('should refresh and get state', async () => {
     getBlueprintValueLogic_FAKE.ADD.mockImplementation((id: number) => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
@@ -23,10 +23,31 @@ describe('Blueprint Value Store', () => {
       cache.set(`${id}`, blueprintValue)
       return cache
     })
-    await blueprintValueStore.initStore([1, 2])
 
-    const result = blueprintValueStore.get()
-    expect(result.get('1')!.averageCents).toEqual(1)
-    expect(result.size).toEqual(2)
+    await blueprintValueStore.refreshStore([1, 2])
+
+    const state = blueprintValueStore.getState()
+    expect(state.get('1')!.averageCents).toEqual(1)
+    expect(state.size).toEqual(2)
+    expect(blueprintValueStore.getLastUpdated()).not.toBeNull()
+  })
+
+  it('should refresh and get last updated', async () => {
+    getBlueprintValueLogic_FAKE.ADD.mockImplementation((id: number) => {
+      const cache = new Map<string, BlueprintValue>()
+      const blueprintValue: BlueprintValue = {
+        minCents: id,
+        maxCents: id,
+        averageCents: id,
+        medianCents: id,
+      }
+      cache.set(`${id}`, blueprintValue)
+      return cache
+    })
+    expect(blueprintValueStore.getLastUpdated()).toBeNull()
+
+    await blueprintValueStore.refreshStore([1, 2])
+
+    expect(blueprintValueStore.getLastUpdated()).not.toBeNull()
   })
 })

@@ -2,25 +2,31 @@ import Logger from '../logger'
 import { formatError } from '../logic/formatResponse'
 import { IGetBlueprintValueLogic } from '../logic/price/GetBlueprintValueLogic'
 import { BlueprintValue } from '../types/BlueprintValue'
-
 class BlueprintValueStore {
   private readonly getExpansionBlueprintValueLogic: IGetBlueprintValueLogic
-  private cache = new Map<string, BlueprintValue>()
+  private state = new Map<string, BlueprintValue>()
+  private lastUpdated: Date | null = null
 
   constructor(getExpansionBlueprintValueLogic: IGetBlueprintValueLogic) {
     this.getExpansionBlueprintValueLogic = getExpansionBlueprintValueLogic
   }
 
-  get = () => {
-    return this.cache
+  getState = (): Map<string, BlueprintValue> => {
+    return this.state
   }
 
-  initStore = async (expansionIds: number[]) => {
+  getLastUpdated = (): Date | null => {
+    return this.lastUpdated
+  }
+
+  refreshStore = async (expansionIds: number[]) => {
+    let newState = new Map<string, BlueprintValue>()
+
     for (let i = 0; i < expansionIds.length; i++) {
       try {
         const blueprintValueMap =
           await this.getExpansionBlueprintValueLogic.get(expansionIds[i])
-        this.cache = new Map([...this.cache, ...blueprintValueMap])
+        newState = new Map([...newState, ...blueprintValueMap])
       } catch (e) {
         const error = formatError(e)
         Logger.error(error)
@@ -30,6 +36,9 @@ class BlueprintValueStore {
       }
       console.log(`bv: ${i}/${expansionIds.length})`)
     }
+
+    this.state = newState
+    this.lastUpdated = new Date()
   }
 }
 

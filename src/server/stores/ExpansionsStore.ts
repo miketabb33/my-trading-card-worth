@@ -2,24 +2,31 @@ import { ExpansionDto } from '../../core/types/ExpansionDto'
 import { IGetExpansionsLogic } from '../logic/catalog/GetExpansionsLogic'
 
 class ExpansionsStore {
-  private cache: ExpansionDto[] | null = null
   private readonly getExpansionsLogic: IGetExpansionsLogic
+  private state: ExpansionDto[] | null = null
+  private lastUpdated: Date | null = null
 
   constructor(getExpansionsLogic: IGetExpansionsLogic) {
     this.getExpansionsLogic = getExpansionsLogic
   }
 
-  get = async (): Promise<ExpansionDto[]> => {
-    if (!this.cache) return await this.getExpansionsLogic.get()
-    return this.cache
+  getState = async (): Promise<ExpansionDto[]> => {
+    if (!this.state) return await this.getExpansionsLogic.get()
+    return this.state
   }
 
-  initStore = async () => {
-    if (!this.cache) this.cache = await this.getExpansionsLogic.get()
+  getLastUpdated = () => {
+    return this.lastUpdated
+  }
+
+  refreshStore = async () => {
+    this.state = await this.getExpansionsLogic.get()
+    this.lastUpdated = new Date()
   }
 
   initStubbedStore = () => {
-    if (!this.cache) this.cache = stubData
+    if (!this.state) this.state = stubData
+    this.lastUpdated = new Date()
   }
 }
 

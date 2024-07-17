@@ -12,7 +12,7 @@ const CatalogController = Router()
 
 CatalogController.get('/', async (_, res) => {
   try {
-    const expansionsDto = await Store.expansions.get()
+    const expansionsDto = await Store.expansions.getState()
     res.send(formatResponse({ data: expansionsDto }))
   } catch (e) {
     const error = formatError(e)
@@ -36,7 +36,7 @@ CatalogController.get('/:id', async (req, res) => {
     const catalogDto = await getCatalogLogic.get(
       userId,
       expansionId,
-      Store.blueprintValues.get()
+      Store.blueprintValues.getState()
     )
 
     res.send(formatResponse({ data: catalogDto }))

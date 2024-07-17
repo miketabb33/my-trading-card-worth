@@ -5,11 +5,11 @@ import React, { ReactNode } from 'react'
 const Container = styled.div`
   display: grid;
   align-items: center;
-  height: 6rem;
-
   grid-template-columns: repeat(2, 1fr);
+  row-gap: 0.5rem;
 
   ${tabLandAndUp(css`
+    height: 6rem;
     grid-template-columns: repeat(3, 1fr);
   `)}
 `
@@ -33,16 +33,31 @@ const UserControlsPosition = styled.div`
   `)}
 `
 
+const StoreStatusPosition = styled.div`
+  grid-column: 1 / 3;
+  grid-row: 2/3;
+
+  ${tabLandAndUp(css`
+    grid-column: 1/2;
+    grid-row: initial;
+  `)}
+`
+
 type NavigationLayoutProps = {
   options: ReactNode
   userControls: ReactNode
+  storeStatus: ReactNode
 }
 
-const NavigationLayout = ({ options, userControls }: NavigationLayoutProps) => {
+const NavigationLayout = ({
+  options,
+  userControls,
+  storeStatus,
+}: NavigationLayoutProps) => {
   return (
     <Container>
+      <StoreStatusPosition>{storeStatus}</StoreStatusPosition>
       <OptionsPosition>{options}</OptionsPosition>
-
       <UserControlsPosition>{userControls}</UserControlsPosition>
     </Container>
   )

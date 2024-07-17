@@ -22,7 +22,7 @@ CollectionController.get('/', requiresAuth(), async (req, res) => {
 
     const cardBlueprintDto = await getCardLogic.get(
       auth0User.sub,
-      Store.blueprintValues.get()
+      Store.blueprintValues.getState()
     )
 
     res.send(formatResponse({ data: cardBlueprintDto }))

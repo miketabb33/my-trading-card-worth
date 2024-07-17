@@ -22,11 +22,11 @@ const Store = {
 
 export const initStores = async () => {
   if (ENV.ID === 'production') {
-    await Store.expansions.initStore()
-    const expansionIds = (await Store.expansions.get()).map(
+    await Store.expansions.refreshStore()
+    const expansionIds = (await Store.expansions.getState()).map(
       (expansion) => expansion.expansionId
     )
-    await Store.blueprintValues.initStore(expansionIds)
+    await Store.blueprintValues.refreshStore(expansionIds)
   } else {
     Store.expansions.initStubbedStore()
   }
