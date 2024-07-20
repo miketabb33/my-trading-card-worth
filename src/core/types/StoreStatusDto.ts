@@ -1,4 +1,4 @@
 export type StoreStatusDto = {
-  expansionsStatus: string
-  pricesStatus: string
+  expansionsLastUpdatedDateString: string | null
+  pricesLastUpdatedDateString: string | null
 }

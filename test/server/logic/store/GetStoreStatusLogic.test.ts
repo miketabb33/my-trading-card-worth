@@ -7,20 +7,22 @@ describe('Get Store Status Logic', () => {
     getStoreStatusLogic = new GetStoreStatusLogic()
   })
 
-  it('should build status for no last updated', () => {
+  it('should return null when given null', () => {
     const result = getStoreStatusLogic.get(null, null)
 
-    expect(result.expansionsStatus).toEqual('Try again later')
-    expect(result.pricesStatus).toEqual('Try again later')
+    expect(result.expansionsLastUpdatedDateString).toEqual(null)
+    expect(result.pricesLastUpdatedDateString).toEqual(null)
   })
 
-  it('should build status for last updated values', () => {
+  it('should build iso date for price and expansions', () => {
     const expansionDate = new Date(2022, 0, 16)
     const pricesDate = new Date(1990, 1, 13)
 
     const result = getStoreStatusLogic.get(expansionDate, pricesDate)
 
-    expect(result.expansionsStatus).toEqual('Last Updated 1/16/2022')
-    expect(result.pricesStatus).toEqual('Last Updated 2/13/1990')
+    expect(result.expansionsLastUpdatedDateString).toEqual(
+      expansionDate.toISOString()
+    )
+    expect(result.pricesLastUpdatedDateString).toEqual(pricesDate.toISOString())
   })
 })

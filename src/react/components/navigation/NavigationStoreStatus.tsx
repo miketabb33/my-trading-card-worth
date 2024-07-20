@@ -8,21 +8,32 @@ const Container = styled.div`
 `
 
 const Item = styled.p`
-  font-size: 1.3rem;
+  font-size: 1.25rem;
 `
 
 const NavigationStoreStatus = () => {
   const { expansionStatus, pricesStatus } = useInNavigationStoreStatus()
   return (
     <Container>
-      <Item>Prices: {pricesStatus}</Item>
-      <Item>Expansions: {expansionStatus}</Item>
+      <Item>
+        <strong>Prices:</strong> {pricesStatus}
+      </Item>
+      <Item>
+        <strong>Expansions:</strong> {expansionStatus}
+      </Item>
     </Container>
   )
 }
 
 export const useInNavigationStoreStatus = () => {
   const { storeStatus } = useStoreStatus()
+
+  const buildStatusMessage = (lastUpdated: string | null) => {
+    if (!lastUpdated) return 'Loading... Try again later'
+    const lastUpdatedDate = new Date(lastUpdated)
+    const formattedDate = lastUpdatedDate.toLocaleString()
+    return `Last Updated ${formattedDate}`
+  }
 
   if (!storeStatus) {
     return {
@@ -31,8 +42,10 @@ export const useInNavigationStoreStatus = () => {
     }
   } else {
     return {
-      expansionStatus: storeStatus.expansionsStatus,
-      pricesStatus: storeStatus.pricesStatus,
+      expansionStatus: buildStatusMessage(
+        storeStatus.expansionsLastUpdatedDateString
+      ),
+      pricesStatus: buildStatusMessage(storeStatus.pricesLastUpdatedDateString),
     }
   }
 }

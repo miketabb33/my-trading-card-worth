@@ -17,15 +17,36 @@ describe('Use In Navigation Store Status', () => {
     expect(result.current.pricesStatus).toEqual('')
   })
 
-  it('should return status when store status has value', () => {
+  it('should return status when store status dto has values that are NOT null', () => {
     USE_STORE_STATUS.mockReturnValue({
       ...STORE_STATUS_CONTEXT_TYPE,
       storeStatus: STORE_STATUS_DTO,
     })
     const { result } = renderHook(useInNavigationStoreStatus)
-    expect(result.current.expansionStatus).toEqual(
-      STORE_STATUS_DTO.expansionsStatus
+    const expansionDate = new Date(
+      STORE_STATUS_DTO.expansionsLastUpdatedDateString!
     )
-    expect(result.current.pricesStatus).toEqual(STORE_STATUS_DTO.pricesStatus)
+    const pricesDate = new Date(STORE_STATUS_DTO.pricesLastUpdatedDateString!)
+    expect(result.current.expansionStatus).toEqual(
+      `Last Updated ${expansionDate.toLocaleString()}`
+    )
+    expect(result.current.pricesStatus).toEqual(
+      `Last Updated ${pricesDate.toLocaleString()}`
+    )
+  })
+
+  it('should return status when store status dto has values that are null', () => {
+    USE_STORE_STATUS.mockReturnValue({
+      ...STORE_STATUS_CONTEXT_TYPE,
+      storeStatus: {
+        ...STORE_STATUS_DTO,
+        expansionsLastUpdatedDateString: null,
+        pricesLastUpdatedDateString: null,
+      },
+    })
+    const { result } = renderHook(useInNavigationStoreStatus)
+
+    expect(result.current.expansionStatus).toEqual('Loading... Try again later')
+    expect(result.current.pricesStatus).toEqual('Loading... Try again later')
   })
 })
