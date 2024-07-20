@@ -6,6 +6,7 @@ import { auth0Config } from './auth0/auth0Config'
 import { connectToDb } from './database/connectToDb'
 import bodyParser from 'body-parser'
 import { initStores } from './StoreRegistry'
+import { startCronJobs } from './CronJobRegistry'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -31,3 +32,5 @@ app.listen(port, () => {
 initStores()
   .then(() => console.log('STORES: Data loaded'))
   .catch(console.dir)
+
+startCronJobs()
