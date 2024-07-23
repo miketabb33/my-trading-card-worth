@@ -9,32 +9,41 @@ import BlueprintValueStore, {
 import ExpansionsStore, { IExpansionsStore } from './stores/ExpansionsStore'
 import { expansionStoreMap } from './stores/expansionStoreMap'
 
-type StoreType = {
+export class StoreRegistry {
   expansions: IExpansionsStore
   blueprintValues: IBlueprintValueStore
-}
 
-const Store: StoreType = {
-  expansions: new ExpansionsStore(
-    new GetExpansionsLogic(
-      new CardTraderAdaptor(),
-      new ExpansionSorter(),
-      expansionStoreMap
-    )
-  ),
-  blueprintValues: new BlueprintValueStore(
-    new GetBlueprintValueLogic(new CardTraderAdaptor())
-  ),
-}
+  constructor(
+    expansions: IExpansionsStore,
+    blueprintValues: IBlueprintValueStore
+  ) {
+    this.expansions = expansions
+    this.blueprintValues = blueprintValues
+  }
 
-export const initStores = async () => {
-  if (ENV.ID === 'production') {
-    await Store.expansions.refreshStore()
-    const expansionIds = await Store.expansions.getExpansionIds()
-    await Store.blueprintValues.refreshStore(expansionIds)
-  } else {
-    Store.expansions.initStubbedStore()
+  init = async () => {
+    if (ENV.ID === 'production') {
+      await Store.expansions.refreshStore()
+      await Store.blueprintValues.refreshStore()
+    } else {
+      Store.expansions.initStubbedStore()
+    }
   }
 }
+
+const expansionsStore = new ExpansionsStore(
+  new GetExpansionsLogic(
+    new CardTraderAdaptor(),
+    new ExpansionSorter(),
+    expansionStoreMap
+  )
+)
+
+const blueprintValueStore = new BlueprintValueStore(
+  new GetBlueprintValueLogic(new CardTraderAdaptor()),
+  expansionsStore
+)
+
+const Store = new StoreRegistry(expansionsStore, blueprintValueStore)
 
 export default Store

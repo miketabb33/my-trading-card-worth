@@ -1,22 +1,22 @@
 import { IExpansionsStore } from '../stores/ExpansionsStore'
-import { isExpiredAfterDays, oneHourInMilliseconds } from './cronJobCommon'
+import { ExpiresIn, isExpiredAfterDays } from './isExpiredAfterDays'
 
 class ExpansionsUpdater {
-  private expansionsStore: IExpansionsStore
+  private readonly expansionsStore: IExpansionsStore
 
   constructor(expansionsStore: IExpansionsStore) {
     this.expansionsStore = expansionsStore
   }
-  startCronJob = (daysUntilRefresh: number) => {
+  startCronJob = (expiresIn: ExpiresIn, interval: number) => {
     setInterval(() => {
       if (
-        isExpiredAfterDays(
-          daysUntilRefresh,
-          this.expansionsStore.getLastUpdated()
-        )
+        isExpiredAfterDays({
+          expiresIn,
+          lastDate: this.expansionsStore.getLastUpdated(),
+        })
       )
         this.refreshStoreWhenTimeHasPast()
-    }, oneHourInMilliseconds * 4)
+    }, interval)
   }
 
   private refreshStoreWhenTimeHasPast = () => {

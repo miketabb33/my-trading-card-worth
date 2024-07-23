@@ -1,39 +1,28 @@
 import { IBlueprintValueStore } from '../stores/BlueprintValueStore'
-import { IExpansionsStore } from '../stores/ExpansionsStore'
-import { isExpiredAfterDays, oneHourInMilliseconds } from './cronJobCommon'
+import { ExpiresIn, isExpiredAfterDays } from './isExpiredAfterDays'
 
 class PricesUpdater {
   private readonly blueprintValueStore: IBlueprintValueStore
-  private readonly expansionsStore: IExpansionsStore
 
-  constructor(
-    blueprintValueStore: IBlueprintValueStore,
-    expansionStore: IExpansionsStore
-  ) {
+  constructor(blueprintValueStore: IBlueprintValueStore) {
     this.blueprintValueStore = blueprintValueStore
-    this.expansionsStore = expansionStore
   }
-  startCronJob = (daysUntilRefresh: number) => {
+  startCronJob = (expiresIn: ExpiresIn, interval: number) => {
     setInterval(() => {
       if (
-        isExpiredAfterDays(
-          daysUntilRefresh,
-          this.blueprintValueStore.getLastUpdated()
-        )
+        isExpiredAfterDays({
+          expiresIn,
+          lastDate: this.blueprintValueStore.getLastUpdated(),
+        })
       )
         this.refreshStoreWhenTimeHasPast()
-    }, oneHourInMilliseconds * 4)
+    }, interval)
   }
 
   private refreshStoreWhenTimeHasPast = () => {
-    this.expansionsStore
-      .getExpansionIds()
-      .then((expansionIds) => {
-        this.blueprintValueStore
-          .refreshStore(expansionIds)
-          .then(() => console.log('expansion store refreshed'))
-          .catch(console.dir)
-      })
+    this.blueprintValueStore
+      .refreshStore()
+      .then(() => console.log('expansion store refreshed'))
       .catch(console.dir)
   }
 }

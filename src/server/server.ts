@@ -5,7 +5,7 @@ import { auth } from 'express-openid-connect'
 import { auth0Config } from './auth0/auth0Config'
 import { connectToDb } from './database/connectToDb'
 import bodyParser from 'body-parser'
-import { initStores } from './StoreRegistry'
+import Store from './StoreRegistry'
 import { startCronJobs } from './CronJobRegistry'
 
 const app = express()
@@ -29,7 +29,7 @@ app.listen(port, () => {
   console.log(`SERVER: listening on port ${port}`)
 })
 
-initStores()
+Store.init()
   .then(() => console.log('STORES: Data loaded'))
   .catch(console.dir)
 

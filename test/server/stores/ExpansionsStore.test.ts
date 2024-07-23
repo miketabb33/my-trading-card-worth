@@ -11,12 +11,12 @@ describe('Expansions Store', () => {
     expansionsStore = new ExpansionsStore(getExpansionsLogic_FAKE)
   })
 
-  it('should call Get Expansions Logic when cache is not initialized', async () => {
+  it('should return empty cache when refresh is not called ', () => {
     getExpansionsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
 
-    const result = await expansionsStore.getState()
+    const result = expansionsStore.getState()
 
-    expect(result).toEqual([EXPANSION_DTO_1])
+    expect(result).toEqual([])
   })
 
   it('should use cache for Get Expansions Logic', async () => {
@@ -24,8 +24,8 @@ describe('Expansions Store', () => {
 
     await expansionsStore.refreshStore()
 
-    const result1 = await expansionsStore.getState()
-    const result2 = await expansionsStore.getState()
+    const result1 = expansionsStore.getState()
+    const result2 = expansionsStore.getState()
 
     expect(getExpansionsLogic_FAKE.GET).toHaveBeenCalledTimes(1)
 

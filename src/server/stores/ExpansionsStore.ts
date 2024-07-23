@@ -2,8 +2,8 @@ import { ExpansionDto } from '../../core/types/ExpansionDto'
 import { IGetExpansionsLogic } from '../logic/catalog/GetExpansionsLogic'
 
 export interface IExpansionsStore {
-  getState: () => Promise<ExpansionDto[]>
-  getExpansionIds: () => Promise<number[]>
+  getState: () => ExpansionDto[]
+  getExpansionIds: () => number[]
   getLastUpdated: () => Date | null
   refreshStore: () => Promise<void>
   initStubbedStore: () => void
@@ -18,13 +18,12 @@ class ExpansionsStore implements IExpansionsStore {
     this.getExpansionsLogic = getExpansionsLogic
   }
 
-  getState = async (): Promise<ExpansionDto[]> => {
-    if (!this.state) return await this.getExpansionsLogic.get()
-    return this.state
+  getState = () => {
+    return this.state ?? []
   }
 
-  getExpansionIds = async () => {
-    return (await this.getState()).map((expansion) => expansion.expansionId)
+  getExpansionIds = () => {
+    return this.getState().map((expansion) => expansion.expansionId)
   }
 
   getLastUpdated = () => {

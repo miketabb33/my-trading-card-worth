@@ -2,13 +2,15 @@ import ExpansionsUpdater from './cron-jobs/ExpansionsUpdater'
 import PricesUpdater from './cron-jobs/PricesUpdater'
 import Store from './StoreRegistry'
 
-export const startCronJobs = () => {
-  const pricesUpdater = new PricesUpdater(
-    Store.blueprintValues,
-    Store.expansions
-  )
-  pricesUpdater.startCronJob(4)
+const oneSecondInMilliseconds = 1_000
+const oneMinuteInMilliseconds = oneSecondInMilliseconds * 60
+const oneHourInMilliseconds = oneMinuteInMilliseconds * 60
+const fourHours = oneHourInMilliseconds * 4
 
+export const startCronJobs = () => {
+  const pricesUpdater = new PricesUpdater(Store.blueprintValues)
   const expansionUpdater = new ExpansionsUpdater(Store.expansions)
-  expansionUpdater.startCronJob(2)
+
+  pricesUpdater.startCronJob({ days: 4 }, fourHours)
+  expansionUpdater.startCronJob({ days: 2 }, fourHours)
 }
