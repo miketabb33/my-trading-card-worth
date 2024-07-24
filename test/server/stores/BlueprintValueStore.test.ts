@@ -1,5 +1,6 @@
 import BlueprintValueStore from '../../../src/server/stores/BlueprintValueStore'
 import { BlueprintValue } from '../../../src/server/types/BlueprintValue'
+import { makeExpansionDto } from '../../core/__MOCKS__/expansionDto.mock'
 import ExpansionStore_FAKE from '../__FAKES__/ExpansionsStore.fake'
 import GetBlueprintValueLogic_FAKE from '../__FAKES__/GetBlueprintValueLogic.fake'
 
@@ -15,7 +16,10 @@ describe('Blueprint Value Store', () => {
       getBlueprintValueLogic_FAKE,
       expansionsStore_FAKE
     )
-    expansionsStore_FAKE.GET_EXPANSION_IDS.mockReturnValue([1, 2])
+    expansionsStore_FAKE.GET_STATE.mockReturnValue([
+      makeExpansionDto({ expansionId: 1 }),
+      makeExpansionDto({ expansionId: 2 }),
+    ])
   })
 
   it('should refresh and get state', async () => {
@@ -34,10 +38,11 @@ describe('Blueprint Value Store', () => {
     await blueprintValueStore.refreshStore()
 
     const state = blueprintValueStore.getState()
+
     expect(state.get('1')!.averageCents).toEqual(1)
     expect(state.size).toEqual(2)
     expect(blueprintValueStore.getLastUpdated()).not.toBeNull()
-    expect(expansionsStore_FAKE.GET_EXPANSION_IDS).toHaveBeenCalled()
+    expect(expansionsStore_FAKE.GET_STATE).toHaveBeenCalled()
   })
 
   it('should refresh and get last updated', async () => {

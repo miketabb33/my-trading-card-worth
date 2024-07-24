@@ -1,24 +1,19 @@
+import { ExpansionDto } from '../../core/types/ExpansionDto'
 import Logger from '../logger'
 import { formatError } from '../logic/formatResponse'
 import { IGetBlueprintValueLogic } from '../logic/price/GetBlueprintValueLogic'
 import { BlueprintValue } from '../types/BlueprintValue'
-import { IExpansionsStore } from './ExpansionsStore'
+import { IStore } from './IStore'
 
-export interface IBlueprintValueStore {
-  getState: () => Map<string, BlueprintValue>
-  getLastUpdated: () => Date | null
-  refreshStore: () => Promise<void>
-}
-
-class BlueprintValueStore implements IBlueprintValueStore {
+class BlueprintValueStore implements IStore<Map<string, BlueprintValue>> {
   private readonly getExpansionBlueprintValueLogic: IGetBlueprintValueLogic
-  private readonly expansionsStore: IExpansionsStore
+  private readonly expansionsStore: IStore<ExpansionDto[]>
   private state = new Map<string, BlueprintValue>()
   private lastUpdated: Date | null = null
 
   constructor(
     getExpansionBlueprintValueLogic: IGetBlueprintValueLogic,
-    expansionStore: IExpansionsStore
+    expansionStore: IStore<ExpansionDto[]>
   ) {
     this.getExpansionBlueprintValueLogic = getExpansionBlueprintValueLogic
     this.expansionsStore = expansionStore
@@ -33,7 +28,11 @@ class BlueprintValueStore implements IBlueprintValueStore {
   }
 
   refreshStore = async () => {
-    const expansionIds = this.expansionsStore.getExpansionIds()
+    const expansionState = this.expansionsStore.getState()
+    const expansionIds = expansionState.map(
+      (expansion) => expansion.expansionId
+    )
+
     let newState = new Map<string, BlueprintValue>()
 
     for (let i = 0; i < expansionIds.length; i++) {

@@ -59,3 +59,26 @@ export const EXPANSION_DTO_ARRAY = [
   EXPANSION_DTO_7,
   EXPANSION_DTO_8,
 ]
+
+type MakeExpansionDtoArgs = {
+  expansionId?: number
+  name?: string
+  symbol?: string
+  slug?: string
+}
+
+export const makeExpansionDto = ({
+  expansionId = 0,
+  name = '',
+  symbol = '',
+  slug = '',
+}: MakeExpansionDtoArgs) => {
+  const dto: ExpansionDto = {
+    expansionId,
+    name,
+    symbol,
+    slug,
+  }
+
+  return dto
+}

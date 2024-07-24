@@ -1,10 +1,11 @@
-import { IExpansionsStore } from '../stores/ExpansionsStore'
+import { ExpansionDto } from '../../core/types/ExpansionDto'
+import { IStore } from '../stores/IStore'
 import { ExpiresIn, isExpiredAfterDays } from './isExpiredAfterDays'
 
 class ExpansionsUpdater {
-  private readonly expansionsStore: IExpansionsStore
+  private readonly expansionsStore: IStore<ExpansionDto[]>
 
-  constructor(expansionsStore: IExpansionsStore) {
+  constructor(expansionsStore: IStore<ExpansionDto[]>) {
     this.expansionsStore = expansionsStore
   }
   startCronJob = (expiresIn: ExpiresIn, interval: number) => {

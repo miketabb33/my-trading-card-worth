@@ -1,10 +1,11 @@
-import { IBlueprintValueStore } from '../stores/BlueprintValueStore'
+import { IStore } from '../stores/IStore'
+import { BlueprintValue } from '../types/BlueprintValue'
 import { ExpiresIn, isExpiredAfterDays } from './isExpiredAfterDays'
 
 class PricesUpdater {
-  private readonly blueprintValueStore: IBlueprintValueStore
+  private readonly blueprintValueStore: IStore<Map<string, BlueprintValue>>
 
-  constructor(blueprintValueStore: IBlueprintValueStore) {
+  constructor(blueprintValueStore: IStore<Map<string, BlueprintValue>>) {
     this.blueprintValueStore = blueprintValueStore
   }
   startCronJob = (expiresIn: ExpiresIn, interval: number) => {
@@ -22,7 +23,7 @@ class PricesUpdater {
   private refreshStoreWhenTimeHasPast = () => {
     this.blueprintValueStore
       .refreshStore()
-      .then(() => console.log('expansion store refreshed'))
+      .then(() => console.log('price store refreshed'))
       .catch(console.dir)
   }
 }

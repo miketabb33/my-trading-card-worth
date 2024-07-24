@@ -3,47 +3,57 @@ import { ENV } from './env'
 import GetBlueprintValueLogic from './logic/price/GetBlueprintValueLogic'
 import ExpansionSorter from './logic/catalog/ExpansionSorter'
 import GetExpansionsLogic from './logic/catalog/GetExpansionsLogic'
-import BlueprintValueStore, {
-  IBlueprintValueStore,
-} from './stores/BlueprintValueStore'
-import ExpansionsStore, { IExpansionsStore } from './stores/ExpansionsStore'
+import BlueprintValueStore from './stores/BlueprintValueStore'
+import ExpansionsStore from './stores/ExpansionsStore'
 import { expansionStoreMap } from './stores/expansionStoreMap'
+import { IStore } from './stores/IStore'
+import { BlueprintValue } from './types/BlueprintValue'
+import { ExpansionDto } from '../core/types/ExpansionDto'
+import ExpansionsStoreLocal from './stores/ExpansionsStoreLocal'
+import BlueprintValueStoreLocal from './stores/BlueprintValueStoreLocal'
 
 export class StoreRegistry {
-  expansions: IExpansionsStore
-  blueprintValues: IBlueprintValueStore
+  expansions: IStore<ExpansionDto[]>
+  blueprintValues: IStore<Map<string, BlueprintValue>>
 
   constructor(
-    expansions: IExpansionsStore,
-    blueprintValues: IBlueprintValueStore
+    expansions: IStore<ExpansionDto[]>,
+    blueprintValues: IStore<Map<string, BlueprintValue>>
   ) {
     this.expansions = expansions
     this.blueprintValues = blueprintValues
   }
 
   init = async () => {
-    if (ENV.ID === 'production') {
-      await Store.expansions.refreshStore()
-      await Store.blueprintValues.refreshStore()
-    } else {
-      Store.expansions.initStubbedStore()
-    }
+    await Store.expansions.refreshStore()
+    await Store.blueprintValues.refreshStore()
   }
 }
 
-const expansionsStore = new ExpansionsStore(
-  new GetExpansionsLogic(
-    new CardTraderAdaptor(),
-    new ExpansionSorter(),
-    expansionStoreMap
-  )
-)
+const getStore = () => {
+  if (ENV.ID === 'production') {
+    const expansionsStore = new ExpansionsStore(
+      new GetExpansionsLogic(
+        new CardTraderAdaptor(),
+        new ExpansionSorter(),
+        expansionStoreMap
+      )
+    )
 
-const blueprintValueStore = new BlueprintValueStore(
-  new GetBlueprintValueLogic(new CardTraderAdaptor()),
-  expansionsStore
-)
+    const blueprintValueStore = new BlueprintValueStore(
+      new GetBlueprintValueLogic(new CardTraderAdaptor()),
+      expansionsStore
+    )
 
-const Store = new StoreRegistry(expansionsStore, blueprintValueStore)
+    return new StoreRegistry(expansionsStore, blueprintValueStore)
+  } else {
+    return new StoreRegistry(
+      new ExpansionsStoreLocal(),
+      new BlueprintValueStoreLocal()
+    )
+  }
+}
+
+const Store = getStore()
 
 export default Store
