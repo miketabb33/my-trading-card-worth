@@ -1,22 +1,20 @@
 import { ExpansionDto } from '../../core/types/ExpansionDto'
 import { IStore } from '../stores/IStore'
-import { ExpiresIn, isExpiredAfterDays } from './isExpiredAfterDays'
+import { ICronJob } from './ICronJob'
+import { ExpiresIn, isExpired } from './isExpired'
 
-class ExpansionsUpdater {
+class ExpansionsUpdater implements ICronJob {
   private readonly expansionsStore: IStore<ExpansionDto[]>
 
   constructor(expansionsStore: IStore<ExpansionDto[]>) {
     this.expansionsStore = expansionsStore
   }
-  startCronJob = (expiresIn: ExpiresIn, interval: number) => {
+
+  start = (expiresIn: ExpiresIn, interval: number) => {
     setInterval(() => {
-      if (
-        isExpiredAfterDays({
-          expiresIn,
-          lastDate: this.expansionsStore.getLastUpdated(),
-        })
-      )
-        this.refreshStoreWhenTimeHasPast()
+      const lastDate = this.expansionsStore.getLastUpdated()
+      const expired = isExpired({ expiresIn, lastDate, now: new Date() })
+      if (expired) this.refreshStoreWhenTimeHasPast()
     }, interval)
   }
 

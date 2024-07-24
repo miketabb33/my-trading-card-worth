@@ -1,7 +1,7 @@
 import { ExpansionDto } from '../../core/types/ExpansionDto'
 import { IStore } from './IStore'
 
-class ExpansionsStoreLocal implements IStore<ExpansionDto[]> {
+class ExpansionsStoreDev implements IStore<ExpansionDto[]> {
   private state: ExpansionDto[] = []
   private lastUpdated: Date | null = null
 
@@ -12,6 +12,7 @@ class ExpansionsStoreLocal implements IStore<ExpansionDto[]> {
   getLastUpdated = () => {
     return this.lastUpdated
   }
+
   refreshStore = () => {
     this.state = stubData
     this.lastUpdated = new Date()
@@ -19,7 +20,7 @@ class ExpansionsStoreLocal implements IStore<ExpansionDto[]> {
   }
 }
 
-export default ExpansionsStoreLocal
+export default ExpansionsStoreDev
 
 const stubData: ExpansionDto[] = [
   {

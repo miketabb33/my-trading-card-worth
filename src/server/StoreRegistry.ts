@@ -9,8 +9,8 @@ import { expansionStoreMap } from './stores/expansionStoreMap'
 import { IStore } from './stores/IStore'
 import { BlueprintValue } from './types/BlueprintValue'
 import { ExpansionDto } from '../core/types/ExpansionDto'
-import ExpansionsStoreLocal from './stores/ExpansionsStoreLocal'
-import BlueprintValueStoreLocal from './stores/BlueprintValueStoreLocal'
+import ExpansionsStoreDev from './stores/ExpansionsStoreDev'
+import BlueprintValueStoreDev from './stores/BlueprintValueStoreDev'
 
 export class StoreRegistry {
   expansions: IStore<ExpansionDto[]>
@@ -48,8 +48,8 @@ const getStore = () => {
     return new StoreRegistry(expansionsStore, blueprintValueStore)
   } else {
     return new StoreRegistry(
-      new ExpansionsStoreLocal(),
-      new BlueprintValueStoreLocal()
+      new ExpansionsStoreDev(),
+      new BlueprintValueStoreDev()
     )
   }
 }

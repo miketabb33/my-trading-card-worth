@@ -8,14 +8,14 @@ export type ExpiresIn = {
 type IsExpiredAfterDaysArgs = {
   expiresIn: ExpiresIn
   lastDate: Date | null
+  now: Date
 }
 
-export const isExpiredAfterDays = ({
+export const isExpired = ({
   expiresIn,
   lastDate,
+  now,
 }: IsExpiredAfterDaysArgs) => {
-  const now = new Date()
-
   if (!lastDate) return true
 
   const expiration = new Date(

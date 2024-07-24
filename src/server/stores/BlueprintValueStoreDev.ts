@@ -2,7 +2,7 @@ import { BlueprintValue } from '../types/BlueprintValue'
 
 import { IStore } from './IStore'
 
-class BlueprintValueStoreLocal implements IStore<Map<string, BlueprintValue>> {
+class BlueprintValueStoreDev implements IStore<Map<string, BlueprintValue>> {
   private state = new Map<string, BlueprintValue>()
   private lastUpdated: Date | null = null
 
@@ -19,7 +19,7 @@ class BlueprintValueStoreLocal implements IStore<Map<string, BlueprintValue>> {
   }
 }
 
-export default BlueprintValueStoreLocal
+export default BlueprintValueStoreDev
 
 const stubState = (): Map<string, BlueprintValue> => {
   const newState = new Map<string, BlueprintValue>()
