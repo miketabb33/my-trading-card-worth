@@ -10,9 +10,9 @@ import Store from '../StoreRegistry'
 
 const CatalogController = Router()
 
-CatalogController.get('/', async (_, res) => {
+CatalogController.get('/', (_, res) => {
   try {
-    const expansionsDto = await Store.expansions.getState()
+    const expansionsDto = Store.expansions.getState()
     res.send(formatResponse({ data: expansionsDto }))
   } catch (e) {
     const error = formatError(e)
