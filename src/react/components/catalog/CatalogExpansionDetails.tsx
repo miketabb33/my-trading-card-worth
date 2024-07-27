@@ -107,14 +107,12 @@ const CatalogExpansionDetails = ({
               See on Bulbapedia
             </a>
           </Details>
-          {!!priceRowItems && (
-            <Prices>
-              <h2>Prices</h2>
-              {priceRowItems.map((item) => (
-                <PriceRowItem key={item.title} {...item} />
-              ))}
-            </Prices>
-          )}
+          <Prices>
+            <h2>Prices</h2>
+            {priceRowItems.map((item) => (
+              <PriceRowItem key={item.title} {...item} />
+            ))}
+          </Prices>
         </Grid>
       }
     />
@@ -125,9 +123,7 @@ export const catalogExpansionDetailsController = (
   details: ExpansionDetailsDto
 ) => {
   const detailsRowItems = buildDetailsRowItems(details)
-  const priceRowItems = details.priceDetails
-    ? buildPriceRowItems(details.priceDetails)
-    : null
+  const priceRowItems = buildPriceRowItems(details.priceDetails)
 
   return {
     detailsRowItems,
@@ -158,9 +154,9 @@ const buildDetailsRowItems = (details: ExpansionDetailsDto) => {
 const buildPriceRowItems = (priceDetails: ExpansionPriceDetailsDto) => {
   const priceRowItems: RowItemProps[] = [
     { title: '$200.00+', value: priceDetails.twoHundredPlus },
-    { title: '$100.01-$200.00', value: priceDetails.oneHundredTwoHundred },
-    { title: '$50.01-$100.00', value: priceDetails.fiftyToOneHundred },
-    { title: '$0.00-$50.00', value: priceDetails.zeroToFifty },
+    { title: '$100.00-$199.99', value: priceDetails.oneHundredTwoHundred },
+    { title: '$50.00-$99.99', value: priceDetails.fiftyToOneHundred },
+    { title: '$0.01-$49.99', value: priceDetails.zeroToFifty },
   ]
 
   return priceRowItems

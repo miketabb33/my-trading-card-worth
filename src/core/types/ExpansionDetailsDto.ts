@@ -10,5 +10,5 @@ export type ExpansionDetailsDto = {
   logoUrl: string | null
   symbolUrl: string | null
   bulbapediaUrl: string
-  priceDetails: ExpansionPriceDetailsDto | null
+  priceDetails: ExpansionPriceDetailsDto
 }

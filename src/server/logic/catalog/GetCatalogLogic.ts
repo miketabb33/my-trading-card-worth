@@ -6,6 +6,7 @@ import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
 import { expansionStoreMap } from '../../stores/expansionStoreMap'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
+import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
 
 class GetCatalogLogic {
   private readonly myCardCRUD: IMyCardCRUD
@@ -30,6 +31,63 @@ class GetCatalogLogic {
         expansionId
       )
 
+    const cards: CardDto[] = this.buildCardDtoList(
+      cardBlueprints,
+      myCardsInExpansion,
+      blueprintValues
+    )
+
+    const details = this.buildExpansionMainDetailsDto(expansionId)
+
+    if (details) details.priceDetails = this.buildExpansionPriceDetails(cards)
+
+    const dto: CatalogDto = {
+      details,
+      cards: cards,
+    }
+
+    return dto
+  }
+
+  private buildExpansionPriceDetails = (cards: CardDto[]) => {
+    const zeroToFiftyCards = cards.filter((card) => {
+      return (
+        card.medianMarketValueCents >= 1 && card.medianMarketValueCents <= 49_99
+      )
+    })
+
+    const fiftyToOneHundredCards = cards.filter((card) => {
+      return (
+        card.medianMarketValueCents >= 50_00 &&
+        card.medianMarketValueCents <= 99_99
+      )
+    })
+
+    const oneHundredTwoHundredCards = cards.filter((card) => {
+      return (
+        card.medianMarketValueCents >= 100_00 &&
+        card.medianMarketValueCents <= 199_99
+      )
+    })
+
+    const twoHundredPlus = cards.filter((card) => {
+      return card.medianMarketValueCents >= 200_00
+    })
+
+    const priceDetails: ExpansionPriceDetailsDto = {
+      zeroToFifty: zeroToFiftyCards.length,
+      fiftyToOneHundred: fiftyToOneHundredCards.length,
+      oneHundredTwoHundred: oneHundredTwoHundredCards.length,
+      twoHundredPlus: twoHundredPlus.length,
+    }
+    return priceDetails
+  }
+
+  private buildCardDtoList = (
+    cardBlueprints: CardBlueprint[],
+    myCardsInExpansion: MyCardEntity[],
+    blueprintValues: Map<string, BlueprintValue>
+  ) => {
     const cardDto: CardDto[] = cardBlueprints.map((blueprint) => {
       const ownedCard = myCardsInExpansion.find(
         (myCard) => myCard.cardTrader.blueprintId === blueprint.blueprintId
@@ -39,14 +97,7 @@ class GetCatalogLogic {
       return this.buildCardDto(blueprint, owned, blueprintValues)
     })
 
-    const details = this.buildExpansionMainDetailsDto(expansionId)
-
-    const dto: CatalogDto = {
-      details,
-      cards: cardDto,
-    }
-
-    return dto
+    return cardDto
   }
 
   private buildCardDto = (
@@ -81,6 +132,13 @@ class GetCatalogLogic {
 
     const release = new Date(expansionsData.releaseDate)
 
+    const priceDetailsPlaceholder = {
+      zeroToFifty: 0,
+      fiftyToOneHundred: 0,
+      oneHundredTwoHundred: 0,
+      twoHundredPlus: 0,
+    }
+
     const details: ExpansionDetailsDto = {
       name: expansionsData.name,
       expansionNumber: expansionsData.expansionNumberInSeries,
@@ -95,12 +153,7 @@ class GetCatalogLogic {
       logoUrl: expansionsData.logoUrl,
       symbolUrl: expansionsData.symbolUrl,
       bulbapediaUrl: expansionsData.bulbapediaUrl,
-      priceDetails: {
-        zeroToFifty: 5,
-        fiftyToOneHundred: 10,
-        oneHundredTwoHundred: 150,
-        twoHundredPlus: 1234,
-      },
+      priceDetails: priceDetailsPlaceholder,
     }
 
     return details
