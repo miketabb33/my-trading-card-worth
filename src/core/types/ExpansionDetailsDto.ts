@@ -1,3 +1,5 @@
+import { ExpansionPriceDetailsDto } from './ExpansionPriceDetailsDto'
+
 export type ExpansionDetailsDto = {
   name: string
   expansionNumber: number
@@ -8,4 +10,5 @@ export type ExpansionDetailsDto = {
   logoUrl: string | null
   symbolUrl: string | null
   bulbapediaUrl: string
+  priceDetails: ExpansionPriceDetailsDto | null
 }

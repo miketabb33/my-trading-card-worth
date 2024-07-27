@@ -39,7 +39,7 @@ class GetCatalogLogic {
       return this.buildCardDto(blueprint, owned, blueprintValues)
     })
 
-    const details = this.buildExpansionDetailsDto(expansionId)
+    const details = this.buildExpansionMainDetailsDto(expansionId)
 
     const dto: CatalogDto = {
       details,
@@ -72,7 +72,7 @@ class GetCatalogLogic {
     return cardDto
   }
 
-  private buildExpansionDetailsDto = (
+  private buildExpansionMainDetailsDto = (
     expansionId: number
   ): ExpansionDetailsDto | null => {
     const expansionsData = expansionStoreMap.get(expansionId)
@@ -95,6 +95,12 @@ class GetCatalogLogic {
       logoUrl: expansionsData.logoUrl,
       symbolUrl: expansionsData.symbolUrl,
       bulbapediaUrl: expansionsData.bulbapediaUrl,
+      priceDetails: {
+        zeroToFifty: 5,
+        fiftyToOneHundred: 10,
+        oneHundredTwoHundred: 150,
+        twoHundredPlus: 1234,
+      },
     }
 
     return details
