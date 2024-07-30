@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 const Button = styled.button<{ $isHidden: boolean }>`
+  user-select: none;
   position: fixed;
   top: 3rem;
   left: 50%;

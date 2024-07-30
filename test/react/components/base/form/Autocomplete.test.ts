@@ -1,16 +1,9 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
 import { useWithAutocomplete } from '../../../../../src/react/components/base/form/Autocomplete'
-import * as PopupModule from '../../../../../src/react/components/Popup'
 import * as FilterAutocompleteModule from '../../../../../src/react/components/base/form/utilities/filterAutocomplete'
 import { ExpansionDto } from '../../../../../src/core/types/ExpansionDto'
 import * as Dropdown from '../../../__MOCKS__/dropdownOption.mock'
-
-const USE_POPUP = jest.spyOn(PopupModule, 'usePopup')
-const TOGGLE_POPUP = jest.fn()
-USE_POPUP.mockReturnValue({
-  toggle: TOGGLE_POPUP,
-} as unknown as PopupModule.UsePopupReturn)
 
 const FILTER_AUTOCOMPLETE = jest.spyOn(
   FilterAutocompleteModule,
@@ -73,7 +66,6 @@ describe('Use With Autocomplete', () => {
     expect(result.current.selectedOption).toEqual(
       Dropdown.DROPDOWN_OPTION_1.data
     )
-    expect(TOGGLE_POPUP).toHaveBeenCalled()
 
     expect(OPTION_SELECTED).toHaveBeenCalledWith(
       Dropdown.DROPDOWN_OPTION_1.data

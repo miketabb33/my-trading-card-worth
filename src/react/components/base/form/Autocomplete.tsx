@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { UseEffectType } from '../../../types/UseEffectType'
-import Popup, { usePopup } from '../../Popup'
 import InputFieldDropdown, {
   DropdownOption,
   InputFieldDropdownProps,
@@ -13,27 +12,35 @@ const Container = styled.div`
   position: relative;
 `
 
+const DropdownDisplay = styled.div`
+  visibility: hidden;
+  opacity: 0;
+
+  ${Container}:focus-within & {
+    visibility: visible;
+    opacity: 1;
+  }
+`
+
 export type AutocompleteProps<T> = {
   inputBind: InputProps
-  popupBind: { isShowing: boolean; closeHandlerEffect: UseEffectType }
   dropdownBind: InputFieldDropdownProps<T>
   optionsChangedEffect: UseEffectType
 }
 
 const Autocomplete = <T extends object>({
-  popupBind,
-  dropdownBind,
   optionsChangedEffect,
   inputBind,
+  dropdownBind,
 }: AutocompleteProps<T>) => {
   useEffect(optionsChangedEffect.effect, optionsChangedEffect.deps)
 
   return (
     <Container>
       <Input {...inputBind} />
-      <Popup {...popupBind}>
+      <DropdownDisplay>
         <InputFieldDropdown {...dropdownBind} />
-      </Popup>
+      </DropdownDisplay>
     </Container>
   )
 }
@@ -53,8 +60,6 @@ export const useWithAutocomplete = <T extends object>({
   initOptions,
   didSelectOption,
 }: UseWithAutocompleteArgs<T>): UseWithAutocompleteReturn<T> => {
-  const { bind: popupBind, click: popupClick, toggle: togglePopup } = usePopup()
-
   const [options, setOptions] = useState<DropdownOption<T>[]>(initOptions ?? [])
 
   const [filteredOptions, setFilteredOptions] = useState<DropdownOption<T>[]>(
@@ -71,7 +76,6 @@ export const useWithAutocomplete = <T extends object>({
   }
 
   const input = useWithInput({
-    onClick: popupClick,
     onChange: (newValue) =>
       setFilteredOptions(filterAutocomplete(options, newValue)),
   })
@@ -80,7 +84,6 @@ export const useWithAutocomplete = <T extends object>({
     input.setValue(option.title)
     setSelectedOption(option)
     if (didSelectOption) didSelectOption(option.data)
-    togglePopup()
   }
 
   const dropdownBind: InputFieldDropdownProps<T> = {
@@ -93,7 +96,6 @@ export const useWithAutocomplete = <T extends object>({
 
   return {
     bind: {
-      popupBind,
       dropdownBind,
       optionsChangedEffect,
       inputBind: input.bind,
