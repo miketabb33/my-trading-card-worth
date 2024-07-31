@@ -1,4 +1,6 @@
 import { ExpansionDto } from '../../core/types/ExpansionDto'
+import Logger from '../logger'
+import { formatError } from '../logic/formatResponse'
 import { IStore } from '../stores/IStore'
 import { ICronJob } from './ICronJob'
 import { ExpiresIn, isExpired } from './isExpired'
@@ -22,7 +24,10 @@ class ExpansionsUpdater implements ICronJob {
     this.expansionsStore
       .refreshStore()
       .then(() => console.log('expansion store refreshed'))
-      .catch(console.dir)
+      .catch((e) => {
+        const error = formatError(e)
+        Logger.error(error)
+      })
   }
 }
 

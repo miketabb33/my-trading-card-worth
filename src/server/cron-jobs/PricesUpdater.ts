@@ -1,3 +1,5 @@
+import Logger from '../logger'
+import { formatError } from '../logic/formatResponse'
 import { IStore } from '../stores/IStore'
 import { BlueprintValue } from '../types/BlueprintValue'
 import { ICronJob } from './ICronJob'
@@ -22,7 +24,10 @@ class PricesUpdater implements ICronJob {
     this.blueprintValueStore
       .refreshStore()
       .then(() => console.log('price store refreshed'))
-      .catch(console.dir)
+      .catch((e) => {
+        const error = formatError(e)
+        Logger.error(error)
+      })
   }
 }
 
