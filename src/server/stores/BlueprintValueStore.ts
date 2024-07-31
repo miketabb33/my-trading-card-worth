@@ -43,11 +43,11 @@ class BlueprintValueStore implements IStore<Map<string, BlueprintValue>> {
       } catch (e) {
         const error = formatError(e)
         Logger.error(error)
-        console.error(
+        Logger.info(
           `Failed Loading blueprint value store for ${expansionIds[i]}`
         )
       }
-      console.log(`bv: ${i}/${expansionIds.length})`)
+      Logger.info(`bv: ${i}/${expansionIds.length})`)
     }
 
     this.state = newState

@@ -23,8 +23,9 @@ class PricesUpdater implements ICronJob {
   private refreshStoreWhenTimeHasPast = () => {
     this.blueprintValueStore
       .refreshStore()
-      .then(() => console.log('price store refreshed'))
+      .then(() => Logger.info('price store refreshed'))
       .catch((e) => {
+        Logger.info('Error occurred in price updater cron job')
         const error = formatError(e)
         Logger.error(error)
       })

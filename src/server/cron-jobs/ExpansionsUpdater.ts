@@ -23,8 +23,9 @@ class ExpansionsUpdater implements ICronJob {
   private refreshStoreWhenTimeHasPast = () => {
     this.expansionsStore
       .refreshStore()
-      .then(() => console.log('expansion store refreshed'))
+      .then(() => Logger.info('expansion store refreshed'))
       .catch((e) => {
+        Logger.info('Error occurred in expansion updater cron job')
         const error = formatError(e)
         Logger.error(error)
       })

@@ -7,11 +7,11 @@ import { connectToDb } from './database/connectToDb'
 import bodyParser from 'body-parser'
 import Store from './StoreRegistry'
 import CronJobs from './CronJobRegistry'
+import Logger from './logger'
+import { formatError } from './logic/formatResponse'
 
 const app = express()
 const port = process.env.PORT || 3000
-
-connectToDb().catch(console.dir)
 
 app.use(auth(auth0Config))
 
@@ -26,11 +26,25 @@ app.get('*', (_, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`SERVER: listening on port ${port}`)
+  Logger.info(`Server is listening on port ${port}`)
 })
 
+connectToDb()
+  .then(() => {
+    Logger.info('Database successfully connected')
+  })
+  .catch((e) => {
+    Logger.info('Error connecting to database')
+    const error = formatError(e)
+    Logger.error(error)
+  })
+
 Store.init()
-  .then(() => console.log('STORES: Data loaded'))
-  .catch(console.dir)
+  .then(() => Logger.info('Stores data loaded'))
+  .catch((e) => {
+    Logger.info('Error in initialize stores')
+    const error = formatError(e)
+    Logger.error(error)
+  })
 
 CronJobs.start()
