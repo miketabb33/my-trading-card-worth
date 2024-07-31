@@ -7,6 +7,7 @@ const Button = styled.button<{ $isHidden: boolean }>`
   top: 3rem;
   left: 50%;
   transform: translate(-50%, 0);
+  backface-visibility: hidden;
 
   padding: 1.5rem 2.5rem;
   border-radius: 5rem;
