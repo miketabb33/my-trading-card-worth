@@ -4,12 +4,15 @@ import { act, renderHook } from '@testing-library/react'
 import { useProfileProvider } from '../../../src/react/providers/ProfileProvider'
 import * as ProfileClientModule from '../../../src/react/network/profileClient'
 import { PROFILE_DTO } from '../../core/__MOCKS__/profileDto.mock'
+import { UseApiReturn } from '../../../src/react/network/useApi'
+import { ProfileDto } from '../../../src/core/types/ProfileDto'
 
 const USE_PROFILE_DATA = jest.spyOn(ProfileClientModule, 'useProfileData')
 
-const RESPONSE = {
+const RESPONSE: UseApiReturn<ProfileDto> = {
   data: null,
   isLoading: false,
+  errors: null,
   refresh: () => {},
 }
 

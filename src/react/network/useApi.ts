@@ -9,6 +9,7 @@ export type UseApiArgs = {
 export type UseApiReturn<T> = {
   data: T | null
   isLoading: boolean
+  errors: string[] | null
   refresh: () => void
 }
 
@@ -18,6 +19,7 @@ export const useApiController = <T>({
 }: UseApiArgs) => {
   const [data, setData] = useState<T | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [errors, setErrors] = useState<string[] | null>(null)
 
   const makeRequest = () => {
     if (!shouldMakeRequest) {
@@ -27,23 +29,28 @@ export const useApiController = <T>({
     setIsLoading(true)
     fetchApi<T>({ path })
       .then((res) => {
-        setData(res.data)
+        if (res.isSuccessful) {
+          setData(res.data)
+        } else {
+          setErrors(res.errors)
+        }
       })
       .catch((err: unknown) => {
         console.error(err)
+        setErrors(['Unexpected Error'])
       })
       .finally(() => {
         setIsLoading(false)
       })
   }
 
-  return { data, isLoading, makeRequest }
+  return { data, isLoading, errors, makeRequest }
 }
 
 export const useApi = <T>(args: UseApiArgs): UseApiReturn<T> => {
-  const { data, isLoading, makeRequest } = useApiController<T>(args)
+  const { data, isLoading, errors, makeRequest } = useApiController<T>(args)
 
   useEffect(makeRequest, [args.shouldMakeRequest])
 
-  return { data, isLoading, refresh: makeRequest }
+  return { data, isLoading, errors, refresh: makeRequest }
 }

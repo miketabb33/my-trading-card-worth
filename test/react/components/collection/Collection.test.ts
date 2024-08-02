@@ -26,6 +26,7 @@ const USE_MY_CARDS = jest.spyOn(MyCardClient, 'useMyCards')
 const USE_MY_CARDS_RETURN: UseApiReturn<CollectionDto> = {
   data: null,
   isLoading: false,
+  errors: null,
   refresh: REFRESH,
 }
 USE_MY_CARDS.mockReturnValue(USE_MY_CARDS_RETURN)

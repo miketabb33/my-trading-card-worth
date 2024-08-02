@@ -6,7 +6,6 @@ import CollectionPage from '../pages/CollectionPage'
 import { getAuthReturnUrl } from './authReturnUrl'
 import { useProfile } from '../providers/ProfileProvider'
 import SpinnerPage from '../pages/SpinnerPage'
-import DeleteUserDataPage from '../pages/DeleteUserDataPage'
 
 const redirectToAuthReturnUrlUnlessMissing = () => {
   const authReturnUrl = getAuthReturnUrl()
@@ -27,7 +26,6 @@ const router = createBrowserRouter([
   { path: '/collection', element: <CollectionPage /> },
   { path: '/catalog', element: <CatalogPage /> },
   { path: '/catalog/:expansionSlug', element: <CatalogPage /> },
-  { path: '/delete-user-data', element: <DeleteUserDataPage /> },
   { path: '*', element: 'Page Not Found' },
 ])
 

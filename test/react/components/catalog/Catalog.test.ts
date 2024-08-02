@@ -10,6 +10,8 @@ import {
   EXPANSION_DTO_1,
   EXPANSION_DTO_2,
 } from '../../../core/__MOCKS__/expansionDto.mock'
+import { UseApiReturn } from '../../../../src/react/network/useApi'
+import { ExpansionDto } from '../../../../src/core/types/ExpansionDto'
 
 const FETCH_CATALOG = jest.spyOn(catalogClientModule, 'fetchCatalog')
 const USE_EXPANSIONS_DATA = jest.spyOn(catalogClientModule, 'useExpansionsData')
@@ -22,11 +24,14 @@ USE_EXPANSION.mockReturnValue({
   isLoading: false,
 })
 
-USE_EXPANSIONS_DATA.mockReturnValue({
+const USE_EXPANSION_DATA_RETURN: UseApiReturn<ExpansionDto[]> = {
   data: [],
   isLoading: false,
+  errors: null,
   refresh: () => {},
-})
+}
+
+USE_EXPANSIONS_DATA.mockReturnValue(USE_EXPANSION_DATA_RETURN)
 
 const NAVIGATE_TO = jest.fn()
 const GET_PARAM = jest.fn()
