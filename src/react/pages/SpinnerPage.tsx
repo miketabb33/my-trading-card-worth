@@ -3,7 +3,7 @@ import Spinner from '../components/base/Spinner'
 import React from 'react'
 
 const Container = styled.div`
-  height: 100%;
+  height: 90vh;
   width: 100%;
   display: flex;
   align-items: center;
