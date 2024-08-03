@@ -13,7 +13,6 @@ import { Line } from '../base/Line'
 const Container = styled.div`
   display: flex;
   gap: 1rem;
-  padding: 1rem;
   width: 100%;
 `
 

@@ -4,12 +4,16 @@ import React, { useEffect, useState } from 'react'
 import CardItem from './CardItem'
 import { CardDto } from '../../../core/types/CardDto'
 import Input, { useWithInput } from '../base/form/Input'
-import { CenterContent } from '../Layout'
 import { Button } from '../base/Button'
 import { UseEffectType } from '../../types/UseEffectType'
+import { CenterContent } from '../base/layout/CenterContent'
 
 const CardContainer = styled.div`
   display: grid;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  row-gap: 1rem;
+  column-gap: 1rem;
 
   ${tabLandAndUp(css`
     grid-template-columns: repeat(2, 1fr);

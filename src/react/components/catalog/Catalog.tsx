@@ -14,7 +14,7 @@ import CardList from '../card-list/CardList'
 import { CardDto } from '../../../core/types/CardDto'
 import { setCatalogReturnUrl } from '../../router/catalogReturnUrl'
 import Spinner from '../base/Spinner'
-import { CenterContent } from '../Layout'
+import { CenterContent } from '../base/layout/CenterContent'
 
 const Container = styled.div`
   margin-top: 1rem;

@@ -1,10 +1,11 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
-import PageDetailsLayout from '../PageDetailsLayout'
+import PageDetailsLayout from '../base/layout/PageDetailsLayout'
 import { DetailsRowItem, PriceRowItem, RowItemProps } from './RowItem'
 import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
 import { desktopAndUp, tabLandAndUp } from '../../styles/Responsive'
+import ExternalTextLink from '../base/text-link/ExternalTextLink'
 
 const imageWidth = '20rem'
 
@@ -103,9 +104,9 @@ const CatalogExpansionDetails = ({
             {detailsRowItems.map((item) => (
               <DetailsRowItem key={item.title} {...item} />
             ))}
-            <a href={details.bulbapediaUrl} target="_blank" rel="noreferrer">
+            <ExternalTextLink href={details.bulbapediaUrl}>
               See on Bulbapedia
-            </a>
+            </ExternalTextLink>
           </Details>
           <Prices>
             <h2>Prices</h2>

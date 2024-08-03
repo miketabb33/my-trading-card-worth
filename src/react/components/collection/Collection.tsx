@@ -6,7 +6,7 @@ import { useProfile } from '../../providers/ProfileProvider'
 import CollectionNotLoggedIn from './CollectionNotLoggedIn'
 import CollectionNoItems from './CollectionNoItems'
 import Spinner from '../base/Spinner'
-import { CenterContent } from '../Layout'
+import { CenterContent } from '../base/layout/CenterContent'
 
 const Collection = () => {
   const {

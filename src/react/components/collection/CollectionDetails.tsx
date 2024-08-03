@@ -1,5 +1,5 @@
 import React from 'react'
-import PageDetailsLayout from '../PageDetailsLayout'
+import PageDetailsLayout from '../base/layout/PageDetailsLayout'
 import { MyCollectionDetailsDto } from '../../../core/types/MyCollectionDetailsDto'
 import styled, { css } from 'styled-components'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'

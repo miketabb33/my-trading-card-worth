@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import TextLink from '../base/TextLink'
+import InternalTextLink from '../base/text-link/InternalTextLink'
 import { useProfile } from '../../providers/ProfileProvider'
 import { PATH_VALUES } from '../../router/pathValues'
 
@@ -21,11 +21,12 @@ const CollectionNotLoggedIn = () => {
       <h3>To get started:</h3>
       <List>
         <ListItem>
-          <TextLink label="Login" onClick={login} />
+          <InternalTextLink label="Login" onClick={login} />
         </ListItem>
         <ListItem>
           Add cards to your collection with the{' '}
-          <TextLink label="Catalog" pathValue={PATH_VALUES.catalog()} />.
+          <InternalTextLink label="Catalog" pathValue={PATH_VALUES.catalog()} />
+          .
         </ListItem>
       </List>
     </>
