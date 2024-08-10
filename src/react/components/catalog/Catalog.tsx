@@ -123,7 +123,7 @@ export const useInCatalog = () => {
   }
 
   return {
-    autocompleteBind,
+    autocompleteBind: { ...autocompleteBind, id: 'CatalogAutocomplete' },
     cardsDto: filteredCardsDto,
     expansionDetailsDto: selectedExpansion?.details || null,
     expansionsLoadedEffect,

@@ -17,7 +17,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "check": "prettier --ignore-path .gitignore --check . && eslint .",
-    "fix": "prettier --ignore-path .gitignore --write . && eslint . --fix"
+    "fix": "prettier --ignore-path .gitignore --write . && eslint . --fix",
+    "cypress": "cypress run",
+    "cypress:open": "cypress open"
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +34,7 @@
     "@typescript-eslint/parser": "^7.9.0",
     "concurrently": "^8.2.2",
     "copy-webpack-plugin": "^12.0.2",
+    "cypress": "^13.13.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.34.1",

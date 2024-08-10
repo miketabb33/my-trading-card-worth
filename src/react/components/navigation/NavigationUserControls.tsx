@@ -16,7 +16,11 @@ const NavigationUserControls = () => {
   return (
     <UserControls>
       {showLoading && <p>Loading...</p>}
-      {showLoggedOut && <Button onClick={login}>Login</Button>}
+      {showLoggedOut && (
+        <Button onClick={login} id="LoginButton">
+          Login
+        </Button>
+      )}
       {showLoggedIn && profile && (
         <>
           <p>Hi, {profile.nickname}</p>

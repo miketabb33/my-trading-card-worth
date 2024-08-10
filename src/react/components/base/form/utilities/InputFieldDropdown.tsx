@@ -77,6 +77,7 @@ export type InputFieldDropdownProps<T> = {
   topAmount?: string
   zIndexAmount?: number
   dropdownStyle?: DropdownStyle
+  id?: string | undefined
   onOptionClick: (optionData: DropdownOption<T>) => void
 }
 
@@ -86,6 +87,7 @@ const InputFieldDropdown = <T extends object>({
   topAmount = '',
   zIndexAmount = 0,
   dropdownStyle = 'default',
+  id,
   onOptionClick,
 }: InputFieldDropdownProps<T>) => {
   const showNoResults = options.length === 0
@@ -93,16 +95,20 @@ const InputFieldDropdown = <T extends object>({
   return (
     <Container $top={topAmount} $zIndex={zIndexAmount}>
       <Items $dropdownStyle={dropdownStyle}>
-        {options.map((option, i) => (
-          <Item
-            $dropdownStyle={dropdownStyle}
-            key={i}
-            onClick={() => onOptionClick(option)}
-          >
-            {option.imageSource && <RowImage src={option.imageSource} />}
-            <p>{option.title}</p>
-          </Item>
-        ))}
+        {options.map((option, i) => {
+          const itemId = id !== null ? `${id}-${i}` : undefined
+          return (
+            <Item
+              $dropdownStyle={dropdownStyle}
+              key={i}
+              onClick={() => onOptionClick(option)}
+              id={itemId}
+            >
+              {option.imageSource && <RowImage src={option.imageSource} />}
+              <p>{option.title}</p>
+            </Item>
+          )
+        })}
         {showNoResults && noResultsText && <p>{noResultsText}</p>}
       </Items>
     </Container>

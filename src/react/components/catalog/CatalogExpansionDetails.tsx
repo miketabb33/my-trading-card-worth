@@ -90,7 +90,7 @@ const CatalogExpansionDetails = ({
       header={
         <>
           {details.symbolUrl && <Symbol src={details.symbolUrl} />}
-          <h1>{details.name} Expansion</h1>
+          <h1 id="ExpansionTitle">{details.name} Expansion</h1>
         </>
       }
       content={

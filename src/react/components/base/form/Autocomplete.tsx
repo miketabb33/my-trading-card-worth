@@ -26,20 +26,22 @@ export type AutocompleteProps<T> = {
   inputBind: InputProps
   dropdownBind: InputFieldDropdownProps<T>
   optionsChangedEffect: UseEffectType
+  id?: string
 }
 
 const Autocomplete = <T extends object>({
   optionsChangedEffect,
   inputBind,
   dropdownBind,
+  id,
 }: AutocompleteProps<T>) => {
   useEffect(optionsChangedEffect.effect, optionsChangedEffect.deps)
 
   return (
-    <Container>
+    <Container id={id}>
       <Input {...inputBind} />
       <DropdownDisplay>
-        <InputFieldDropdown {...dropdownBind} />
+        <InputFieldDropdown {...dropdownBind} id={id} />
       </DropdownDisplay>
     </Container>
   )
