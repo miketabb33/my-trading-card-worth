@@ -34,7 +34,7 @@
     "/jest.config.js",
     "/webpack.config.js",
     "/prettier.config.js",
-    "/cypress.config.js",
+    "/cypress.config.ts",
     "/cypress/*"
   ],
   "settings": {

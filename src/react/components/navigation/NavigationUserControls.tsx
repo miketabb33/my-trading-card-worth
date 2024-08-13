@@ -23,7 +23,7 @@ const NavigationUserControls = () => {
       )}
       {showLoggedIn && profile && (
         <>
-          <p>Hi, {profile.nickname}</p>
+          <p id="NavNameTag">Hi, {profile.nickname}</p>
           <Button onClick={logout}>Logout</Button>
         </>
       )}

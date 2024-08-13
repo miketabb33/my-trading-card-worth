@@ -62,7 +62,7 @@ const CardList = ({ cardsDto, refreshCards }: CardListProps) => {
           <p>Search By Name:</p>
           <SearchBarControls>
             <InputContainer>
-              <Input {...inputBind} />
+              <Input id="CardListSearch" {...inputBind} />
             </InputContainer>
             <Button onClick={clearInput}>Clear</Button>
           </SearchBarControls>
@@ -77,8 +77,9 @@ const CardList = ({ cardsDto, refreshCards }: CardListProps) => {
       )}
 
       <CardContainer>
-        {filteredCardsDto.map((cardDto) => (
+        {filteredCardsDto.map((cardDto, i) => (
           <CardItem
+            id={`CardListItem-${i}`}
             key={cardDto.blueprintId}
             cardDto={cardDto}
             refreshCards={refreshCards}

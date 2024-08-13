@@ -6,6 +6,7 @@ type RouterLinkProps = {
   children: ReactNode
   linkTo: string
   className?: string
+  id?: string | undefined
 }
 
 const NoStyleLink = styled(Link)`
@@ -13,9 +14,9 @@ const NoStyleLink = styled(Link)`
   color: ${({ theme }) => theme.staticColor.gray_900};
 `
 
-const RouterLink = ({ className, linkTo, children }: RouterLinkProps) => {
+const RouterLink = ({ className, linkTo, children, id }: RouterLinkProps) => {
   return (
-    <NoStyleLink to={linkTo} className={className}>
+    <NoStyleLink id={id} to={linkTo} className={className}>
       {children}
     </NoStyleLink>
   )

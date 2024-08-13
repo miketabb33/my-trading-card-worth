@@ -49,12 +49,12 @@ const NavigationOptions = () => {
     <OptionList>
       <OptionItem>
         <Link linkTo={PATH_VALUES.catalog()} $selected={catalogIsSelected}>
-          <OptionContent>Catalog</OptionContent>
+          <OptionContent id="NavCatalog">Catalog</OptionContent>
         </Link>
       </OptionItem>
       <OptionItem>
         <Link linkTo={PATH_VALUES.collection} $selected={collectionIsSelected}>
-          <OptionContent>Collection</OptionContent>
+          <OptionContent id="NavCollection">Collection</OptionContent>
         </Link>
       </OptionItem>
     </OptionList>

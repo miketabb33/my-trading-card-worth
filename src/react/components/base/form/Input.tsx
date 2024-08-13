@@ -22,14 +22,20 @@ const InputWrapper = styled.div`
 
 export type InputProps = {
   value: string
+  id?: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClick: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void
 }
 
-const Input = ({ value, onChange, onClick }: InputProps) => {
+const Input = ({ value, id, onChange, onClick }: InputProps) => {
   return (
     <InputWrapper>
-      <InputStyles onChange={onChange} onClick={onClick} value={value} />
+      <InputStyles
+        id={id}
+        onChange={onChange}
+        onClick={onClick}
+        value={value}
+      />
     </InputWrapper>
   )
 }

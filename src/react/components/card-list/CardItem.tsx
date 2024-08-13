@@ -49,15 +49,16 @@ const Actions = styled.div`
 
 type CardItemProps = {
   cardDto: CardDto
+  id?: string
   refreshCards: () => void
 }
 
-const CardItem = ({ cardDto, refreshCards }: CardItemProps) => {
+const CardItem = ({ cardDto, id, refreshCards }: CardItemProps) => {
   const { isLoggedIn, mixMaxValue, formattedAvg, formattedMedian, show } =
     useInCardItem(cardDto)
 
   return (
-    <Container>
+    <Container id={id}>
       <Image
         src={cardDto.imageUrlPreview}
         onClick={(e) =>
