@@ -4,7 +4,7 @@ ARG NODE_VERSION=18.15.0
 FROM node:${NODE_VERSION}-alpine as base
 WORKDIR /usr/src/app
 
-
+ARG MODE=production
 FROM base as deps
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
@@ -17,11 +17,9 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci
 COPY . .
-RUN npm run build
-
+RUN MODE=${MODE} npm run build
 
 FROM base as final
-ENV NODE_ENV production
 USER node
 COPY package.json .
 COPY --from=deps /usr/src/app/node_modules ./node_modules

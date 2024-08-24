@@ -1,0 +1,15 @@
+services:
+  server:
+    build:
+      context: .
+      args:
+        - MODE=development
+    ports:
+      - 3000:3000
+    environment:
+      AUTH_BASE_URL: ${AUTH_BASE_URL}
+      AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
+      AUTH_ISSUER_BASE_URL: ${AUTH_ISSUER_BASE_URL}
+      AUTH_SECRET: ${AUTH_SECRET}
+      CARD_TRADER_API_KEY: ${CARD_TRADER_API_KEY}
+      MONGODB_CONNECTION_STRING: ${MONGODB_CONNECTION_STRING}
