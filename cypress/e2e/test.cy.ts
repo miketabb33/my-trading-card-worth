@@ -8,9 +8,10 @@ describe('e2e', () => {
     cy.visit('http://localhost:3000')
   })
 
-  it('e2e', async () => {
+  it('e2e', () => {
     // Search Expansion
-    cy.get('#CatalogAutocomplete').type('Twilight')
+    cy.get('#NoExpansionSelected').contains('No Expansion Selected')
+    cy.get('#CatalogAutocomplete:not([disabled])').type('Twilight')
 
     cy.get('#CatalogAutocomplete-0').click()
 
@@ -42,30 +43,25 @@ describe('e2e', () => {
     cy.get('#CardListItem-0').contains('Abra')
     cy.get('#CardListItem-0').contains('Owned: 0')
     cy.get('#CardListItem-0').contains('Add').click()
-    cy.wait(2000)
     cy.get('#CardListItem-0').contains('Owned: 1')
     cy.get('#CardListItem-0').contains('Remove').click()
-    cy.wait(2000)
+
     cy.get('#CardListItem-0').contains('Owned: 0')
     cy.get('#CardListItem-0').contains('Add').click()
-    cy.wait(2000)
+
     cy.get('#CardListItem-0').contains('Owned: 1')
 
     // Add card in collection and check median price
     cy.get('#NavCollection').click()
 
-    const amount1 = await getMedianValue(0)
-    const total1 = await getTotalMedianValue()
-    expect(amount1).equal(total1)
+    cy.get('#CollectionTotalMedianValue').should('have.text', 'Median: $0.27')
 
     cy.get('#CardListItem-0').contains('Owned: 1')
     cy.get('#CardListItem-0').contains('Add').click()
-    cy.wait(2000)
+
     cy.get('#CardListItem-0').contains('Owned: 2')
 
-    const amount2 = await getMedianValue(0)
-    const total2 = await getTotalMedianValue()
-    expect(amount2).equal(total2)
+    cy.get('#CollectionTotalMedianValue').should('have.text', 'Median: $0.54')
 
     // Search another expansion
     cy.get('#NavCatalog').click()
@@ -83,21 +79,18 @@ describe('e2e', () => {
     cy.get('#CardListItem-1').contains('Torterra ex')
     cy.get('#CardListItem-1').contains('Owned: 0')
     cy.get('#CardListItem-1').contains('Add').click()
-    cy.wait(2000)
+
     cy.get('#CardListItem-1').contains('Owned: 1')
 
     // Verify amounts in collection
     cy.get('#NavCollection').click()
-    const amount3_1 = await getMedianValue(0)
-    const amount3_2 = await getMedianValue(1)
-    const total3 = await getTotalMedianValue()
-    expect(amount3_1 + amount3_2).equal(total3)
+    cy.get('#CollectionTotalMedianValue').should('have.text', 'Median: $2.27')
 
     // Remove cards
     cy.get('#CardListItem-1').contains('Remove').click()
-    cy.wait(2000)
+
     cy.get('#CardListItem-0').contains('Remove').click()
-    cy.wait(2000)
+
     cy.get('#CardListItem-0').contains('Remove').click()
     cy.get('h1')
       .first()
@@ -119,38 +112,4 @@ const loginInWith = (username: string, password: string) => {
     }
   )
   cy.get('#NavNameTag').contains('Hi, ')
-}
-
-const getMedianValue = (position: number): Promise<number> => {
-  return new Promise((res) => {
-    cy.get(`#CardListItem-${position}`)
-      .contains('Median Value:')
-      .then(($median) => {
-        const text = $median.text()
-        const amountString = text.replace('Median Value: $', '')
-        const amount = parseFloat(amountString)
-
-        cy.get(`#CardListItem-${position}`)
-          .contains('Owned:')
-          .then(($owned) => {
-            const text = $owned.text()
-            const ownedString = text.replace('Owned: ', '')
-            const owned = parseInt(ownedString)
-
-            res(amount * owned)
-          })
-      })
-  })
-}
-
-const getTotalMedianValue = (): Promise<number> => {
-  return new Promise((res) => {
-    cy.get('#CollectionTotalMedianValue').then(($total) => {
-      const text = $total.text()
-      const amountString = text.replace('Median: $', '')
-      const amount = parseFloat(amountString)
-
-      res(amount)
-    })
-  })
 }
