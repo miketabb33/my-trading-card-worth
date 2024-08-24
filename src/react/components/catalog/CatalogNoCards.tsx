@@ -4,7 +4,7 @@ const CatalogNoCards = () => {
   return (
     <>
       <h1>No Cards Yet</h1>
-      <p>This expansion has no cards yet. Check back in a little later.</p>
+      <p>This expansion has no cards yet. Check back a little later.</p>
     </>
   )
 }
