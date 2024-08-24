@@ -85,6 +85,8 @@ export const useWithAutocomplete = <T extends object>({
   const onOptionClick = (option: DropdownOption<T>) => {
     input.setValue(option.title)
     setSelectedOption(option)
+    const activeElement = document.activeElement as HTMLElement
+    activeElement.blur()
     if (didSelectOption) didSelectOption(option.data)
   }
 
