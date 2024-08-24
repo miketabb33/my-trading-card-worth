@@ -53,13 +53,15 @@ class ExpansionSorter implements IExpansionSorter {
   private extractAndSortMainSeriesExpansions = (
     sortableExpansions: SortableExpansion[]
   ) => {
-    return MAIN_SERIES.reverse().flatMap((expansionSeries) => {
-      const mainSeriesExpansions = this.extractExpansionSeries(
-        sortableExpansions,
-        expansionSeries
-      )
-      return mainSeriesExpansions.sort(this.sortByOldest)
-    })
+    return MAIN_SERIES.slice()
+      .reverse()
+      .flatMap((expansionSeries) => {
+        const mainSeriesExpansions = this.extractExpansionSeries(
+          sortableExpansions,
+          expansionSeries
+        )
+        return mainSeriesExpansions.sort(this.sortByOldest)
+      })
   }
 
   private extractAndSortOtherSeriesExpansions = (
