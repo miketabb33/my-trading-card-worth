@@ -131,3 +131,35 @@ export const scarletAndVioletTwilightMasquerade: ExpansionData = {
   logoUrl:
     'https://archives.bulbagarden.net/media/upload/thumb/1/15/SV6_Logo_EN.png/150px-SV6_Logo_EN.png',
 }
+
+export const scarletAndVioletShroudedFable: ExpansionData = {
+  name: 'Scarlet & Violet — Shrouded Fable',
+  expansionNumberInSeries: 6.5,
+  series: 'Scarlet & Violet Series',
+  expansionType: 'Main Series Expansion',
+  numberOfCards: 64,
+  numberOfSecretCards: 35,
+  releaseDate: new Date(2024, 8, 2).toUTCString(),
+  abbreviation: 'SFA',
+  bulbapediaUrl: 'https://bulbapedia.bulbagarden.net/wiki/Shrouded_Fable_(TCG)',
+  symbolUrl:
+    'https://archives.bulbagarden.net/media/upload/7/74/SetSymbolShrouded_Fable.png',
+  logoUrl:
+    'https://archives.bulbagarden.net/media/upload/thumb/e/e6/SFA_Logo_EN.png/150px-SFA_Logo_EN.png',
+}
+
+export const scarletAndVioletStellarCrown: ExpansionData = {
+  name: 'Scarlet & Violet — Stellar Crown',
+  expansionNumberInSeries: 7,
+  series: 'Scarlet & Violet Series',
+  expansionType: 'Main Series Expansion',
+  numberOfCards: 142,
+  numberOfSecretCards: 0,
+  releaseDate: new Date(2024, 9, 13).toUTCString(),
+  abbreviation: 'SCR',
+  bulbapediaUrl: 'https://bulbapedia.bulbagarden.net/wiki/Stellar_Crown_(TCG)',
+  symbolUrl:
+    'https://archives.bulbagarden.net/media/upload/f/f1/SetSymbolStellar_Crown.png',
+  logoUrl:
+    'https://archives.bulbagarden.net/media/upload/thumb/8/8d/SV7_Logo_EN.png/150px-SV7_Logo_EN.png',
+}

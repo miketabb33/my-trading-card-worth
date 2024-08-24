@@ -15,6 +15,8 @@ import { CardDto } from '../../../core/types/CardDto'
 import { setCatalogReturnUrl } from '../../router/catalogReturnUrl'
 import Spinner from '../base/Spinner'
 import { CenterContent } from '../base/layout/CenterContent'
+import CatalogNoCards from './CatalogNoCards'
+import CatalogNoExpansionSelected from './CatalogNoExpansionSelected'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -29,6 +31,8 @@ const Catalog = () => {
     fetchExpansionDetailsAndCardsEffect,
     refreshCards,
     showLoading,
+    showNoCardsYet,
+    showNoExpansionsSelected,
   } = useInCatalog()
 
   useEffect(expansionsLoadedEffect.effect, expansionsLoadedEffect.deps)
@@ -46,12 +50,25 @@ const Catalog = () => {
         <CatalogExpansionDetails expansionDetailsDto={expansionDetailsDto} />
       )}
 
-      <CardList cardsDto={cardsDto} refreshCards={refreshCards} />
+      {showNoCardsYet && (
+        <CenterContent>
+          <CatalogNoCards />
+        </CenterContent>
+      )}
+
       {showLoading && (
         <CenterContent>
           <Spinner />
         </CenterContent>
       )}
+
+      {showNoExpansionsSelected && (
+        <CenterContent>
+          <CatalogNoExpansionSelected />
+        </CenterContent>
+      )}
+
+      <CardList cardsDto={cardsDto} refreshCards={refreshCards} />
     </Container>
   )
 }
@@ -130,6 +147,8 @@ export const useInCatalog = () => {
     fetchExpansionDetailsAndCardsEffect,
     refreshCards: fetchExpansionDetailsAndCards,
     showLoading: isLoadingCatalog && filteredCardsDto.length === 0,
+    showNoCardsYet: !isLoadingCatalog && selectedExpansion?.cards.length === 0,
+    showNoExpansionsSelected: !isLoadingCatalog && !selectedExpansion,
   }
 }
 export default Catalog

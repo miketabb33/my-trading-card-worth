@@ -19,6 +19,9 @@ import * as trickOrTradeStore from '../expansion-data/trickOrTradeStore'
 import * as xyStore from '../expansion-data/xyStore'
 import { ExpansionData } from '../types/ExpansionData'
 
+// Source expansion data from:
+// https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions
+
 export const expansionStoreMap = new Map<number, ExpansionData>([
   [1969, originalStore.baseSetShadowless],
   [1472, originalStore.baseSet],
@@ -148,6 +151,8 @@ export const expansionStoreMap = new Map<number, ExpansionData>([
   [3561, scarletAndVioletStore.scarletAndVioletPaldeanFates],
   [3605, scarletAndVioletStore.scarletAndVioletTemporalForces],
   [3674, scarletAndVioletStore.scarletAndVioletTwilightMasquerade],
+  [3763, scarletAndVioletStore.scarletAndVioletShroudedFable],
+  [3787, scarletAndVioletStore.scarletAndVioletStellarCrown],
 
   [1474, blackStarPromotionalStore.wizardsBlackStarPromos],
   [1929, blackStarPromotionalStore.nintendoBlackStarPromos],

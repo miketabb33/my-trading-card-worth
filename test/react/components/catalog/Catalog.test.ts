@@ -103,4 +103,45 @@ describe('Use In Catalog', () => {
 
     expect(FETCH_CATALOG).not.toHaveBeenCalled()
   })
+
+  it('should show loading when an expansion is selected', () => {
+    GET_PARAM.mockReturnValue(EXPANSION_DTO_1.slug)
+
+    const { result } = renderHook(useInCatalog)
+
+    act(() => void result.current.fetchExpansionDetailsAndCardsEffect.effect())
+
+    expect(result.current.showLoading).toBe(true)
+    expect(result.current.showNoCardsYet).toBe(false)
+    expect(result.current.showNoExpansionsSelected).toBe(false)
+  })
+
+  it('should show no expansion selected when an expansion is not selected', () => {
+    const { result } = renderHook(useInCatalog)
+
+    expect(result.current.showLoading).toBe(false)
+    expect(result.current.showNoCardsYet).toBe(false)
+    expect(result.current.showNoExpansionsSelected).toBe(true)
+  })
+
+  it('should show no cards yet when the selected expansion fetch to get more cards returns nothing', async () => {
+    GET_PARAM.mockReturnValue(EXPANSION_DTO_1.slug)
+
+    FETCH_CATALOG.mockResolvedValue({
+      data: { cards: [], details: null },
+      errors: null,
+      isSuccessful: true,
+    })
+
+    const { result } = renderHook(useInCatalog)
+
+    await act(async () => {
+      await result.current.fetchExpansionDetailsAndCardsEffect.effect()
+      await Promise.resolve()
+    })
+
+    expect(result.current.showLoading).toBe(false)
+    expect(result.current.showNoCardsYet).toBe(true)
+    expect(result.current.showNoExpansionsSelected).toBe(false)
+  })
 })
