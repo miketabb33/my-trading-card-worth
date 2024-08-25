@@ -7,6 +7,7 @@ import CollectionNotLoggedIn from './CollectionNotLoggedIn'
 import CollectionNoItems from './CollectionNoItems'
 import Spinner from '../base/Spinner'
 import { CenterContent } from '../base/layout/CenterContent'
+import { CardDto } from '../../../core/types/CardDto'
 
 const Collection = () => {
   const {
@@ -56,8 +57,12 @@ export const useInCollection = () => {
   const cardsDto = collectionDto?.cards || []
   const detailsDto = collectionDto?.details
 
+  const sortByHighestMedian = (a: CardDto, b: CardDto) => {
+    return b.medianMarketValueCents - a.medianMarketValueCents
+  }
+
   const cardListProps: CardListProps = {
-    cardsDto,
+    cardsDto: cardsDto.sort(sortByHighestMedian),
     refreshCards: refresh,
   }
 
