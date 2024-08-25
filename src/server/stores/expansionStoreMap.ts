@@ -105,6 +105,7 @@ export const expansionStoreMap = new Map<number, ExpansionData>([
   [1575, xyStore.xyBREAKthrough],
   [1576, xyStore.xyBREAKpoint],
   [1577, xyStore.xyGenerations],
+  [1579, xyStore.xyFatesCollide],
   [1580, xyStore.xySteamSiege],
   [1586, xyStore.xyEvolutions],
 
