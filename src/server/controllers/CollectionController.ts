@@ -37,10 +37,22 @@ CollectionController.get('/', requiresAuth(), async (req, res) => {
   }
 })
 
-CollectionController.get('/:userId', (req, res) => {
+CollectionController.get('/:userId', async (req, res) => {
   try {
-    const getShareCollectionLogic = new GetShareCollectionLogic()
-    res.send(formatResponse({ data: getShareCollectionLogic.get() }))
+    const userId = req.params.userId
+
+    const collectionFactory = new CollectionFactory(
+      new MyCardCRUD(),
+      Store.blueprintValues.getState()
+    )
+
+    const getShareCollectionLogic = new GetShareCollectionLogic(
+      collectionFactory
+    )
+
+    const dto = await getShareCollectionLogic.get(userId)
+
+    res.send(formatResponse({ data: dto }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)

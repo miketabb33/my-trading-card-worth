@@ -1,8 +1,8 @@
 import { CardDto } from './CardDto'
 import { MyCollectionDetailsDto } from './MyCollectionDetailsDto'
 
-export type CollectionDto = {
+export type ShareCollectionDto = {
   details: MyCollectionDetailsDto
   cards: CardDto[]
-  name: 'bob'
+  name: string
 }
