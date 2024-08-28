@@ -50,10 +50,16 @@ const Actions = styled.div`
 type CardItemProps = {
   cardDto: CardDto
   id?: string
-  refreshCards: () => void
+  isEditable?: boolean
+  refreshCards?: (() => void) | undefined
 }
 
-const CardItem = ({ cardDto, id, refreshCards }: CardItemProps) => {
+const CardItem = ({
+  cardDto,
+  id,
+  isEditable = true,
+  refreshCards = () => {},
+}: CardItemProps) => {
   const { isLoggedIn, mixMaxValue, formattedAvg, formattedMedian, show } =
     useInCardItem(cardDto)
 
@@ -75,7 +81,7 @@ const CardItem = ({ cardDto, id, refreshCards }: CardItemProps) => {
           <Detail>Average Value: {formattedAvg}</Detail>
           <Detail>Median Value: {formattedMedian}</Detail>
         </PriceContent>
-        {isLoggedIn && (
+        {isLoggedIn && isEditable && (
           <LoggedInContent>
             <h3>Your Collection:</h3>
             <Detail>Owned: {cardDto.owned}</Detail>

@@ -21,3 +21,9 @@ export const useMyCards = (isLoggedIn: boolean) => {
     shouldMakeRequest: isLoggedIn,
   })
 }
+
+export const useShareCollection = (userId: string) => {
+  return useApi<CollectionDto>({
+    path: `/collection/${userId}`,
+  })
+}

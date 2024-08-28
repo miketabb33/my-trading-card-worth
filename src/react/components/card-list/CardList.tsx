@@ -38,10 +38,15 @@ const InputContainer = styled.div`
 
 export type CardListProps = {
   cardsDto: CardDto[]
-  refreshCards: () => void
+  isEditable?: boolean
+  refreshCards?: (() => void) | undefined
 }
 
-const CardList = ({ cardsDto, refreshCards }: CardListProps) => {
+const CardList = ({
+  cardsDto,
+  refreshCards,
+  isEditable = true,
+}: CardListProps) => {
   const {
     filteredCardsDto,
     inputBind,
@@ -82,6 +87,7 @@ const CardList = ({ cardsDto, refreshCards }: CardListProps) => {
             id={`CardListItem-${i}`}
             key={cardDto.blueprintId}
             cardDto={cardDto}
+            isEditable={isEditable}
             refreshCards={refreshCards}
           />
         ))}

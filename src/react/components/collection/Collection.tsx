@@ -73,6 +73,7 @@ export const useInCollection = () => {
     cardListProps,
     details: detailsDto,
     showNotLoggedIn: !isLoading && !isLoggedIn,
+    showLoggedIn: !isLoading && isLoggedIn,
     showNoItems,
     showDetails: !showNoItems && !!detailsDto,
     showLoading: isLoading && cardsDto.length === 0,
