@@ -1,9 +1,10 @@
-import { MyCollectionDetailsDto } from '../../../../src/core/types/MyCollectionDetailsDto'
 import { collectionDetailsController } from '../../../../src/react/components/collection/CollectionDetails'
+import { MY_COLLECTION_DETAILS_DTO } from '../../../core/__MOCKS__/myCollectionDetailsDto.mock'
 
 describe('Collection Details Controller', () => {
   it('should return formatted values', () => {
-    const myCollectionDetailsDto: MyCollectionDetailsDto = {
+    const myCollectionDetailsDto = {
+      ...MY_COLLECTION_DETAILS_DTO,
       minMarketValueCents: 1034,
       maxMarketValueCents: 2349,
       averageMarketValueCents: 21331,
