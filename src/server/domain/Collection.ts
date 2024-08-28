@@ -1,27 +1,44 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Collection } from 'mongoose'
-import { CardDto } from '../../../core/types/CardDto'
-import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
-import { BlueprintValue } from '../../types/BlueprintValue'
-import { CollectionDto } from '../../../core/types/CollectionDto'
-import { MyCollectionDetailsDto } from '../../../core/types/MyCollectionDetailsDto'
+import { CardDto } from '../../core/types/CardDto'
+import { MyCollectionDetailsDto } from '../../core/types/MyCollectionDetailsDto'
+import { MyCardEntity } from '../database/repository/MyCardCRUD'
+import { BlueprintValue } from '../types/BlueprintValue'
 
-class GetCardLogic {
-  private readonly myCardCRUD: IMyCardCRUD
+export interface ICollection {
+  cards: () => CardDto[]
+  details: () => MyCollectionDetailsDto
+}
 
-  constructor(myCardCRUD: IMyCardCRUD) {
-    this.myCardCRUD = myCardCRUD
+class Collection implements ICollection {
+  private cardCollection: CardDto[]
+  private cardDetails: MyCollectionDetailsDto
+
+  constructor(
+    cardEntities: MyCardEntity[],
+    blueprintValues: Map<string, BlueprintValue>
+  ) {
+    const { cards, details } = this.calculateValues(
+      cardEntities,
+      blueprintValues
+    )
+    this.cardCollection = cards
+    this.cardDetails = details
   }
 
-  get = async (
-    userId: string,
-    blueprintValues: Map<string, BlueprintValue>
-  ): Promise<CollectionDto> => {
-    const myCardEntities = await this.myCardCRUD.getAll(userId)
+  cards = () => {
+    return this.cardCollection
+  }
 
+  details = () => {
+    return this.cardDetails
+  }
+
+  private calculateValues = (
+    cardEntities: MyCardEntity[],
+    blueprintValues: Map<string, BlueprintValue>
+  ) => {
     const totalValue = this.getEmptyBlueprintValue()
 
-    const myCards = myCardEntities.map((myCardEntity) => {
+    const cardCollection = cardEntities.map((myCardEntity) => {
       let blueprintValue = blueprintValues.get(
         `${myCardEntity.cardTrader.blueprintId}`
       )
@@ -39,7 +56,7 @@ class GetCardLogic {
     })
 
     return {
-      cards: myCards,
+      cards: cardCollection,
       details: this.buildMyCollectionDetailsDto(totalValue),
     }
   }
@@ -106,4 +123,4 @@ class GetCardLogic {
   }
 }
 
-export default GetCardLogic
+export default Collection

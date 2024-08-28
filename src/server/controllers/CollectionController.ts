@@ -8,9 +8,11 @@ import { tryToParseAddMyCardBody } from '../logic/collection/parseAddMyCardBody'
 import AddCardLogic from '../logic/collection/AddCardLogic'
 import MyCardCRUD from '../database/repository/MyCardCRUD'
 import { tryToParseRemoveMyCardBody } from '../logic/collection/parseRemoveMyCardBody'
-import GetCardLogic from '../logic/collection/GetCardLogic'
+import GetCollectionLogic from '../logic/collection/GetCollectionLogic'
 import Store from '../StoreRegistry'
 import RemoveCardLogic from '../logic/collection/RemoveCardLogic'
+import GetShareCollectionLogic from '../logic/collection/GetShareCollectionLogic'
+import CollectionFactory from '../domain/CollectionFactory'
 
 const CollectionController = Router()
 
@@ -18,14 +20,27 @@ CollectionController.get('/', requiresAuth(), async (req, res) => {
   try {
     const auth0User = parseAuth0User(req.oidc.user)
 
-    const getCardLogic = new GetCardLogic(new MyCardCRUD())
-
-    const cardBlueprintDto = await getCardLogic.get(
-      auth0User.sub,
+    const collectionFactory = new CollectionFactory(
+      new MyCardCRUD(),
       Store.blueprintValues.getState()
     )
 
+    const getCollectionLogic = new GetCollectionLogic(collectionFactory)
+
+    const cardBlueprintDto = await getCollectionLogic.get(auth0User.sub)
+
     res.send(formatResponse({ data: cardBlueprintDto }))
+  } catch (e) {
+    const error = formatError(e)
+    Logger.error(error)
+    res.send(formatResponse({ errors: [error.message] }))
+  }
+})
+
+CollectionController.get('/:userId', (req, res) => {
+  try {
+    const getShareCollectionLogic = new GetShareCollectionLogic()
+    res.send(formatResponse({ data: getShareCollectionLogic.get() }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)
