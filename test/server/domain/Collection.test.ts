@@ -168,9 +168,6 @@ describe('Collection', () => {
     const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
     const details = collection.details()
 
-    expect(details.minMarketValueCents).toEqual(1111)
-    expect(details.maxMarketValueCents).toEqual(2222)
-    expect(details.averageMarketValueCents).toEqual(3333)
     expect(details.medianMarketValueCents).toEqual(4444)
   })
 
@@ -184,9 +181,6 @@ describe('Collection', () => {
     const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
     const details = collection.details()
 
-    expect(details.minMarketValueCents).toEqual(3)
-    expect(details.maxMarketValueCents).toEqual(6)
-    expect(details.averageMarketValueCents).toEqual(9)
     expect(details.medianMarketValueCents).toEqual(12)
   })
 
@@ -204,9 +198,6 @@ describe('Collection', () => {
     const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
     const details = collection.details()
 
-    expect(details.minMarketValueCents).toEqual(23)
-    expect(details.maxMarketValueCents).toEqual(46)
-    expect(details.averageMarketValueCents).toEqual(69)
     expect(details.medianMarketValueCents).toEqual(92)
   })
 })

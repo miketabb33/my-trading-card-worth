@@ -30,6 +30,6 @@ describe('Get Collection Logic', () => {
     expect(collectionFactory_FAKE.MAKE).toHaveBeenCalledWith(USER_ID)
 
     expect(result.cards).toEqual(expectedCards)
-    expect(result.details).toEqual(expectedDetails)
+    expect(result.meta).toEqual(expectedDetails)
   })
 })

@@ -7,14 +7,14 @@ import { UseApiReturn } from '../../../../src/react/network/useApi'
 import { CollectionDto } from '../../../../src/core/types/CollectionDto'
 import * as ProfileProviderModule from '../../../../src/react/providers/ProfileProvider'
 import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
-import { MY_COLLECTION_DETAILS_DTO } from '../../../core/__MOCKS__/myCollectionDetailsDto.mock'
+import { COLLECTION_META_DTO } from '../../../core/__MOCKS__/collectionMetaDto.mock'
 import { PROFILE_DTO } from '../../../core/__MOCKS__/profileDto.mock'
 
 const CARDS = [CARD_DTO, CARD_DTO]
 
 const COLLECTION_DTO: CollectionDto = {
   cards: CARDS,
-  details: MY_COLLECTION_DETAILS_DTO,
+  meta: COLLECTION_META_DTO,
 }
 
 const REFRESH = jest.fn()

@@ -13,7 +13,7 @@ class GetCollectionLogic {
 
     return {
       cards: collection.cards(),
-      details: collection.details(),
+      meta: collection.details(),
     }
   }
 }

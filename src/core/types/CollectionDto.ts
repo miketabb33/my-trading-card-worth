@@ -1,7 +1,7 @@
 import { CardDto } from './CardDto'
-import { MyCollectionDetailsDto } from './MyCollectionDetailsDto'
+import { CollectionMetaDto } from './CollectionMetaDto'
 
 export type CollectionDto = {
-  details: MyCollectionDetailsDto
+  meta: CollectionMetaDto
   cards: CardDto[]
 }

@@ -29,7 +29,7 @@ const Center = styled.h1`
 const ShareCollection = () => {
   const {
     cards,
-    details,
+    meta,
     name,
     showUserFoundView,
     showNoUserFoundView,
@@ -40,7 +40,7 @@ const ShareCollection = () => {
     <>
       {showUserFoundView && (
         <>
-          {details && <CollectionDetails details={details} />}
+          {meta && <CollectionDetails collectionMeta={meta} />}
           <Center>{name}&apos;s Collection</Center>
           {showEditLink && (
             <Links>
@@ -85,7 +85,7 @@ export const useInShareCollection = () => {
 
   return {
     cards: cards.sort(sortByHighestMedian),
-    details: collection?.details,
+    meta: collection?.meta,
     name: collection?.name,
     showUserFoundView: collectionFound && !isLoading,
     showNoUserFoundView: !collectionFound && !isLoading,

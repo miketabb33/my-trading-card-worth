@@ -8,7 +8,7 @@ import { USE_ROUTER_RETURN } from '../../__MOCKS__/useRouterReturn.mock'
 import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
 import { ShareCollectionDto } from '../../../../src/core/types/ShareCollectionDto'
 import { UseApiReturn } from '../../../../src/react/network/useApi'
-import { MY_COLLECTION_DETAILS_DTO } from '../../../core/__MOCKS__/myCollectionDetailsDto.mock'
+import { COLLECTION_META_DTO } from '../../../core/__MOCKS__/collectionMetaDto.mock'
 import { PROFILE_DTO } from '../../../core/__MOCKS__/profileDto.mock'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
@@ -28,7 +28,7 @@ const USE_SHARE_COLLECTION_RETURN: UseApiReturn<ShareCollectionDto> = {
 const CARDS = [CARD_DTO, CARD_DTO]
 
 const SHARE_COLLECTION_DTO: ShareCollectionDto = {
-  details: MY_COLLECTION_DETAILS_DTO,
+  meta: COLLECTION_META_DTO,
   cards: [],
   name: '',
 }
@@ -51,7 +51,7 @@ describe('Use In Share Collection', () => {
     const { result } = renderHook(useInShareCollection)
 
     expect(result.current.cards).toEqual(CARDS)
-    expect(result.current.details).toEqual(MY_COLLECTION_DETAILS_DTO)
+    expect(result.current.meta).toEqual(COLLECTION_META_DTO)
   })
 
   it('should use router param for get share data', () => {

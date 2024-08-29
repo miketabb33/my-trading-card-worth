@@ -20,7 +20,7 @@ class GetShareCollectionLogic {
 
     return {
       cards: collection.cards(),
-      details: collection.details(),
+      meta: collection.details(),
       name: profile?.name || '',
     }
   }

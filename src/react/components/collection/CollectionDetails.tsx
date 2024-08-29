@@ -1,6 +1,6 @@
 import React from 'react'
 import PageDetailsLayout from '../base/layout/PageDetailsLayout'
-import { MyCollectionDetailsDto } from '../../../core/types/MyCollectionDetailsDto'
+import { CollectionMetaDto } from '../../../core/types/CollectionMetaDto'
 import styled, { css } from 'styled-components'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
 import { tabLandAndUp } from '../../styles/Responsive'
@@ -28,12 +28,11 @@ const Header = styled.div`
 const Item = styled.h3``
 
 export type CollectionDetailsProps = {
-  details: MyCollectionDetailsDto
+  collectionMeta: CollectionMetaDto
 }
 
-const CollectionDetails = ({ details }: CollectionDetailsProps) => {
-  const { minMaxValue, averageValue, medianValue } =
-    collectionDetailsController(details)
+const CollectionDetails = ({ collectionMeta }: CollectionDetailsProps) => {
+  const { medianValue } = collectionDetailsController(collectionMeta)
   return (
     <PageDetailsLayout
       header={
@@ -43,9 +42,7 @@ const CollectionDetails = ({ details }: CollectionDetailsProps) => {
       }
       content={
         <Row>
-          <Item>Min-Max: {minMaxValue}</Item>
           <Item id="CollectionTotalMedianValue">Median: {medianValue}</Item>
-          <Item>Average: {averageValue}</Item>
         </Row>
       }
     />
@@ -53,14 +50,10 @@ const CollectionDetails = ({ details }: CollectionDetailsProps) => {
 }
 
 export const collectionDetailsController = (
-  details: MyCollectionDetailsDto
+  collectionMeta: CollectionMetaDto
 ) => {
-  const minValue = formatCentsToDollars(details.minMarketValueCents)
-  const maxValue = formatCentsToDollars(details.maxMarketValueCents)
   return {
-    minMaxValue: `${minValue}-${maxValue}`,
-    averageValue: formatCentsToDollars(details.averageMarketValueCents),
-    medianValue: formatCentsToDollars(details.medianMarketValueCents),
+    medianValue: formatCentsToDollars(collectionMeta.medianMarketValueCents),
   }
 }
 

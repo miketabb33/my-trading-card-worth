@@ -20,7 +20,7 @@ const Links = styled.div`
 
 const Collection = () => {
   const {
-    details,
+    meta,
     cardListProps,
     shareLinkPath,
     showCollection,
@@ -34,7 +34,7 @@ const Collection = () => {
     <>
       {showCollection && (
         <>
-          {details && <CollectionDetails details={details} />}
+          {meta && <CollectionDetails collectionMeta={meta} />}
           <Links>
             <InternalTextLink
               pathValue={shareLinkPath}
@@ -80,7 +80,6 @@ export const useInCollection = () => {
   } = useMyCards(isLoggedIn)
 
   const cardsDto = collectionDto?.cards || []
-  const detailsDto = collectionDto?.details
 
   const sortByHighestMedian = (a: CardDto, b: CardDto) => {
     return b.medianMarketValueCents - a.medianMarketValueCents
@@ -101,7 +100,7 @@ export const useInCollection = () => {
 
   return {
     cardListProps,
-    details: detailsDto,
+    meta: collectionDto?.meta,
     shareLinkPath,
     showNotLoggedIn: !isLoading && !isLoggedIn,
     showNoCollection: !isLoading && cardsDto.length === 0 && isLoggedIn,

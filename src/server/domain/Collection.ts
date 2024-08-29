@@ -1,16 +1,16 @@
 import { CardDto } from '../../core/types/CardDto'
-import { MyCollectionDetailsDto } from '../../core/types/MyCollectionDetailsDto'
+import { CollectionMetaDto } from '../../core/types/CollectionMetaDto'
 import { MyCardEntity } from '../database/repository/MyCardCRUD'
 import { BlueprintValue } from '../types/BlueprintValue'
 
 export interface ICollection {
   cards: () => CardDto[]
-  details: () => MyCollectionDetailsDto
+  details: () => CollectionMetaDto
 }
 
 class Collection implements ICollection {
   private cardCollection: CardDto[]
-  private cardDetails: MyCollectionDetailsDto
+  private cardDetails: CollectionMetaDto
 
   constructor(
     cardEntities: MyCardEntity[],
@@ -82,11 +82,8 @@ class Collection implements ICollection {
 
   private buildMyCollectionDetailsDto = (
     totalValue: BlueprintValue
-  ): MyCollectionDetailsDto => {
+  ): CollectionMetaDto => {
     return {
-      minMarketValueCents: totalValue.minCents,
-      maxMarketValueCents: totalValue.maxCents,
-      averageMarketValueCents: totalValue.averageCents,
       medianMarketValueCents: totalValue.medianCents,
     }
   }
