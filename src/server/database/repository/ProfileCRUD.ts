@@ -28,7 +28,12 @@ const profileSchema = new Schema(
 
 const ProfileModel = model('profile', profileSchema)
 
-class ProfileCRUD {
+export interface IProfileCRUD {
+  create: (entity: ProfileEntity) => Promise<void>
+  find: (userId: string) => Promise<ProfileEntity | null>
+}
+
+class ProfileCRUD implements IProfileCRUD {
   create = async (entity: ProfileEntity) => {
     const context = new ProfileModel(entity)
     await context.save()

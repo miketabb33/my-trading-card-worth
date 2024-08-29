@@ -18,10 +18,19 @@ const Links = styled.div`
   gap: 3rem;
 `
 
+const Center = styled.h1`
+  display: flex;
+  justify-content: center;
+  letter-spacing: 0.25rem;
+  font-weight: 300;
+  margin-top: 2rem;
+`
+
 const ShareCollection = () => {
   const {
     cards,
     details,
+    name,
     showUserFoundView,
     showNoUserFoundView,
     showLoading,
@@ -32,6 +41,7 @@ const ShareCollection = () => {
       {showUserFoundView && (
         <>
           {details && <CollectionDetails details={details} />}
+          <Center>{name}&apos;s Collection</Center>
           {showEditLink && (
             <Links>
               <InternalTextLink
@@ -40,6 +50,7 @@ const ShareCollection = () => {
               />
             </Links>
           )}
+
           <CardList cardsDto={cards} isEditable={false} />
         </>
       )}
@@ -75,6 +86,7 @@ export const useInShareCollection = () => {
   return {
     cards: cards.sort(sortByHighestMedian),
     details: collection?.details,
+    name: collection?.name,
     showUserFoundView: collectionFound && !isLoading,
     showNoUserFoundView: !collectionFound && !isLoading,
     showLoading: isLoading,

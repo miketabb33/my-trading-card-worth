@@ -2,6 +2,7 @@ import { AddMyCardDto } from '../../core/types/AddMyCardDto'
 import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
 import { CollectionDto } from '../../core/types/CollectionDto'
+import { ShareCollectionDto } from '../../core/types/ShareCollectionDto'
 
 export const addMyCard = async (addMyCardDto: AddMyCardDto) => {
   await fetchApi({ path: '/collection', method: 'POST', body: addMyCardDto })
@@ -23,7 +24,7 @@ export const useMyCards = (isLoggedIn: boolean) => {
 }
 
 export const useShareCollection = (userId: string) => {
-  return useApi<CollectionDto>({
+  return useApi<ShareCollectionDto>({
     path: `/collection/${userId}`,
   })
 }

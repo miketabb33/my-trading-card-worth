@@ -13,6 +13,7 @@ import Store from '../StoreRegistry'
 import RemoveCardLogic from '../logic/collection/RemoveCardLogic'
 import GetShareCollectionLogic from '../logic/collection/GetShareCollectionLogic'
 import CollectionFactory from '../domain/CollectionFactory'
+import ProfileCRUD from '../database/repository/ProfileCRUD'
 
 const CollectionController = Router()
 
@@ -47,7 +48,8 @@ CollectionController.get('/:userId', async (req, res) => {
     )
 
     const getShareCollectionLogic = new GetShareCollectionLogic(
-      collectionFactory
+      collectionFactory,
+      new ProfileCRUD()
     )
 
     const dto = await getShareCollectionLogic.get(userId)
