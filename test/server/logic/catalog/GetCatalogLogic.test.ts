@@ -15,10 +15,7 @@ describe('Get Catalog Logic', () => {
   const USER_ID = '10'
 
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([
-    [
-      '1',
-      { minCents: 1000, maxCents: 2599, medianCents: 1534, averageCents: 1895 },
-    ],
+    ['1', { medianCents: 1534 }],
   ])
 
   beforeEach(() => {

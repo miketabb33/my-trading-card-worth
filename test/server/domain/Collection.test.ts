@@ -3,45 +3,30 @@ import { BlueprintValue } from '../../../src/server/types/BlueprintValue'
 import { makeMyCardEntityMock } from '../__MOCKS__/myCardEntity.mock'
 
 describe('Collection', () => {
-  const minCents = 1000
-  const maxCents = 2599
   const medianCents = 1534
-  const averageCents = 1895
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([
-    ['1234', { minCents, maxCents, medianCents, averageCents }],
+    ['1234', { medianCents }],
     [
       '1001',
       {
-        minCents: 1,
-        maxCents: 2,
-        averageCents: 3,
         medianCents: 4,
       },
     ],
     [
       '1002',
       {
-        minCents: 10,
-        maxCents: 20,
-        averageCents: 30,
         medianCents: 40,
       },
     ],
     [
       '1003',
       {
-        minCents: 100,
-        maxCents: 200,
-        averageCents: 300,
         medianCents: 400,
       },
     ],
     [
       '1004',
       {
-        minCents: 1000,
-        maxCents: 2000,
-        averageCents: 3000,
         medianCents: 4000,
       },
     ],

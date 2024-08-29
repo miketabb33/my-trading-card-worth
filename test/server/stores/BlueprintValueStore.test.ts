@@ -26,9 +26,6 @@ describe('Blueprint Value Store', () => {
     getBlueprintValueLogic_FAKE.ADD.mockImplementation((id: number) => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
-        minCents: id,
-        maxCents: id,
-        averageCents: id,
         medianCents: id,
       }
       cache.set(`${id}`, blueprintValue)
@@ -39,7 +36,7 @@ describe('Blueprint Value Store', () => {
 
     const state = blueprintValueStore.getState()
 
-    expect(state.get('1')!.averageCents).toEqual(1)
+    expect(state.get('1')!.medianCents).toEqual(1)
     expect(state.size).toEqual(2)
     expect(blueprintValueStore.getLastUpdated()).not.toBeNull()
     expect(expansionsStore_FAKE.GET_STATE).toHaveBeenCalled()
@@ -49,9 +46,6 @@ describe('Blueprint Value Store', () => {
     getBlueprintValueLogic_FAKE.ADD.mockImplementation((id: number) => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
-        minCents: id,
-        maxCents: id,
-        averageCents: id,
         medianCents: id,
       }
       cache.set(`${id}`, blueprintValue)

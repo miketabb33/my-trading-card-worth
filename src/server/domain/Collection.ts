@@ -91,27 +91,18 @@ class Collection implements ICollection {
     blueprintCount: number
   ) => {
     for (let i = 1; i <= blueprintCount; i++) {
-      totalValues.minCents += blueprintValue.minCents
-      totalValues.maxCents += blueprintValue.maxCents
-      totalValues.averageCents += blueprintValue.averageCents
       totalValues.medianCents += blueprintValue.medianCents
     }
   }
 
   private getEmptyBlueprintValue = (): BlueprintValue => {
     return {
-      minCents: 0,
-      maxCents: 0,
       medianCents: 0,
-      averageCents: 0,
     }
   }
 
   private getMissingBlueprintValue = (): BlueprintValue => {
     return {
-      minCents: -1,
-      maxCents: -1,
-      averageCents: -1,
       medianCents: -1,
     }
   }

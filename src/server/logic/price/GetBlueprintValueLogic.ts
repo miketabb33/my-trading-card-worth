@@ -20,18 +20,11 @@ class GetBlueprintValueLogic implements IGetBlueprintValueLogic {
       const cardPrices = cardValues.map((v) => v.priceCents)
 
       const blueprintValue: BlueprintValue = {
-        minCents: Math.min(...cardPrices),
-        maxCents: Math.max(...cardPrices),
-        averageCents: Math.round(this.average(cardPrices)),
         medianCents: Math.round(this.median(cardPrices)),
       }
       expansionBlueprintPrices.set(expansionId, blueprintValue)
     })
     return expansionBlueprintPrices
-  }
-
-  private average = (values: number[]): number => {
-    return values.reduce((a, b) => a + b) / values.length
   }
 
   private median = (values: number[]): number => {
