@@ -74,10 +74,7 @@ describe('Collection', () => {
     expect(cards[0].imageUrlPreview).toEqual(previewUrl)
     expect(cards[0].imageUrlShow).toEqual(showUrl)
     expect(cards[0].owned).toEqual(1)
-    expect(cards[0].minMarketValueCents).toEqual(minCents)
-    expect(cards[0].maxMarketValueCents).toEqual(maxCents)
     expect(cards[0].medianMarketValueCents).toEqual(medianCents)
-    expect(cards[0].averageMarketValueCents).toEqual(averageCents)
   })
 
   it('should return default values for values when blueprint cant be found', () => {
@@ -87,10 +84,7 @@ describe('Collection', () => {
     )
     const cards = collection.cards()
 
-    expect(cards[0].minMarketValueCents).toEqual(-1)
-    expect(cards[0].maxMarketValueCents).toEqual(-1)
     expect(cards[0].medianMarketValueCents).toEqual(-1)
-    expect(cards[0].averageMarketValueCents).toEqual(-1)
   })
 
   it('should return many items', () => {

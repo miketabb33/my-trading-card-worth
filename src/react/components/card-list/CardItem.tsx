@@ -60,8 +60,7 @@ const CardItem = ({
   isEditable = true,
   refreshCards = () => {},
 }: CardItemProps) => {
-  const { isLoggedIn, mixMaxValue, formattedAvg, formattedMedian, show } =
-    useInCardItem(cardDto)
+  const { isLoggedIn, formattedMedian, show } = useInCardItem(cardDto)
 
   return (
     <Container id={id}>
@@ -77,8 +76,6 @@ const CardItem = ({
         <Line />
         <PriceContent>
           <h3>Price:</h3>
-          <Detail>Min-Max: {mixMaxValue}</Detail>
-          <Detail>Average Value: {formattedAvg}</Detail>
           <Detail>Median Value: {formattedMedian}</Detail>
         </PriceContent>
         {isLoggedIn && isEditable && (
@@ -113,17 +110,10 @@ export const useInCardItem = (cardDto: CardDto) => {
     return formatCentsToDollars(cents)
   }
 
-  const formattedMin = formatValue(cardDto.minMarketValueCents)
-  const formattedMax = formatValue(cardDto.maxMarketValueCents)
-  const formattedAvg = formatValue(cardDto.averageMarketValueCents)
   const formattedMedian = formatValue(cardDto.medianMarketValueCents)
-
-  const mixMaxValue = `${formattedMin} - ${formattedMax}`
 
   return {
     isLoggedIn,
-    mixMaxValue,
-    formattedAvg,
     formattedMedian,
     show,
   }

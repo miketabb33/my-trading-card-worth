@@ -7,8 +7,5 @@ export const CARD_DTO: CardDto = {
   imageUrlPreview: '',
   imageUrlShow: '',
   owned: 0,
-  minMarketValueCents: -1,
-  maxMarketValueCents: -1,
-  averageMarketValueCents: -1,
   medianMarketValueCents: -1,
 }

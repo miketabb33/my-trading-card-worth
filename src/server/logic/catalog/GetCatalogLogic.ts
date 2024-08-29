@@ -114,9 +114,6 @@ class GetCatalogLogic {
       imageUrlPreview: cardBlueprint.imageUrlPreview,
       imageUrlShow: cardBlueprint.imageUrlShow,
       owned,
-      minMarketValueCents: blueprintValue?.minCents ?? -1,
-      maxMarketValueCents: blueprintValue?.maxCents ?? -1,
-      averageMarketValueCents: blueprintValue?.averageCents ?? -1,
       medianMarketValueCents: blueprintValue?.medianCents ?? -1,
     }
 

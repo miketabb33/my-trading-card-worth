@@ -72,9 +72,6 @@ class Collection implements ICollection {
       imageUrlPreview: myCardEntity.imageUrlPreview,
       imageUrlShow: myCardEntity.imageUrlShow,
       owned: myCardEntity.items.length,
-      minMarketValueCents: blueprintValue.minCents,
-      maxMarketValueCents: blueprintValue.maxCents,
-      averageMarketValueCents: blueprintValue.averageCents,
       medianMarketValueCents: blueprintValue.medianCents,
     }
     return cardDto

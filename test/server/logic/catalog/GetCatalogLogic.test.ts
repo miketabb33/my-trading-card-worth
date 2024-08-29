@@ -133,9 +133,6 @@ describe('Get Catalog Logic', () => {
         imageUrlPreview: 'preview',
         imageUrlShow: 'show',
         owned: 0,
-        minMarketValueCents: 1000,
-        maxMarketValueCents: 2599,
-        averageMarketValueCents: 1895,
         medianMarketValueCents: 1534,
       })
     })
@@ -159,9 +156,6 @@ describe('Get Catalog Logic', () => {
         new Map<string, BlueprintValue>()
       )
 
-      expect(result.cards[0].minMarketValueCents).toEqual(-1)
-      expect(result.cards[0].maxMarketValueCents).toEqual(-1)
-      expect(result.cards[0].averageMarketValueCents).toEqual(-1)
       expect(result.cards[0].medianMarketValueCents).toEqual(-1)
     })
 

@@ -5,8 +5,5 @@ export type CardDto = {
   imageUrlPreview: string
   imageUrlShow: string
   owned: number
-  minMarketValueCents: number
-  maxMarketValueCents: number
-  averageMarketValueCents: number
   medianMarketValueCents: number
 }
