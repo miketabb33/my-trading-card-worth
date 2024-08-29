@@ -10,6 +10,13 @@ import { CardDto } from '../../../core/types/CardDto'
 import { PATH_VALUES } from '../../router/pathValues'
 import { useProfile } from '../../providers/ProfileProvider'
 import InternalTextLink from '../base/text-link/InternalTextLink'
+import styled from 'styled-components'
+
+const Links = styled.div`
+  margin-top: 2rem;
+  display: flex;
+  gap: 3rem;
+`
 
 const ShareCollection = () => {
   const {
@@ -26,12 +33,12 @@ const ShareCollection = () => {
         <>
           {details && <CollectionDetails details={details} />}
           {showEditLink && (
-            <>
+            <Links>
               <InternalTextLink
-                pathValue={PATH_VALUES.collection}
+                pathValue={PATH_VALUES.collection()}
                 label="Edit Your Collection"
               />
-            </>
+            </Links>
           )}
           <CardList cardsDto={cards} isEditable={false} />
         </>

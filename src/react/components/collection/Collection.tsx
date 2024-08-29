@@ -8,21 +8,46 @@ import CollectionNoItems from './CollectionNoItems'
 import Spinner from '../base/Spinner'
 import { CenterContent } from '../base/layout/CenterContent'
 import { CardDto } from '../../../core/types/CardDto'
+import InternalTextLink from '../base/text-link/InternalTextLink'
+import { PATH_VALUES } from '../../router/pathValues'
+import styled from 'styled-components'
+
+const Links = styled.div`
+  margin-top: 2rem;
+  display: flex;
+  gap: 3rem;
+`
 
 const Collection = () => {
   const {
     details,
     cardListProps,
+    shareLinkPath,
+    showCollection,
     showNotLoggedIn,
-    showNoItems,
+    showNoCollection,
     showLoading,
-    showDetails,
+    copyShareLinkToClipboard,
   } = useInCollection()
 
   return (
     <>
-      {showDetails && details && <CollectionDetails details={details} />}
-      <CardList {...cardListProps} />
+      {showCollection && (
+        <>
+          {details && <CollectionDetails details={details} />}
+          <Links>
+            <InternalTextLink
+              pathValue={shareLinkPath}
+              label="View Share Page"
+            />
+            <InternalTextLink
+              onClick={() => void copyShareLinkToClipboard()}
+              label="Copy Share Link"
+            />
+          </Links>
+          <CardList {...cardListProps} />
+        </>
+      )}
 
       {showNotLoggedIn && (
         <CenterContent>
@@ -30,7 +55,7 @@ const Collection = () => {
         </CenterContent>
       )}
 
-      {showNoItems && (
+      {showNoCollection && (
         <CenterContent>
           <CollectionNoItems />
         </CenterContent>
@@ -46,7 +71,7 @@ const Collection = () => {
 }
 
 export const useInCollection = () => {
-  const { isLoggedIn, isLoading: isLoadingProfile } = useProfile()
+  const { isLoggedIn, isLoading: isLoadingProfile, profile } = useProfile()
 
   const {
     data: collectionDto,
@@ -66,17 +91,23 @@ export const useInCollection = () => {
     refreshCards: refresh,
   }
 
+  const shareLinkPath = PATH_VALUES.collection(profile?.userId)
+
+  const copyShareLinkToClipboard = async () => {
+    await navigator.clipboard.writeText(`${location.origin}${shareLinkPath}`)
+  }
+
   const isLoading = isLoadingProfile || isLoadingCollection
-  const showNoItems = !isLoading && cardsDto.length === 0 && isLoggedIn
 
   return {
     cardListProps,
     details: detailsDto,
+    shareLinkPath,
     showNotLoggedIn: !isLoading && !isLoggedIn,
-    showLoggedIn: !isLoading && isLoggedIn,
-    showNoItems,
-    showDetails: !showNoItems && !!detailsDto,
+    showNoCollection: !isLoading && cardsDto.length === 0 && isLoggedIn,
+    showCollection: !isLoading && cardsDto.length > 0 && isLoggedIn,
     showLoading: isLoading && cardsDto.length === 0,
+    copyShareLinkToClipboard,
   }
 }
 

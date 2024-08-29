@@ -53,7 +53,10 @@ const NavigationOptions = () => {
         </Link>
       </OptionItem>
       <OptionItem>
-        <Link linkTo={PATH_VALUES.collection} $selected={collectionIsSelected}>
+        <Link
+          linkTo={PATH_VALUES.collection()}
+          $selected={collectionIsSelected}
+        >
           <OptionContent id="NavCollection">Collection</OptionContent>
         </Link>
       </OptionItem>

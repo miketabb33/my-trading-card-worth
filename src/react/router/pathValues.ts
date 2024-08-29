@@ -11,7 +11,12 @@ const catalog = (slug?: string) => {
   }
 }
 
+const collection = (userId?: string) => {
+  if (!userId) return '/collection'
+  else return `/collection/${userId}`
+}
+
 export const PATH_VALUES = {
   catalog,
-  collection: '/collection',
+  collection,
 }

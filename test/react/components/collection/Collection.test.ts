@@ -8,6 +8,7 @@ import { CollectionDto } from '../../../../src/core/types/CollectionDto'
 import * as ProfileProviderModule from '../../../../src/react/providers/ProfileProvider'
 import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
 import { MY_COLLECTION_DETAILS_DTO } from '../../../core/__MOCKS__/myCollectionDetailsDto.mock'
+import { PROFILE_DTO } from '../../../core/__MOCKS__/profileDto.mock'
 
 const CARDS = [CARD_DTO, CARD_DTO]
 
@@ -57,6 +58,17 @@ describe('Use In Collection', () => {
     expect(REFRESH).toHaveBeenCalled()
   })
 
+  it('should build share link path', () => {
+    const USER_ID = 'USER_ID'
+    USE_PROFILE.mockReturnValue({
+      ...PROFILE_CONTEXT_TYPE,
+      profile: { ...PROFILE_DTO, userId: USER_ID },
+    })
+    const { result } = renderHook(useInCollection)
+
+    expect(result.current.shareLinkPath).toEqual('/collection/USER_ID')
+  })
+
   it('should show not logged in when use is not logged in', () => {
     USE_PROFILE.mockReturnValue({
       ...PROFILE_CONTEXT_TYPE,
@@ -67,9 +79,9 @@ describe('Use In Collection', () => {
 
     const { result } = renderHook(useInCollection)
     expect(result.current.showNotLoggedIn).toEqual(true)
-    expect(result.current.showNoItems).toEqual(false)
-    expect(result.current.showDetails).toEqual(false)
+    expect(result.current.showNoCollection).toEqual(false)
     expect(result.current.showLoading).toEqual(false)
+    expect(result.current.showCollection).toEqual(false)
   })
 
   it('should show no items when user is logged in and NO items exist', () => {
@@ -82,28 +94,9 @@ describe('Use In Collection', () => {
 
     const { result } = renderHook(useInCollection)
     expect(result.current.showNotLoggedIn).toEqual(false)
-    expect(result.current.showNoItems).toEqual(true)
-    expect(result.current.showDetails).toEqual(false)
+    expect(result.current.showNoCollection).toEqual(true)
     expect(result.current.showLoading).toEqual(false)
-  })
-
-  it('should show details when user is logged in and items exist', () => {
-    USE_PROFILE.mockReturnValue({
-      ...PROFILE_CONTEXT_TYPE,
-      isLoggedIn: true,
-      isLoading: false,
-    })
-    USE_MY_CARDS.mockReturnValue({
-      ...USE_MY_CARDS_RETURN,
-      isLoading: false,
-      data: COLLECTION_DTO,
-    })
-
-    const { result } = renderHook(useInCollection)
-    expect(result.current.showNotLoggedIn).toEqual(false)
-    expect(result.current.showNoItems).toEqual(false)
-    expect(result.current.showDetails).toEqual(true)
-    expect(result.current.showLoading).toEqual(false)
+    expect(result.current.showCollection).toEqual(false)
   })
 
   it('should show loading when data is loading', () => {
@@ -119,8 +112,27 @@ describe('Use In Collection', () => {
 
     const { result } = renderHook(useInCollection)
     expect(result.current.showNotLoggedIn).toEqual(false)
-    expect(result.current.showNoItems).toEqual(false)
-    expect(result.current.showDetails).toEqual(false)
+    expect(result.current.showNoCollection).toEqual(false)
     expect(result.current.showLoading).toEqual(true)
+    expect(result.current.showCollection).toEqual(false)
+  })
+
+  it('should show collection', () => {
+    USE_PROFILE.mockReturnValue({
+      ...PROFILE_CONTEXT_TYPE,
+      isLoggedIn: true,
+      isLoading: false,
+    })
+    USE_MY_CARDS.mockReturnValue({
+      ...USE_MY_CARDS_RETURN,
+      isLoading: false,
+      data: COLLECTION_DTO,
+    })
+
+    const { result } = renderHook(useInCollection)
+    expect(result.current.showNotLoggedIn).toEqual(false)
+    expect(result.current.showNoCollection).toEqual(false)
+    expect(result.current.showLoading).toEqual(false)
+    expect(result.current.showCollection).toEqual(true)
   })
 })
