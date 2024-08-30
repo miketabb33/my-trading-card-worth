@@ -8,4 +8,5 @@ export const CARD_DTO: CardDto = {
   imageUrlShow: '',
   owned: 0,
   medianMarketValueCents: -1,
+  listingCount: 25,
 }

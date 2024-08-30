@@ -13,11 +13,11 @@ class Collection implements ICollection {
   private cardDetails: CollectionMetaDto
 
   constructor(
-    cardEntities: MyCardEntity[],
+    myCardEntities: MyCardEntity[],
     blueprintValues: Map<string, BlueprintValue>
   ) {
     const { cards, details } = this.calculateValues(
-      cardEntities,
+      myCardEntities,
       blueprintValues
     )
     this.cardCollection = cards
@@ -33,19 +33,19 @@ class Collection implements ICollection {
   }
 
   private calculateValues = (
-    cardEntities: MyCardEntity[],
+    myCardEntities: MyCardEntity[],
     blueprintValues: Map<string, BlueprintValue>
   ) => {
-    const totalValue = this.getEmptyBlueprintValue()
+    const myCollectionTotalValue = this.getEmptyBlueprintValue()
 
-    const cardCollection = cardEntities.map((myCardEntity) => {
+    const cardCollection = myCardEntities.map((myCardEntity) => {
       let blueprintValue = blueprintValues.get(
         `${myCardEntity.cardTrader.blueprintId}`
       )
 
       if (blueprintValue)
         this.addBlueprintValueToTotalValues(
-          totalValue,
+          myCollectionTotalValue,
           blueprintValue,
           myCardEntity.items.length
         )
@@ -57,7 +57,7 @@ class Collection implements ICollection {
 
     return {
       cards: cardCollection,
-      details: this.buildMyCollectionDetailsDto(totalValue),
+      details: this.buildMyCollectionDetailsDto(myCollectionTotalValue),
     }
   }
 
@@ -73,6 +73,7 @@ class Collection implements ICollection {
       imageUrlShow: myCardEntity.imageUrlShow,
       owned: myCardEntity.items.length,
       medianMarketValueCents: blueprintValue.medianCents,
+      listingCount: blueprintValue.listingCount,
     }
     return cardDto
   }

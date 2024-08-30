@@ -3,9 +3,9 @@ import { BlueprintValue } from '../../../src/server/types/BlueprintValue'
 import { makeMyCardEntityMock } from '../__MOCKS__/myCardEntity.mock'
 
 describe('Collection', () => {
-  const medianCents = 1534
+  const MEDIAN_CENTS = 1534
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([
-    ['1234', { medianCents, listingCount: 25 }],
+    ['1234', { medianCents: MEDIAN_CENTS, listingCount: 25 }],
     [
       '1001',
       {
@@ -63,7 +63,8 @@ describe('Collection', () => {
     expect(cards[0].imageUrlPreview).toEqual(previewUrl)
     expect(cards[0].imageUrlShow).toEqual(showUrl)
     expect(cards[0].owned).toEqual(1)
-    expect(cards[0].medianMarketValueCents).toEqual(medianCents)
+    expect(cards[0].medianMarketValueCents).toEqual(MEDIAN_CENTS)
+    expect(cards[0].listingCount).toEqual(25)
   })
 
   it('should return default values for values when blueprint cant be found', () => {

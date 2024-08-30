@@ -1,3 +1,4 @@
+import { CardDto } from '../../../../src/core/types/CardDto'
 import GetCatalogLogic from '../../../../src/server/logic/catalog/GetCatalogLogic'
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
@@ -15,7 +16,7 @@ describe('Get Catalog Logic', () => {
   const USER_ID = '10'
 
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([
-    ['1', { medianCents: 1534, listingCount: 25 }],
+    ['1', { medianCents: 1534, listingCount: 20 }],
   ])
 
   beforeEach(() => {
@@ -123,7 +124,7 @@ describe('Get Catalog Logic', () => {
         BLUEPRINT_VALUES
       )
 
-      expect(result.cards[0]).toEqual({
+      const expectedResult: CardDto = {
         blueprintId: 1,
         expansionId: 2,
         name: 'name',
@@ -131,7 +132,10 @@ describe('Get Catalog Logic', () => {
         imageUrlShow: 'show',
         owned: 0,
         medianMarketValueCents: 1534,
-      })
+        listingCount: 20,
+      }
+
+      expect(result.cards[0]).toEqual(expectedResult)
     })
 
     it('should return blueprints with no prices when prices are not available', async () => {

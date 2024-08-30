@@ -115,6 +115,7 @@ class GetCatalogLogic {
       imageUrlShow: cardBlueprint.imageUrlShow,
       owned,
       medianMarketValueCents: blueprintValue?.medianCents ?? -1,
+      listingCount: blueprintValue?.listingCount ?? -1,
     }
 
     return cardDto

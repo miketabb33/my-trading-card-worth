@@ -6,4 +6,5 @@ export type CardDto = {
   imageUrlShow: string
   owned: number
   medianMarketValueCents: number
+  listingCount: number
 }
