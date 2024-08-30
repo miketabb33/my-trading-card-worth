@@ -13,24 +13,32 @@ export const tryToParseMarketplaceProducts = (
     tryToParseMarketplaceProducts.name
   )
 
-  const map = new Map<string, CardTraderMarketplaceProductDto[]>()
+  const blueprintIdToProductsMap = new Map<
+    string,
+    CardTraderMarketplaceProductDto[]
+  >()
 
-  for (const [key, value] of Object.entries(object)) {
-    const arr = TypeParser.rootIsArray(
-      value,
+  for (const [blueprintId, productsAny] of Object.entries(object)) {
+    const productsArray = TypeParser.rootIsArray(
+      productsAny,
       tryToParseMarketplaceProducts.name
     )
 
-    const products = arr.map(parseObject)
+    const products = productsArray.map(parseProductsArray)
 
-    map.set(key, products)
+    blueprintIdToProductsMap.set(blueprintId, products)
   }
 
-  return map
+  return blueprintIdToProductsMap
 }
 
-const parseObject = (data: unknown): CardTraderMarketplaceProductDto => {
-  const parser = new TypeParser(data, tryToParseMarketplaceProducts.name)
+const parseProductsArray = (
+  productsArray: unknown
+): CardTraderMarketplaceProductDto => {
+  const parser = new TypeParser(
+    productsArray,
+    tryToParseMarketplaceProducts.name
+  )
 
   const price = parsePrice(parser.obj('price'))
   const propertiesHash = parsePropertiesHash(parser.obj('properties_hash'))

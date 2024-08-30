@@ -50,6 +50,9 @@ describe('Get Expansion Blueprint Value Logic', () => {
 
     expect(blueprintValueMap.size).toEqual(2)
     expect(blueprintValueMap.get('1')!.medianCents).toEqual(4)
+    expect(blueprintValueMap.get('1')!.listingCount).toEqual(6)
+
     expect(blueprintValueMap.get('2')!.medianCents).toEqual(30475)
+    expect(blueprintValueMap.get('2')!.listingCount).toEqual(6)
   })
 })

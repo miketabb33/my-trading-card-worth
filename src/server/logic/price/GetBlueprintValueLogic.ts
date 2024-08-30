@@ -12,19 +12,20 @@ class GetBlueprintValueLogic implements IGetBlueprintValueLogic {
     this.cardTraderAdaptor = cardTraderAdaptor
   }
   get = async (expansionId: number) => {
-    const expansionBlueprintPrices = new Map<string, BlueprintValue>()
-    const cardValueMap =
+    const blueprintIdToBlueprintValueMap = new Map<string, BlueprintValue>()
+    const blueprintIdToCardValueMap =
       await this.cardTraderAdaptor.getPokemonCardValues(expansionId)
 
-    cardValueMap.forEach((cardValues, expansionId) => {
+    blueprintIdToCardValueMap.forEach((cardValues, blueprintId) => {
       const cardPrices = cardValues.map((v) => v.priceCents)
 
       const blueprintValue: BlueprintValue = {
         medianCents: Math.round(this.median(cardPrices)),
+        listingCount: cardPrices.length,
       }
-      expansionBlueprintPrices.set(expansionId, blueprintValue)
+      blueprintIdToBlueprintValueMap.set(blueprintId, blueprintValue)
     })
-    return expansionBlueprintPrices
+    return blueprintIdToBlueprintValueMap
   }
 
   private median = (values: number[]): number => {

@@ -5,29 +5,33 @@ import { makeMyCardEntityMock } from '../__MOCKS__/myCardEntity.mock'
 describe('Collection', () => {
   const medianCents = 1534
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([
-    ['1234', { medianCents }],
+    ['1234', { medianCents, listingCount: 25 }],
     [
       '1001',
       {
         medianCents: 4,
+        listingCount: 25,
       },
     ],
     [
       '1002',
       {
         medianCents: 40,
+        listingCount: 25,
       },
     ],
     [
       '1003',
       {
         medianCents: 400,
+        listingCount: 25,
       },
     ],
     [
       '1004',
       {
         medianCents: 4000,
+        listingCount: 25,
       },
     ],
   ])

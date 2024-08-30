@@ -6,16 +6,16 @@ import { BlueprintValue } from '../types/BlueprintValue'
 import { IStore } from './IStore'
 
 class BlueprintValueStore implements IStore<Map<string, BlueprintValue>> {
-  private readonly getExpansionBlueprintValueLogic: IGetBlueprintValueLogic
+  private readonly getBlueprintValueLogic: IGetBlueprintValueLogic
   private readonly expansionsStore: IStore<ExpansionDto[]>
   private state = new Map<string, BlueprintValue>()
   private lastUpdated: Date | null = null
 
   constructor(
-    getExpansionBlueprintValueLogic: IGetBlueprintValueLogic,
+    getBlueprintValueLogic: IGetBlueprintValueLogic,
     expansionStore: IStore<ExpansionDto[]>
   ) {
-    this.getExpansionBlueprintValueLogic = getExpansionBlueprintValueLogic
+    this.getBlueprintValueLogic = getBlueprintValueLogic
     this.expansionsStore = expansionStore
   }
 
@@ -37,8 +37,9 @@ class BlueprintValueStore implements IStore<Map<string, BlueprintValue>> {
 
     for (let i = 0; i < expansionIds.length; i++) {
       try {
-        const blueprintValueMap =
-          await this.getExpansionBlueprintValueLogic.get(expansionIds[i])
+        const blueprintValueMap = await this.getBlueprintValueLogic.get(
+          expansionIds[i]
+        )
         newState = new Map([...newState, ...blueprintValueMap])
       } catch (e) {
         const error = formatError(e)

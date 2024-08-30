@@ -59,12 +59,12 @@ class CardTraderAdaptor implements ICardTraderAdaptor {
   getPokemonCardValues = async (
     expansionId: number
   ): Promise<Map<string, CardValue[]>> => {
-    const productsMap =
+    const blueprintIdToProductsMap =
       await CardTraderClient.getMarketplaceProducts(expansionId)
 
-    const valueMap = new Map<string, CardValue[]>()
+    const blueprintIdToCardValueMap = new Map<string, CardValue[]>()
 
-    productsMap.forEach((value, key) => {
+    blueprintIdToProductsMap.forEach((value, key) => {
       const cardValues = value.map((v) => {
         const cardValue: CardValue = {
           blueprintId: v.blueprintId,
@@ -74,10 +74,10 @@ class CardTraderAdaptor implements ICardTraderAdaptor {
         return cardValue
       })
 
-      valueMap.set(key, cardValues)
+      blueprintIdToCardValueMap.set(key, cardValues)
     })
 
-    return valueMap
+    return blueprintIdToCardValueMap
   }
 }
 

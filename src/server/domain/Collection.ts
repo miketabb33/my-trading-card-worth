@@ -98,12 +98,14 @@ class Collection implements ICollection {
   private getEmptyBlueprintValue = (): BlueprintValue => {
     return {
       medianCents: 0,
+      listingCount: 0,
     }
   }
 
   private getMissingBlueprintValue = (): BlueprintValue => {
     return {
       medianCents: -1,
+      listingCount: -1,
     }
   }
 }

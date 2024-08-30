@@ -27,6 +27,7 @@ describe('Blueprint Value Store', () => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
         medianCents: id,
+        listingCount: id,
       }
       cache.set(`${id}`, blueprintValue)
       return cache
@@ -37,6 +38,7 @@ describe('Blueprint Value Store', () => {
     const state = blueprintValueStore.getState()
 
     expect(state.get('1')!.medianCents).toEqual(1)
+    expect(state.get('1')!.listingCount).toEqual(1)
     expect(state.size).toEqual(2)
     expect(blueprintValueStore.getLastUpdated()).not.toBeNull()
     expect(expansionsStore_FAKE.GET_STATE).toHaveBeenCalled()
@@ -47,6 +49,7 @@ describe('Blueprint Value Store', () => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
         medianCents: id,
+        listingCount: id,
       }
       cache.set(`${id}`, blueprintValue)
       return cache
