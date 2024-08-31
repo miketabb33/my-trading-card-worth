@@ -30,12 +30,122 @@ describe('Use In Card Item', () => {
       ...CARD_DTO,
       medianMarketValueCents: 300,
     }
-    const { result } = renderHook(() => useInCardItem(dto))
+    const { result } = renderHook(() => useInCardItem(dto, true))
 
-    result.current.show(CLICK_EVENT, 'test')
+    result.current.openEnlargedImage(CLICK_EVENT, 'test')
 
     expect(result.current.isLoggedIn).toEqual(IS_LOGGED_IN)
     expect(result.current.formattedMedian).toEqual('$3.00')
     expect(SHOW).toHaveBeenCalledWith(CLICK_EVENT, 'test')
+  })
+
+  describe('Show Owned Count', () => {
+    it('should show when is editable and logged in', () => {
+      const isLoggedIn = true
+      const isEditable = true
+
+      USE_PROFILE.mockReturnValue({
+        ...PROFILE_CONTEXT_TYPE,
+        isLoggedIn: isLoggedIn,
+      })
+
+      const { result } = renderHook(() => useInCardItem(CARD_DTO, isEditable))
+
+      expect(result.current.showOwnedCount).toEqual(true)
+    })
+    it('should NOT show when is editable and NOT logged in', () => {
+      const isLoggedIn = false
+      const isEditable = true
+
+      USE_PROFILE.mockReturnValue({
+        ...PROFILE_CONTEXT_TYPE,
+        isLoggedIn: isLoggedIn,
+      })
+
+      const { result } = renderHook(() => useInCardItem(CARD_DTO, isEditable))
+
+      expect(result.current.showOwnedCount).toEqual(false)
+    })
+    it('should show when is NOT editable and logged in', () => {
+      const isLoggedIn = true
+      const isEditable = false
+
+      USE_PROFILE.mockReturnValue({
+        ...PROFILE_CONTEXT_TYPE,
+        isLoggedIn: isLoggedIn,
+      })
+
+      const { result } = renderHook(() => useInCardItem(CARD_DTO, isEditable))
+
+      expect(result.current.showOwnedCount).toEqual(true)
+    })
+    it('should show when is NOT editable and NOT logged in', () => {
+      const isLoggedIn = false
+      const isEditable = false
+
+      USE_PROFILE.mockReturnValue({
+        ...PROFILE_CONTEXT_TYPE,
+        isLoggedIn: isLoggedIn,
+      })
+
+      const { result } = renderHook(() => useInCardItem(CARD_DTO, isEditable))
+
+      expect(result.current.showOwnedCount).toEqual(true)
+    })
+  })
+
+  describe('Show Actions', () => {
+    it('should show when is editable and logged in', () => {
+      const isLoggedIn = true
+      const isEditable = true
+
+      USE_PROFILE.mockReturnValue({
+        ...PROFILE_CONTEXT_TYPE,
+        isLoggedIn: isLoggedIn,
+      })
+
+      const { result } = renderHook(() => useInCardItem(CARD_DTO, isEditable))
+
+      expect(result.current.showActions).toEqual(true)
+    })
+    it('should NOT show when is editable and NOT logged in', () => {
+      const isLoggedIn = false
+      const isEditable = true
+
+      USE_PROFILE.mockReturnValue({
+        ...PROFILE_CONTEXT_TYPE,
+        isLoggedIn: isLoggedIn,
+      })
+
+      const { result } = renderHook(() => useInCardItem(CARD_DTO, isEditable))
+
+      expect(result.current.showActions).toEqual(false)
+    })
+    it('should NOT show when is NOT editable and logged in', () => {
+      const isLoggedIn = true
+      const isEditable = false
+
+      USE_PROFILE.mockReturnValue({
+        ...PROFILE_CONTEXT_TYPE,
+        isLoggedIn: isLoggedIn,
+      })
+
+      const { result } = renderHook(() => useInCardItem(CARD_DTO, isEditable))
+
+      expect(result.current.showActions).toEqual(false)
+    })
+    it('should NOT show when is NOT editable and NOT logged in', () => {
+      const isLoggedIn = false
+      const isEditable = false
+
+      USE_PROFILE.mockReturnValue({
+        ...PROFILE_CONTEXT_TYPE,
+        isLoggedIn: isLoggedIn,
+      })
+
+      const { result } = renderHook(() => useInCardItem(CARD_DTO, isEditable))
+
+      expect(result.current.showActions).toEqual(false)
+    })
   })
 })

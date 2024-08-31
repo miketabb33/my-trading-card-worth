@@ -27,24 +27,19 @@ const ContentWell = styled.div`
   width: 100%;
 `
 
-const LoggedInContent = styled.div`
+const Details = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-`
-
-const PriceContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`
-
-const Detail = styled.p`
-  margin-left: 0.8rem;
+  gap: 1.5rem;
 `
 
 const Actions = styled.div`
   display: flex;
+`
+
+const Price = styled.span`
+  font-size: 2.5rem;
+  color: ${({ theme }) => theme.staticColor.gray_600};
 `
 
 type CardItemProps = {
@@ -60,49 +55,54 @@ const CardItem = ({
   isEditable = true,
   refreshCards = () => {},
 }: CardItemProps) => {
-  const { isLoggedIn, formattedMedian, show } = useInCardItem(cardDto)
+  const { formattedMedian, showOwnedCount, showActions, openEnlargedImage } =
+    useInCardItem(cardDto, isEditable)
 
   return (
     <Container id={id}>
       <Image
         src={cardDto.imageUrlPreview}
         onClick={(e) =>
-          show(e, <EnlargedCardPopup imageUrl={cardDto.imageUrlShow} />)
+          openEnlargedImage(
+            e,
+            <EnlargedCardPopup imageUrl={cardDto.imageUrlShow} />
+          )
         }
       />
       <ContentWell>
         <Line />
         <h2>{cardDto.name}</h2>
         <Line />
-        <PriceContent>
-          <h3>Price:</h3>
-          <Detail>Median Value: {formattedMedian}</Detail>
-        </PriceContent>
-        {isLoggedIn && isEditable && (
-          <LoggedInContent>
-            <h3>Your Collection:</h3>
-            <Detail>Owned: {cardDto.owned}</Detail>
-            <Actions>
-              <AddCardButton
-                cardDto={cardDto}
-                condition={CardConditions.Unknown}
-                refreshCards={refreshCards}
-              />
-              <RemoveCardButton
-                blueprintId={cardDto.blueprintId}
-                cardsOwned={cardDto.owned}
-                refreshCards={refreshCards}
-              />
-            </Actions>
-          </LoggedInContent>
-        )}
+        <Details>
+          <h3>
+            Value: <Price>{formattedMedian}</Price>
+          </h3>
+
+          <>
+            {showOwnedCount && <h3>Owned: {cardDto.owned}</h3>}
+            {showActions && (
+              <Actions>
+                <AddCardButton
+                  cardDto={cardDto}
+                  condition={CardConditions.Unknown}
+                  refreshCards={refreshCards}
+                />
+                <RemoveCardButton
+                  blueprintId={cardDto.blueprintId}
+                  cardsOwned={cardDto.owned}
+                  refreshCards={refreshCards}
+                />
+              </Actions>
+            )}
+          </>
+        </Details>
       </ContentWell>
     </Container>
   )
 }
 
-export const useInCardItem = (cardDto: CardDto) => {
-  const { show } = useGlobalPopup()
+export const useInCardItem = (cardDto: CardDto, isEditable: boolean) => {
+  const { show: openEnlargedImage } = useGlobalPopup()
   const { isLoggedIn } = useProfile()
 
   const formatValue = (cents: number) => {
@@ -115,7 +115,9 @@ export const useInCardItem = (cardDto: CardDto) => {
   return {
     isLoggedIn,
     formattedMedian,
-    show,
+    showOwnedCount: isLoggedIn || !isEditable,
+    showActions: isLoggedIn && isEditable,
+    openEnlargedImage,
   }
 }
 
