@@ -37,8 +37,11 @@ class Collection implements ICollection {
     blueprintValues: Map<string, BlueprintValue>
   ) => {
     const myCollectionTotalValue = this.getEmptyBlueprintValue()
+    let cardsInCollection = 0
 
     const cardCollection = myCardEntities.map((myCardEntity) => {
+      cardsInCollection += myCardEntity.items.length
+
       let blueprintValue = blueprintValues.get(
         `${myCardEntity.cardTrader.blueprintId}`
       )
@@ -55,9 +58,14 @@ class Collection implements ICollection {
       return this.buildCardDto(myCardEntity, blueprintValue)
     })
 
+    const details: CollectionMetaDto = {
+      medianMarketValueCents: myCollectionTotalValue.medianCents,
+      cardsInCollection,
+    }
+
     return {
       cards: cardCollection,
-      details: this.buildMyCollectionDetailsDto(myCollectionTotalValue),
+      details,
     }
   }
 
@@ -76,14 +84,6 @@ class Collection implements ICollection {
       listingCount: blueprintValue.listingCount,
     }
     return cardDto
-  }
-
-  private buildMyCollectionDetailsDto = (
-    totalValue: BlueprintValue
-  ): CollectionMetaDto => {
-    return {
-      medianMarketValueCents: totalValue.medianCents,
-    }
   }
 
   private addBlueprintValueToTotalValues = (

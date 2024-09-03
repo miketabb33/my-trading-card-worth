@@ -1,4 +1,4 @@
-import { formatCentsToDollars } from '../../src/core/CurrencyFormatters'
+import { formatCentsToDollars } from '../../src/core/currencyFormatter'
 
 describe('Currency Formatter', () => {
   it('should format 0 cents', () => {

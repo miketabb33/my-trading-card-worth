@@ -1,13 +1,20 @@
 import React from 'react'
 import { CollectionMetaDto } from '../../../core/types/CollectionMetaDto'
-import styled from 'styled-components'
-import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
+import styled, { css } from 'styled-components'
+import { formatCentsToDollars } from '../../../core/currencyFormatter'
+import { tabLandAndUp } from '../../styles/Responsive'
+import { formatWithCommas } from '../../../core/numberFormatter'
 
 const Container = styled.div`
   margin-top: 2rem;
+  gap: 1rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+
+  ${tabLandAndUp(css`
+    align-items: center;
+  `)}
 `
 const Title = styled.h1`
   letter-spacing: 0.25rem;
@@ -27,13 +34,15 @@ const CollectionDetails = ({
   collectionMeta,
   nameTag,
 }: CollectionDetailsProps) => {
-  const { medianValue } = collectionDetailsController(collectionMeta)
+  const { medianValue, formattedCardsInCollection } =
+    collectionDetailsController(collectionMeta)
   return (
     <Container>
       <Title>
         {nameTag} Collection Value:{' '}
         <Price id="CollectionTotalMedianValue">{medianValue}</Price>
       </Title>
+      <p>Cards In Collection: {formattedCardsInCollection}</p>
     </Container>
   )
 }
@@ -43,6 +52,9 @@ export const collectionDetailsController = (
 ) => {
   return {
     medianValue: formatCentsToDollars(collectionMeta.medianMarketValueCents),
+    formattedCardsInCollection: formatWithCommas(
+      collectionMeta.cardsInCollection
+    ),
   }
 }
 

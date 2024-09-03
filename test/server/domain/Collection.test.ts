@@ -43,7 +43,7 @@ describe('Collection', () => {
     const previewUrl = 'anyPreviewUrl'
     const showUrl = 'anyShowUrl'
 
-    const cardsEntities = makeMyCardEntityMock({
+    const cardsEntity = makeMyCardEntityMock({
       cardTrader: {
         blueprintId,
         expansionId,
@@ -53,7 +53,7 @@ describe('Collection', () => {
       imageUrlShow: showUrl,
     })
 
-    const collection = new Collection([cardsEntities], BLUEPRINT_VALUES)
+    const collection = new Collection([cardsEntity], BLUEPRINT_VALUES)
     const cards = collection.cards()
 
     expect(cards.length).toEqual(1)
@@ -183,5 +183,22 @@ describe('Collection', () => {
     const details = collection.details()
 
     expect(details.medianMarketValueCents).toEqual(92)
+  })
+
+  it('should total up card count', () => {
+    const cardEntities = [
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1001, expansionId: 11 },
+        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }],
+      }),
+      makeMyCardEntityMock({
+        cardTrader: { blueprintId: 1002, expansionId: 11 },
+        items: [{ condition: 0 }, { condition: 0 }],
+      }),
+    ]
+    const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
+    const details = collection.details()
+
+    expect(details.cardsInCollection).toEqual(5)
   })
 })

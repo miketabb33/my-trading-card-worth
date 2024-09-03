@@ -5,10 +5,11 @@ import EnlargedCardPopup from './EnlargedCardPopup'
 import { useProfile } from '../../providers/ProfileProvider'
 import AddCardButton from './card-button/AddCardButton'
 import { CardConditions } from '../../../core/types/CardCondition'
-import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
+import { formatCentsToDollars } from '../../../core/currencyFormatter'
 import RemoveCardButton from './card-button/RemoveCardButton'
 import { CardDto } from '../../../core/types/CardDto'
 import { Line } from '../base/Line'
+import { formatWithCommas } from '../../../core/numberFormatter'
 
 const Container = styled.div`
   display: flex;
@@ -37,9 +38,20 @@ const Actions = styled.div`
   display: flex;
 `
 
+const PriceWell = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
 const Price = styled.span`
   font-size: 2.5rem;
   color: ${({ theme }) => theme.staticColor.gray_600};
+`
+
+const ListingText = styled.p`
+  font-size: 1.2rem;
+  font-style: italic;
 `
 
 type CardItemProps = {
@@ -55,8 +67,13 @@ const CardItem = ({
   isEditable = true,
   refreshCards = () => {},
 }: CardItemProps) => {
-  const { formattedMedian, showOwnedCount, showActions, openEnlargedImage } =
-    useInCardItem(cardDto, isEditable)
+  const {
+    formattedMedian,
+    formattedListingCount,
+    showOwnedCount,
+    showActions,
+    openEnlargedImage,
+  } = useInCardItem(cardDto, isEditable)
 
   return (
     <Container id={id}>
@@ -74,9 +91,14 @@ const CardItem = ({
         <h2>{cardDto.name}</h2>
         <Line />
         <Details>
-          <h3>
-            Value: <Price>{formattedMedian}</Price>
-          </h3>
+          <PriceWell>
+            <h3>
+              Value: <Price>{formattedMedian}</Price>
+            </h3>
+            <ListingText>
+              Based on {formattedListingCount} Listings.
+            </ListingText>
+          </PriceWell>
 
           <>
             {showOwnedCount && <h3>Owned: {cardDto.owned}</h3>}
@@ -110,11 +132,10 @@ export const useInCardItem = (cardDto: CardDto, isEditable: boolean) => {
     return formatCentsToDollars(cents)
   }
 
-  const formattedMedian = formatValue(cardDto.medianMarketValueCents)
-
   return {
     isLoggedIn,
-    formattedMedian,
+    formattedMedian: formatValue(cardDto.medianMarketValueCents),
+    formattedListingCount: formatWithCommas(cardDto.listingCount),
     showOwnedCount: isLoggedIn || !isEditable,
     showActions: isLoggedIn && isEditable,
     openEnlargedImage,
