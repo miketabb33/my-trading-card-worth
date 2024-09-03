@@ -18,14 +18,6 @@ const Links = styled.div`
   gap: 3rem;
 `
 
-const Center = styled.h1`
-  display: flex;
-  justify-content: center;
-  letter-spacing: 0.25rem;
-  font-weight: 300;
-  margin-top: 2rem;
-`
-
 const ShareCollection = () => {
   const {
     cards,
@@ -43,7 +35,7 @@ const ShareCollection = () => {
           {meta && (
             <CollectionDetails collectionMeta={meta} nameTag={`${name}'s`} />
           )}
-          <Center>{name}&apos;s Collection</Center>
+
           {showEditLink && (
             <Links>
               <InternalTextLink

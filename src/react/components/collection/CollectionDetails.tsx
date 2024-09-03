@@ -9,6 +9,10 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `
+const Title = styled.h1`
+  letter-spacing: 0.25rem;
+  font-weight: 300;
+`
 
 const Price = styled.span`
   color: ${({ theme }) => theme.staticColor.gray_600};
@@ -26,10 +30,10 @@ const CollectionDetails = ({
   const { medianValue } = collectionDetailsController(collectionMeta)
   return (
     <Container>
-      <h1>
+      <Title>
         {nameTag} Collection Value:{' '}
         <Price id="CollectionTotalMedianValue">{medianValue}</Price>
-      </h1>
+      </Title>
     </Container>
   )
 }
