@@ -40,7 +40,9 @@ const ShareCollection = () => {
     <>
       {showUserFoundView && (
         <>
-          {meta && <CollectionDetails collectionMeta={meta} />}
+          {meta && (
+            <CollectionDetails collectionMeta={meta} nameTag={`${name}'s`} />
+          )}
           <Center>{name}&apos;s Collection</Center>
           {showEditLink && (
             <Links>

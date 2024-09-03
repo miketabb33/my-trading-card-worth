@@ -1,51 +1,36 @@
 import React from 'react'
-import PageDetailsLayout from '../base/layout/PageDetailsLayout'
 import { CollectionMetaDto } from '../../../core/types/CollectionMetaDto'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { formatCentsToDollars } from '../../../core/CurrencyFormatters'
-import { tabLandAndUp } from '../../styles/Responsive'
 
-const Row = styled.div`
+const Container = styled.div`
+  margin-top: 2rem;
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
-
-  ${tabLandAndUp(css`
-    gap: 8rem;
-    flex-direction: row;
-    font-size: 2rem;
-  `)};
-`
-
-const Header = styled.div`
-  width: 60rem;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: center;
 `
 
-const Item = styled.h3``
+const Price = styled.span`
+  color: ${({ theme }) => theme.staticColor.gray_600};
+`
 
 export type CollectionDetailsProps = {
   collectionMeta: CollectionMetaDto
+  nameTag: string
 }
 
-const CollectionDetails = ({ collectionMeta }: CollectionDetailsProps) => {
+const CollectionDetails = ({
+  collectionMeta,
+  nameTag,
+}: CollectionDetailsProps) => {
   const { medianValue } = collectionDetailsController(collectionMeta)
   return (
-    <PageDetailsLayout
-      header={
-        <Header>
-          <h1>Collection Value:</h1>
-        </Header>
-      }
-      content={
-        <Row>
-          <Item id="CollectionTotalMedianValue">Median: {medianValue}</Item>
-        </Row>
-      }
-    />
+    <Container>
+      <h1>
+        {nameTag} Collection Value:{' '}
+        <Price id="CollectionTotalMedianValue">{medianValue}</Price>
+      </h1>
+    </Container>
   )
 }
 

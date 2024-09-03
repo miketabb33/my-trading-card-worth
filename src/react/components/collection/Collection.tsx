@@ -34,7 +34,7 @@ const Collection = () => {
     <>
       {showCollection && (
         <>
-          {meta && <CollectionDetails collectionMeta={meta} />}
+          {meta && <CollectionDetails collectionMeta={meta} nameTag="Your" />}
           <Links>
             <InternalTextLink
               pathValue={shareLinkPath}
