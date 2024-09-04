@@ -13,3 +13,19 @@ services:
       AUTH_SECRET: ${AUTH_SECRET}
       CARD_TRADER_API_KEY: ${CARD_TRADER_API_KEY}
       MONGODB_CONNECTION_STRING: ${MONGODB_CONNECTION_STRING}
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.4.6
+    restart: always
+    volumes:
+      - mongo_dbv:/data/db/
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27017:27017
+
+volumes:
+  mongo_dbv: {}

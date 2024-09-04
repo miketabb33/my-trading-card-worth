@@ -54,14 +54,14 @@ describe('e2e', () => {
     // Add card in collection and check median price
     cy.get('#NavCollection').click()
 
-    cy.get('#CollectionTotalMedianValue').should('have.text', 'Median: $0.27')
+    cy.get('#CollectionTotalMedianValue').should('have.text', '$0.27')
 
     cy.get('#CardListItem-0').contains('Owned: 1')
     cy.get('#CardListItem-0').contains('Add').click()
 
     cy.get('#CardListItem-0').contains('Owned: 2')
 
-    cy.get('#CollectionTotalMedianValue').should('have.text', 'Median: $0.54')
+    cy.get('#CollectionTotalMedianValue').should('have.text', '$0.54')
 
     // Search another expansion
     cy.get('#NavCatalog').click()
@@ -84,12 +84,14 @@ describe('e2e', () => {
 
     // Verify amounts in collection
     cy.get('#NavCollection').click()
-    cy.get('#CollectionTotalMedianValue').should('have.text', 'Median: $2.27')
+    cy.get('#CollectionTotalMedianValue').should('have.text', '$2.27')
 
     // Remove cards
     cy.get('#CardListItem-1').contains('Remove').click()
 
     cy.get('#CardListItem-0').contains('Remove').click()
+
+    cy.wait(2000)
 
     cy.get('#CardListItem-0').contains('Remove').click()
     cy.get('h1')
