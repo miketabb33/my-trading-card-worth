@@ -19,4 +19,5 @@ const collection = (userId?: string) => {
 export const PATH_VALUES = {
   catalog,
   collection,
+  developerNotes: '/developer-notes',
 }

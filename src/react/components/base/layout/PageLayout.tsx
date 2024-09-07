@@ -5,7 +5,7 @@ import Navigation from '../../navigation/Navigation'
 import Footer from '../../Footer'
 import { ResponsiveLayout } from './ResponsiveLayout'
 
-const FOOTER_HEIGHT = '2rem'
+const FOOTER_HEIGHT = '2.2rem'
 
 const Content = styled(ResponsiveLayout)`
   margin-bottom: ${FOOTER_HEIGHT};
