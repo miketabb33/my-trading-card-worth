@@ -13,7 +13,7 @@ const ReleaseNotes = () => {
       <Heading>Release Notes</Heading>
       {releases.map((release) => (
         <div key={release.version}>
-          <h2>Version: {release.version}</h2>
+          <h2>{release.version}</h2>
           <Topics topics={release.topics} />
         </div>
       ))}

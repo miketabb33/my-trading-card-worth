@@ -5,8 +5,8 @@ type Release = {
   topics: Topic[]
 }
 
-const release_1_0_0: Release = {
-  version: '1.0.0',
+const release_9_7_2024: Release = {
+  version: 'September 7th, 2024',
   topics: [
     {
       title: 'Catalog',
@@ -40,4 +40,4 @@ const release_1_0_0: Release = {
   ],
 }
 
-export const releases: Release[] = [release_1_0_0]
+export const releases: Release[] = [release_9_7_2024]
