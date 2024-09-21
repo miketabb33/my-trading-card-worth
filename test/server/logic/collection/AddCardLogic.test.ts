@@ -39,10 +39,7 @@ describe('Add Card Logic', () => {
       })
     )
 
-    expect(myCardCRUD_FAKE.FIND_BY_BLUEPRINT_ID).toHaveBeenCalledWith(
-      USER_ID,
-      ADD_MY_CARD_DTO.blueprintId
-    )
+    expect(myCardCRUD_FAKE.FIND_BY_BLUEPRINT_ID).toHaveBeenCalledWith(USER_ID, ADD_MY_CARD_DTO.blueprintId)
     expect(myCardCRUD_FAKE.ADD_ITEM).not.toHaveBeenCalled()
   })
 
@@ -55,11 +52,7 @@ describe('Add Card Logic', () => {
     const expectedItem: MyCardItemEntity = {
       condition: ADD_MY_CARD_DTO.condition,
     }
-    expect(myCardCRUD_FAKE.ADD_ITEM).toHaveBeenCalledWith(
-      USER_ID,
-      ADD_MY_CARD_DTO.blueprintId,
-      expectedItem
-    )
+    expect(myCardCRUD_FAKE.ADD_ITEM).toHaveBeenCalledWith(USER_ID, ADD_MY_CARD_DTO.blueprintId, expectedItem)
     expect(myCardCRUD_FAKE.CREATE).not.toHaveBeenCalled()
   })
 })

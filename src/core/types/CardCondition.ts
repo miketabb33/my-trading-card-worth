@@ -34,16 +34,7 @@ export const CardConditions = {
   Played,
   Poor,
   Damaged: HeavilyPlayed,
-  asArray: [
-    Unknown,
-    Mint,
-    NearMint,
-    SlightlyPlayed,
-    ModeratelyPlayed,
-    Played,
-    Poor,
-    HeavilyPlayed,
-  ],
+  asArray: [Unknown, Mint, NearMint, SlightlyPlayed, ModeratelyPlayed, Played, Poor, HeavilyPlayed],
 }
 
 CardConditions

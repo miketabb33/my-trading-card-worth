@@ -32,16 +32,9 @@ export const bigDesktop = (styles: FlattenSimpleInterpolation) =>
     }
   `
 
-type DeviceClass =
-  | 'tablet-portrait'
-  | 'tablet-landscape'
-  | 'desktop'
-  | 'big-desktop'
+type DeviceClass = 'tablet-portrait' | 'tablet-landscape' | 'desktop' | 'big-desktop'
 
-const deviceClassMap = new Map<
-  DeviceClass,
-  (styles: FlattenSimpleInterpolation) => FlattenSimpleInterpolation
->([
+const deviceClassMap = new Map<DeviceClass, (styles: FlattenSimpleInterpolation) => FlattenSimpleInterpolation>([
   ['tablet-portrait', tabPortAndUp],
   ['tablet-landscape', tabLandAndUp],
   ['desktop', desktopAndUp],

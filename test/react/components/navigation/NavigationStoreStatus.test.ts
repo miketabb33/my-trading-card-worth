@@ -23,16 +23,10 @@ describe('Use In Navigation Store Status', () => {
       storeStatus: STORE_STATUS_DTO,
     })
     const { result } = renderHook(useInNavigationStoreStatus)
-    const expansionDate = new Date(
-      STORE_STATUS_DTO.expansionsLastUpdatedDateString!
-    )
+    const expansionDate = new Date(STORE_STATUS_DTO.expansionsLastUpdatedDateString!)
     const pricesDate = new Date(STORE_STATUS_DTO.pricesLastUpdatedDateString!)
-    expect(result.current.expansionStatus).toEqual(
-      `Last Updated ${expansionDate.toLocaleString()}`
-    )
-    expect(result.current.pricesStatus).toEqual(
-      `Last Updated ${pricesDate.toLocaleString()}`
-    )
+    expect(result.current.expansionStatus).toEqual(`Last Updated ${expansionDate.toLocaleString()}`)
+    expect(result.current.pricesStatus).toEqual(`Last Updated ${pricesDate.toLocaleString()}`)
   })
 
   it('should return status when store status dto has values that are null', () => {

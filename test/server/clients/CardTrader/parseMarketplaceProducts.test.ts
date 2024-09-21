@@ -3,9 +3,7 @@ import { CARD_TRADER_MARKETPLACE_PRODUCTS_RESPONSE_MOCK } from './__MOCKS__/Card
 
 describe('Try To Parse Marketplace Products', () => {
   it('should parse response', () => {
-    const result = tryToParseMarketplaceProducts(
-      CARD_TRADER_MARKETPLACE_PRODUCTS_RESPONSE_MOCK
-    )
+    const result = tryToParseMarketplaceProducts(CARD_TRADER_MARKETPLACE_PRODUCTS_RESPONSE_MOCK)
     expect(result.size).toEqual(4)
     expect(result.has('287134')).toEqual(true)
     expect(result.has('287805')).toEqual(true)
@@ -14,9 +12,7 @@ describe('Try To Parse Marketplace Products', () => {
 
     expect(result.get('287805')![0].blueprintId).toEqual(287805)
     expect(result.get('287805')![0].price.cents).toEqual(11)
-    expect(result.get('287805')![0].propertiesHash.condition).toEqual(
-      'Near Mint'
-    )
+    expect(result.get('287805')![0].propertiesHash.condition).toEqual('Near Mint')
   })
 
   it('should throw when response is not object', () => {
@@ -28,15 +24,11 @@ describe('Try To Parse Marketplace Products', () => {
   })
 
   it('should throw when object value array item is missing blueprint id', () => {
-    expect(() =>
-      tryToParseMarketplaceProducts({ foo: [{ foo: 'bar' }] })
-    ).toThrow()
+    expect(() => tryToParseMarketplaceProducts({ foo: [{ foo: 'bar' }] })).toThrow()
   })
 
   it('should throw when object value array item is missing price', () => {
-    expect(() =>
-      tryToParseMarketplaceProducts({ foo: [{ blueprint_id: 123 }] })
-    ).toThrow()
+    expect(() => tryToParseMarketplaceProducts({ foo: [{ blueprint_id: 123 }] })).toThrow()
   })
 
   it('should throw when cents is a string', () => {

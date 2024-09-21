@@ -13,8 +13,7 @@ class GetBlueprintValueLogic implements IGetBlueprintValueLogic {
   }
   get = async (expansionId: number) => {
     const blueprintIdToBlueprintValueMap = new Map<string, BlueprintValue>()
-    const blueprintIdToCardValueMap =
-      await this.cardTraderAdaptor.getPokemonCardValues(expansionId)
+    const blueprintIdToCardValueMap = await this.cardTraderAdaptor.getPokemonCardValues(expansionId)
 
     blueprintIdToCardValueMap.forEach((cardValues, blueprintId) => {
       const cardPrices = cardValues.map((v) => v.priceCents)
@@ -35,9 +34,7 @@ class GetBlueprintValueLogic implements IGetBlueprintValueLogic {
 
     const half = Math.floor(values.length / 2)
 
-    return values.length % 2
-      ? values[half]
-      : (values[half - 1] + values[half]) / 2
+    return values.length % 2 ? values[half] : (values[half - 1] + values[half]) / 2
   }
 }
 

@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Popup, { UsePopupBind, usePopup } from '../../Popup'
-import InputFieldDropdown, {
-  DropdownOption,
-} from './utilities/InputFieldDropdown'
+import InputFieldDropdown, { DropdownOption } from './utilities/InputFieldDropdown'
 
 const Container = styled.div`
   position: relative;
@@ -65,20 +63,13 @@ const Select = <T extends object>({
         <Arrow />
       </div>
       <Popup {...popupBind}>
-        <InputFieldDropdown
-          options={options}
-          topAmount="1.8rem"
-          onOptionClick={onOptionClick}
-          dropdownStyle="small"
-        />
+        <InputFieldDropdown options={options} topAmount="1.8rem" onOptionClick={onOptionClick} dropdownStyle="small" />
       </Popup>
     </Container>
   )
 }
 
-export const useWithSelect = <T extends object>(
-  options: DropdownOption<T>[]
-) => {
+export const useWithSelect = <T extends object>(options: DropdownOption<T>[]) => {
   const [selectedOption, setSelectedOption] = useState(options[0])
   const { bind: popupBind, click: onSelectClick, toggle } = usePopup()
 

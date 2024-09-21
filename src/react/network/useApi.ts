@@ -13,10 +13,7 @@ export type UseApiReturn<T> = {
   refresh: () => void
 }
 
-export const useApiController = <T>({
-  path,
-  shouldMakeRequest = true,
-}: UseApiArgs) => {
+export const useApiController = <T>({ path, shouldMakeRequest = true }: UseApiArgs) => {
   const [data, setData] = useState<T | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [errors, setErrors] = useState<string[] | null>(null)

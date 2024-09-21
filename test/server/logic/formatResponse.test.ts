@@ -1,7 +1,4 @@
-import {
-  formatError,
-  formatResponse,
-} from '../../../src/server/logic/formatResponse'
+import { formatError, formatResponse } from '../../../src/server/logic/formatResponse'
 
 describe('Format Response', () => {
   it('should build data response correctly', () => {

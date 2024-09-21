@@ -70,21 +70,11 @@ const MyCardModel = model('my_card', myCardSchema)
 
 export interface IMyCardCRUD {
   create: (entity: MyCardEntity) => Promise<void>
-  addItem: (
-    userId: string,
-    blueprintId: number,
-    item: MyCardItemEntity
-  ) => Promise<void>
+  addItem: (userId: string, blueprintId: number, item: MyCardItemEntity) => Promise<void>
   delete: (userId: string, blueprintId: number) => Promise<void>
   removeItem: (userId: string, blueprintId: number) => Promise<void>
-  findByExpansion: (
-    userId: string,
-    expansionId: number
-  ) => Promise<MyCardEntity[]>
-  findByBlueprintId: (
-    userId: string,
-    blueprintId: number
-  ) => Promise<MyCardEntity | null>
+  findByExpansion: (userId: string, expansionId: number) => Promise<MyCardEntity[]>
+  findByBlueprintId: (userId: string, blueprintId: number) => Promise<MyCardEntity | null>
 
   getAll: (userId: string) => Promise<MyCardEntity[]>
 }
@@ -95,11 +85,7 @@ class MyCardCRUD implements IMyCardCRUD {
     await context.save()
   }
 
-  addItem = async (
-    userId: string,
-    blueprintId: number,
-    item: MyCardItemEntity
-  ): Promise<void> => {
+  addItem = async (userId: string, blueprintId: number, item: MyCardItemEntity): Promise<void> => {
     const context = await MyCardModel.findOne({
       userId,
       'cardTrader.blueprintId': blueprintId,
@@ -128,10 +114,7 @@ class MyCardCRUD implements IMyCardCRUD {
     await context.save()
   }
 
-  findByExpansion = async (
-    userId: string,
-    expansionId: number
-  ): Promise<MyCardEntity[]> => {
+  findByExpansion = async (userId: string, expansionId: number): Promise<MyCardEntity[]> => {
     const contexts = await MyCardModel.find({
       userId,
       'cardTrader.expansionId': expansionId,
@@ -142,10 +125,7 @@ class MyCardCRUD implements IMyCardCRUD {
     return myCards
   }
 
-  findByBlueprintId = async (
-    userId: string,
-    blueprintId: number
-  ): Promise<MyCardEntity | null> => {
+  findByBlueprintId = async (userId: string, blueprintId: number): Promise<MyCardEntity | null> => {
     const context = await MyCardModel.findOne({
       userId,
       'cardTrader.blueprintId': blueprintId,

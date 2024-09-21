@@ -26,9 +26,7 @@ export const useExpansionProvider = () => {
 export const ExpansionContextProvider = ({ children }: ChildrenProp) => {
   const value = useExpansionProvider()
 
-  return (
-    <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
-  )
+  return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
 }
 
 export const useExpansion = (): ExpansionContextType => {

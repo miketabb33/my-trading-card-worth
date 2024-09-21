@@ -31,9 +31,7 @@ describe('Use Api Controller', () => {
     expect(result.current.data).toBeNull()
   })
   it('should make request', async () => {
-    const { result } = renderHook(() =>
-      useApiController<FakeData>(USE_API_ARGS)
-    )
+    const { result } = renderHook(() => useApiController<FakeData>(USE_API_ARGS))
     await act(async () => await result.current.makeRequest())
 
     expect(result.current.data).toEqual(fakeData)
@@ -51,9 +49,7 @@ describe('Use Api Controller', () => {
       isSuccessful: false,
     })
 
-    const { result } = renderHook(() =>
-      useApiController<FakeData>(USE_API_ARGS)
-    )
+    const { result } = renderHook(() => useApiController<FakeData>(USE_API_ARGS))
     await act(async () => await result.current.makeRequest())
 
     expect(result.current.data).toEqual(null)
@@ -65,9 +61,7 @@ describe('Use Api Controller', () => {
   it('should set error when unexpected error occurs', async () => {
     FETCH_API.mockRejectedValue('Any error caught in catch block')
 
-    const { result } = renderHook(() =>
-      useApiController<FakeData>(USE_API_ARGS)
-    )
+    const { result } = renderHook(() => useApiController<FakeData>(USE_API_ARGS))
     await act(async () => await result.current.makeRequest())
 
     expect(result.current.data).toEqual(null)

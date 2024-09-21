@@ -11,20 +11,12 @@ type AddCardButtonProps = {
   refreshCards: () => void
 }
 
-const AddCardButton = ({
-  cardDto,
-  condition,
-  refreshCards: refreshCards,
-}: AddCardButtonProps) => {
+const AddCardButton = ({ cardDto, condition, refreshCards: refreshCards }: AddCardButtonProps) => {
   const cardButton = useInAddCardButton(cardDto, condition, refreshCards)
   return <CardButtonBase {...cardButton} />
 }
 
-export const useInAddCardButton = (
-  cardDto: CardDto,
-  condition: CardCondition,
-  refreshCards: () => void
-) => {
+export const useInAddCardButton = (cardDto: CardDto, condition: CardCondition, refreshCards: () => void) => {
   const addCard = () => {
     const dto: AddMyCardDto = {
       blueprintId: cardDto.blueprintId,

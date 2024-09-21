@@ -42,11 +42,7 @@ export type CardListProps = {
   refreshCards?: (() => void) | undefined
 }
 
-const CardList = ({
-  cardsDto,
-  refreshCards,
-  isEditable = true,
-}: CardListProps) => {
+const CardList = ({ cardsDto, refreshCards, isEditable = true }: CardListProps) => {
   const {
     filteredCardsDto,
     inputBind,

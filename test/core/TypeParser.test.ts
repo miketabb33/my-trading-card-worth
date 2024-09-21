@@ -60,9 +60,7 @@ describe('Type Parser', () => {
     })
 
     it('should throw when could not parse OBJECT correctly', () => {
-      expect(() => parser.obj('age')).toThrow(
-        'Unable to parse "age" as "object" for "testParser"'
-      )
+      expect(() => parser.obj('age')).toThrow('Unable to parse "age" as "object" for "testParser"')
     })
   })
 
@@ -85,9 +83,7 @@ describe('Type Parser', () => {
     })
 
     it('should throw when could not parse STRING correctly', () => {
-      expect(() => parser.str('age')).toThrow(
-        'Unable to parse "age" as "string" for "testParser"'
-      )
+      expect(() => parser.str('age')).toThrow('Unable to parse "age" as "string" for "testParser"')
     })
   })
 
@@ -115,9 +111,7 @@ describe('Type Parser', () => {
     })
 
     it('should throw when could not parse NUMBER correctly', () => {
-      expect(() => parser.num('name')).toThrow(
-        'Unable to parse "name" as "number" for "testParser"'
-      )
+      expect(() => parser.num('name')).toThrow('Unable to parse "name" as "number" for "testParser"')
     })
   })
 
@@ -145,9 +139,7 @@ describe('Type Parser', () => {
     })
 
     it('should throw when could not parse BOOLEAN correctly', () => {
-      expect(() => parser.bool('name')).toThrow(
-        'Unable to parse "name" as "boolean" for "testParser"'
-      )
+      expect(() => parser.bool('name')).toThrow('Unable to parse "name" as "boolean" for "testParser"')
     })
   })
 

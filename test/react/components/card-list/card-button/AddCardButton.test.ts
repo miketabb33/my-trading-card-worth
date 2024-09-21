@@ -16,9 +16,7 @@ beforeEach(jest.clearAllMocks)
 
 describe('Use In Add Card Button', () => {
   it('should set loading to false and set showCheckmark to true after add my card completes', async () => {
-    const { result } = renderHook(() =>
-      useInAddCardButton(CARD_DTO, CONDITION, REFRESH)
-    )
+    const { result } = renderHook(() => useInAddCardButton(CARD_DTO, CONDITION, REFRESH))
 
     await act(async () => await result.current.click())
 

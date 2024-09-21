@@ -28,17 +28,12 @@ class TypeParser {
 
   obj = (key: string) => {
     const value = this.objOrNull(key)
-    if (!value)
-      throw new Error(TypeParser.parserError(key, 'object', this.parserName))
+    if (!value) throw new Error(TypeParser.parserError(key, 'object', this.parserName))
     return value
   }
 
   objOrNull = (key: string) => {
-    if (
-      typeof this.data[key] === 'object' &&
-      !Array.isArray(this.data[key]) &&
-      this.data[key] !== null
-    ) {
+    if (typeof this.data[key] === 'object' && !Array.isArray(this.data[key]) && this.data[key] !== null) {
       return this.data[key] as object
     }
     return null
@@ -46,8 +41,7 @@ class TypeParser {
 
   str = (key: string): string => {
     const value = this.strOrNull(key)
-    if (!value)
-      throw new Error(TypeParser.parserError(key, 'string', this.parserName))
+    if (!value) throw new Error(TypeParser.parserError(key, 'string', this.parserName))
     return value
   }
 
@@ -60,8 +54,7 @@ class TypeParser {
 
   num = (key: string): number => {
     const value = this.numOrNull(key)
-    if (value === null)
-      throw new Error(TypeParser.parserError(key, 'number', this.parserName))
+    if (value === null) throw new Error(TypeParser.parserError(key, 'number', this.parserName))
     return value
   }
 
@@ -74,8 +67,7 @@ class TypeParser {
 
   bool = (key: string): boolean => {
     const value = this.boolOrNull(key)
-    if (value === null)
-      throw new Error(TypeParser.parserError(key, 'boolean', this.parserName))
+    if (value === null) throw new Error(TypeParser.parserError(key, 'boolean', this.parserName))
     return value
   }
 
@@ -86,11 +78,7 @@ class TypeParser {
     return null
   }
 
-  private static parserError = (
-    key: string,
-    type: string,
-    parserName: string
-  ) => {
+  private static parserError = (key: string, type: string, parserName: string) => {
     return `Unable to parse "${key}" as "${type}" for "${parserName}"`
   }
 }

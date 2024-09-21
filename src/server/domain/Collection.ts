@@ -12,14 +12,8 @@ class Collection implements ICollection {
   private cardCollection: CardDto[]
   private cardDetails: CollectionMetaDto
 
-  constructor(
-    myCardEntities: MyCardEntity[],
-    blueprintValues: Map<string, BlueprintValue>
-  ) {
-    const { cards, details } = this.calculateValues(
-      myCardEntities,
-      blueprintValues
-    )
+  constructor(myCardEntities: MyCardEntity[], blueprintValues: Map<string, BlueprintValue>) {
+    const { cards, details } = this.calculateValues(myCardEntities, blueprintValues)
     this.cardCollection = cards
     this.cardDetails = details
   }
@@ -32,26 +26,17 @@ class Collection implements ICollection {
     return this.cardDetails
   }
 
-  private calculateValues = (
-    myCardEntities: MyCardEntity[],
-    blueprintValues: Map<string, BlueprintValue>
-  ) => {
+  private calculateValues = (myCardEntities: MyCardEntity[], blueprintValues: Map<string, BlueprintValue>) => {
     const myCollectionTotalValue = this.getEmptyBlueprintValue()
     let cardsInCollection = 0
 
     const cardCollection = myCardEntities.map((myCardEntity) => {
       cardsInCollection += myCardEntity.items.length
 
-      let blueprintValue = blueprintValues.get(
-        `${myCardEntity.cardTrader.blueprintId}`
-      )
+      let blueprintValue = blueprintValues.get(`${myCardEntity.cardTrader.blueprintId}`)
 
       if (blueprintValue)
-        this.addBlueprintValueToTotalValues(
-          myCollectionTotalValue,
-          blueprintValue,
-          myCardEntity.items.length
-        )
+        this.addBlueprintValueToTotalValues(myCollectionTotalValue, blueprintValue, myCardEntity.items.length)
 
       if (!blueprintValue) blueprintValue = this.getMissingBlueprintValue()
 
@@ -69,10 +54,7 @@ class Collection implements ICollection {
     }
   }
 
-  private buildCardDto = (
-    myCardEntity: MyCardEntity,
-    blueprintValue: BlueprintValue
-  ) => {
+  private buildCardDto = (myCardEntity: MyCardEntity, blueprintValue: BlueprintValue) => {
     const cardDto: CardDto = {
       blueprintId: myCardEntity.cardTrader.blueprintId,
       expansionId: myCardEntity.cardTrader.expansionId,

@@ -42,9 +42,7 @@ export const useInNavigationStoreStatus = () => {
     }
   } else {
     return {
-      expansionStatus: buildStatusMessage(
-        storeStatus.expansionsLastUpdatedDateString
-      ),
+      expansionStatus: buildStatusMessage(storeStatus.expansionsLastUpdatedDateString),
       pricesStatus: buildStatusMessage(storeStatus.pricesLastUpdatedDateString),
     }
   }

@@ -6,10 +6,7 @@ class GetShareCollectionLogic {
   private readonly collectionFactory: ICollectionFactory
   private readonly profileCRUD: IProfileCRUD
 
-  constructor(
-    collectionFactory: ICollectionFactory,
-    profileCRUD: IProfileCRUD
-  ) {
+  constructor(collectionFactory: ICollectionFactory, profileCRUD: IProfileCRUD) {
     this.collectionFactory = collectionFactory
     this.profileCRUD = profileCRUD
   }

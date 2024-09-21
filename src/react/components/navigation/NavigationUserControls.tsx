@@ -11,8 +11,7 @@ const UserControls = styled.div`
 `
 
 const NavigationUserControls = () => {
-  const { profile, showLoading, showLoggedIn, showLoggedOut, logout, login } =
-    useInNavigationUserControls()
+  const { profile, showLoading, showLoggedIn, showLoggedOut, logout, login } = useInNavigationUserControls()
   return (
     <UserControls>
       {showLoading && <p>Loading...</p>}

@@ -8,12 +8,7 @@ const CollectionNoItems = () => {
       <h1>There Are No Items In Your Collection!</h1>
       <h3>
         Add cards to your collection with the{' '}
-        <InternalTextLink
-          id="CollectionCatalogLink"
-          label="Catalog"
-          pathValue={PATH_VALUES.catalog()}
-        />
-        .
+        <InternalTextLink id="CollectionCatalogLink" label="Catalog" pathValue={PATH_VALUES.catalog()} />.
       </h3>
     </>
   )

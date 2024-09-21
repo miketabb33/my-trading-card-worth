@@ -18,15 +18,9 @@ export const getExpansions = async () => {
 }
 
 export const getBlueprints = async (expansionId: number) => {
-  return await clientFetch(
-    `/blueprints/export?expansion_id=${expansionId}`,
-    tryToParseBlueprints
-  )
+  return await clientFetch(`/blueprints/export?expansion_id=${expansionId}`, tryToParseBlueprints)
 }
 
 export const getMarketplaceProducts = async (expansionId: number) => {
-  return await clientFetch(
-    `/marketplace/products?expansion_id=${expansionId}`,
-    tryToParseMarketplaceProducts
-  )
+  return await clientFetch(`/marketplace/products?expansion_id=${expansionId}`, tryToParseMarketplaceProducts)
 }

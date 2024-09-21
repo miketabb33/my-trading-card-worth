@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { UseEffectType } from '../../../types/UseEffectType'
-import InputFieldDropdown, {
-  DropdownOption,
-  InputFieldDropdownProps,
-} from './utilities/InputFieldDropdown'
+import InputFieldDropdown, { DropdownOption, InputFieldDropdownProps } from './utilities/InputFieldDropdown'
 import { filterAutocomplete } from './utilities/filterAutocomplete'
 import Input, { InputProps, useWithInput } from './Input'
 
@@ -64,11 +61,8 @@ export const useWithAutocomplete = <T extends object>({
 }: UseWithAutocompleteArgs<T>): UseWithAutocompleteReturn<T> => {
   const [options, setOptions] = useState<DropdownOption<T>[]>(initOptions ?? [])
 
-  const [filteredOptions, setFilteredOptions] = useState<DropdownOption<T>[]>(
-    options || []
-  )
-  const [selectedOption, setSelectedOption] =
-    useState<DropdownOption<T> | null>(null)
+  const [filteredOptions, setFilteredOptions] = useState<DropdownOption<T>[]>(options || [])
+  const [selectedOption, setSelectedOption] = useState<DropdownOption<T> | null>(null)
 
   const optionsChangedEffect: UseEffectType = {
     effect: () => {
@@ -78,8 +72,7 @@ export const useWithAutocomplete = <T extends object>({
   }
 
   const input = useWithInput({
-    onChange: (newValue) =>
-      setFilteredOptions(filterAutocomplete(options, newValue)),
+    onChange: (newValue) => setFilteredOptions(filterAutocomplete(options, newValue)),
   })
 
   const onOptionClick = (option: DropdownOption<T>) => {

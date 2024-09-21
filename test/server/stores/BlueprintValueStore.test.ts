@@ -12,10 +12,7 @@ describe('Blueprint Value Store', () => {
   beforeEach(() => {
     getBlueprintValueLogic_FAKE = new GetBlueprintValueLogic_FAKE()
     expansionsStore_FAKE = new ExpansionStore_FAKE()
-    blueprintValueStore = new BlueprintValueStore(
-      getBlueprintValueLogic_FAKE,
-      expansionsStore_FAKE
-    )
+    blueprintValueStore = new BlueprintValueStore(getBlueprintValueLogic_FAKE, expansionsStore_FAKE)
     expansionsStore_FAKE.GET_STATE.mockReturnValue([
       makeExpansionDto({ expansionId: 1 }),
       makeExpansionDto({ expansionId: 2 }),

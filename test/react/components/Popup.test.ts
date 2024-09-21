@@ -28,9 +28,7 @@ describe('Use Popup', () => {
 
   it('has correct effect dependencies', () => {
     const { result } = renderHook(usePopup)
-    expect(result.current.bind.closeHandlerEffect.deps).toEqual([
-      result.current.bind.isShowing,
-    ])
+    expect(result.current.bind.closeHandlerEffect.deps).toEqual([result.current.bind.isShowing])
   })
 
   it('calls listener in effect correctly', () => {

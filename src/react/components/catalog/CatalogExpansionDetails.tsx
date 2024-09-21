@@ -79,11 +79,8 @@ type CatalogExpansionDetailsProps = {
   expansionDetailsDto: ExpansionDetailsDto
 }
 
-const CatalogExpansionDetails = ({
-  expansionDetailsDto: details,
-}: CatalogExpansionDetailsProps) => {
-  const { detailsRowItems, priceRowItems } =
-    catalogExpansionDetailsController(details)
+const CatalogExpansionDetails = ({ expansionDetailsDto: details }: CatalogExpansionDetailsProps) => {
+  const { detailsRowItems, priceRowItems } = catalogExpansionDetailsController(details)
 
   return (
     <PageDetailsLayout
@@ -95,18 +92,14 @@ const CatalogExpansionDetails = ({
       }
       content={
         <Grid>
-          <LogoContainer>
-            {details.logoUrl && <Logo src={details.logoUrl}></Logo>}
-          </LogoContainer>
+          <LogoContainer>{details.logoUrl && <Logo src={details.logoUrl}></Logo>}</LogoContainer>
 
           <Details>
             <h2>Details</h2>
             {detailsRowItems.map((item) => (
               <DetailsRowItem key={item.title} {...item} />
             ))}
-            <ExternalTextLink href={details.bulbapediaUrl}>
-              See on Bulbapedia
-            </ExternalTextLink>
+            <ExternalTextLink href={details.bulbapediaUrl}>See on Bulbapedia</ExternalTextLink>
           </Details>
           <Prices>
             <h2>Prices</h2>
@@ -120,9 +113,7 @@ const CatalogExpansionDetails = ({
   )
 }
 
-export const catalogExpansionDetailsController = (
-  details: ExpansionDetailsDto
-) => {
+export const catalogExpansionDetailsController = (details: ExpansionDetailsDto) => {
   const detailsRowItems = buildDetailsRowItems(details)
   const priceRowItems = buildPriceRowItems(details.priceDetails)
 

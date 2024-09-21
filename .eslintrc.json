@@ -21,10 +21,7 @@
   "rules": {
     "eqeqeq": ["error", "always"],
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-floating-promises": [
-      "error",
-      { "ignoreIIFE": true }
-    ],
+    "@typescript-eslint/no-floating-promises": ["error", { "ignoreIIFE": true }],
     "@typescript-eslint/no-empty-function": "off",
     "require-await": "error"
   },

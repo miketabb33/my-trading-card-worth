@@ -49,11 +49,7 @@ type NavigationLayoutProps = {
   storeStatus: ReactNode
 }
 
-const NavigationLayout = ({
-  options,
-  userControls,
-  storeStatus,
-}: NavigationLayoutProps) => {
+const NavigationLayout = ({ options, userControls, storeStatus }: NavigationLayoutProps) => {
   return (
     <Container>
       <StoreStatusPosition>{storeStatus}</StoreStatusPosition>

@@ -10,10 +10,7 @@ class CollectionFactory implements ICollectionFactory {
   private readonly cardCRUD: IMyCardCRUD
   private readonly blueprintValues: Map<string, BlueprintValue>
 
-  constructor(
-    cardCRUD: IMyCardCRUD,
-    blueprintValues: Map<string, BlueprintValue>
-  ) {
+  constructor(cardCRUD: IMyCardCRUD, blueprintValues: Map<string, BlueprintValue>) {
     this.cardCRUD = cardCRUD
     this.blueprintValues = blueprintValues
   }

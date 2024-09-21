@@ -36,14 +36,8 @@ const Collection = () => {
         <>
           {meta && <CollectionDetails collectionMeta={meta} nameTag="Your" />}
           <Links>
-            <InternalTextLink
-              pathValue={shareLinkPath}
-              label="View Share Page"
-            />
-            <InternalTextLink
-              onClick={() => void copyShareLinkToClipboard()}
-              label="Copy Share Link"
-            />
+            <InternalTextLink pathValue={shareLinkPath} label="View Share Page" />
+            <InternalTextLink onClick={() => void copyShareLinkToClipboard()} label="Copy Share Link" />
           </Links>
           <CardList {...cardListProps} />
         </>
@@ -73,11 +67,7 @@ const Collection = () => {
 export const useInCollection = () => {
   const { isLoggedIn, isLoading: isLoadingProfile, profile } = useProfile()
 
-  const {
-    data: collectionDto,
-    refresh,
-    isLoading: isLoadingCollection,
-  } = useMyCards(isLoggedIn)
+  const { data: collectionDto, refresh, isLoading: isLoadingCollection } = useMyCards(isLoggedIn)
 
   const cardsDto = collectionDto?.cards || []
 

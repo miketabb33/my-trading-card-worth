@@ -26,8 +26,7 @@ const stubData: ExpansionDto[] = [
   {
     name: 'Twilight Masquerade',
     expansionId: 3674,
-    symbol:
-      'https://archives.bulbagarden.net/media/upload/6/65/SetSymbolTwilight_Masquerade.png',
+    symbol: 'https://archives.bulbagarden.net/media/upload/6/65/SetSymbolTwilight_Masquerade.png',
     slug: 'twilight-masquerade',
   },
   {
@@ -54,8 +53,7 @@ const stubData: ExpansionDto[] = [
   {
     name: '151',
     expansionId: 3403,
-    symbol:
-      'https://archives.bulbagarden.net/media/upload/thumb/7/71/SetSymbol151.png/40px-SetSymbol151.png',
+    symbol: 'https://archives.bulbagarden.net/media/upload/thumb/7/71/SetSymbol151.png/40px-SetSymbol151.png',
     slug: '151',
   },
   {

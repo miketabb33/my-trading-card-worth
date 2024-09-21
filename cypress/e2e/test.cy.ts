@@ -15,10 +15,7 @@ describe('e2e', () => {
 
     cy.get('#CatalogAutocomplete-0').click()
 
-    cy.get('#ExpansionTitle').should(
-      'have.text',
-      'Scarlet & Violet - Twilight Masquerade Expansion'
-    )
+    cy.get('#ExpansionTitle').should('have.text', 'Scarlet & Violet - Twilight Masquerade Expansion')
 
     // Logged out collection
     cy.get('#NavCollection').click()
@@ -29,14 +26,9 @@ describe('e2e', () => {
 
     // Go to Collection and back
     cy.get('#NavCollection').click()
-    cy.get('h1')
-      .first()
-      .should('have.text', 'There Are No Items In Your Collection!')
+    cy.get('h1').first().should('have.text', 'There Are No Items In Your Collection!')
     cy.get('#CollectionCatalogLink').click()
-    cy.get('#ExpansionTitle').should(
-      'have.text',
-      'Scarlet & Violet - Twilight Masquerade Expansion'
-    )
+    cy.get('#ExpansionTitle').should('have.text', 'Scarlet & Violet - Twilight Masquerade Expansion')
 
     // Add/Remove card
     cy.get('#CardListSearch').type('abra')
@@ -70,10 +62,7 @@ describe('e2e', () => {
 
     cy.get('#CatalogAutocomplete-0').click()
 
-    cy.get('#ExpansionTitle').should(
-      'have.text',
-      'Scarlet & Violet - Temporal Forces Expansion'
-    )
+    cy.get('#ExpansionTitle').should('have.text', 'Scarlet & Violet - Temporal Forces Expansion')
 
     // Add another Card
     cy.get('#CardListItem-1').contains('Torterra ex')
@@ -94,9 +83,7 @@ describe('e2e', () => {
     cy.wait(2000)
 
     cy.get('#CardListItem-0').contains('Remove').click()
-    cy.get('h1')
-      .first()
-      .should('have.text', 'There Are No Items In Your Collection!')
+    cy.get('h1').first().should('have.text', 'There Are No Items In Your Collection!')
   })
 })
 
@@ -104,14 +91,10 @@ const loginInWith = (username: string, password: string) => {
   cy.get('#LoginButton').click()
 
   const args = { username, password }
-  cy.origin(
-    'https://my-trading-card-worth.us.auth0.com',
-    { args },
-    ({ username, password }) => {
-      cy.get('#username').type(username)
-      cy.get('#password').type(password)
-      cy.get('form').first().submit()
-    }
-  )
+  cy.origin('https://my-trading-card-worth.us.auth0.com', { args }, ({ username, password }) => {
+    cy.get('#username').type(username)
+    cy.get('#password').type(password)
+    cy.get('form').first().submit()
+  })
   cy.get('#NavNameTag').contains('Hi, ')
 }

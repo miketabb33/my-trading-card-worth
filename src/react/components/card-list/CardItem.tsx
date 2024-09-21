@@ -61,30 +61,17 @@ type CardItemProps = {
   refreshCards?: (() => void) | undefined
 }
 
-const CardItem = ({
-  cardDto,
-  id,
-  isEditable = true,
-  refreshCards = () => {},
-}: CardItemProps) => {
-  const {
-    formattedMedian,
-    formattedListingCount,
-    showOwnedCount,
-    showActions,
-    openEnlargedImage,
-  } = useInCardItem(cardDto, isEditable)
+const CardItem = ({ cardDto, id, isEditable = true, refreshCards = () => {} }: CardItemProps) => {
+  const { formattedMedian, formattedListingCount, showOwnedCount, showActions, openEnlargedImage } = useInCardItem(
+    cardDto,
+    isEditable
+  )
 
   return (
     <Container id={id}>
       <Image
         src={cardDto.imageUrlPreview}
-        onClick={(e) =>
-          openEnlargedImage(
-            e,
-            <EnlargedCardPopup imageUrl={cardDto.imageUrlShow} />
-          )
-        }
+        onClick={(e) => openEnlargedImage(e, <EnlargedCardPopup imageUrl={cardDto.imageUrlShow} />)}
       />
       <ContentWell>
         <Line />
@@ -95,20 +82,14 @@ const CardItem = ({
             <h3>
               Value: <Price>{formattedMedian}</Price>
             </h3>
-            <ListingText>
-              Based on {formattedListingCount} Listings.
-            </ListingText>
+            <ListingText>Based on {formattedListingCount} Listings.</ListingText>
           </PriceWell>
 
           <>
             {showOwnedCount && <h3>Owned: {cardDto.owned}</h3>}
             {showActions && (
               <Actions>
-                <AddCardButton
-                  cardDto={cardDto}
-                  condition={CardConditions.Unknown}
-                  refreshCards={refreshCards}
-                />
+                <AddCardButton cardDto={cardDto} condition={CardConditions.Unknown} refreshCards={refreshCards} />
                 <RemoveCardButton
                   blueprintId={cardDto.blueprintId}
                   cardsOwned={cardDto.owned}

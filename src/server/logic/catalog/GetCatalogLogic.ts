@@ -3,41 +3,35 @@ import { CardDto } from '../../../core/types/CardDto'
 import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
-import { expansionStoreMap } from '../../stores/expansionStoreMap'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
 import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
+import { IExpansionCRUD } from '../../database/repository/ExpansionCRUD'
 
 class GetCatalogLogic {
   private readonly myCardCRUD: IMyCardCRUD
   private readonly cardTraderAdaptor: ICardTraderAdaptor
-  constructor(myCardCRUD: IMyCardCRUD, cardTraderAdaptor: ICardTraderAdaptor) {
+  private readonly expansionCRUD: IExpansionCRUD
+
+  constructor(myCardCRUD: IMyCardCRUD, cardTraderAdaptor: ICardTraderAdaptor, expansionCRUD: IExpansionCRUD) {
     this.myCardCRUD = myCardCRUD
     this.cardTraderAdaptor = cardTraderAdaptor
+    this.expansionCRUD = expansionCRUD
   }
   get = async (
     userId: string | null,
     expansionId: number,
     blueprintValues: Map<string, BlueprintValue>
   ): Promise<CatalogDto> => {
-    const cardBlueprints =
-      await this.cardTraderAdaptor.getPokemonBlueprints(expansionId)
+    const cardBlueprints = await this.cardTraderAdaptor.getPokemonBlueprints(expansionId)
 
     let myCardsInExpansion: MyCardEntity[] = []
 
-    if (userId)
-      myCardsInExpansion = await this.myCardCRUD.findByExpansion(
-        userId,
-        expansionId
-      )
+    if (userId) myCardsInExpansion = await this.myCardCRUD.findByExpansion(userId, expansionId)
 
-    const cards: CardDto[] = this.buildCardDtoList(
-      cardBlueprints,
-      myCardsInExpansion,
-      blueprintValues
-    )
+    const cards: CardDto[] = this.buildCardDtoList(cardBlueprints, myCardsInExpansion, blueprintValues)
 
-    const details = this.buildExpansionMainDetailsDto(expansionId)
+    const details = await this.buildExpansionMainDetailsDto(expansionId)
 
     if (details) details.priceDetails = this.buildExpansionPriceDetails(cards)
 
@@ -51,23 +45,15 @@ class GetCatalogLogic {
 
   private buildExpansionPriceDetails = (cards: CardDto[]) => {
     const zeroToFiftyCards = cards.filter((card) => {
-      return (
-        card.medianMarketValueCents >= 1 && card.medianMarketValueCents <= 49_99
-      )
+      return card.medianMarketValueCents >= 1 && card.medianMarketValueCents <= 49_99
     })
 
     const fiftyToOneHundredCards = cards.filter((card) => {
-      return (
-        card.medianMarketValueCents >= 50_00 &&
-        card.medianMarketValueCents <= 99_99
-      )
+      return card.medianMarketValueCents >= 50_00 && card.medianMarketValueCents <= 99_99
     })
 
     const oneHundredTwoHundredCards = cards.filter((card) => {
-      return (
-        card.medianMarketValueCents >= 100_00 &&
-        card.medianMarketValueCents <= 199_99
-      )
+      return card.medianMarketValueCents >= 100_00 && card.medianMarketValueCents <= 199_99
     })
 
     const twoHundredPlus = cards.filter((card) => {
@@ -89,9 +75,7 @@ class GetCatalogLogic {
     blueprintValues: Map<string, BlueprintValue>
   ) => {
     const cardDto: CardDto[] = cardBlueprints.map((blueprint) => {
-      const ownedCard = myCardsInExpansion.find(
-        (myCard) => myCard.cardTrader.blueprintId === blueprint.blueprintId
-      )
+      const ownedCard = myCardsInExpansion.find((myCard) => myCard.cardTrader.blueprintId === blueprint.blueprintId)
       const owned = ownedCard?.items.length || 0
 
       return this.buildCardDto(blueprint, owned, blueprintValues)
@@ -121,10 +105,8 @@ class GetCatalogLogic {
     return cardDto
   }
 
-  private buildExpansionMainDetailsDto = (
-    expansionId: number
-  ): ExpansionDetailsDto | null => {
-    const expansionsData = expansionStoreMap.get(expansionId)
+  private buildExpansionMainDetailsDto = async (expansionId: number): Promise<ExpansionDetailsDto | null> => {
+    const expansionsData = await this.expansionCRUD.find(expansionId)
 
     if (!expansionsData) return null
 

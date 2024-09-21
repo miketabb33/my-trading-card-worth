@@ -5,9 +5,7 @@
 import TypeParser from '../../../core/TypeParser'
 import { CardTraderBlueprintDto } from './types/CardTraderBlueprintDto'
 
-export const tryToParseBlueprints = (
-  data: unknown
-): CardTraderBlueprintDto[] => {
+export const tryToParseBlueprints = (data: unknown): CardTraderBlueprintDto[] => {
   const array = TypeParser.rootIsArray(data, tryToParseBlueprints.name)
 
   return array.map((item) => {
@@ -44,8 +42,7 @@ const parseImageUrls = (item: any): [string, string] => {
   let previewUrl = ''
 
   if (item.image.show && item.image.show.url) showUrl = item.image.show.url
-  if (item.image.preview && item.image.preview.url)
-    previewUrl = item.image.preview.url
+  if (item.image.preview && item.image.preview.url) previewUrl = item.image.preview.url
 
   return [showUrl, previewUrl]
 }

@@ -29,17 +29,11 @@ const Footer = () => {
     <Container>
       <Content>
         <div>
-          Created By{' '}
-          <ExternalTextLink href="https://michael-tabb.com/">
-            Michael Tabb
-          </ExternalTextLink>
+          Created By <ExternalTextLink href="https://michael-tabb.com/">Michael Tabb</ExternalTextLink>
         </div>
 
         <div>
-          <InternalTextLink
-            pathValue={PATH_VALUES.developerNotes}
-            label="Developer Notes"
-          />
+          <InternalTextLink pathValue={PATH_VALUES.developerNotes} label="Developer Notes" />
         </div>
 
         <div>
@@ -49,10 +43,7 @@ const Footer = () => {
         </div>
 
         <div>
-          Support by{' '}
-          <ExternalTextLink href="https://buymeacoffee.com/michaeltabb">
-            Donating
-          </ExternalTextLink>
+          Support by <ExternalTextLink href="https://buymeacoffee.com/michaeltabb">Donating</ExternalTextLink>
         </div>
       </Content>
     </Container>

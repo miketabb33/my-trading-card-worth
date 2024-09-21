@@ -5,10 +5,7 @@ import * as FilterAutocompleteModule from '../../../../../src/react/components/b
 import { ExpansionDto } from '../../../../../src/core/types/ExpansionDto'
 import * as Dropdown from '../../../__MOCKS__/dropdownOption.mock'
 
-const FILTER_AUTOCOMPLETE = jest.spyOn(
-  FilterAutocompleteModule,
-  'filterAutocomplete'
-)
+const FILTER_AUTOCOMPLETE = jest.spyOn(FilterAutocompleteModule, 'filterAutocomplete')
 
 const DROPDOWN_OPTIONS = [
   Dropdown.DROPDOWN_OPTION_1,
@@ -25,20 +22,14 @@ beforeEach(jest.clearAllMocks)
 
 describe('Use With Autocomplete', () => {
   it('should set filtered options when options change', async () => {
-    const { result } = renderHook(() =>
-      useWithAutocomplete<Dropdown.FakeDropdownData>({})
-    )
+    const { result } = renderHook(() => useWithAutocomplete<Dropdown.FakeDropdownData>({}))
     expect(result.current.bind.dropdownBind.options).toEqual([])
 
     act(() => result.current.setOptions(DROPDOWN_OPTIONS))
-    await act(
-      async () => await result.current.bind.optionsChangedEffect.effect()
-    )
+    await act(async () => await result.current.bind.optionsChangedEffect.effect())
 
     expect(result.current.bind.dropdownBind.options).toEqual(DROPDOWN_OPTIONS)
-    expect(result.current.bind.optionsChangedEffect.deps).toEqual([
-      DROPDOWN_OPTIONS,
-    ])
+    expect(result.current.bind.optionsChangedEffect.deps).toEqual([DROPDOWN_OPTIONS])
   })
 
   it('should trigger item selected functionality when on click item is invoked', async () => {
@@ -52,24 +43,14 @@ describe('Use With Autocomplete', () => {
     expect(result.current.bind.inputBind.value).toEqual('')
     expect(result.current.selectedOption).toBeNull()
 
-    await act(
-      async () => await result.current.bind.optionsChangedEffect.effect()
-    )
+    await act(async () => await result.current.bind.optionsChangedEffect.effect())
 
-    act(() =>
-      result.current.bind.dropdownBind.onOptionClick(Dropdown.DROPDOWN_OPTION_1)
-    )
+    act(() => result.current.bind.dropdownBind.onOptionClick(Dropdown.DROPDOWN_OPTION_1))
 
-    expect(result.current.bind.inputBind.value).toEqual(
-      Dropdown.DROPDOWN_OPTION_1.title
-    )
-    expect(result.current.selectedOption).toEqual(
-      Dropdown.DROPDOWN_OPTION_1.data
-    )
+    expect(result.current.bind.inputBind.value).toEqual(Dropdown.DROPDOWN_OPTION_1.title)
+    expect(result.current.selectedOption).toEqual(Dropdown.DROPDOWN_OPTION_1.data)
 
-    expect(OPTION_SELECTED).toHaveBeenCalledWith(
-      Dropdown.DROPDOWN_OPTION_1.data
-    )
+    expect(OPTION_SELECTED).toHaveBeenCalledWith(Dropdown.DROPDOWN_OPTION_1.data)
   })
 
   it('should handle on input change', () => {

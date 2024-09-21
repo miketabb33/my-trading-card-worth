@@ -10,10 +10,7 @@ const CHANGE_EVENT = {
   target: { value: VALUE },
 } as unknown as React.ChangeEvent<HTMLInputElement>
 
-const MOUSE_EVENT = {} as unknown as React.MouseEvent<
-  HTMLInputElement,
-  MouseEvent
->
+const MOUSE_EVENT = {} as unknown as React.MouseEvent<HTMLInputElement, MouseEvent>
 
 beforeEach(jest.clearAllMocks)
 

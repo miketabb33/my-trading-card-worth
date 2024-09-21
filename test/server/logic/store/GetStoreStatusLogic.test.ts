@@ -20,9 +20,7 @@ describe('Get Store Status Logic', () => {
 
     const result = getStoreStatusLogic.get(expansionDate, pricesDate)
 
-    expect(result.expansionsLastUpdatedDateString).toEqual(
-      expansionDate.toISOString()
-    )
+    expect(result.expansionsLastUpdatedDateString).toEqual(expansionDate.toISOString())
     expect(result.pricesLastUpdatedDateString).toEqual(pricesDate.toISOString())
   })
 })

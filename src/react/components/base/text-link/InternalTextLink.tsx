@@ -18,12 +18,7 @@ type InternalTextLinkProps = {
   id?: string
 }
 
-const InternalTextLink = ({
-  onClick,
-  label,
-  pathValue,
-  id,
-}: InternalTextLinkProps) => {
+const InternalTextLink = ({ onClick, label, pathValue, id }: InternalTextLinkProps) => {
   if (onClick)
     return (
       <Button id={id} onClick={onClick}>

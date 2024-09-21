@@ -1,9 +1,5 @@
 import { AddMyCardDto } from '../../../core/types/AddMyCardDto'
-import {
-  IMyCardCRUD,
-  MyCardEntity,
-  MyCardItemEntity,
-} from '../../database/repository/MyCardCRUD'
+import { IMyCardCRUD, MyCardEntity, MyCardItemEntity } from '../../database/repository/MyCardCRUD'
 
 import { createMongoId } from '../../database/createMongoId'
 
@@ -15,10 +11,7 @@ class AddCardLogic {
   }
 
   add = async (userId: string, myCardDto: AddMyCardDto) => {
-    const existingMyCardEntity = await this.myCardCRUD.findByBlueprintId(
-      userId,
-      myCardDto.blueprintId
-    )
+    const existingMyCardEntity = await this.myCardCRUD.findByBlueprintId(userId, myCardDto.blueprintId)
 
     const now = new Date()
 

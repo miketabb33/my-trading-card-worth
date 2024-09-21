@@ -8,10 +8,7 @@ class RemoveCardLogic {
   }
 
   remove = async (userId: string, blueprintId: number) => {
-    const existingMyCardEntity = await this.myCardCRUD.findByBlueprintId(
-      userId,
-      blueprintId
-    )
+    const existingMyCardEntity = await this.myCardCRUD.findByBlueprintId(userId, blueprintId)
 
     if (!existingMyCardEntity) return
 

@@ -18,10 +18,7 @@ describe('Get Share Collection Logic', () => {
     collectionFactory_FAKE = new CollectionFactory_FAKE()
     profileCRUD_FAKE = new ProfileCRUD_FAKE()
 
-    getShareCollectionLogic = new GetShareCollectionLogic(
-      collectionFactory_FAKE,
-      profileCRUD_FAKE
-    )
+    getShareCollectionLogic = new GetShareCollectionLogic(collectionFactory_FAKE, profileCRUD_FAKE)
 
     collectionFactory_FAKE.MAKE.mockReturnValue(collection_FAKE)
   })

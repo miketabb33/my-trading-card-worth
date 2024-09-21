@@ -21,10 +21,7 @@ CollectionController.get('/', requiresAuth(), async (req, res) => {
   try {
     const auth0User = parseAuth0User(req.oidc.user)
 
-    const collectionFactory = new CollectionFactory(
-      new MyCardCRUD(),
-      Store.blueprintValues.getState()
-    )
+    const collectionFactory = new CollectionFactory(new MyCardCRUD(), Store.blueprintValues.getState())
 
     const getCollectionLogic = new GetCollectionLogic(collectionFactory)
 
@@ -42,15 +39,9 @@ CollectionController.get('/:userId', async (req, res) => {
   try {
     const userId = req.params.userId
 
-    const collectionFactory = new CollectionFactory(
-      new MyCardCRUD(),
-      Store.blueprintValues.getState()
-    )
+    const collectionFactory = new CollectionFactory(new MyCardCRUD(), Store.blueprintValues.getState())
 
-    const getShareCollectionLogic = new GetShareCollectionLogic(
-      collectionFactory,
-      new ProfileCRUD()
-    )
+    const getShareCollectionLogic = new GetShareCollectionLogic(collectionFactory, new ProfileCRUD())
 
     const dto = await getShareCollectionLogic.get(userId)
 

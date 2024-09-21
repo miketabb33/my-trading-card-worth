@@ -36,19 +36,14 @@ const Catalog = () => {
   } = useInCatalog()
 
   useEffect(expansionsLoadedEffect.effect, expansionsLoadedEffect.deps)
-  useEffect(
-    fetchExpansionDetailsAndCardsEffect.effect,
-    fetchExpansionDetailsAndCardsEffect.deps
-  )
+  useEffect(fetchExpansionDetailsAndCardsEffect.effect, fetchExpansionDetailsAndCardsEffect.deps)
 
   return (
     <Container>
       <p>Search Pokemon Cards By Expansion</p>
       <Autocomplete {...autocompleteBind} />
 
-      {!showLoading && expansionDetailsDto && (
-        <CatalogExpansionDetails expansionDetailsDto={expansionDetailsDto} />
-      )}
+      {!showLoading && expansionDetailsDto && <CatalogExpansionDetails expansionDetailsDto={expansionDetailsDto} />}
 
       {showNoCardsYet && (
         <CenterContent>
@@ -78,16 +73,12 @@ export const useInCatalog = () => {
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(false)
   const { getParam, navigateTo } = useRouter()
   const expansionSlug = getParam('expansionSlug')
-  const [selectedExpansion, setSelectedExpansion] = useState<CatalogDto | null>(
-    null
-  )
+  const [selectedExpansion, setSelectedExpansion] = useState<CatalogDto | null>(null)
   const [filteredCardsDto, setFilteredCardsDto] = useState<CardDto[]>([])
 
   const fetchExpansionDetailsAndCards = () => {
     if (!expansionSlug) return
-    const selectedExpansion = expansions?.find(
-      (expansion) => expansion.slug === expansionSlug
-    )
+    const selectedExpansion = expansions?.find((expansion) => expansion.slug === expansionSlug)
     if (!selectedExpansion) return
     setIsLoadingCatalog(true)
     fetchCatalog(selectedExpansion.expansionId)
@@ -110,21 +101,18 @@ export const useInCatalog = () => {
     navigateTo(PATH_VALUES.catalog(option.slug))
   }
 
-  const { bind: autocompleteBind, setOptions } =
-    useWithAutocomplete<ExpansionDto>({
-      didSelectOption: redirectToOptionSlug,
-    })
+  const { bind: autocompleteBind, setOptions } = useWithAutocomplete<ExpansionDto>({
+    didSelectOption: redirectToOptionSlug,
+  })
 
   const expansionsLoadedEffect: UseEffectType = {
     effect: () => {
       if (expansions) {
-        const newOptions: DropdownOption<ExpansionDto>[] = expansions.map(
-          (expansion) => ({
-            data: expansion,
-            title: expansion.name,
-            imageSource: expansion.symbol,
-          })
-        )
+        const newOptions: DropdownOption<ExpansionDto>[] = expansions.map((expansion) => ({
+          data: expansion,
+          title: expansion.name,
+          imageSource: expansion.symbol,
+        }))
         setOptions(newOptions)
       }
     },

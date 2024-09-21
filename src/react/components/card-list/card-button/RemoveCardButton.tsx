@@ -9,25 +9,13 @@ type RemoveCardButtonProps = {
   refreshCards: () => void
 }
 
-const RemoveCardButton = ({
-  blueprintId,
-  cardsOwned,
-  refreshCards,
-}: RemoveCardButtonProps) => {
-  const cardButton = useInRemoveCardButton(
-    blueprintId,
-    cardsOwned,
-    refreshCards
-  )
+const RemoveCardButton = ({ blueprintId, cardsOwned, refreshCards }: RemoveCardButtonProps) => {
+  const cardButton = useInRemoveCardButton(blueprintId, cardsOwned, refreshCards)
 
   return <CardButtonBase {...cardButton} />
 }
 
-export const useInRemoveCardButton = (
-  blueprintId: number,
-  cardsOwned: number,
-  refreshCards: () => void
-) => {
+export const useInRemoveCardButton = (blueprintId: number, cardsOwned: number, refreshCards: () => void) => {
   const removeCard = () => {
     return removeMyCard(blueprintId)
   }

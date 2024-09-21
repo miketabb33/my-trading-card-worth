@@ -11,11 +11,7 @@ type IsExpiredAfterDaysArgs = {
   now: Date
 }
 
-export const isExpired = ({
-  expiresIn,
-  lastDate,
-  now,
-}: IsExpiredAfterDaysArgs) => {
+export const isExpired = ({ expiresIn, lastDate, now }: IsExpiredAfterDaysArgs) => {
   if (!lastDate) return true
 
   const expiration = new Date(

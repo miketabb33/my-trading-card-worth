@@ -68,10 +68,7 @@ describe('Collection', () => {
   })
 
   it('should return default values for values when blueprint cant be found', () => {
-    const collection = new Collection(
-      [makeMyCardEntityMock({})],
-      BLUEPRINT_VALUES
-    )
+    const collection = new Collection([makeMyCardEntityMock({})], BLUEPRINT_VALUES)
     const cards = collection.cards()
 
     expect(cards[0].medianMarketValueCents).toEqual(-1)
@@ -104,12 +101,7 @@ describe('Collection', () => {
     const cardEntities = [
       makeMyCardEntityMock({
         cardTrader: { blueprintId: 10, expansionId: 11 },
-        items: [
-          { condition: 0 },
-          { condition: 0 },
-          { condition: 0 },
-          { condition: 0 },
-        ],
+        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }, { condition: 0 }],
       }),
       makeMyCardEntityMock({
         cardTrader: { blueprintId: 20, expansionId: 21 },

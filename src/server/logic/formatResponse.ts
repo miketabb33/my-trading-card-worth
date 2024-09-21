@@ -5,10 +5,7 @@ type FormatResponseArgs<T> = {
   errors?: string[]
 }
 
-export const formatResponse = <T>({
-  data,
-  errors,
-}: FormatResponseArgs<T>): ResponseDto<T> => {
+export const formatResponse = <T>({ data, errors }: FormatResponseArgs<T>): ResponseDto<T> => {
   let safeData: T | null = null
   let safeErrors: string[] | null = null
   let isSuccessful: boolean

@@ -9,9 +9,7 @@ import { parseCardCondition } from './parseCardCondition'
 export interface ICardTraderAdaptor {
   getPokemonExpansions: () => Promise<CardExpansion[]>
   getPokemonBlueprints: (expansionId: number) => Promise<CardBlueprint[]>
-  getPokemonCardValues: (
-    expansionId: number
-  ) => Promise<Map<string, CardValue[]>>
+  getPokemonCardValues: (expansionId: number) => Promise<Map<string, CardValue[]>>
 }
 
 class CardTraderAdaptor implements ICardTraderAdaptor {
@@ -35,14 +33,10 @@ class CardTraderAdaptor implements ICardTraderAdaptor {
     })
   }
 
-  getPokemonBlueprints = async (
-    expansionId: number
-  ): Promise<CardBlueprint[]> => {
+  getPokemonBlueprints = async (expansionId: number): Promise<CardBlueprint[]> => {
     const blueprints = await CardTraderClient.getBlueprints(expansionId)
     const singles = blueprints.filter(
-      (blueprint) =>
-        blueprint.categoryId ===
-        this.cardTraderConfig.POKEMON_SINGLE_CARD_CATEGORY
+      (blueprint) => blueprint.categoryId === this.cardTraderConfig.POKEMON_SINGLE_CARD_CATEGORY
     )
     return singles.map((blueprint) => {
       return {
@@ -56,11 +50,8 @@ class CardTraderAdaptor implements ICardTraderAdaptor {
     })
   }
 
-  getPokemonCardValues = async (
-    expansionId: number
-  ): Promise<Map<string, CardValue[]>> => {
-    const blueprintIdToProductsMap =
-      await CardTraderClient.getMarketplaceProducts(expansionId)
+  getPokemonCardValues = async (expansionId: number): Promise<Map<string, CardValue[]>> => {
+    const blueprintIdToProductsMap = await CardTraderClient.getMarketplaceProducts(expansionId)
 
     const blueprintIdToCardValueMap = new Map<string, CardValue[]>()
 

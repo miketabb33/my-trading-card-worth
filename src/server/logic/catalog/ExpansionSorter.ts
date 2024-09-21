@@ -1,7 +1,7 @@
+import { ExpansionEntity } from '../../database/repository/ExpansionCRUD'
 import { CardExpansion } from '../../types/CardExpansion'
-import { ExpansionData, ExpansionSeries } from '../../types/ExpansionData'
 
-export const MAIN_SERIES: ExpansionSeries[] = [
+export const MAIN_SERIES: string[] = [
   'Original Series',
   'Neo Series',
   'Legendary Collection Series',
@@ -18,7 +18,7 @@ export const MAIN_SERIES: ExpansionSeries[] = [
   'Scarlet & Violet Series',
 ]
 
-export const OTHER_SERIES: ExpansionSeries[] = [
+export const OTHER_SERIES: string[] = [
   'Black Star Promotional Cards',
   "McDonald's Collection",
   'Trick or Trade',
@@ -28,7 +28,7 @@ export const OTHER_SERIES: ExpansionSeries[] = [
 
 export type SortableExpansion = {
   cardExpansion: CardExpansion
-  expansionData: ExpansionData | null
+  expansionEntity: ExpansionEntity | null
 }
 
 export interface IExpansionSorter {
@@ -37,82 +37,58 @@ export interface IExpansionSorter {
 
 class ExpansionSorter implements IExpansionSorter {
   sort = (sortableExpansions: SortableExpansion[]): SortableExpansion[] => {
-    const mainSeriesExpansions =
-      this.extractAndSortMainSeriesExpansions(sortableExpansions)
-    const otherSeriesExpansions =
-      this.extractAndSortOtherSeriesExpansions(sortableExpansions)
+    const mainSeriesExpansions = this.extractAndSortMainSeriesExpansions(sortableExpansions)
+    const otherSeriesExpansions = this.extractAndSortOtherSeriesExpansions(sortableExpansions)
     const remainingExpansions = sortableExpansions
 
-    return [
-      ...mainSeriesExpansions,
-      ...otherSeriesExpansions,
-      ...remainingExpansions,
-    ]
+    return [...mainSeriesExpansions, ...otherSeriesExpansions, ...remainingExpansions]
   }
 
-  private extractAndSortMainSeriesExpansions = (
-    sortableExpansions: SortableExpansion[]
-  ) => {
+  private extractAndSortMainSeriesExpansions = (sortableExpansions: SortableExpansion[]) => {
     return MAIN_SERIES.slice()
       .reverse()
       .flatMap((expansionSeries) => {
-        const mainSeriesExpansions = this.extractExpansionSeries(
-          sortableExpansions,
-          expansionSeries
-        )
+        const mainSeriesExpansions = this.extractExpansionSeries(sortableExpansions, expansionSeries)
         return mainSeriesExpansions.sort(this.sortByOldest)
       })
   }
 
-  private extractAndSortOtherSeriesExpansions = (
-    sortableExpansions: SortableExpansion[]
-  ) => {
+  private extractAndSortOtherSeriesExpansions = (sortableExpansions: SortableExpansion[]) => {
     return OTHER_SERIES.flatMap((expansionSeries) => {
-      const otherSeriesExpansions = this.extractExpansionSeries(
-        sortableExpansions,
-        expansionSeries
-      )
+      const otherSeriesExpansions = this.extractExpansionSeries(sortableExpansions, expansionSeries)
       return otherSeriesExpansions.sort(this.sortByMostRecent)
     })
   }
 
   private sortByOldest = (a: SortableExpansion, b: SortableExpansion) => {
     return (
-      new Date(b.expansionData?.releaseDate ?? 0).getTime() -
-      new Date(a.expansionData?.releaseDate ?? 0).getTime()
+      new Date(b.expansionEntity?.releaseDate ?? 0).getTime() - new Date(a.expansionEntity?.releaseDate ?? 0).getTime()
     )
   }
 
   private sortByMostRecent = (a: SortableExpansion, b: SortableExpansion) => {
     return (
-      new Date(a.expansionData?.releaseDate ?? 0).getTime() -
-      new Date(b.expansionData?.releaseDate ?? 0).getTime()
+      new Date(a.expansionEntity?.releaseDate ?? 0).getTime() - new Date(b.expansionEntity?.releaseDate ?? 0).getTime()
     )
   }
 
   private extractExpansionSeries = (
     sortableExpansions: SortableExpansion[],
-    expansionSeries: ExpansionSeries
+    expansionSeries: string
   ): SortableExpansion[] => {
-    const { series, expansionIdsToBeCleared } =
-      this.getSeriesAndExpansionsToClear(sortableExpansions, expansionSeries)
+    const { series, expansionIdsToBeCleared } = this.getSeriesAndExpansionsToClear(sortableExpansions, expansionSeries)
 
     this.clearExpansionsFrom(sortableExpansions, expansionIdsToBeCleared)
 
     return series
   }
 
-  private getSeriesAndExpansionsToClear = (
-    sortableExpansions: SortableExpansion[],
-    expansionSeries: ExpansionSeries
-  ) => {
+  private getSeriesAndExpansionsToClear = (sortableExpansions: SortableExpansion[], expansionSeries: string) => {
     const expansionIdsToBeCleared: number[] = []
 
     const series = sortableExpansions.filter((sortableExpansion) => {
-      if (sortableExpansion.expansionData?.series === expansionSeries) {
-        expansionIdsToBeCleared.push(
-          sortableExpansion.cardExpansion.expansionId
-        )
+      if (sortableExpansion.expansionEntity?.series === expansionSeries) {
+        expansionIdsToBeCleared.push(sortableExpansion.cardExpansion.expansionId)
         return true
       }
       return false
@@ -121,10 +97,7 @@ class ExpansionSorter implements IExpansionSorter {
     return { series, expansionIdsToBeCleared }
   }
 
-  private clearExpansionsFrom = (
-    sortableExpansions: SortableExpansion[],
-    expansionIdsToBeCleared: number[]
-  ) => {
+  private clearExpansionsFrom = (sortableExpansions: SortableExpansion[], expansionIdsToBeCleared: number[]) => {
     expansionIdsToBeCleared.forEach((expansionId) => {
       let index: number | null = null
       sortableExpansions.find((sortableExpansion, i) => {

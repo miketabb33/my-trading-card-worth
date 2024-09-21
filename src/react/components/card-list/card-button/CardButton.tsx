@@ -22,13 +22,7 @@ export type CardButtonBaseProps = {
   click: () => void
 }
 
-const CardButtonBase = ({
-  title,
-  shouldShowLoading,
-  shouldShowCheckmark,
-  isDisabled,
-  click,
-}: CardButtonBaseProps) => {
+const CardButtonBase = ({ title, shouldShowLoading, shouldShowCheckmark, isDisabled, click }: CardButtonBaseProps) => {
   return (
     <Container>
       <Button onClick={click} disabled={isDisabled}>
@@ -42,10 +36,7 @@ const CardButtonBase = ({
   )
 }
 
-export const useWithCardButtonBase = (
-  action: () => Promise<void>,
-  onComplete: () => void
-): CardButtonBaseProps => {
+export const useWithCardButtonBase = (action: () => Promise<void>, onComplete: () => void): CardButtonBaseProps => {
   const [isLoading, setIsLoading] = useState(false)
   const [showCheckmark, setShowCheckmark] = useState(false)
 

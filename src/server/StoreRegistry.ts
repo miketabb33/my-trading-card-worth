@@ -5,21 +5,18 @@ import ExpansionSorter from './logic/catalog/ExpansionSorter'
 import GetExpansionsLogic from './logic/catalog/GetExpansionsLogic'
 import BlueprintValueStore from './stores/BlueprintValueStore'
 import ExpansionsStore from './stores/ExpansionsStore'
-import { expansionStoreMap } from './stores/expansionStoreMap'
 import { IStore } from './stores/IStore'
 import { BlueprintValue } from './types/BlueprintValue'
 import { ExpansionDto } from '../core/types/ExpansionDto'
 import ExpansionsStoreDev from './stores/ExpansionsStoreDev'
 import BlueprintValueStoreDev from './stores/BlueprintValueStoreDev'
+import ExpansionCRUD from './database/repository/ExpansionCRUD'
 
 export class StoreRegistry {
   expansions: IStore<ExpansionDto[]>
   blueprintValues: IStore<Map<string, BlueprintValue>>
 
-  constructor(
-    expansions: IStore<ExpansionDto[]>,
-    blueprintValues: IStore<Map<string, BlueprintValue>>
-  ) {
+  constructor(expansions: IStore<ExpansionDto[]>, blueprintValues: IStore<Map<string, BlueprintValue>>) {
     this.expansions = expansions
     this.blueprintValues = blueprintValues
   }
@@ -33,11 +30,7 @@ export class StoreRegistry {
 const getStore = () => {
   if (ENV.ID === 'production') {
     const expansionsStore = new ExpansionsStore(
-      new GetExpansionsLogic(
-        new CardTraderAdaptor(),
-        new ExpansionSorter(),
-        expansionStoreMap
-      )
+      new GetExpansionsLogic(new CardTraderAdaptor(), new ExpansionSorter(), new ExpansionCRUD())
     )
 
     const blueprintValueStore = new BlueprintValueStore(
@@ -47,10 +40,7 @@ const getStore = () => {
 
     return new StoreRegistry(expansionsStore, blueprintValueStore)
   } else {
-    return new StoreRegistry(
-      new ExpansionsStoreDev(),
-      new BlueprintValueStoreDev()
-    )
+    return new StoreRegistry(new ExpansionsStoreDev(), new BlueprintValueStoreDev())
   }
 }
 

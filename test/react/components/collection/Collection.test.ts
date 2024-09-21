@@ -52,8 +52,7 @@ describe('Use In Collection', () => {
   it('should trigger refresh', () => {
     const { result } = renderHook(useInCollection)
     act(() => {
-      if (result.current.cardListProps.refreshCards)
-        result.current.cardListProps.refreshCards()
+      if (result.current.cardListProps.refreshCards) result.current.cardListProps.refreshCards()
     })
     expect(REFRESH).toHaveBeenCalled()
   })

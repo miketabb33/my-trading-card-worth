@@ -1,6 +1,7 @@
 import { ExpansionDto } from '../../../core/types/ExpansionDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
-import { ExpansionData } from '../../types/ExpansionData'
+import { IExpansionCRUD } from '../../database/repository/ExpansionCRUD'
+import { CardExpansion } from '../../types/CardExpansion'
 import { IExpansionSorter, SortableExpansion } from './ExpansionSorter'
 export interface IGetExpansionsLogic {
   get: () => Promise<ExpansionDto[]>
@@ -9,42 +10,48 @@ export interface IGetExpansionsLogic {
 class GetExpansionsLogic implements IGetExpansionsLogic {
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionSorter: IExpansionSorter
-  private readonly expansionStoreMap: Map<number, ExpansionData>
+  private readonly expansionCRUD: IExpansionCRUD
 
   constructor(
     cardTraderAdaptor: ICardTraderAdaptor,
     expansionSorter: IExpansionSorter,
-    expansionStoreMap: Map<number, ExpansionData>
+    expansionStoreMap: IExpansionCRUD
   ) {
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionSorter = expansionSorter
-    this.expansionStoreMap = expansionStoreMap
+    this.expansionCRUD = expansionStoreMap
   }
 
   get = async (): Promise<ExpansionDto[]> => {
-    const pokemonExpansions =
-      await this.cardTraderAdaptor.getPokemonExpansions()
+    const pokemonExpansions = await this.cardTraderAdaptor.getPokemonExpansions()
 
-    const sortableExpansions: SortableExpansion[] = pokemonExpansions.map(
-      (cardExpansion) => ({
-        cardExpansion,
-        expansionData:
-          this.expansionStoreMap.get(cardExpansion.expansionId) || null,
-      })
-    )
+    const sortableExpansions = await this.getSortableExpansions(pokemonExpansions)
 
     const sortedExpansions = this.expansionSorter.sort(sortableExpansions)
 
-    const expansionDto: ExpansionDto[] = sortedExpansions.map(
-      (sortedExpansion) => ({
-        name: sortedExpansion.cardExpansion.name,
-        expansionId: sortedExpansion.cardExpansion.expansionId,
-        symbol: sortedExpansion.expansionData?.symbolUrl ?? null,
-        slug: this.formatSlug(sortedExpansion.cardExpansion.name),
-      })
-    )
+    const expansionDto: ExpansionDto[] = sortedExpansions.map((sortedExpansion) => ({
+      name: sortedExpansion.cardExpansion.name,
+      expansionId: sortedExpansion.cardExpansion.expansionId,
+      symbol: sortedExpansion.expansionEntity?.symbolUrl ?? null,
+      slug: this.formatSlug(sortedExpansion.cardExpansion.name),
+    }))
 
     return expansionDto
+  }
+
+  private getSortableExpansions = async (pokemonExpansions: CardExpansion[]) => {
+    const sortableExpansions: SortableExpansion[] = []
+
+    for (let i = 0; i < pokemonExpansions.length; i++) {
+      const cardExpansion = pokemonExpansions[i]
+      const sortableExpansion: SortableExpansion = {
+        cardExpansion,
+        expansionEntity: await this.expansionCRUD.find(cardExpansion.expansionId),
+      }
+      sortableExpansions.push(sortableExpansion)
+    }
+
+    return sortableExpansions
   }
 
   private formatSlug = (expansionName: string) => {

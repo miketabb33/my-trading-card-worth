@@ -14,9 +14,8 @@ const DeveloperNotesHeader = () => {
     <Container>
       <Title>Thank you for using My Trading Card Worth!</Title>
       <h4>
-        Contact me at{' '}
-        <a href="mailto:miketabb33@gmail.com">miketabb33@gmail.com</a>. I&apos;d
-        love to hear about your experience and idea&apos;s.
+        Contact me at <a href="mailto:miketabb33@gmail.com">miketabb33@gmail.com</a>. I&apos;d love to hear about your
+        experience and idea&apos;s.
       </h4>
     </Container>
   )

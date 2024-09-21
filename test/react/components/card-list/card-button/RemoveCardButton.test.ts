@@ -16,9 +16,7 @@ describe('Use In Remove Card Button', () => {
   it('should set loading to false and set showCheckmark to true after remove my card completes', async () => {
     const cardsOwned = 5
 
-    const { result } = renderHook(() =>
-      useInRemoveCardButton(BLUEPRINT_ID, cardsOwned, REFRESH)
-    )
+    const { result } = renderHook(() => useInRemoveCardButton(BLUEPRINT_ID, cardsOwned, REFRESH))
 
     await act(async () => await result.current.click())
 
@@ -34,9 +32,7 @@ describe('Use In Remove Card Button', () => {
   it('should be disabled when cards owned is 0', () => {
     const cardsOwned = 0
 
-    const { result } = renderHook(() =>
-      useInRemoveCardButton(BLUEPRINT_ID, cardsOwned, REFRESH)
-    )
+    const { result } = renderHook(() => useInRemoveCardButton(BLUEPRINT_ID, cardsOwned, REFRESH))
 
     expect(result.current.isDisabled).toEqual(true)
   })
@@ -44,9 +40,7 @@ describe('Use In Remove Card Button', () => {
   it('should NOT be disabled when cards owned is over 0', () => {
     const cardsOwned = 5
 
-    const { result } = renderHook(() =>
-      useInRemoveCardButton(BLUEPRINT_ID, cardsOwned, REFRESH)
-    )
+    const { result } = renderHook(() => useInRemoveCardButton(BLUEPRINT_ID, cardsOwned, REFRESH))
 
     expect(result.current.isDisabled).toEqual(false)
   })

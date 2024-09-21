@@ -8,16 +8,11 @@ export type PopupProps = {
   closeHandlerEffect: UseEffectType
 }
 
-const Popup = forwardRef(
-  (
-    { children, isShowing, closeHandlerEffect }: PopupProps,
-    ref: Ref<HTMLDivElement>
-  ) => {
-    useEffect(closeHandlerEffect.effect, closeHandlerEffect.deps)
-    if (isShowing) return <div ref={ref}>{children}</div>
-    return <></>
-  }
-)
+const Popup = forwardRef(({ children, isShowing, closeHandlerEffect }: PopupProps, ref: Ref<HTMLDivElement>) => {
+  useEffect(closeHandlerEffect.effect, closeHandlerEffect.deps)
+  if (isShowing) return <div ref={ref}>{children}</div>
+  return <></>
+})
 
 Popup.displayName = 'Popup'
 
@@ -38,8 +33,7 @@ export const usePopup = (): UsePopupReturn => {
   const [isShowing, setIsShowing] = useState(false)
 
   const closeHandler = (event: MouseEvent) => {
-    const shouldClose =
-      ref.current !== null && !ref.current.contains(event.target as Node)
+    const shouldClose = ref.current !== null && !ref.current.contains(event.target as Node)
     if (shouldClose) setIsShowing(false)
   }
 

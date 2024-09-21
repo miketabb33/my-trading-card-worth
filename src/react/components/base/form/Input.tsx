@@ -30,12 +30,7 @@ export type InputProps = {
 const Input = ({ value, id, onChange, onClick }: InputProps) => {
   return (
     <InputWrapper>
-      <InputStyles
-        id={id}
-        onChange={onChange}
-        onClick={onClick}
-        value={value}
-      />
+      <InputStyles id={id} onChange={onChange} onClick={onClick} value={value} />
     </InputWrapper>
   )
 }
@@ -51,10 +46,7 @@ export type UseWithInputReturn = {
   setValue: (value: string) => void
 }
 
-export const useWithInput = ({
-  onClick,
-  onChange,
-}: UseWithInputArgs): UseWithInputReturn => {
+export const useWithInput = ({ onClick, onChange }: UseWithInputArgs): UseWithInputReturn => {
   const [value, setValue] = useState('')
 
   const emptyFunc = () => {}

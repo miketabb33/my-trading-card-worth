@@ -9,14 +9,10 @@ import { makeMarketplaceProductDto } from './__MOCKS__/CardTraderMarketplaceProd
 
 const GET_EXPANSIONS = jest.spyOn(CardTraderClientModule, 'getExpansions')
 const GET_BLUEPRINTS = jest.spyOn(CardTraderClientModule, 'getBlueprints')
-const GET_MARKETPLACE_PRODUCTS = jest.spyOn(
-  CardTraderClientModule,
-  'getMarketplaceProducts'
-)
+const GET_MARKETPLACE_PRODUCTS = jest.spyOn(CardTraderClientModule, 'getMarketplaceProducts')
 
 const POKEMON_GAME_ID = ENV.CARD_TRADER.POKEMON_GAME_ID
-const POKEMON_SINGLE_CARD_CATEGORY =
-  ENV.CARD_TRADER.POKEMON_SINGLE_CARD_CATEGORY
+const POKEMON_SINGLE_CARD_CATEGORY = ENV.CARD_TRADER.POKEMON_SINGLE_CARD_CATEGORY
 const CARD_TRADER_BASE_URL = ENV.CARD_TRADER.CARD_TRADER_BASE_URL
 
 const cardTraderAdaptor = new CardTraderAdaptor()
@@ -34,9 +30,7 @@ describe('Card Trader Adaptor', () => {
     it('formats pokemon expansion object correctly', async () => {
       const Id = 1234
       const NAME = 'Jungle'
-      const expansionDto: CardTraderExpansionDto[] = [
-        { code: 'Code', id: Id, name: NAME, gameId: POKEMON_GAME_ID },
-      ]
+      const expansionDto: CardTraderExpansionDto[] = [{ code: 'Code', id: Id, name: NAME, gameId: POKEMON_GAME_ID }]
       GET_EXPANSIONS.mockResolvedValue(expansionDto)
       const result = await cardTraderAdaptor.getPokemonExpansions()
       expect(result.length).toEqual(1)
@@ -72,10 +66,8 @@ describe('Card Trader Adaptor', () => {
       const id = 25
       const name = 'Any name'
       const version = '1/122'
-      const imageUrlPreview =
-        '/uploads/blueprints/image/111148/preview_alakazam-rare-holo-1-102-base-set.jpg'
-      const imageUrlShow =
-        '/uploads/blueprints/image/111148/show_alakazam-rare-holo-1-102-base-set.jpg'
+      const imageUrlPreview = '/uploads/blueprints/image/111148/preview_alakazam-rare-holo-1-102-base-set.jpg'
+      const imageUrlShow = '/uploads/blueprints/image/111148/show_alakazam-rare-holo-1-102-base-set.jpg'
       const blueprintDto: CardTraderBlueprintDto[] = [
         makeBlueprintDto({
           id,
@@ -92,12 +84,8 @@ describe('Card Trader Adaptor', () => {
       expect(result[0].blueprintId).toEqual(id)
       expect(result[0].name).toEqual(name)
       expect(result[0].version).toEqual(version)
-      expect(result[0].imageUrlPreview).toEqual(
-        `${CARD_TRADER_BASE_URL}${imageUrlPreview}`
-      )
-      expect(result[0].imageUrlShow).toEqual(
-        `${CARD_TRADER_BASE_URL}${imageUrlShow}`
-      )
+      expect(result[0].imageUrlPreview).toEqual(`${CARD_TRADER_BASE_URL}${imageUrlPreview}`)
+      expect(result[0].imageUrlShow).toEqual(`${CARD_TRADER_BASE_URL}${imageUrlShow}`)
     })
 
     it('filters out none single pokemon items', async () => {

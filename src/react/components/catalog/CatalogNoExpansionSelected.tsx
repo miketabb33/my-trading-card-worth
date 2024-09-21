@@ -5,8 +5,7 @@ const CatalogNoExpansionSelected = () => {
     <>
       <h1 id="NoExpansionSelected">No Expansion Selected</h1>
       <p>
-        Select an expansion using the <b>Search Pokemon Cards By Expansion</b>{' '}
-        search bar.
+        Select an expansion using the <b>Search Pokemon Cards By Expansion</b> search bar.
       </p>
     </>
   )

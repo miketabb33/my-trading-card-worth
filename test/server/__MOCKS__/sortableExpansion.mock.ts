@@ -10,49 +10,49 @@ import {
   CARD_EXPANSION_POP_MOCK,
 } from './cardExpansion.mock'
 import {
-  EXPANSION_DATA_FOSSIL,
-  EXPANSION_DATA_MCDONALD,
-  EXPANSION_DATA_ORIGINAL,
-  EXPANSION_DATA_PLATINUM,
-  EXPANSION_DATA_POP,
-} from './expansionData.mock'
+  EXPANSION_ENTITY_FOSSIL,
+  EXPANSION_ENTITY_MCDONALD,
+  EXPANSION_ENTITY_ORIGINAL,
+  EXPANSION_ENTITY_PLATINUM,
+  EXPANSION_ENTITY_POP,
+} from './expansionEntity.mock'
 
 export const SORTABLE_EXPANSION_ORIGINAL_MOCK: SortableExpansion = {
   cardExpansion: CARD_EXPANSION_ORIGINAL_MOCK,
-  expansionData: EXPANSION_DATA_ORIGINAL,
+  expansionEntity: EXPANSION_ENTITY_ORIGINAL,
 }
 
 export const SORTABLE_EXPANSION_FOSSIL_MOCK: SortableExpansion = {
   cardExpansion: CARD_EXPANSION_FOSSIL_MOCK,
-  expansionData: EXPANSION_DATA_FOSSIL,
+  expansionEntity: EXPANSION_ENTITY_FOSSIL,
 }
 
 export const SORTABLE_EXPANSION_PLATINUM_MOCK: SortableExpansion = {
   cardExpansion: CARD_EXPANSION_PLATINUM_MOCK,
-  expansionData: EXPANSION_DATA_PLATINUM,
+  expansionEntity: EXPANSION_ENTITY_PLATINUM,
 }
 
 export const SORTABLE_EXPANSION_MCDONALD_MOCK: SortableExpansion = {
   cardExpansion: CARD_EXPANSION_MCDONALD_MOCK,
-  expansionData: EXPANSION_DATA_MCDONALD,
+  expansionEntity: EXPANSION_ENTITY_MCDONALD,
 }
 
 export const SORTABLE_EXPANSION_POP_MOCK: SortableExpansion = {
   cardExpansion: CARD_EXPANSION_POP_MOCK,
-  expansionData: EXPANSION_DATA_POP,
+  expansionEntity: EXPANSION_ENTITY_POP,
 }
 
 export const SORTABLE_EXPANSION_OTHER1_MOCK: SortableExpansion = {
   cardExpansion: CARD_EXPANSION_OTHER1_MOCK,
-  expansionData: null,
+  expansionEntity: null,
 }
 
 export const SORTABLE_EXPANSION_OTHER2_MOCK: SortableExpansion = {
   cardExpansion: CARD_EXPANSION_OTHER2_MOCK,
-  expansionData: null,
+  expansionEntity: null,
 }
 
 export const SORTABLE_EXPANSION_PARADOX_RIFT_MOCK: SortableExpansion = {
   cardExpansion: CARD_EXPANSION_PARADOX_RIFT,
-  expansionData: null,
+  expansionEntity: null,
 }

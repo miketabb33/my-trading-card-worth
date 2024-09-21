@@ -57,11 +57,7 @@ export const AnalyticsContextProvider = ({ children }: ChildrenProp) => {
   useEffect(initEffect.effect, initEffect.deps)
   useEffect(identifyEffect.effect, identifyEffect.deps)
 
-  return (
-    <AnalyticsContext.Provider value={value}>
-      {children}
-    </AnalyticsContext.Provider>
-  )
+  return <AnalyticsContext.Provider value={value}>{children}</AnalyticsContext.Provider>
 }
 
 export const useAnalytics = (): AnalyticsContextType => {

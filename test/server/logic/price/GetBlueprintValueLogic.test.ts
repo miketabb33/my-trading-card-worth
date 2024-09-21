@@ -38,15 +38,11 @@ describe('Get Expansion Blueprint Value Logic', () => {
         ],
       ],
     ])
-    cardTraderAdaptor_FAKE.GET_POKEMON_CARD_VALUES.mockResolvedValue(
-      cardValueMap
-    )
+    cardTraderAdaptor_FAKE.GET_POKEMON_CARD_VALUES.mockResolvedValue(cardValueMap)
 
     const blueprintValueMap = await getBlueprintValueLogic.get(EXPANSION_ID)
 
-    expect(cardTraderAdaptor_FAKE.GET_POKEMON_CARD_VALUES).toHaveBeenCalledWith(
-      EXPANSION_ID
-    )
+    expect(cardTraderAdaptor_FAKE.GET_POKEMON_CARD_VALUES).toHaveBeenCalledWith(EXPANSION_ID)
 
     expect(blueprintValueMap.size).toEqual(2)
     expect(blueprintValueMap.get('1')!.medianCents).toEqual(4)

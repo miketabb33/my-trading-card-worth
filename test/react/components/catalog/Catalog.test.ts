@@ -6,10 +6,7 @@ import * as catalogClientModule from '../../../../src/react/network/catalogClien
 import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
 import * as UseRouterClient from '../../../../src/react/router/useRouter'
 import * as ExpansionProviderClient from '../../../../src/react/providers/ExpansionProvider'
-import {
-  EXPANSION_DTO_1,
-  EXPANSION_DTO_2,
-} from '../../../core/__MOCKS__/expansionDto.mock'
+import { EXPANSION_DTO_1, EXPANSION_DTO_2 } from '../../../core/__MOCKS__/expansionDto.mock'
 import { UseApiReturn } from '../../../../src/react/network/useApi'
 import { ExpansionDto } from '../../../../src/core/types/ExpansionDto'
 
@@ -45,17 +42,13 @@ USE_ROUTER.mockReturnValue({
   pathname: '',
 })
 
-const USE_WITH_AUTOCOMPLETE = jest.spyOn(
-  AutocompleteModule,
-  'useWithAutocomplete'
-)
+const USE_WITH_AUTOCOMPLETE = jest.spyOn(AutocompleteModule, 'useWithAutocomplete')
 
-const USE_WITH_AUTOCOMPLETE_RETURN: AutocompleteModule.UseWithAutocompleteReturn<object> =
-  {
-    selectedOption: null,
-    bind: {} as unknown as AutocompleteModule.AutocompleteProps<object>,
-    setOptions: () => {},
-  }
+const USE_WITH_AUTOCOMPLETE_RETURN: AutocompleteModule.UseWithAutocompleteReturn<object> = {
+  selectedOption: null,
+  bind: {} as unknown as AutocompleteModule.AutocompleteProps<object>,
+  setOptions: () => {},
+}
 
 USE_WITH_AUTOCOMPLETE.mockReturnValue(USE_WITH_AUTOCOMPLETE_RETURN)
 
@@ -78,17 +71,11 @@ describe('Use In Catalog', () => {
 
     const { result } = renderHook(useInCatalog)
 
-    await act(
-      async () =>
-        await result.current.fetchExpansionDetailsAndCardsEffect.effect()
-    )
+    await act(async () => await result.current.fetchExpansionDetailsAndCardsEffect.effect())
 
     expect(FETCH_CATALOG).toHaveBeenCalledWith(EXPANSION_DTO_1.expansionId)
     expect(result.current.cardsDto).toEqual([CARD_DTO])
-    expect(result.current.fetchExpansionDetailsAndCardsEffect.deps).toEqual([
-      EXPANSION_DTO_1.slug,
-      EXPANSIONS,
-    ])
+    expect(result.current.fetchExpansionDetailsAndCardsEffect.deps).toEqual([EXPANSION_DTO_1.slug, EXPANSIONS])
   })
 
   it('should NOT fetch set and set state when slug does not exist', async () => {
@@ -96,10 +83,7 @@ describe('Use In Catalog', () => {
 
     const { result } = renderHook(useInCatalog)
 
-    await act(
-      async () =>
-        await result.current.fetchExpansionDetailsAndCardsEffect.effect()
-    )
+    await act(async () => await result.current.fetchExpansionDetailsAndCardsEffect.effect())
 
     expect(FETCH_CATALOG).not.toHaveBeenCalled()
   })

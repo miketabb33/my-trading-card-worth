@@ -13,10 +13,7 @@ import { PROFILE_DTO } from '../../../core/__MOCKS__/profileDto.mock'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
 const USE_ROUTER = jest.spyOn(UseRouterModule, 'useRouter')
-const USE_SHARE_COLLECTION = jest.spyOn(
-  CollectionClientModule,
-  'useShareCollection'
-)
+const USE_SHARE_COLLECTION = jest.spyOn(CollectionClientModule, 'useShareCollection')
 
 const USE_SHARE_COLLECTION_RETURN: UseApiReturn<ShareCollectionDto> = {
   data: null,

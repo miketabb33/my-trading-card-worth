@@ -14,13 +14,7 @@ export const DEWGONG_SINGLE_BLUEPRINT_RESPONSE = {
       name: 'condition',
       type: 'string',
       default_value: 'Near Mint',
-      possible_values: [
-        'Near Mint',
-        'Slightly Played',
-        'Moderately Played',
-        'Played',
-        'Poor',
-      ],
+      possible_values: ['Near Mint', 'Slightly Played', 'Moderately Played', 'Played', 'Poor'],
     },
     {
       name: 'signed',
@@ -56,8 +50,7 @@ export const DEWGONG_SINGLE_BLUEPRINT_RESPONSE = {
   card_market_id: 273720,
   tcg_player_id: 42366,
   scryfall_id: null,
-  image_url:
-    'https://cardtrader.com/uploads/blueprints/image/111172/preview_dewgong-25-102-base-set.jpg',
+  image_url: 'https://cardtrader.com/uploads/blueprints/image/111172/preview_dewgong-25-102-base-set.jpg',
   image: {
     url: '/uploads/blueprints/image/111172/dewgong-25-102-base-set.jpg',
     show: {

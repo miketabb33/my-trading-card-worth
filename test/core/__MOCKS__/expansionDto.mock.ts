@@ -67,12 +67,7 @@ type MakeExpansionDtoArgs = {
   slug?: string
 }
 
-export const makeExpansionDto = ({
-  expansionId = 0,
-  name = '',
-  symbol = '',
-  slug = '',
-}: MakeExpansionDtoArgs) => {
+export const makeExpansionDto = ({ expansionId = 0, name = '', symbol = '', slug = '' }: MakeExpansionDtoArgs) => {
   const dto: ExpansionDto = {
     expansionId,
     name,

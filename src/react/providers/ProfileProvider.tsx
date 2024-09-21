@@ -55,9 +55,7 @@ export const useProfileProvider = () => {
 export const ProfileContextProvider = ({ children }: ChildrenProp) => {
   const { value, loggedInEffect } = useProfileProvider()
   useEffect(loggedInEffect.effect, loggedInEffect.deps)
-  return (
-    <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
-  )
+  return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
 }
 
 export const useProfile = (): ProfileContextType => {

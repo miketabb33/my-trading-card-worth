@@ -26,11 +26,7 @@ export const useStoreStatusProvider = () => {
 export const StoreStatusContextProvider = ({ children }: ChildrenProp) => {
   const value = useStoreStatusProvider()
 
-  return (
-    <StoreStatusContext.Provider value={value}>
-      {children}
-    </StoreStatusContext.Provider>
-  )
+  return <StoreStatusContext.Provider value={value}>{children}</StoreStatusContext.Provider>
 }
 
 export const useStoreStatus = (): StoreStatusContextType => {

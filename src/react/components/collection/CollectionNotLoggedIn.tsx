@@ -24,9 +24,7 @@ const CollectionNotLoggedIn = () => {
           <InternalTextLink label="Login" onClick={login} />
         </ListItem>
         <ListItem>
-          Add cards to your collection with the{' '}
-          <InternalTextLink label="Catalog" pathValue={PATH_VALUES.catalog()} />
-          .
+          Add cards to your collection with the <InternalTextLink label="Catalog" pathValue={PATH_VALUES.catalog()} />.
         </ListItem>
       </List>
     </>

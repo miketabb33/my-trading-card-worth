@@ -98,12 +98,7 @@ const InputFieldDropdown = <T extends object>({
         {options.map((option, i) => {
           const itemId = id !== null ? `${id}-${i}` : undefined
           return (
-            <Item
-              $dropdownStyle={dropdownStyle}
-              key={i}
-              onClick={() => onOptionClick(option)}
-              id={itemId}
-            >
+            <Item $dropdownStyle={dropdownStyle} key={i} onClick={() => onOptionClick(option)} id={itemId}>
               {option.imageSource && <RowImage src={option.imageSource} />}
               <p>{option.title}</p>
             </Item>

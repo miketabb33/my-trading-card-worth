@@ -23,17 +23,13 @@ USE_POPUP.mockReturnValue({
 describe('Use With Select', () => {
   it('should init selected option to first item', () => {
     const { result } = renderHook(() => useWithSelect(DROPDOWN_OPTIONS))
-    expect(result.current.selectedOption).toEqual(
-      Dropdown.DROPDOWN_OPTION_1.data
-    )
+    expect(result.current.selectedOption).toEqual(Dropdown.DROPDOWN_OPTION_1.data)
   })
 
   it('should select option when onOptionClick is invoked', () => {
     const { result } = renderHook(() => useWithSelect(DROPDOWN_OPTIONS))
     act(() => result.current.bind.onOptionClick(Dropdown.DROPDOWN_OPTION_4))
     expect(TOGGLE_POPUP).toHaveBeenCalled()
-    expect(result.current.selectedOption).toEqual(
-      Dropdown.DROPDOWN_OPTION_4.data
-    )
+    expect(result.current.selectedOption).toEqual(Dropdown.DROPDOWN_OPTION_4.data)
   })
 })

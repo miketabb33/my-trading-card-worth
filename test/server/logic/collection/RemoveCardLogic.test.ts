@@ -15,15 +15,10 @@ describe('Remove Card Logic', () => {
   })
 
   it('should delete entity when only 1 item exists', async () => {
-    myCardCRUD_FAKE.FIND_BY_BLUEPRINT_ID.mockResolvedValue(
-      makeMyCardEntityMock({ items: [{ condition: 0 }] })
-    )
+    myCardCRUD_FAKE.FIND_BY_BLUEPRINT_ID.mockResolvedValue(makeMyCardEntityMock({ items: [{ condition: 0 }] }))
     await removeCardLogic.remove(USER_ID, BLUEPRINT_ID)
 
-    expect(myCardCRUD_FAKE.FIND_BY_BLUEPRINT_ID).toHaveBeenCalledWith(
-      USER_ID,
-      BLUEPRINT_ID
-    )
+    expect(myCardCRUD_FAKE.FIND_BY_BLUEPRINT_ID).toHaveBeenCalledWith(USER_ID, BLUEPRINT_ID)
 
     expect(myCardCRUD_FAKE.DELETE).toHaveBeenCalledWith(USER_ID, BLUEPRINT_ID)
     expect(myCardCRUD_FAKE.REMOVE_ITEM).not.toHaveBeenCalled()
@@ -35,10 +30,7 @@ describe('Remove Card Logic', () => {
     )
     await removeCardLogic.remove(USER_ID, BLUEPRINT_ID)
 
-    expect(myCardCRUD_FAKE.REMOVE_ITEM).toHaveBeenCalledWith(
-      USER_ID,
-      BLUEPRINT_ID
-    )
+    expect(myCardCRUD_FAKE.REMOVE_ITEM).toHaveBeenCalledWith(USER_ID, BLUEPRINT_ID)
     expect(myCardCRUD_FAKE.DELETE).not.toHaveBeenCalled()
   })
 })

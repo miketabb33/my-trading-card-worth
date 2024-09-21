@@ -30,31 +30,22 @@ export type CollectionDetailsProps = {
   nameTag: string
 }
 
-const CollectionDetails = ({
-  collectionMeta,
-  nameTag,
-}: CollectionDetailsProps) => {
-  const { medianValue, formattedCardsInCollection } =
-    collectionDetailsController(collectionMeta)
+const CollectionDetails = ({ collectionMeta, nameTag }: CollectionDetailsProps) => {
+  const { medianValue, formattedCardsInCollection } = collectionDetailsController(collectionMeta)
   return (
     <Container>
       <Title>
-        {nameTag} Collection Value:{' '}
-        <Price id="CollectionTotalMedianValue">{medianValue}</Price>
+        {nameTag} Collection Value: <Price id="CollectionTotalMedianValue">{medianValue}</Price>
       </Title>
       <p>Cards In Collection: {formattedCardsInCollection}</p>
     </Container>
   )
 }
 
-export const collectionDetailsController = (
-  collectionMeta: CollectionMetaDto
-) => {
+export const collectionDetailsController = (collectionMeta: CollectionMetaDto) => {
   return {
     medianValue: formatCentsToDollars(collectionMeta.medianMarketValueCents),
-    formattedCardsInCollection: formatWithCommas(
-      collectionMeta.cardsInCollection
-    ),
+    formattedCardsInCollection: formatWithCommas(collectionMeta.cardsInCollection),
   }
 }
 

@@ -22,10 +22,7 @@ export const useGlobalPopupProvider = () => {
   const { bind, click } = usePopup()
   const [children, setChildren] = useState<ReactNode | null>(null)
 
-  const show = (
-    e: React.MouseEvent<Element, MouseEvent>,
-    content: ReactNode
-  ) => {
+  const show = (e: React.MouseEvent<Element, MouseEvent>, content: ReactNode) => {
     click(e)
     setChildren(content)
   }
@@ -35,11 +32,7 @@ export const useGlobalPopupProvider = () => {
 
 export const GlobalPopupContextProvider = ({ children }: ChildrenProp) => {
   const value = useGlobalPopupProvider()
-  return (
-    <GlobalPopupContext.Provider value={value}>
-      {children}
-    </GlobalPopupContext.Provider>
-  )
+  return <GlobalPopupContext.Provider value={value}>{children}</GlobalPopupContext.Provider>
 }
 
 export const useGlobalPopup = (): GlobalPopupContextType => {

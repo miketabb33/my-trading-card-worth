@@ -19,29 +19,17 @@ const Links = styled.div`
 `
 
 const ShareCollection = () => {
-  const {
-    cards,
-    meta,
-    name,
-    showUserFoundView,
-    showNoUserFoundView,
-    showLoading,
-    showEditLink,
-  } = useInShareCollection()
+  const { cards, meta, name, showUserFoundView, showNoUserFoundView, showLoading, showEditLink } =
+    useInShareCollection()
   return (
     <>
       {showUserFoundView && (
         <>
-          {meta && (
-            <CollectionDetails collectionMeta={meta} nameTag={`${name}'s`} />
-          )}
+          {meta && <CollectionDetails collectionMeta={meta} nameTag={`${name}'s`} />}
 
           {showEditLink && (
             <Links>
-              <InternalTextLink
-                pathValue={PATH_VALUES.collection()}
-                label="Edit Your Collection"
-              />
+              <InternalTextLink pathValue={PATH_VALUES.collection()} label="Edit Your Collection" />
             </Links>
           )}
 
