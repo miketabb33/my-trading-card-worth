@@ -25,8 +25,8 @@ const DeveloperNotes = () => {
     <Container>
       <DeveloperNotesHeader />
       <LeftRight>
-        <ReleaseNotes />
         <FeatureConsiderations />
+        <ReleaseNotes />
       </LeftRight>
     </Container>
   )
