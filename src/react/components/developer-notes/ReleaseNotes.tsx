@@ -25,13 +25,16 @@ const Line = styled.div`
   margin-top: 2rem;
 `
 
-const AllReleasesContainer = styled.div`
+const Center = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  gap: 2rem;
 `
 
 const ReleaseNotes = () => {
-  const { releases, showReleases, showLoading } = useInReleaseNotes()
+  const { releases, showReleases, showLoading, showError } = useInReleaseNotes()
 
   return (
     <div>
@@ -46,11 +49,11 @@ const ReleaseNotes = () => {
               {i + 1 < (releases?.length || 0) && <Line />}
             </Section>
           ))}
-          <AllReleasesContainer>
+          <Center>
             <ExternalTextLink href="https://github.com/miketabb33/my-trading-card-worth/releases">
               All Releases
             </ExternalTextLink>
-          </AllReleasesContainer>
+          </Center>
         </>
       )}
 
@@ -59,12 +62,23 @@ const ReleaseNotes = () => {
           <Spinner />
         </CenterContent>
       )}
+
+      {showError && (
+        <>
+          <Center>
+            <h2>An error has occurred</h2>
+            <ExternalTextLink href="https://github.com/miketabb33/my-trading-card-worth/releases">
+              All Releases
+            </ExternalTextLink>
+          </Center>{' '}
+        </>
+      )}
     </div>
   )
 }
 
 const useInReleaseNotes = () => {
-  const { data: releases, isLoading } = useReleaseListData()
+  const { data: releases, isLoading, errors } = useReleaseListData()
 
   const overriddenReleases: ApplicationReleaseDto[] =
     releases?.map((release) => {
@@ -80,6 +94,7 @@ const useInReleaseNotes = () => {
     releases: overriddenReleases,
     showReleases: overriddenReleases.length > 0,
     showLoading: isLoading,
+    showError: errors?.length ?? 0 > 0,
   }
 }
 
