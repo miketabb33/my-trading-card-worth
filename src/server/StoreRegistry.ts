@@ -22,7 +22,7 @@ export class StoreRegistry {
     this.blueprintValues = blueprintValues
   }
 
-  refresh = async () => {
+  init = async () => {
     await Store.expansions.refreshStore()
     await Store.blueprintValues.refreshStore()
   }

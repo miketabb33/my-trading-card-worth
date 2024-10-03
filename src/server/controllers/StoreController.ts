@@ -23,10 +23,21 @@ StoreController.get('/status', (_, res) => {
   }
 })
 
-StoreController.post('/marketplace/reload', (_, res) => {
+StoreController.post('/marketplace/refresh', (_, res) => {
   try {
-    void Store.refresh()
-    res.send(formatResponse({ data: 'Store refresh initiated' }))
+    void Store.blueprintValues.refreshStore()
+    res.send(formatResponse({ data: 'marketplace refresh initiated' }))
+  } catch (e) {
+    const error = formatError(e)
+    Logger.error(error)
+    res.send(formatResponse({ errors: [error.message] }))
+  }
+})
+
+StoreController.post('/expansions/refresh', (_, res) => {
+  try {
+    void Store.expansions.refreshStore()
+    res.send(formatResponse({ data: 'expansions refresh initiated' }))
   } catch (e) {
     const error = formatError(e)
     Logger.error(error)
