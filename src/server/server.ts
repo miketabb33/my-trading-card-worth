@@ -39,7 +39,7 @@ connectToDb()
     Logger.error(error)
   })
 
-Store.refresh()
+Store.init()
   .then(() => Logger.info('Stores data loaded'))
   .catch((e) => {
     Logger.info('Error in initialize stores')

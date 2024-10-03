@@ -23,5 +23,6 @@ export const ENV = {
     CONNECTION_STRING: () => validatedEnv(process.env.MONGODB_CONNECTION_STRING),
   },
   GITHUB_TOKEN: () => process.env.GITHUB_TOKEN ?? '',
+  ADMIN_TOKEN: () => validatedEnv(process.env.ADMIN_TOKEN),
   ID: process.env.NODE_ENV as EnvironmentId,
 }
