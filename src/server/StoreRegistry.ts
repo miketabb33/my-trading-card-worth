@@ -11,6 +11,7 @@ import { ExpansionDto } from '../core/types/ExpansionDto'
 import ExpansionsStoreDev from './stores/ExpansionsStoreDev'
 import BlueprintValueStoreDev from './stores/BlueprintValueStoreDev'
 import ExpansionCRUD from './database/repository/ExpansionCRUD'
+import ExpansionOrderCRUD from './database/repository/ExpansionOrderCRUD'
 
 export class StoreRegistry {
   expansions: IStore<ExpansionDto[]>
@@ -21,7 +22,7 @@ export class StoreRegistry {
     this.blueprintValues = blueprintValues
   }
 
-  init = async () => {
+  refresh = async () => {
     await Store.expansions.refreshStore()
     await Store.blueprintValues.refreshStore()
   }
@@ -30,7 +31,12 @@ export class StoreRegistry {
 const getStore = () => {
   if (ENV.ID === 'production') {
     const expansionsStore = new ExpansionsStore(
-      new GetExpansionsLogic(new CardTraderAdaptor(), new ExpansionSorter(), new ExpansionCRUD())
+      new GetExpansionsLogic(
+        new CardTraderAdaptor(),
+        new ExpansionSorter(),
+        new ExpansionCRUD(),
+        new ExpansionOrderCRUD()
+      )
     )
 
     const blueprintValueStore = new BlueprintValueStore(

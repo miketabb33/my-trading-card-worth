@@ -1,6 +1,7 @@
 import { ExpansionDto } from '../../../core/types/ExpansionDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IExpansionCRUD } from '../../database/repository/ExpansionCRUD'
+import { IExpansionOrderCRUD } from '../../database/repository/ExpansionOrderCRUD'
 import { CardExpansion } from '../../types/CardExpansion'
 import { IExpansionSorter, SortableExpansion } from './ExpansionSorter'
 export interface IGetExpansionsLogic {
@@ -11,15 +12,18 @@ class GetExpansionsLogic implements IGetExpansionsLogic {
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionSorter: IExpansionSorter
   private readonly expansionCRUD: IExpansionCRUD
+  private readonly expansionOrderCRUD: IExpansionOrderCRUD
 
   constructor(
     cardTraderAdaptor: ICardTraderAdaptor,
     expansionSorter: IExpansionSorter,
-    expansionStoreMap: IExpansionCRUD
+    expansionStoreMap: IExpansionCRUD,
+    expansionOrderCRUD: IExpansionOrderCRUD
   ) {
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionSorter = expansionSorter
     this.expansionCRUD = expansionStoreMap
+    this.expansionOrderCRUD = expansionOrderCRUD
   }
 
   get = async (): Promise<ExpansionDto[]> => {
@@ -27,7 +31,11 @@ class GetExpansionsLogic implements IGetExpansionsLogic {
 
     const sortableExpansions = await this.getSortableExpansions(pokemonExpansions)
 
-    const sortedExpansions = this.expansionSorter.sort(sortableExpansions)
+    const expansionOrder = await this.expansionOrderCRUD.get()
+
+    if (!expansionOrder) throw Error('Missing expansion order')
+
+    const sortedExpansions = this.expansionSorter.sort(sortableExpansions, expansionOrder)
 
     const expansionDto: ExpansionDto[] = sortedExpansions.map((sortedExpansion) => ({
       name: sortedExpansion.cardExpansion.name,

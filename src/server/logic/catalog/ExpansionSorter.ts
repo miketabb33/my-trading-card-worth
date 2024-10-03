@@ -1,30 +1,6 @@
 import { ExpansionEntity } from '../../database/repository/ExpansionCRUD'
 import { CardExpansion } from '../../types/CardExpansion'
-
-export const MAIN_SERIES: string[] = [
-  'Original Series',
-  'Neo Series',
-  'Legendary Collection Series',
-  'e-Card Series',
-  'EX Series',
-  'Diamond & Pearl Series',
-  'Platinum Series',
-  'HeartGold & SoulSilver Series',
-  'Call of Legends Series',
-  'Black & White Series',
-  'XY Series',
-  'Sun & Moon Series',
-  'Sword & Shield Series',
-  'Scarlet & Violet Series',
-]
-
-export const OTHER_SERIES: string[] = [
-  'Black Star Promotional Cards',
-  "McDonald's Collection",
-  'Trick or Trade',
-  'Pop / Play! Pokemon Prize Packs',
-  'Other Miscellaneous Sets',
-]
+import { ExpansionOrder } from '../../types/ExpansionOrder'
 
 export type SortableExpansion = {
   cardExpansion: CardExpansion
@@ -32,20 +8,24 @@ export type SortableExpansion = {
 }
 
 export interface IExpansionSorter {
-  sort: (sortableExpansions: SortableExpansion[]) => SortableExpansion[]
+  sort: (sortableExpansions: SortableExpansion[], expansionOrder: ExpansionOrder) => SortableExpansion[]
 }
 
 class ExpansionSorter implements IExpansionSorter {
-  sort = (sortableExpansions: SortableExpansion[]): SortableExpansion[] => {
-    const mainSeriesExpansions = this.extractAndSortMainSeriesExpansions(sortableExpansions)
-    const otherSeriesExpansions = this.extractAndSortOtherSeriesExpansions(sortableExpansions)
+  sort = (sortableExpansions: SortableExpansion[], expansionOrder: ExpansionOrder): SortableExpansion[] => {
+    const mainSeriesExpansions = this.extractAndSortMainSeriesExpansions(sortableExpansions, expansionOrder.mainSeries)
+    const otherSeriesExpansions = this.extractAndSortOtherSeriesExpansions(
+      sortableExpansions,
+      expansionOrder.otherSeries
+    )
     const remainingExpansions = sortableExpansions
 
     return [...mainSeriesExpansions, ...otherSeriesExpansions, ...remainingExpansions]
   }
 
-  private extractAndSortMainSeriesExpansions = (sortableExpansions: SortableExpansion[]) => {
-    return MAIN_SERIES.slice()
+  private extractAndSortMainSeriesExpansions = (sortableExpansions: SortableExpansion[], mainSeriesOrder: string[]) => {
+    return mainSeriesOrder
+      .slice()
       .reverse()
       .flatMap((expansionSeries) => {
         const mainSeriesExpansions = this.extractExpansionSeries(sortableExpansions, expansionSeries)
@@ -53,8 +33,11 @@ class ExpansionSorter implements IExpansionSorter {
       })
   }
 
-  private extractAndSortOtherSeriesExpansions = (sortableExpansions: SortableExpansion[]) => {
-    return OTHER_SERIES.flatMap((expansionSeries) => {
+  private extractAndSortOtherSeriesExpansions = (
+    sortableExpansions: SortableExpansion[],
+    otherSeriesOrder: string[]
+  ) => {
+    return otherSeriesOrder.flatMap((expansionSeries) => {
       const otherSeriesExpansions = this.extractExpansionSeries(sortableExpansions, expansionSeries)
       return otherSeriesExpansions.sort(this.sortByMostRecent)
     })

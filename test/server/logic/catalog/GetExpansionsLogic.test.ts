@@ -3,6 +3,7 @@ import GetExpansionsLogic from '../../../../src/server/logic/catalog/GetExpansio
 import { CardExpansion } from '../../../../src/server/types/CardExpansion'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import ExpansionCRUD_FAKE from '../../__FAKES__/ExpansionCRUD.fake'
+import ExpansionOrderCRUD_FAKE from '../../__FAKES__/ExpansionOrderCRUD.fake'
 import ExpansionSorter_FAKE from '../../__FAKES__/ExpansionSorter.fake'
 import {
   CARD_EXPANSION_FOSSIL_MOCK,
@@ -11,6 +12,7 @@ import {
   CARD_EXPANSION_OTHER2_MOCK,
   CARD_EXPANSION_PARADOX_RIFT,
 } from '../../__MOCKS__/cardExpansion.mock'
+import { EXPANSION_ORDER } from '../../__MOCKS__/expansionOrder.mock'
 import {
   SORTABLE_EXPANSION_FOSSIL_MOCK,
   SORTABLE_EXPANSION_MCDONALD_MOCK,
@@ -24,6 +26,7 @@ describe('Get Expansions Logic', () => {
   let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
   let expansionSorter_FAKE: ExpansionSorter_FAKE
   let expansionCRUD_FAKE: ExpansionCRUD_FAKE
+  let expansionOrderCRUD_FAKE: ExpansionOrderCRUD_FAKE
 
   const cardExpansions: CardExpansion[] = [
     CARD_EXPANSION_ORIGINAL_MOCK,
@@ -45,12 +48,19 @@ describe('Get Expansions Logic', () => {
     cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
     expansionSorter_FAKE = new ExpansionSorter_FAKE()
     expansionCRUD_FAKE = new ExpansionCRUD_FAKE()
-    getExpansionsLogic = new GetExpansionsLogic(cardTraderAdaptor_FAKE, expansionSorter_FAKE, expansionCRUD_FAKE)
+    expansionOrderCRUD_FAKE = new ExpansionOrderCRUD_FAKE()
+    getExpansionsLogic = new GetExpansionsLogic(
+      cardTraderAdaptor_FAKE,
+      expansionSorter_FAKE,
+      expansionCRUD_FAKE,
+      expansionOrderCRUD_FAKE
+    )
   })
 
   it("should get pokemon expansions and return card dto's", async () => {
     cardTraderAdaptor_FAKE.GET_POKEMON_EXPANSIONS.mockResolvedValue(cardExpansions)
     expansionSorter_FAKE.SORT.mockReturnValue(sortableExpansions)
+    expansionOrderCRUD_FAKE.GET.mockReturnValue(EXPANSION_ORDER)
 
     const result = await getExpansionsLogic.get()
 
@@ -67,6 +77,7 @@ describe('Get Expansions Logic', () => {
   it('should format slug', async () => {
     cardTraderAdaptor_FAKE.GET_POKEMON_EXPANSIONS.mockResolvedValue(cardExpansions)
     expansionSorter_FAKE.SORT.mockReturnValue(sortableExpansions)
+    expansionOrderCRUD_FAKE.GET.mockReturnValue(EXPANSION_ORDER)
 
     const result = await getExpansionsLogic.get()
 

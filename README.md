@@ -34,3 +34,18 @@ Environment variables are required for the project to run. Contact an admin to r
 
 `npm run cypress`
 `npm run cypress:open`
+
+## Add Expansions
+
+Go to mongo database and add a new expansion entry.
+
+1. Make sure the correct card trader id is provided.
+1. Make sure the exact text for the series is provided.
+1. Refresh Store
+
+## Add Series
+
+Go to mongo database and add series name to expansion order.
+
+1. Add the expansion by following "Add Expansions"
+1. Refresh Store

@@ -23,4 +23,15 @@ StoreController.get('/status', (_, res) => {
   }
 })
 
+StoreController.post('/marketplace/reload', (_, res) => {
+  try {
+    void Store.refresh()
+    res.send(formatResponse({ data: 'Store refresh initiated' }))
+  } catch (e) {
+    const error = formatError(e)
+    Logger.error(error)
+    res.send(formatResponse({ errors: [error.message] }))
+  }
+})
+
 export default StoreController
