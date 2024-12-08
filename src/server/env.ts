@@ -25,4 +25,9 @@ export const ENV = {
   GITHUB_TOKEN: () => process.env.GITHUB_TOKEN ?? '',
   ADMIN_TOKEN: () => validatedEnv(process.env.ADMIN_TOKEN),
   ID: process.env.NODE_ENV as EnvironmentId,
+  EMAILER: {
+    SERVICE: validatedEnv(process.env.EMAILER_SERVICE),
+    SENDER: validatedEnv(process.env.EMAILER_SENDER),
+    PASSWORD: validatedEnv(process.env.EMAILER_PASSWORD),
+  }
 }
