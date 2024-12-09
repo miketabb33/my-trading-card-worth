@@ -51,6 +51,7 @@ jobs:
 
   build:
     # needs: e2e-test
+    needs: unit-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

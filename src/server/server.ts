@@ -9,6 +9,7 @@ import Store from './StoreRegistry'
 import CronJobs from './CronJobRegistry'
 import Logger from './logger'
 import { formatError } from './logic/formatResponse'
+import { runPrismicEvolutionJob } from './fetchPrismicEvolutionStatus'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -48,3 +49,5 @@ Store.init()
   })
 
 CronJobs.start()
+
+runPrismicEvolutionJob()
