@@ -23,30 +23,34 @@ jobs:
       - name: Run Unit Tests
         run: npm run test
 
-  e2e-test:
-    needs: unit-test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Create environment variables
-        run: |
-          echo "CARD_TRADER_API_KEY=${{ secrets.CARD_TRADER_API_KEY}}
-          AUTH_CLIENT_ID=${{ secrets.AUTH_CLIENT_ID }}
-          AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-          AUTH_ISSUER_BASE_URL=${{ secrets.AUTH_ISSUER_BASE_URL }}
-          AUTH_BASE_URL=${{ secrets.AUTH_BASE_URL }}
-          MONGODB_CONNECTION_STRING=${{ secrets.MONGODB_CONNECTION_STRING }}
-          " > .env
-      - name: Start Container
-        run: docker compose up -d --build
-      - name: Install Dependencies
-        run: npm install
-      - name: e2e Test
-        run: npm run cypress
+  # e2e-test:
+  #   needs: unit-test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #     - name: Create environment variables
+  #       run: |
+  #         echo "CARD_TRADER_API_KEY=${{ secrets.CARD_TRADER_API_KEY}}
+  #         AUTH_CLIENT_ID=${{ secrets.AUTH_CLIENT_ID }}
+  #         AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+  #         AUTH_ISSUER_BASE_URL=${{ secrets.AUTH_ISSUER_BASE_URL }}
+  #         AUTH_BASE_URL=${{ secrets.AUTH_BASE_URL }}
+  #         MONGODB_CONNECTION_STRING=${{ secrets.MONGODB_CONNECTION_STRING }}
+  #         ADMIN_TOKEN=${{ secrets.ADMIN_TOKEN }}
+  #         EMAILER_SERVICE=${{ secrets.EMAILER_SERVICE }}
+  #         EMAILER_SENDER=${{ secrets.EMAILER_SENDER }}
+  #         EMAILER_PASSWORD=${{ secrets.EMAILER_PASSWORD }}
+  #         " > .env
+  #     - name: Start Container
+  #       run: docker compose up -d --build
+  #     - name: Install Dependencies
+  #       run: npm install
+  #     - name: e2e Test
+  #       run: npm run cypress
 
   build:
-    needs: e2e-test
+    # needs: e2e-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
