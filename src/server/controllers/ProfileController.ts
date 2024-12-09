@@ -7,6 +7,7 @@ import ProfileCRUD, { ProfileEntity } from '../database/repository/ProfileCRUD'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
 import { createMongoId } from '../database/createMongoId'
+import Emailer from '../Emailer'
 
 const ProfileController = Router()
 
@@ -54,8 +55,17 @@ const getProfile = async (auth0User: Auth0User) => {
     }
     await profileCRUD.create(profileEntity)
     profile = profileEntity
+    await sendAccountCreatedEmail(auth0User.email ?? 'Someone')
   }
   return profile
+}
+
+const sendAccountCreatedEmail = (email: string) => {
+  return Emailer.send({
+    to: 'miketabb33@gmail.com',
+    subject: 'Account Created',
+    text: `${email} has created an account!`,
+  })
 }
 
 export default ProfileController

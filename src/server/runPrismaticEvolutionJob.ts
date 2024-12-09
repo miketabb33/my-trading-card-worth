@@ -33,7 +33,7 @@ const fetchStatus = () => {
         const chunk = str.join(' ').toLowerCase().replace('_', ' ')
 
         if (!chunk.includes('coming soon')) {
-          sendEmail('Prismic Evolution could be available at Best Buy.')
+          sendEmail('Prismatic Evolution could be available at Best Buy.')
         } else {
           console.log('Prismatic Evolutions is coming soon')
         }
@@ -44,9 +44,9 @@ const fetchStatus = () => {
 }
 
 const sendEmail = (text: string) => {
-  Emailer.send({ to: 'miketabb33@gmail.com', subject: '', text }).then().catch(console.error)
+  Emailer.send({ to: 'miketabb33@gmail.com', subject: 'Prismatic Evolutions Update', text }).then().catch(console.error)
 }
 
-export const runPrismicEvolutionJob = () => {
+export const runPrismaticEvolutionJob = () => {
   setInterval(fetchStatus, 60_000 * 30)
 }
