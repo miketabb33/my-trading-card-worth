@@ -18,10 +18,9 @@ visit `http://localhost:3000/`
 
 #### Environment Requirements
 
-Environment variables are required for the project to run. Contact an admin to request access to the environment variables.
+Environment variables are required for the project to run. Contact an admin to request access to the environment variables for the local environment.
 
 - `npm run dev` add environment variables to the shell running the program.
-- `docker-compose up` add environment variables to a `.env` file in the project.
 
 ## Tests
 
@@ -49,3 +48,11 @@ Go to mongo database and add series name to expansion order.
 
 1. Add the expansion by following "Add Expansions"
 1. Refresh Store
+
+## Add An Environment Variable To The Project
+
+1. Add locally to the shell running the program
+2. Add to `.github/workflows.CI.yml`
+3. Add to `/compose.yaml`
+4. Add to github secrets
+5. Add to production server
