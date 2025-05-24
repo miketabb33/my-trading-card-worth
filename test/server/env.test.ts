@@ -2,9 +2,9 @@ import { validatedEnv } from '../../src/server/env'
 
 describe('Validate Env', () => {
   it('should throw when given undefined', () => {
-    expect(() => validatedEnv(undefined)).toThrow()
+    expect(() => validatedEnv('env_identifier', undefined)).toThrow('Missing Environment Variable: env_identifier')
   })
   it('should return variable', () => {
-    expect(validatedEnv('Any Value')).toEqual('Any Value')
+    expect(validatedEnv('env_identifier', 'Any Value')).toEqual('Any Value')
   })
 })

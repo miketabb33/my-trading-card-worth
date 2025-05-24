@@ -44,7 +44,7 @@ const Link = styled(RouterLink)<{ $selected: boolean }>`
 `
 
 const NavigationOptions = () => {
-  const { collectionIsSelected, catalogIsSelected } = useInNavigationOptions()
+  const { collectionIsSelected, catalogIsSelected, seriesIsSelected } = useInNavigationOptions()
   return (
     <OptionList>
       <OptionItem>
@@ -57,6 +57,11 @@ const NavigationOptions = () => {
           <OptionContent id="NavCollection">Collection</OptionContent>
         </Link>
       </OptionItem>
+      <OptionItem>
+        <Link linkTo={PATH_VALUES.series} $selected={seriesIsSelected}>
+          <OptionContent>Series</OptionContent>
+        </Link>
+      </OptionItem>
     </OptionList>
   )
 }
@@ -67,6 +72,7 @@ export const useInNavigationOptions = () => {
   return {
     collectionIsSelected: pathname === '/collection',
     catalogIsSelected: pathname.includes('/catalog'),
+    seriesIsSelected: pathname === PATH_VALUES.series,
   }
 }
 

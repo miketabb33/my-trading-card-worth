@@ -8,6 +8,7 @@ import { useProfile } from '../providers/ProfileProvider'
 import SpinnerPage from '../pages/SpinnerPage'
 import ShareCollectionPage from '../pages/ShareCollectionPage'
 import DeveloperNotesPage from '../pages/DeveloperNotesPage'
+import SeriesPage from '../pages/SeriesPage'
 
 const redirectToAuthReturnUrlUnlessMissing = () => {
   const authReturnUrl = getAuthReturnUrl()
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
   { path: '/collection/:userId', element: <ShareCollectionPage /> },
   { path: '/catalog', element: <CatalogPage /> },
   { path: '/catalog/:expansionSlug', element: <CatalogPage /> },
+  { path: '/series', element: <SeriesPage /> },
   { path: '/developer-notes', element: <DeveloperNotesPage /> },
   { path: '*', element: 'Page Not Found' },
 ])
