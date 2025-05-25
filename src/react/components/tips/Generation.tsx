@@ -38,6 +38,15 @@ const Image = styled.img`
 
 const ExampleText = styled.p`
   text-align: center;
+  font-style: italic;
+  font-size: 11px;
+  color: gray;
+`
+
+const Line = styled.div`
+  height: 1px;
+  width: 100%;
+  background-color: lightgray;
 `
 
 export type GenerationProps = {
@@ -66,15 +75,20 @@ const Generation = ({
     <Card>
       <LeftStack>
         <h2>{name}</h2>
-        <h4>{subtitle}</h4>
+        <Line />
+        <h3>{subtitle}</h3>
         <p>
-          Pokemon Index: {indexMin}-{indexMax}
+          <strong>Pokedex Range:</strong> {indexMin}-{indexMax}
         </p>
-        <p>Pokemon Count: {indexMax - indexMin + 1}</p>
         <p>
-          Years Published: {yearMin}-{yearMax}
+          <strong>Pokedex Count:</strong> {indexMax - indexMin + 1}
         </p>
-        <p>Sets Released: {setCount}</p>
+        <p>
+          <strong>Years Published:</strong> {yearMin}-{yearMax}
+        </p>
+        <p>
+          <strong>Sets Released:</strong> {setCount}
+        </p>
       </LeftStack>
       <RightStack>
         <ExampleText>Example Card</ExampleText>
