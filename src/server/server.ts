@@ -4,6 +4,7 @@ import ControllerRegistry from './ControllerRegistry'
 import { auth } from 'express-openid-connect'
 import { auth0Config } from './auth0/auth0Config'
 import { connectToDb } from './database/connectToDb'
+// import { prisma } from './database/prismaClient'
 import bodyParser from 'body-parser'
 import Store from './StoreRegistry'
 import CronJobs from './CronJobRegistry'
@@ -38,6 +39,15 @@ connectToDb()
     const error = formatError(e)
     Logger.error(error)
   })
+
+// prisma
+//   .$connect()
+//   .then(() => Logger.info('Postgres database successfully connected'))
+//   .catch((e) => {
+//     Logger.info('Error connecting to Postgres database')
+//     const error = formatError(e)
+//     Logger.error(error)
+//   })
 
 Store.init()
   .then(() => Logger.info('Stores data loaded'))

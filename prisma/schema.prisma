@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+  expansions Expansion[]
+
+  @@map("game")
+}
+
+model Expansion {
+  id             Int             @id @default(autoincrement())
+  gameId         Int             @map("game_id")
+  name           String
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  game           Game            @relation(fields: [gameId], references: [id])
+  cardBlueprints CardBlueprint[]
+
+  @@map("expansion")
+}
+
+model CardBlueprint {
+  id          Int       @id @default(autoincrement())
+  expansionId Int       @map("expansion_id")
+  name        String
+  imageUrl    String?   @map("image_url")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  expansion   Expansion @relation(fields: [expansionId], references: [id])
+
+  @@map("card_blueprint")
+}

@@ -30,6 +30,9 @@ module.exports = {
       kerberos: false,
     },
   },
+  externals: {
+    '@prisma/client': 'commonjs @prisma/client',
+  },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
