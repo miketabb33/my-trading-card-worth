@@ -48,6 +48,7 @@ const USE_WITH_AUTOCOMPLETE_RETURN: AutocompleteModule.UseWithAutocompleteReturn
   selectedOption: null,
   bind: {} as unknown as AutocompleteModule.AutocompleteProps<object>,
   setOptions: () => {},
+  setInputValue: () => {},
 }
 
 USE_WITH_AUTOCOMPLETE.mockReturnValue(USE_WITH_AUTOCOMPLETE_RETURN)

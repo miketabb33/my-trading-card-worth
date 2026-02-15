@@ -13,12 +13,15 @@ const OptionItem = styled.li`
   height: 100%;
 `
 
-const OptionContent = styled.p``
+const OptionContent = styled.p`
+  color: inherit;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+`
 
 const SelectedOption = css`
-  background-color: ${({ theme }) => theme.staticColor.gray_100};
-  transform: translateY(-0.15rem);
-  font-size: larger;
+  color: ${({ theme }) => theme.staticColor.gold_400};
+  border-bottom: 2px solid ${({ theme }) => theme.staticColor.gold_400};
 `
 
 const Link = styled(RouterLink)<{ $selected: boolean }>`
@@ -28,11 +31,11 @@ const Link = styled(RouterLink)<{ $selected: boolean }>`
 
   width: 100%;
   height: 100%;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  padding-right: 1.2rem;
+  padding-left: 1.2rem;
   cursor: pointer;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  color: ${({ theme }) => theme.staticColor.gray_300};
+  border-bottom: 2px solid transparent;
 
   transition: all 0.2s;
 

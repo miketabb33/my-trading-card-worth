@@ -48,6 +48,7 @@ export type UseWithAutocompleteReturn<T> = {
   bind: AutocompleteProps<T>
   selectedOption: T | null
   setOptions: (option: DropdownOption<T>[]) => void
+  setInputValue: (value: string) => void
 }
 
 type UseWithAutocompleteArgs<T> = {
@@ -99,6 +100,7 @@ export const useWithAutocomplete = <T extends object>({
     },
     selectedOption: selectedOption?.data || null,
     setOptions,
+    setInputValue: input.setValue,
   }
 }
 

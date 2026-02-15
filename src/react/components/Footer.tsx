@@ -9,7 +9,8 @@ import { tabLandAndUp } from '../styles/Responsive'
 const Container = styled.div`
   height: 100%;
   width: 100%;
-  background-color: ${({ theme }) => theme.staticColor.gray_50};
+  background-color: ${({ theme }) => theme.staticColor.gray_900};
+  border-top: 1px solid ${({ theme }) => theme.staticColor.gray_800};
 `
 
 const Content = styled(ResponsiveLayout)`
@@ -18,6 +19,7 @@ const Content = styled(ResponsiveLayout)`
   justify-content: space-between;
   height: 100%;
   font-size: 1.1rem;
+  color: ${({ theme }) => theme.staticColor.gray_500};
 
   ${tabLandAndUp(css`
     font-size: 1.3rem;

@@ -2,26 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import { useStoreStatus } from '../../providers/StoreStatusProvider'
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+const Item = styled.p`
+  font-size: 1.1rem;
+  color: ${({ theme }) => theme.staticColor.gray_500};
 `
 
-const Item = styled.p`
-  font-size: 1.25rem;
+const Label = styled.strong`
+  color: ${({ theme }) => theme.staticColor.gray_400};
 `
 
 const NavigationStoreStatus = () => {
-  const { expansionStatus, pricesStatus } = useInNavigationStoreStatus()
+  const { pricesStatus } = useInNavigationStoreStatus()
   return (
-    <Container>
-      <Item>
-        <strong>Prices:</strong> {pricesStatus}
-      </Item>
-      <Item>
-        <strong>Expansions:</strong> {expansionStatus}
-      </Item>
-    </Container>
+    <Item>
+      <Label>Prices:</Label> {pricesStatus}
+    </Item>
   )
 }
 
@@ -37,12 +32,10 @@ export const useInNavigationStoreStatus = () => {
 
   if (!storeStatus) {
     return {
-      expansionStatus: '',
       pricesStatus: '',
     }
   } else {
     return {
-      expansionStatus: buildStatusMessage(storeStatus.expansionsLastUpdatedDateString),
       pricesStatus: buildStatusMessage(storeStatus.pricesLastUpdatedDateString),
     }
   }

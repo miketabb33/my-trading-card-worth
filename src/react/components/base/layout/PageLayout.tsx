@@ -5,7 +5,7 @@ import Navigation from '../../navigation/Navigation'
 import Footer from '../../Footer'
 import { ResponsiveLayout } from './ResponsiveLayout'
 
-const FOOTER_HEIGHT = '2.2rem'
+const FOOTER_HEIGHT = '2.8rem'
 
 const Content = styled(ResponsiveLayout)`
   margin-bottom: ${FOOTER_HEIGHT};
@@ -22,10 +22,8 @@ const FooterContainer = styled.footer`
 const PageLayout = ({ children }: ChildrenProp) => {
   return (
     <>
-      <Content>
-        <Navigation />
-        {children}
-      </Content>
+      <Navigation />
+      <Content>{children}</Content>
       <FooterContainer>
         <Footer />
       </FooterContainer>

@@ -8,16 +8,28 @@ const InputStyles = styled.input`
   height: 100%;
   border: none;
   font-size: 2rem;
+  background-color: transparent;
+  color: ${({ theme }) => theme.staticColor.gray_900};
 
   &:focus {
     outline: none;
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.staticColor.gray_400};
   }
 `
 
 const InputWrapper = styled.div`
   padding: 0.5rem 2rem;
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.staticColor.gray_300};
   border-radius: 0.5rem;
+  background-color: #ffffff;
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: ${({ theme }) => theme.staticColor.gold_500};
+  }
 `
 
 export type InputProps = {

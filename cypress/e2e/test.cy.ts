@@ -58,7 +58,7 @@ describe('e2e', () => {
     // Search another expansion
     cy.get('#NavCatalog').click()
 
-    cy.get('#CatalogAutocomplete').type('Temp')
+    cy.get('#CatalogAutocomplete input').clear().type('Temp')
 
     cy.get('#CatalogAutocomplete-0').click()
 

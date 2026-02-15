@@ -101,7 +101,11 @@ export const useInCatalog = () => {
     navigateTo(PATH_VALUES.catalog(option.slug))
   }
 
-  const { bind: autocompleteBind, setOptions } = useWithAutocomplete<ExpansionDto>({
+  const {
+    bind: autocompleteBind,
+    setOptions,
+    setInputValue,
+  } = useWithAutocomplete<ExpansionDto>({
     didSelectOption: redirectToOptionSlug,
   })
 
@@ -114,6 +118,11 @@ export const useInCatalog = () => {
           imageSource: expansion.symbol,
         }))
         setOptions(newOptions)
+
+        if (expansionSlug) {
+          const match = expansions.find((e) => e.slug === expansionSlug)
+          if (match) setInputValue(match.name)
+        }
       }
     },
     deps: [expansions],

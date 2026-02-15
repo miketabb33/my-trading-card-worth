@@ -43,10 +43,7 @@ class Email {
 
   send = async (options: MailOptions): Promise<string> => {
     const transporter = await this.getTransporter()
-    const from =
-      ENV.ID === 'production'
-        ? `My Trading Card Worth <${ENV.EMAILER.SENDER()}>`
-        : 'My Trading Card Worth <dev@test.com>'
+    const from = ENV.ID === 'production' ? `TCG Valor <${ENV.EMAILER.SENDER()}>` : 'TCG Valor <dev@test.com>'
 
     const info = await transporter.sendMail({ ...options, from })
 

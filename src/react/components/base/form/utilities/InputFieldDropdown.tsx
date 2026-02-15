@@ -6,9 +6,9 @@ const Container = styled.div<{ $top: string; $zIndex: number }>`
   z-index: ${({ $zIndex }) => $zIndex};
   position: absolute;
   width: 100%;
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.staticColor.gray_300};
   border-top: none;
-  background-color: white;
+  background-color: #ffffff;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   box-shadow: 0.1rem 0.4rem 0.5rem rgba(0, 0, 0, 0.1);

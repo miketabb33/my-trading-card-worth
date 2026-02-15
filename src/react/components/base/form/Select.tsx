@@ -18,7 +18,7 @@ const Overlay = styled.div`
 `
 
 const Arrow = styled.i`
-  border: solid black;
+  border: solid ${({ theme }) => theme.staticColor.gray_600};
   border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 0.3rem;
@@ -32,8 +32,10 @@ const Input = styled.input`
   width: 100%;
   font-size: 1.2rem;
   padding: 0.25rem 0.5rem;
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.staticColor.gray_300};
   border-radius: 0.5rem;
+  background-color: #ffffff;
+  color: ${({ theme }) => theme.staticColor.gray_900};
 
   &:focus {
     outline: none;

@@ -12,7 +12,7 @@ const Title = styled.h2`
 const DeveloperNotesHeader = () => {
   return (
     <Container>
-      <Title>Thank you for using My Trading Card Worth!</Title>
+      <Title>Thank you for using TCG Valor!</Title>
       <h4>
         Contact me at <a href="mailto:miketabb33@gmail.com">miketabb33@gmail.com</a>. I&apos;d love to hear about your
         experience and idea&apos;s.
