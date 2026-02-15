@@ -41,6 +41,7 @@ jobs:
           EMAILER_SERVICE=${{ secrets.EMAILER_SERVICE }}
           EMAILER_SENDER=${{ secrets.EMAILER_SENDER }}
           EMAILER_PASSWORD=${{ secrets.EMAILER_PASSWORD }}
+          DATABASE_URL=postgresql://admin:admin@postgres:5432/trading_cards?schema=public
           " > .env
       - name: Start Container
         run: docker compose up -d --build

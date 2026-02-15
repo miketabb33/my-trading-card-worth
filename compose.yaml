@@ -16,8 +16,10 @@ services:
       EMAILER_SERVICE: ${EMAILER_SERVICE}
       EMAILER_SENDER: ${EMAILER_SENDER}
       EMAILER_PASSWORD: ${EMAILER_PASSWORD}
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - mongo
+      - postgres
 
   mongo:
     image: mongo:4.4.6
@@ -35,5 +37,18 @@ services:
     depends_on:
       - mongo
 
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - postgres_dbv:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: trading_cards
+
 volumes:
   mongo_dbv: {}
+  postgres_dbv: {}
