@@ -1,16 +1,16 @@
-import { ProfileEntity } from '../../../src/server/database/repository/ProfileCRUD'
+import { Profile } from '@prisma/client'
 
 export const makeProfileEntityMock = ({
-  _id = '',
+  id = 0,
   userId = '',
-  email = null,
-  name = null,
-  nickname = null,
-  picture = null,
+  email = '',
+  name = '',
+  nickname = '',
+  picture = '',
   createdAt = new Date(),
   updatedAt = new Date(),
-}: Partial<ProfileEntity>): ProfileEntity => ({
-  _id,
+}: Partial<Profile>): Profile => ({
+  id,
   userId,
   email,
   name,

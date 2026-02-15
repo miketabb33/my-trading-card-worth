@@ -1,58 +1,18 @@
-import mongoose from 'mongoose'
-const { Schema, model } = mongoose
-
-export type ProfileEntity = {
-  _id: string
-  userId: string
-  email: string | null
-  name: string | null
-  nickname: string | null
-  picture: string | null
-  createdAt: Date
-  updatedAt: Date
-}
-
-const profileSchema = new Schema(
-  {
-    userId: {
-      type: String,
-      required: true,
-    },
-    name: String,
-    nickname: String,
-    email: String,
-    picture: String,
-  },
-  { timestamps: true }
-)
-
-const ProfileModel = model('profile', profileSchema)
+import { Profile, Prisma } from '@prisma/client'
+import { prisma } from '../prismaClient'
 
 export interface IProfileCRUD {
-  create: (entity: ProfileEntity) => Promise<void>
-  find: (userId: string) => Promise<ProfileEntity | null>
+  create: (data: Prisma.ProfileCreateInput) => Promise<void>
+  find: (userId: string) => Promise<Profile | null>
 }
 
 class ProfileCRUD implements IProfileCRUD {
-  create = async (entity: ProfileEntity) => {
-    const context = new ProfileModel(entity)
-    await context.save()
+  create = async (data: Prisma.ProfileCreateInput) => {
+    await prisma.profile.create({ data })
   }
 
-  find = async (userId: string): Promise<ProfileEntity | null> => {
-    const context = await ProfileModel.findOne({ userId })
-    if (!context) return null
-    const profile: ProfileEntity = {
-      _id: context._id.toString(),
-      userId: context.userId,
-      email: context.email ?? null,
-      name: context.name ?? null,
-      nickname: context.nickname ?? null,
-      picture: context.picture ?? null,
-      createdAt: context.createdAt,
-      updatedAt: context.updatedAt,
-    }
-    return profile
+  find = async (userId: string): Promise<Profile | null> => {
+    return await prisma.profile.findUnique({ where: { userId } })
   }
 }
 

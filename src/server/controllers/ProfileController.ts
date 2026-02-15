@@ -3,10 +3,9 @@ import { Router } from 'express'
 import { formatError, formatResponse } from '../logic/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import Logger from '../logger'
-import ProfileCRUD, { ProfileEntity } from '../database/repository/ProfileCRUD'
+import ProfileCRUD from '../database/repository/ProfileCRUD'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
-import { createMongoId } from '../database/createMongoId'
 import Emailer from '../Emailer'
 
 const ProfileController = Router()
@@ -25,8 +24,8 @@ ProfileController.get('/', async (req, res) => {
 
     const profileDto: ProfileDto = {
       userId: profile.userId,
-      name: profile.name ?? 'Unknown Name',
-      nickname: profile.nickname ?? 'Unknown Nickname',
+      name: profile.name,
+      nickname: profile.nickname,
       email: profile.email,
       picture: profile.picture,
     }
@@ -43,18 +42,15 @@ const getProfile = async (auth0User: Auth0User) => {
   const profileCRUD = new ProfileCRUD()
   let profile = await profileCRUD.find(auth0User.sub)
   if (!profile) {
-    const profileEntity: ProfileEntity = {
-      _id: createMongoId(),
+    await profileCRUD.create({
       userId: auth0User.sub,
-      email: auth0User.email,
-      name: auth0User.name,
-      nickname: auth0User.nickname,
-      picture: auth0User.picture,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-    await profileCRUD.create(profileEntity)
-    profile = profileEntity
+      email: auth0User.email ?? '',
+      name: auth0User.name ?? '',
+      nickname: auth0User.nickname ?? '',
+      picture: auth0User.picture ?? '',
+    })
+    profile = await profileCRUD.find(auth0User.sub)
+    if (!profile) throw new Error('Failed to create profile')
     await sendAccountCreatedEmail(auth0User.email ?? 'Someone')
   }
   return profile
