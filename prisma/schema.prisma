@@ -21,8 +21,7 @@ model Expansion {
   id              Int             @id @default(autoincrement())
   gameId          Int             @map("game_id")
   name            String
-  setCode         String?         @map("set_code")
-  imageUrl        String?         @map("image_url")
+  imageUrl        String          @map("image_url")
   numberOfCards   Int             @map("number_of_cards")
   releaseDate     DateTime        @map("release_date")
   createdAt       DateTime        @default(now()) @map("created_at")
@@ -38,12 +37,13 @@ model Expansion {
 model ExpansionPokemon {
   id                      Int       @id @default(autoincrement())
   expansionId             Int       @unique @map("expansion_id")
+  abbreviation            String
   series                  String
   expansionType           String    @map("expansion_type")
   expansionNumberInSeries Float     @map("expansion_number_in_series")
   numberOfSecretCards     Int       @map("number_of_secret_cards")
-  symbolUrl               String?   @map("symbol_url")
-  bulbapediaUrl           String?   @map("bulbapedia_url")
+  symbolUrl               String    @map("symbol_url")
+  bulbapediaUrl           String    @map("bulbapedia_url")
   createdAt               DateTime  @default(now()) @map("created_at")
   updatedAt               DateTime  @updatedAt @map("updated_at")
   expansion               Expansion @relation(fields: [expansionId], references: [id])
@@ -71,7 +71,7 @@ model Profile {
   id        Int      @id @default(autoincrement())
   userId    String   @unique @map("user_id")
   email     String
-  name      String?
+  name      String 
   nickname  String
   picture   String
   createdAt DateTime @default(now()) @map("created_at")

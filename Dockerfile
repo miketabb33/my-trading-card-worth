@@ -17,13 +17,16 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci
 COPY . .
+RUN npx prisma generate
 RUN MODE=${MODE} npm run build
 
 FROM base as final
 USER node
 COPY package.json .
 COPY --from=deps /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/prisma ./prisma
 
 EXPOSE 3000
-CMD npm start
+CMD npx prisma migrate deploy && npm start
