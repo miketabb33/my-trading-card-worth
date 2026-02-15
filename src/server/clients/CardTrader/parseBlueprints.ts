@@ -6,6 +6,8 @@ import TypeParser from '../../../core/TypeParser'
 import { CardTraderBlueprintDto } from './types/CardTraderBlueprintDto'
 
 export const tryToParseBlueprints = (data: unknown): CardTraderBlueprintDto[] => {
+  console.log('DAWG')
+  console.log(JSON.stringify(data))
   const array = TypeParser.rootIsArray(data, tryToParseBlueprints.name)
 
   return array.map((item) => {

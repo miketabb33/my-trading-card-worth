@@ -18,25 +18,119 @@ model Game {
 }
 
 model Expansion {
-  id             Int             @id @default(autoincrement())
-  gameId         Int             @map("game_id")
-  name           String
-  createdAt      DateTime        @default(now()) @map("created_at")
-  updatedAt      DateTime        @updatedAt @map("updated_at")
-  game           Game            @relation(fields: [gameId], references: [id])
-  cardBlueprints CardBlueprint[]
+  id              Int             @id @default(autoincrement())
+  gameId          Int             @map("game_id")
+  name            String
+  setCode         String?         @map("set_code")
+  imageUrl        String?         @map("image_url")
+  numberOfCards   Int             @map("number_of_cards")
+  releaseDate     DateTime        @map("release_date")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  game              Game                    @relation(fields: [gameId], references: [id])
+  cardBlueprints    CardBlueprint[]
+  platformLinks     ExpansionPlatformLink[]
+  pokemonExpansion  ExpansionPokemon?
 
   @@map("expansion")
 }
 
+model ExpansionPokemon {
+  id                      Int       @id @default(autoincrement())
+  expansionId             Int       @unique @map("expansion_id")
+  series                  String
+  expansionType           String    @map("expansion_type")
+  expansionNumberInSeries Float     @map("expansion_number_in_series")
+  numberOfSecretCards     Int       @map("number_of_secret_cards")
+  symbolUrl               String?   @map("symbol_url")
+  bulbapediaUrl           String?   @map("bulbapedia_url")
+  createdAt               DateTime  @default(now()) @map("created_at")
+  updatedAt               DateTime  @updatedAt @map("updated_at")
+  expansion               Expansion @relation(fields: [expansionId], references: [id])
+
+  @@map("expansion_pokemon")
+}
+
 model CardBlueprint {
+  id              Int       @id @default(autoincrement())
+  expansionId     Int       @map("expansion_id")
+  name            String
+  collectorNumber String    @map("collector_number")
+  imageShowUrl    String    @map("image_show_url")
+  imagePreviewUrl String    @map("image_preview_url")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  expansion              Expansion                  @relation(fields: [expansionId], references: [id])
+  platformLinks          CardBlueprintPlatformLink[]
+  pokemonCardBlueprint   CardBlueprintPokemon?
+
+  @@map("card_blueprint")
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique @map("user_id")
+  email     String
+  name      String?
+  nickname  String
+  picture   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("profile")
+}
+
+enum PokemonRarity {
+  COMMON
+  UNCOMMON
+  RARE
+  DOUBLE_RARE
+  ULTRA_RARE
+  ILLUSTRATION_RARE
+  SPECIAL_ILLUSTRATION_RARE
+  HYPER_RARE
+  SHINY_RARE
+  SHINY_ULTRA_RARE
+  ACE_SPEC_RARE
+}
+
+model CardBlueprintPokemon {
+  id              Int           @id @default(autoincrement())
+  cardBlueprintId Int           @unique @map("card_blueprint_id")
+  rarity          PokemonRarity
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  cardBlueprint   CardBlueprint @relation(fields: [cardBlueprintId], references: [id])
+
+  @@map("card_blueprint_pokemon")
+}
+
+enum Platform {
+  CARD_TRADER
+}
+
+model CardBlueprintPlatformLink {
+  id              Int           @id @default(autoincrement())
+  cardBlueprintId Int           @map("card_blueprint_id")
+  platform        Platform
+  externalId      String        @map("external_id")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  cardBlueprint   CardBlueprint @relation(fields: [cardBlueprintId], references: [id])
+
+  @@unique([cardBlueprintId, platform])
+  @@map("card_blueprint_platform_link")
+}
+
+model ExpansionPlatformLink {
   id          Int       @id @default(autoincrement())
   expansionId Int       @map("expansion_id")
-  name        String
-  imageUrl    String?   @map("image_url")
+  platform    Platform
+  externalId  String    @map("external_id")
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   expansion   Expansion @relation(fields: [expansionId], references: [id])
 
-  @@map("card_blueprint")
+  @@unique([expansionId, platform])
+  @@map("expansion_platform_link")
 }
