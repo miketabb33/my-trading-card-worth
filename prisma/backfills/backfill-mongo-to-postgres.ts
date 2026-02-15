@@ -39,6 +39,16 @@ const profileSchema = new mongoose.Schema(
 
 const MongoProfile = mongoose.model('profile', profileSchema)
 
+const expansionOrderSchema = new mongoose.Schema(
+  {
+    mainSeries: Array,
+    otherSeries: Array,
+  },
+  { timestamps: true }
+)
+
+const MongoExpansionOrder = mongoose.model('expansion_order', expansionOrderSchema)
+
 const backfillExpansions = async (pokemonGameId: number) => {
   const mongoExpansions = await MongoExpansion.find()
   console.log(`Found ${mongoExpansions.length} expansions in Mongo`)
@@ -89,6 +99,29 @@ const backfillExpansions = async (pokemonGameId: number) => {
 
     console.log(`Migrated expansion "${exp.name}"`)
   }
+}
+
+const backfillExpansionOrder = async () => {
+  const existing = await prisma.expansionPokemonOrder.findFirst()
+  if (existing) {
+    console.log('Skipping expansion order — already exists')
+    return
+  }
+
+  const mongoOrders = await MongoExpansionOrder.find()
+  if (!mongoOrders[0]) {
+    console.log('No expansion order found in Mongo')
+    return
+  }
+
+  await prisma.expansionPokemonOrder.create({
+    data: {
+      mainSeries: mongoOrders[0].mainSeries,
+      otherSeries: mongoOrders[0].otherSeries,
+    },
+  })
+
+  console.log('Migrated expansion order')
 }
 
 const backfillProfiles = async () => {
@@ -142,6 +175,7 @@ const run = async () => {
   console.log(`Game "Pokemon" ready (id: ${pokemonGame.id})`)
 
   await backfillExpansions(pokemonGame.id)
+  await backfillExpansionOrder()
   await backfillProfiles()
 
   await mongoose.disconnect()

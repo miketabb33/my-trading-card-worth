@@ -51,6 +51,16 @@ model ExpansionPokemon {
   @@map("expansion_pokemon")
 }
 
+model ExpansionPokemonOrder {
+  id          Int      @id @default(autoincrement())
+  mainSeries  Json     @map("main_series")
+  otherSeries Json     @map("other_series")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("expansion_pokemon_order")
+}
+
 model CardBlueprint {
   id              Int       @id @default(autoincrement())
   expansionId     Int       @map("expansion_id")
