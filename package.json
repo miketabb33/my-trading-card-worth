@@ -1,5 +1,5 @@
 {
-  "name": "my-trading-card-worth",
+  "name": "tcgvalor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:miketabb33/my-trading-card-worth.git"
+    "url": "git@github.com:tabb-labs/tcgvalor.git"
   },
   "scripts": {
     "dev": "concurrently \"webpack --mode development --watch\" \"node --watch dist/server.js\"",
