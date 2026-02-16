@@ -49,6 +49,11 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: trading_cards
 
+  postgres-seed:
+    build: ./postgres-seed
+    depends_on:
+      - server
+
 volumes:
   mongo_dbv: {}
   postgres_dbv: {}
