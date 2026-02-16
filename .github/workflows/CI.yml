@@ -69,14 +69,14 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME  }}/my-trading-card-worth-server:amd-${{ github.run_id }}-${{ github.run_attempt }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME  }}/tcgvalor-server:amd-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Build and push deployable image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME  }}/my-trading-card-worth-server:amd
+          tags: ${{ secrets.DOCKERHUB_USERNAME  }}/tcgvalor-server:amd
       - name: Create tag
         uses: actions/github-script@v6
         with:

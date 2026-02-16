@@ -50,9 +50,7 @@ const ReleaseNotes = () => {
             </Section>
           ))}
           <Center>
-            <ExternalTextLink href="https://github.com/miketabb33/my-trading-card-worth/releases">
-              All Releases
-            </ExternalTextLink>
+            <ExternalTextLink href="https://github.com/tabb-labs/tcgvalor/releases">All Releases</ExternalTextLink>
           </Center>
         </>
       )}
@@ -67,9 +65,7 @@ const ReleaseNotes = () => {
         <>
           <Center>
             <h2>An error has occurred</h2>
-            <ExternalTextLink href="https://github.com/miketabb33/my-trading-card-worth/releases">
-              All Releases
-            </ExternalTextLink>
+            <ExternalTextLink href="https://github.com/tabb-labs/tcgvalor/releases">All Releases</ExternalTextLink>
           </Center>{' '}
         </>
       )}

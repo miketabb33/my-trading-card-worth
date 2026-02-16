@@ -6,8 +6,8 @@ const octokit = new Octokit({ auth: ENV.GITHUB_TOKEN() })
 
 export const ListReleases = async (): Promise<ApplicationReleaseDto[]> => {
   const response = await octokit.request('GET /repos/{owner}/{repo}/releases', {
-    owner: 'miketabb33',
-    repo: 'my-trading-card-worth',
+    owner: 'tabb-labs',
+    repo: 'tcgvalor',
     headers: {
       'X-GitHub-Api-Version': '2022-11-28',
     },
