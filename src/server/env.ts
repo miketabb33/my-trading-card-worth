@@ -25,7 +25,6 @@ export const ENV = {
   DATABASE: {
     URL: () => validatedEnv('DATABASE_URL', process.env.DATABASE_URL),
   },
-  GITHUB_TOKEN: () => process.env.GITHUB_TOKEN ?? '',
   ADMIN_TOKEN: () => validatedEnv('ADMIN_TOKEN', process.env.ADMIN_TOKEN),
   ID: process.env.NODE_ENV as EnvironmentId,
   EMAILER: {

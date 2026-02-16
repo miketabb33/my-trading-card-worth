@@ -2,7 +2,7 @@ import { Octokit } from '@octokit/rest'
 import { ApplicationReleaseDto } from '../../../core/types/ApplicationReleaseDto'
 import { ENV } from '../../env'
 
-const octokit = new Octokit({ auth: ENV.GITHUB_TOKEN() })
+const octokit = new Octokit()
 
 export const ListReleases = async (): Promise<ApplicationReleaseDto[]> => {
   const response = await octokit.request('GET /repos/{owner}/{repo}/releases', {
