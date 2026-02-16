@@ -1,6 +1,5 @@
 import { Octokit } from '@octokit/rest'
 import { ApplicationReleaseDto } from '../../../core/types/ApplicationReleaseDto'
-import { ENV } from '../../env'
 
 const octokit = new Octokit()
 

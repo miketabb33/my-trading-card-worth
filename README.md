@@ -1,6 +1,6 @@
-# My Trading Card Worth
+# TCG Valor
 
-This application is intended to answer a simple question, "How much are your Pokemon cards worth?"
+This application is intended to answer a simple question, "How much are your tcg cards worth?"
 
 ## Getting Started
 
