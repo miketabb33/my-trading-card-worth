@@ -91,7 +91,7 @@ const loginInWith = (username: string, password: string) => {
   cy.get('#LoginButton').click()
 
   const args = { username, password }
-  cy.origin('https://my-trading-card-worth.us.auth0.com', { args }, ({ username, password }) => {
+  cy.origin('https://tcgvalor.us.auth0.com/', { args }, ({ username, password }) => {
     cy.get('#username').type(username)
     cy.get('#password').type(password)
     cy.get('form').first().submit()
