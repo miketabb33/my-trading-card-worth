@@ -17,6 +17,7 @@ import Spinner from '../base/Spinner'
 import { CenterContent } from '../base/layout/CenterContent'
 import CatalogNoCards from './CatalogNoCards'
 import CatalogNoExpansionSelected from './CatalogNoExpansionSelected'
+import { StickyScrollNavBar, ScrollToTopButton, ExpansionLogo } from '../sticky-scroll'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -64,6 +65,11 @@ const Catalog = () => {
       )}
 
       <CardList cardsDto={cardsDto} refreshCards={refreshCards} />
+
+      <StickyScrollNavBar>
+        <ScrollToTopButton />
+        <ExpansionLogo logoUrl={expansionDetailsDto?.logoUrl ?? null} />
+      </StickyScrollNavBar>
     </Container>
   )
 }
