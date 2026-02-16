@@ -13,7 +13,6 @@ export const EXPANSION_ENTITY_ORIGINAL: ExpansionEntity = {
   logoUrl:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/269px-International_Pok%C3%A9mon_logo.svg.png',
   bulbapediaUrl: 'https://bulbapedia.bulbagarden.net/wiki/Base_Set_(TCG)',
-  _id: '1',
   cardTraderExpansionId: 0,
   createdAt: new Date(2024, 1, 9),
   updatedAt: new Date(2024, 1, 9),
@@ -31,7 +30,6 @@ export const EXPANSION_ENTITY_FOSSIL: ExpansionEntity = {
   bulbapediaUrl: 'https://bulbapedia.bulbagarden.net/wiki/Fossil_(TCG)',
   symbolUrl: 'https://archives.bulbagarden.net/media/upload/thumb/e/e6/SetSymbolFossil.png/40px-SetSymbolFossil.png',
   logoUrl: 'https://archives.bulbagarden.net/media/upload/thumb/7/7f/Fossil_Logo.png/90px-Fossil_Logo.png',
-  _id: '2',
   cardTraderExpansionId: 0,
   createdAt: new Date(2024, 1, 9),
   updatedAt: new Date(2024, 1, 9),
@@ -50,7 +48,6 @@ export const EXPANSION_ENTITY_PLATINUM: ExpansionEntity = {
   symbolUrl:
     'https://archives.bulbagarden.net/media/upload/thumb/7/7c/SetSymbolPlatinum.png/40px-SetSymbolPlatinum.png',
   logoUrl: 'https://archives.bulbagarden.net/media/upload/thumb/4/47/PL1_Logo_EN.png/150px-PL1_Logo_EN.png',
-  _id: '3',
   cardTraderExpansionId: 0,
   createdAt: new Date(2024, 1, 9),
   updatedAt: new Date(2024, 1, 9),
@@ -69,7 +66,6 @@ export const EXPANSION_ENTITY_MCDONALD: ExpansionEntity = {
   symbolUrl:
     'https://archives.bulbagarden.net/media/upload/thumb/e/ee/SetSymbolMcDonalds_Collection_2014.png/40px-SetSymbolMcDonalds_Collection_2014.png',
   logoUrl: null,
-  _id: '4',
   cardTraderExpansionId: 0,
   createdAt: new Date(2024, 1, 9),
   updatedAt: new Date(2024, 1, 9),
@@ -88,7 +84,6 @@ export const EXPANSION_ENTITY_POP: ExpansionEntity = {
   symbolUrl:
     'https://archives.bulbagarden.net/media/upload/thumb/4/4c/SetSymbolPOP_Series_3.png/40px-SetSymbolPOP_Series_3.png',
   logoUrl: null,
-  _id: '5',
   cardTraderExpansionId: 0,
   createdAt: new Date(2024, 1, 9),
   updatedAt: new Date(2024, 1, 9),

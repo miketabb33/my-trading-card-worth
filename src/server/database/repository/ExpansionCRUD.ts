@@ -1,7 +1,6 @@
 import { prisma } from '../prismaClient'
 
 export type ExpansionEntity = {
-  _id: string
   cardTraderExpansionId: number
   name: string
   expansionNumberInSeries: number
@@ -46,7 +45,6 @@ class ExpansionCRUD implements IExpansionCRUD {
     if (!pokemon) return null
 
     return {
-      _id: String(expansion.id),
       cardTraderExpansionId,
       name: expansion.name,
       expansionNumberInSeries: pokemon.expansionNumberInSeries,
