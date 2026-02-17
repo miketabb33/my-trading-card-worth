@@ -19,12 +19,9 @@ import {
   SORTABLE_EXPANSION_OTHER2_MOCK,
   SORTABLE_EXPANSION_PARADOX_RIFT_MOCK,
 } from '../../__MOCKS__/sortableExpansion.mock'
+import { makePrismaClientMock } from '../../__MOCKS__/prismaClient.mock'
 
-const mockPrisma = {
-  expansionPokemonOrder: {
-    findFirst: jest.fn(),
-  },
-} as any
+const mockPrisma = makePrismaClientMock({ expansionPokemonOrder: { findFirst: jest.fn() } })
 
 describe('Get Expansions Logic', () => {
   let getExpansionsLogic: GetExpansionsLogic

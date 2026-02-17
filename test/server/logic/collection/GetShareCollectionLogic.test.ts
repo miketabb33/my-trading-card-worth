@@ -1,13 +1,10 @@
+import { makePrismaClientMock } from '../../__MOCKS__/prismaClient.mock'
 import GetShareCollectionLogic from '../../../../src/server/logic/collection/GetShareCollectionLogic'
 import Collection_FAKE from '../../__FAKES__/Collection.fake'
 import CollectionFactory_FAKE from '../../__FAKES__/CollectionFactory.fake'
 import { makeProfileEntityMock } from '../../__MOCKS__/profileEntity.mock'
 
-const mockPrisma = {
-  profile: {
-    findUnique: jest.fn(),
-  },
-} as any
+const mockPrisma = makePrismaClientMock({ profile: { findUnique: jest.fn() } })
 
 describe('Get Share Collection Logic', () => {
   let getShareCollectionLogic: GetShareCollectionLogic
