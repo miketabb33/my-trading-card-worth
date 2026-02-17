@@ -1,14 +1,14 @@
 import GetShareCollectionLogic from '../../../../src/server/logic/collection/GetShareCollectionLogic'
 import Collection_FAKE from '../../__FAKES__/Collection.fake'
 import CollectionFactory_FAKE from '../../__FAKES__/CollectionFactory.fake'
-import ProfileCRUD_FAKE from '../../__FAKES__/ProfileCRUD.fake'
+import ProfileRepo_FAKE from '../../__FAKES__/ProfileRepo.fake'
 import { makeProfileEntityMock } from '../../__MOCKS__/profileEntity.mock'
 
 describe('Get Share Collection Logic', () => {
   let getShareCollectionLogic: GetShareCollectionLogic
   let collection_FAKE: Collection_FAKE
   let collectionFactory_FAKE: CollectionFactory_FAKE
-  let profileCRUD_FAKE: ProfileCRUD_FAKE
+  let profileRepo_FAKE: ProfileRepo_FAKE
 
   const USER_ID = '12345'
 
@@ -16,9 +16,9 @@ describe('Get Share Collection Logic', () => {
     jest.clearAllMocks()
     collection_FAKE = new Collection_FAKE()
     collectionFactory_FAKE = new CollectionFactory_FAKE()
-    profileCRUD_FAKE = new ProfileCRUD_FAKE()
+    profileRepo_FAKE = new ProfileRepo_FAKE()
 
-    getShareCollectionLogic = new GetShareCollectionLogic(collectionFactory_FAKE, profileCRUD_FAKE)
+    getShareCollectionLogic = new GetShareCollectionLogic(collectionFactory_FAKE, profileRepo_FAKE)
 
     collectionFactory_FAKE.MAKE.mockReturnValue(collection_FAKE)
   })
@@ -40,7 +40,7 @@ describe('Get Share Collection Logic', () => {
 
   it('should return user name', async () => {
     const NAME = 'any name'
-    profileCRUD_FAKE.FIND.mockReturnValue({
+    profileRepo_FAKE.FIND.mockReturnValue({
       ...makeProfileEntityMock({ name: NAME }),
     })
     const result = await getShareCollectionLogic.get(USER_ID)

@@ -3,7 +3,7 @@ import { Router } from 'express'
 import { formatError, formatResponse } from '../logic/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import Logger from '../logger'
-import ProfileCRUD from '../database/repository/ProfileCRUD'
+import ProfileRepo from '../repository/ProfileRepo'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
 import Emailer from '../Emailer'
@@ -39,17 +39,17 @@ ProfileController.get('/', async (req, res) => {
 })
 
 const getProfile = async (auth0User: Auth0User) => {
-  const profileCRUD = new ProfileCRUD()
-  let profile = await profileCRUD.find(auth0User.sub)
+  const profileRepo = new ProfileRepo()
+  let profile = await profileRepo.find(auth0User.sub)
   if (!profile) {
-    await profileCRUD.create({
+    await profileRepo.create({
       userId: auth0User.sub,
       email: auth0User.email ?? '',
       name: auth0User.name ?? '',
       nickname: auth0User.nickname ?? '',
       picture: auth0User.picture ?? '',
     })
-    profile = await profileCRUD.find(auth0User.sub)
+    profile = await profileRepo.find(auth0User.sub)
     if (!profile) throw new Error('Failed to create profile')
     await sendAccountCreatedEmail(auth0User.email ?? 'Someone')
   }

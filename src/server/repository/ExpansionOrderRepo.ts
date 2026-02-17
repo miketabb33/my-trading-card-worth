@@ -1,11 +1,11 @@
-import { prisma } from '../prismaClient'
-import { ExpansionOrder } from '../../types/ExpansionOrder'
+import { prisma } from '../../../prisma/prismaClient'
+import { ExpansionOrder } from '../types/ExpansionOrder'
 
-export interface IExpansionOrderCRUD {
+export interface IExpansionOrderRepo {
   get: () => Promise<ExpansionOrder | null>
 }
 
-class ExpansionOrderCRUD implements IExpansionOrderCRUD {
+class ExpansionOrderRepo implements IExpansionOrderRepo {
   get = async (): Promise<ExpansionOrder | null> => {
     const record = await prisma.expansionPokemonOrder.findFirst()
     if (!record) return null
@@ -17,4 +17,4 @@ class ExpansionOrderCRUD implements IExpansionOrderCRUD {
   }
 }
 
-export default ExpansionOrderCRUD
+export default ExpansionOrderRepo

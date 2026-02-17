@@ -1,4 +1,4 @@
-import { ExpansionEntity } from '../../../src/server/database/repository/ExpansionCRUD'
+import { ExpansionEntity } from '../../../src/server/repository/ExpansionRepo'
 
 export const EXPANSION_ENTITY_ORIGINAL: ExpansionEntity = {
   name: 'Base Set',

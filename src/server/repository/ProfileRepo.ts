@@ -1,12 +1,12 @@
 import { Profile, Prisma } from '@prisma/client'
-import { prisma } from '../prismaClient'
+import { prisma } from '../../../prisma/prismaClient'
 
-export interface IProfileCRUD {
+export interface IProfileRepo {
   create: (data: Prisma.ProfileCreateInput) => Promise<void>
   find: (userId: string) => Promise<Profile | null>
 }
 
-class ProfileCRUD implements IProfileCRUD {
+class ProfileRepo implements IProfileRepo {
   create = async (data: Prisma.ProfileCreateInput) => {
     await prisma.profile.create({ data })
   }
@@ -16,4 +16,4 @@ class ProfileCRUD implements IProfileCRUD {
   }
 }
 
-export default ProfileCRUD
+export default ProfileRepo

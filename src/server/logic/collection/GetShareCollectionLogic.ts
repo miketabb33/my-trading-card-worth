@@ -1,19 +1,19 @@
 import { ShareCollectionDto } from '../../../core/types/ShareCollectionDto'
-import { IProfileCRUD } from '../../database/repository/ProfileCRUD'
+import { IProfileRepo } from '../../repository/ProfileRepo'
 import { ICollectionFactory } from '../../domain/CollectionFactory'
 
 class GetShareCollectionLogic {
   private readonly collectionFactory: ICollectionFactory
-  private readonly profileCRUD: IProfileCRUD
+  private readonly profileRepo: IProfileRepo
 
-  constructor(collectionFactory: ICollectionFactory, profileCRUD: IProfileCRUD) {
+  constructor(collectionFactory: ICollectionFactory, profileRepo: IProfileRepo) {
     this.collectionFactory = collectionFactory
-    this.profileCRUD = profileCRUD
+    this.profileRepo = profileRepo
   }
 
   get = async (userId: string): Promise<ShareCollectionDto> => {
     const collection = await this.collectionFactory.make(userId)
-    const profile = await this.profileCRUD.find(userId)
+    const profile = await this.profileRepo.find(userId)
 
     return {
       cards: collection.cards(),

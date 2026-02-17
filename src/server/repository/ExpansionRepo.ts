@@ -1,4 +1,4 @@
-import { prisma } from '../prismaClient'
+import { prisma } from '../../../prisma/prismaClient'
 
 export type ExpansionEntity = {
   cardTraderExpansionId: number
@@ -17,11 +17,11 @@ export type ExpansionEntity = {
   updatedAt: Date
 }
 
-export interface IExpansionCRUD {
+export interface IExpansionRepo {
   find: (cardTraderExpansionId: number) => Promise<ExpansionEntity | null>
 }
 
-class ExpansionCRUD implements IExpansionCRUD {
+class ExpansionRepo implements IExpansionRepo {
   find = async (cardTraderExpansionId: number): Promise<ExpansionEntity | null> => {
     const platformLink = await prisma.expansionPlatformLink.findFirst({
       where: {
@@ -63,4 +63,4 @@ class ExpansionCRUD implements IExpansionCRUD {
   }
 }
 
-export default ExpansionCRUD
+export default ExpansionRepo

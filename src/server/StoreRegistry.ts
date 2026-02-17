@@ -10,8 +10,8 @@ import { BlueprintValue } from './types/BlueprintValue'
 import { ExpansionDto } from '../core/types/ExpansionDto'
 import ExpansionsStoreDev from './stores/ExpansionsStoreDev'
 import BlueprintValueStoreDev from './stores/BlueprintValueStoreDev'
-import ExpansionCRUD from './database/repository/ExpansionCRUD'
-import ExpansionOrderCRUD from './database/repository/ExpansionOrderCRUD'
+import ExpansionRepo from './repository/ExpansionRepo'
+import ExpansionOrderRepo from './repository/ExpansionOrderRepo'
 
 export class StoreRegistry {
   expansions: IStore<ExpansionDto[]>
@@ -34,8 +34,8 @@ const getStore = () => {
       new GetExpansionsLogic(
         new CardTraderAdaptor(),
         new ExpansionSorter(),
-        new ExpansionCRUD(),
-        new ExpansionOrderCRUD()
+        new ExpansionRepo(),
+        new ExpansionOrderRepo()
       )
     )
 

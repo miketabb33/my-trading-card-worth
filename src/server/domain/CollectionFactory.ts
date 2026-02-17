@@ -1,4 +1,4 @@
-import { IMyCardCRUD } from '../database/repository/MyCardCRUD'
+import { IMyCardRepo } from '../repository/MyCardRepo'
 import { BlueprintValue } from '../types/BlueprintValue'
 import Collection, { ICollection } from './Collection'
 
@@ -7,16 +7,16 @@ export interface ICollectionFactory {
 }
 
 class CollectionFactory implements ICollectionFactory {
-  private readonly cardCRUD: IMyCardCRUD
+  private readonly cardRepo: IMyCardRepo
   private readonly blueprintValues: Map<string, BlueprintValue>
 
-  constructor(cardCRUD: IMyCardCRUD, blueprintValues: Map<string, BlueprintValue>) {
-    this.cardCRUD = cardCRUD
+  constructor(cardRepo: IMyCardRepo, blueprintValues: Map<string, BlueprintValue>) {
+    this.cardRepo = cardRepo
     this.blueprintValues = blueprintValues
   }
 
   make = async (userId: string): Promise<ICollection> => {
-    const cardEntities = await this.cardCRUD.getAll(userId)
+    const cardEntities = await this.cardRepo.getAll(userId)
     return new Collection(cardEntities, this.blueprintValues)
   }
 }

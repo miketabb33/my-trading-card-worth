@@ -1,4 +1,4 @@
-import { ExpansionEntity } from '../../database/repository/ExpansionCRUD'
+import { ExpansionEntity } from '../../repository/ExpansionRepo'
 import { CardExpansion } from '../../types/CardExpansion'
 import { ExpansionOrder } from '../../types/ExpansionOrder'
 
