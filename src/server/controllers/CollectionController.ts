@@ -6,7 +6,11 @@ import { requiresAuth } from 'express-openid-connect'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import { tryToParseAddMyCardBody } from '../logic/collection/parseAddMyCardBody'
 import AddCardLogic from '../logic/collection/AddCardLogic'
+import AddCardTraderCardLogic from '../logic/collection/AddCardTraderCardLogic'
 import MyCardRepo from '../repository/MyCardRepo'
+import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
+import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
+import { CardCondition } from '@prisma/client'
 import { tryToParseRemoveMyCardBody } from '../logic/collection/parseRemoveMyCardBody'
 import GetCollectionLogic from '../logic/collection/GetCollectionLogic'
 import Store from '../StoreRegistry'
@@ -59,8 +63,13 @@ CollectionController.post('/', requiresAuth(), async (req, res) => {
     const myCardDto = tryToParseAddMyCardBody(req.body)
 
     const addCardLogic = new AddCardLogic(new MyCardRepo())
-
     await addCardLogic.add(auth0User.sub, myCardDto)
+
+    const profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
+    if (profile) {
+      const addCardTraderCardLogic = new AddCardTraderCardLogic(prisma, new CardTraderAdaptor(), new ExpansionPokemonRepo())
+      await addCardTraderCardLogic.add(profile.id, myCardDto.blueprintId, myCardDto.expansionId, CardCondition.UNKNOWN)
+    }
 
     res.send(formatResponse({}))
   } catch (e) {
