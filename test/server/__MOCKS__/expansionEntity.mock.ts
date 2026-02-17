@@ -1,6 +1,7 @@
 import { ExpansionEntity } from '../../../src/server/repository/ExpansionRepo'
 
 export const EXPANSION_ENTITY_ORIGINAL: ExpansionEntity = {
+  id: 1,
   name: 'Base Set',
   expansionNumberInSeries: 1,
   series: 'Original Series',
@@ -19,6 +20,7 @@ export const EXPANSION_ENTITY_ORIGINAL: ExpansionEntity = {
 }
 
 export const EXPANSION_ENTITY_FOSSIL: ExpansionEntity = {
+  id: 2,
   name: 'Fossil',
   expansionNumberInSeries: 3,
   series: 'Original Series',
@@ -36,6 +38,7 @@ export const EXPANSION_ENTITY_FOSSIL: ExpansionEntity = {
 }
 
 export const EXPANSION_ENTITY_PLATINUM: ExpansionEntity = {
+  id: 3,
   name: 'Platinum',
   expansionNumberInSeries: 1,
   series: 'Platinum Series',
@@ -54,6 +57,7 @@ export const EXPANSION_ENTITY_PLATINUM: ExpansionEntity = {
 }
 
 export const EXPANSION_ENTITY_MCDONALD: ExpansionEntity = {
+  id: 4,
   name: "McDonald's Collection 2014",
   expansionNumberInSeries: 4,
   series: "McDonald's Collection",
@@ -72,6 +76,7 @@ export const EXPANSION_ENTITY_MCDONALD: ExpansionEntity = {
 }
 
 export const EXPANSION_ENTITY_POP: ExpansionEntity = {
+  id: 5,
   name: 'POP Series 3',
   expansionNumberInSeries: 3,
   series: 'Pop / Play! Pokemon Prize Packs',

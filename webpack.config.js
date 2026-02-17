@@ -19,6 +19,14 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      '@controllers': path.resolve(__dirname, 'src/server/controllers'),
+      '@clients': path.resolve(__dirname, 'src/server/clients'),
+      '@domain': path.resolve(__dirname, 'src/server/domain'),
+      '@logic': path.resolve(__dirname, 'src/server/logic'),
+      '@repository': path.resolve(__dirname, 'src/server/repository'),
+      '@stores': path.resolve(__dirname, 'src/server/stores'),
+    },
     fallback: {
       'mongodb-client-encryption': false,
       aws4: false,

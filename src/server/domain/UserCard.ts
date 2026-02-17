@@ -1,15 +1,26 @@
 import { prisma } from '../../../prisma/prismaClient'
 import { ICardTraderAdaptor } from '../clients/CardTrader/CardTraderAdaptor'
+import { IExpansionRepo } from '../repository/ExpansionRepo'
+import { IGameRepo } from '../repository/GameRepo'
 
 export interface IUserCard {
-  add: (profileId: number, cardTraderBlueprintId: number, cardTraderExpansionId: number, condition: number) => Promise<void>
+  add: (
+    profileId: number,
+    cardTraderBlueprintId: number,
+    cardTraderExpansionId: number,
+    condition: number
+  ) => Promise<void>
 }
 
 class UserCard implements IUserCard {
   private readonly cardTraderAdaptor: ICardTraderAdaptor
+  private readonly expansionRepo: IExpansionRepo
+  private readonly gameRepo: IGameRepo
 
-  constructor(cardTraderAdaptor: ICardTraderAdaptor) {
+  constructor(cardTraderAdaptor: ICardTraderAdaptor, expansionRepo: IExpansionRepo, gameRepo: IGameRepo) {
     this.cardTraderAdaptor = cardTraderAdaptor
+    this.expansionRepo = expansionRepo
+    this.gameRepo = gameRepo
   }
 
   add = async (profileId: number, cardTraderBlueprintId: number, cardTraderExpansionId: number, condition: number) => {
@@ -27,36 +38,22 @@ class UserCard implements IUserCard {
   }
 
   private ensureExpansionExists = async (cardTraderExpansionId: number): Promise<number> => {
-    const existing = await prisma.expansionPlatformLink.findFirst({
-      where: {
-        platform: 'CARD_TRADER',
-        externalId: String(cardTraderExpansionId),
-      },
-    })
+    const existing = await this.expansionRepo.find(cardTraderExpansionId)
 
-    if (existing) return existing.expansionId
+    if (existing) return existing.id
 
     const expansionName = await this.fetchExpansionName(cardTraderExpansionId)
+    const gameId = await this.gameRepo.findOrCreate('Pokemon')
 
-    const pokemonGame = await prisma.game.upsert({
-      where: { name: 'Pokemon' },
-      update: {},
-      create: { name: 'Pokemon' },
-    })
-
-    const expansion = await prisma.expansion.create({
-      data: {
-        gameId: pokemonGame.id,
+    return await this.expansionRepo.create({
+      expansion: {
+        gameId,
         name: expansionName,
         imageUrl: '',
         numberOfCards: 0,
         releaseDate: new Date(),
       },
-    })
-
-    await prisma.expansionPokemon.create({
-      data: {
-        expansionId: expansion.id,
+      pokemon: {
         abbreviation: '',
         series: '',
         expansionType: '',
@@ -65,17 +62,11 @@ class UserCard implements IUserCard {
         symbolUrl: '',
         bulbapediaUrl: '',
       },
-    })
-
-    await prisma.expansionPlatformLink.create({
-      data: {
-        expansionId: expansion.id,
+      platformLink: {
         platform: 'CARD_TRADER',
         externalId: String(cardTraderExpansionId),
       },
     })
-
-    return expansion.id
   }
 
   private fetchExpansionName = async (cardTraderExpansionId: number): Promise<string> => {
