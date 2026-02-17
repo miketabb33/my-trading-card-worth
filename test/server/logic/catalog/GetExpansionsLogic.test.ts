@@ -56,7 +56,7 @@ describe('Get Expansions Logic', () => {
       mockPrisma,
       cardTraderAdaptor_FAKE,
       expansionSorter_FAKE,
-      expansionPokemonRepo_FAKE,
+      expansionPokemonRepo_FAKE
     )
   })
 

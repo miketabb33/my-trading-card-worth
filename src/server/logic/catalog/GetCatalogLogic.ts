@@ -13,7 +13,11 @@ class GetCatalogLogic {
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionPokemonRepo: IExpansionPokemonRepo
 
-  constructor(myCardRepo: IMyCardRepo, cardTraderAdaptor: ICardTraderAdaptor, expansionPokemonRepo: IExpansionPokemonRepo) {
+  constructor(
+    myCardRepo: IMyCardRepo,
+    cardTraderAdaptor: ICardTraderAdaptor,
+    expansionPokemonRepo: IExpansionPokemonRepo
+  ) {
     this.myCardRepo = myCardRepo
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionPokemonRepo = expansionPokemonRepo

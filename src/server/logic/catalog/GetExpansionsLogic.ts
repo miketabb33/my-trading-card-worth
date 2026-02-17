@@ -19,7 +19,7 @@ class GetExpansionsLogic implements IGetExpansionsLogic {
     prisma: PrismaClient,
     cardTraderAdaptor: ICardTraderAdaptor,
     expansionSorter: IExpansionSorter,
-    expansionPokemonRepo: IExpansionPokemonRepo,
+    expansionPokemonRepo: IExpansionPokemonRepo
   ) {
     this.prisma = prisma
     this.cardTraderAdaptor = cardTraderAdaptor

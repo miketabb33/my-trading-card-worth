@@ -31,12 +31,7 @@ export class StoreRegistry {
 const getStore = () => {
   if (ENV.ID === 'production') {
     const expansionsStore = new ExpansionsStore(
-      new GetExpansionsLogic(
-        prisma,
-        new CardTraderAdaptor(),
-        new ExpansionSorter(),
-        new ExpansionPokemonRepo(),
-      )
+      new GetExpansionsLogic(prisma, new CardTraderAdaptor(), new ExpansionSorter(), new ExpansionPokemonRepo())
     )
 
     const blueprintValueStore = new BlueprintValueStore(

@@ -19,14 +19,19 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
   constructor(
     prisma: PrismaClient,
     cardTraderAdaptor: ICardTraderAdaptor,
-    expansionPokemonRepo: IExpansionPokemonRepo,
+    expansionPokemonRepo: IExpansionPokemonRepo
   ) {
     this.prisma = prisma
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionPokemonRepo = expansionPokemonRepo
   }
 
-  add = async (profileId: number, cardTraderBlueprintId: number, cardTraderExpansionId: number, condition: CardCondition) => {
+  add = async (
+    profileId: number,
+    cardTraderBlueprintId: number,
+    cardTraderExpansionId: number,
+    condition: CardCondition
+  ) => {
     const expansionId = await this.ensureExpansionExists(cardTraderExpansionId)
     await this.ensureBlueprintsExist(expansionId, cardTraderExpansionId)
     const cardBlueprintId = await this.getCardBlueprintId(cardTraderBlueprintId)
