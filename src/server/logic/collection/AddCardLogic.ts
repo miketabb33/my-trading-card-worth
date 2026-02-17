@@ -20,7 +20,7 @@ class AddCardLogic {
         _id: createMongoId(),
         userId,
         name: myCardDto.name,
-        items: [{ condition: myCardDto.condition }],
+        items: [{ condition: 0 }],
         imageUrlPreview: myCardDto.imageUrlPreview,
         imageUrlShow: myCardDto.imageUrlShow,
         cardTrader: {
@@ -32,7 +32,7 @@ class AddCardLogic {
       }
       await this.myCardRepo.create(args)
     } else {
-      const item: MyCardItemEntity = { condition: myCardDto.condition }
+      const item: MyCardItemEntity = { condition: 0 }
       await this.myCardRepo.addItem(userId, myCardDto.blueprintId, item)
     }
   }

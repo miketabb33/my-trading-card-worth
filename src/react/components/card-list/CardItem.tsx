@@ -4,7 +4,6 @@ import { useGlobalPopup } from '../../providers/GlobalPopupProvider'
 import EnlargedCardPopup from './EnlargedCardPopup'
 import { useProfile } from '../../providers/ProfileProvider'
 import AddCardButton from './card-button/AddCardButton'
-import { CardConditions } from '../../../core/types/CardCondition'
 import { formatCentsToDollars } from '../../../core/currencyFormatter'
 import RemoveCardButton from './card-button/RemoveCardButton'
 import { CardDto } from '../../../core/types/CardDto'
@@ -89,7 +88,7 @@ const CardItem = ({ cardDto, id, isEditable = true, refreshCards = () => {} }: C
             {showOwnedCount && <h3>Owned: {cardDto.owned}</h3>}
             {showActions && (
               <Actions>
-                <AddCardButton cardDto={cardDto} condition={CardConditions.Unknown} refreshCards={refreshCards} />
+                <AddCardButton cardDto={cardDto} refreshCards={refreshCards} />
                 <RemoveCardButton
                   blueprintId={cardDto.blueprintId}
                   cardsOwned={cardDto.owned}

@@ -29,7 +29,7 @@ describe('Add Card Logic', () => {
           blueprintId: ADD_MY_CARD_DTO.blueprintId,
           expansionId: ADD_MY_CARD_DTO.expansionId,
         },
-        items: [{ condition: ADD_MY_CARD_DTO.condition }],
+        items: [{ condition: 0 }],
         createdAt: expect.any(Date),
         imageUrlPreview: ADD_MY_CARD_DTO.imageUrlPreview,
         imageUrlShow: ADD_MY_CARD_DTO.imageUrlShow,
@@ -50,7 +50,7 @@ describe('Add Card Logic', () => {
     await addCardLogic.add(USER_ID, ADD_MY_CARD_DTO)
 
     const expectedItem: MyCardItemEntity = {
-      condition: ADD_MY_CARD_DTO.condition,
+      condition: 0,
     }
     expect(myCardRepo_FAKE.ADD_ITEM).toHaveBeenCalledWith(USER_ID, ADD_MY_CARD_DTO.blueprintId, expectedItem)
     expect(myCardRepo_FAKE.CREATE).not.toHaveBeenCalled()
