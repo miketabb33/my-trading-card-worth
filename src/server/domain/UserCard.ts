@@ -1,4 +1,4 @@
-import { GameName, PrismaClient } from '@prisma/client'
+import { CardCondition, GameName, PrismaClient } from '@prisma/client'
 import { ICardTraderAdaptor } from '../clients/CardTrader/CardTraderAdaptor'
 import { IExpansionPokemonRepo } from '../repository/ExpansionPokemonRepo'
 
@@ -7,7 +7,7 @@ export interface IUserCard {
     profileId: number,
     cardTraderBlueprintId: number,
     cardTraderExpansionId: number,
-    condition: number
+    condition: CardCondition
   ) => Promise<void>
 }
 
@@ -26,7 +26,7 @@ class UserCard implements IUserCard {
     this.expansionPokemonRepo = expansionPokemonRepo
   }
 
-  add = async (profileId: number, cardTraderBlueprintId: number, cardTraderExpansionId: number, condition: number) => {
+  add = async (profileId: number, cardTraderBlueprintId: number, cardTraderExpansionId: number, condition: CardCondition) => {
     const expansionId = await this.ensureExpansionExists(cardTraderExpansionId)
     await this.ensureBlueprintsExist(expansionId, cardTraderExpansionId)
     const cardBlueprintId = await this.getCardBlueprintId(cardTraderBlueprintId)
