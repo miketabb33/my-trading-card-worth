@@ -118,6 +118,7 @@ enum CardCondition {
   MODERATELY_PLAYED
   HEAVILY_PLAYED
   DAMAGED
+  UNKNOWN
 }
 
 enum PokemonRarity {
