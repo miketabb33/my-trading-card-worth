@@ -2,21 +2,25 @@ import { CatalogDto } from '../../../core/types/CatalogDto'
 import { CardDto } from '../../../core/types/CardDto'
 import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
-import { IMyCardCRUD, MyCardEntity } from '../../database/repository/MyCardCRUD'
+import { IMyCardRepo, MyCardEntity } from '../../repository/MyCardRepo'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
 import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
-import { IExpansionCRUD } from '../../database/repository/ExpansionCRUD'
+import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 
 class GetCatalogLogic {
-  private readonly myCardCRUD: IMyCardCRUD
+  private readonly myCardRepo: IMyCardRepo
   private readonly cardTraderAdaptor: ICardTraderAdaptor
-  private readonly expansionCRUD: IExpansionCRUD
+  private readonly expansionPokemonRepo: IExpansionPokemonRepo
 
-  constructor(myCardCRUD: IMyCardCRUD, cardTraderAdaptor: ICardTraderAdaptor, expansionCRUD: IExpansionCRUD) {
-    this.myCardCRUD = myCardCRUD
+  constructor(
+    myCardRepo: IMyCardRepo,
+    cardTraderAdaptor: ICardTraderAdaptor,
+    expansionPokemonRepo: IExpansionPokemonRepo
+  ) {
+    this.myCardRepo = myCardRepo
     this.cardTraderAdaptor = cardTraderAdaptor
-    this.expansionCRUD = expansionCRUD
+    this.expansionPokemonRepo = expansionPokemonRepo
   }
   get = async (
     userId: string | null,
@@ -27,7 +31,7 @@ class GetCatalogLogic {
 
     let myCardsInExpansion: MyCardEntity[] = []
 
-    if (userId) myCardsInExpansion = await this.myCardCRUD.findByExpansion(userId, expansionId)
+    if (userId) myCardsInExpansion = await this.myCardRepo.findByExpansion(userId, expansionId)
 
     const cards: CardDto[] = this.buildCardDtoList(cardBlueprints, myCardsInExpansion, blueprintValues)
 
@@ -106,7 +110,7 @@ class GetCatalogLogic {
   }
 
   private buildExpansionMainDetailsDto = async (expansionId: number): Promise<ExpansionDetailsDto | null> => {
-    const expansionsData = await this.expansionCRUD.find(expansionId)
+    const expansionsData = await this.expansionPokemonRepo.find(expansionId)
 
     if (!expansionsData) return null
 

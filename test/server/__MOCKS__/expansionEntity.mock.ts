@@ -1,6 +1,7 @@
-import { ExpansionEntity } from '../../../src/server/database/repository/ExpansionCRUD'
+import { ExpansionPokemonEntity } from '../../../src/server/repository/ExpansionPokemonRepo'
 
-export const EXPANSION_ENTITY_ORIGINAL: ExpansionEntity = {
+export const EXPANSION_ENTITY_ORIGINAL: ExpansionPokemonEntity = {
+  id: 1,
   name: 'Base Set',
   expansionNumberInSeries: 1,
   series: 'Original Series',
@@ -18,7 +19,8 @@ export const EXPANSION_ENTITY_ORIGINAL: ExpansionEntity = {
   updatedAt: new Date(2024, 1, 9),
 }
 
-export const EXPANSION_ENTITY_FOSSIL: ExpansionEntity = {
+export const EXPANSION_ENTITY_FOSSIL: ExpansionPokemonEntity = {
+  id: 2,
   name: 'Fossil',
   expansionNumberInSeries: 3,
   series: 'Original Series',
@@ -35,7 +37,8 @@ export const EXPANSION_ENTITY_FOSSIL: ExpansionEntity = {
   updatedAt: new Date(2024, 1, 9),
 }
 
-export const EXPANSION_ENTITY_PLATINUM: ExpansionEntity = {
+export const EXPANSION_ENTITY_PLATINUM: ExpansionPokemonEntity = {
+  id: 3,
   name: 'Platinum',
   expansionNumberInSeries: 1,
   series: 'Platinum Series',
@@ -53,7 +56,8 @@ export const EXPANSION_ENTITY_PLATINUM: ExpansionEntity = {
   updatedAt: new Date(2024, 1, 9),
 }
 
-export const EXPANSION_ENTITY_MCDONALD: ExpansionEntity = {
+export const EXPANSION_ENTITY_MCDONALD: ExpansionPokemonEntity = {
+  id: 4,
   name: "McDonald's Collection 2014",
   expansionNumberInSeries: 4,
   series: "McDonald's Collection",
@@ -71,7 +75,8 @@ export const EXPANSION_ENTITY_MCDONALD: ExpansionEntity = {
   updatedAt: new Date(2024, 1, 9),
 }
 
-export const EXPANSION_ENTITY_POP: ExpansionEntity = {
+export const EXPANSION_ENTITY_POP: ExpansionPokemonEntity = {
+  id: 5,
   name: 'POP Series 3',
   expansionNumberInSeries: 3,
   series: 'Pop / Play! Pokemon Prize Packs',

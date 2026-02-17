@@ -68,7 +68,7 @@ const myCardSchema = new Schema(
 
 const MyCardModel = model('my_card', myCardSchema)
 
-export interface IMyCardCRUD {
+export interface IMyCardRepo {
   create: (entity: MyCardEntity) => Promise<void>
   addItem: (userId: string, blueprintId: number, item: MyCardItemEntity) => Promise<void>
   delete: (userId: string, blueprintId: number) => Promise<void>
@@ -79,7 +79,7 @@ export interface IMyCardCRUD {
   getAll: (userId: string) => Promise<MyCardEntity[]>
 }
 
-class MyCardCRUD implements IMyCardCRUD {
+class MyCardRepo implements IMyCardRepo {
   create = async (args: MyCardEntity) => {
     const context = new MyCardModel(args)
     await context.save()
@@ -163,4 +163,4 @@ class MyCardCRUD implements IMyCardCRUD {
   })
 }
 
-export default MyCardCRUD
+export default MyCardRepo

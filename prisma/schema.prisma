@@ -7,9 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum GameName {
+  Pokemon
+  Lorcana
+}
+
 model Game {
   id         Int         @id @default(autoincrement())
-  name       String      @unique
+  name       GameName    @unique
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @updatedAt @map("updated_at")
   expansions Expansion[]
@@ -74,6 +79,8 @@ model CardBlueprint {
   platformLinks          CardBlueprintPlatformLink[]
   pokemonCardBlueprint   CardBlueprintPokemon?
 
+  userCards               UserCard[]
+
   @@map("card_blueprint")
 }
 
@@ -87,7 +94,31 @@ model Profile {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  userCards  UserCard[]
+
   @@map("profile")
+}
+
+model UserCard {
+  id              Int           @id @default(autoincrement())
+  profileId       Int           @map("profile_id")
+  cardBlueprintId Int           @map("card_blueprint_id")
+  condition       CardCondition
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  profile         Profile       @relation(fields: [profileId], references: [id])
+  cardBlueprint   CardBlueprint @relation(fields: [cardBlueprintId], references: [id])
+
+  @@map("user_card")
+}
+
+enum CardCondition {
+  NEAR_MINT
+  LIGHTLY_PLAYED
+  MODERATELY_PLAYED
+  HEAVILY_PLAYED
+  DAMAGED
+  UNKNOWN
 }
 
 enum PokemonRarity {

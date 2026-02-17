@@ -1,10 +1,10 @@
-import { ExpansionEntity } from '../../database/repository/ExpansionCRUD'
+import { ExpansionPokemonEntity } from '../../repository/ExpansionPokemonRepo'
 import { CardExpansion } from '../../types/CardExpansion'
 import { ExpansionOrder } from '../../types/ExpansionOrder'
 
 export type SortableExpansion = {
   cardExpansion: CardExpansion
-  expansionEntity: ExpansionEntity | null
+  expansionEntity: ExpansionPokemonEntity | null
 }
 
 export interface IExpansionSorter {

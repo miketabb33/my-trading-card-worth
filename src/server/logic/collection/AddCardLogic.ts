@@ -1,17 +1,17 @@
 import { AddMyCardDto } from '../../../core/types/AddMyCardDto'
-import { IMyCardCRUD, MyCardEntity, MyCardItemEntity } from '../../database/repository/MyCardCRUD'
+import { IMyCardRepo, MyCardEntity, MyCardItemEntity } from '../../repository/MyCardRepo'
 
 import { createMongoId } from '../../database/createMongoId'
 
 class AddCardLogic {
-  private readonly myCardCRUD: IMyCardCRUD
+  private readonly myCardRepo: IMyCardRepo
 
-  constructor(myCardCRUD: IMyCardCRUD) {
-    this.myCardCRUD = myCardCRUD
+  constructor(myCardRepo: IMyCardRepo) {
+    this.myCardRepo = myCardRepo
   }
 
   add = async (userId: string, myCardDto: AddMyCardDto) => {
-    const existingMyCardEntity = await this.myCardCRUD.findByBlueprintId(userId, myCardDto.blueprintId)
+    const existingMyCardEntity = await this.myCardRepo.findByBlueprintId(userId, myCardDto.blueprintId)
 
     const now = new Date()
 
@@ -30,10 +30,10 @@ class AddCardLogic {
         createdAt: now,
         updatedAt: now,
       }
-      await this.myCardCRUD.create(args)
+      await this.myCardRepo.create(args)
     } else {
       const item: MyCardItemEntity = { condition: myCardDto.condition }
-      await this.myCardCRUD.addItem(userId, myCardDto.blueprintId, item)
+      await this.myCardRepo.addItem(userId, myCardDto.blueprintId, item)
     }
   }
 }

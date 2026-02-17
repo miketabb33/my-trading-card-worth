@@ -1,4 +1,4 @@
-import { MyCardEntity, MyCardItemEntity } from '../../../src/server/database/repository/MyCardCRUD'
+import { MyCardEntity, MyCardItemEntity } from '../../../src/server/repository/MyCardRepo'
 
 type MakeMyCardEntityMockArgs = {
   _id?: string

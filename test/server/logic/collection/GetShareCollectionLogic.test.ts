@@ -1,14 +1,15 @@
+import { makePrismaClientMock } from '../../__MOCKS__/prismaClient.mock'
 import GetShareCollectionLogic from '../../../../src/server/logic/collection/GetShareCollectionLogic'
 import Collection_FAKE from '../../__FAKES__/Collection.fake'
 import CollectionFactory_FAKE from '../../__FAKES__/CollectionFactory.fake'
-import ProfileCRUD_FAKE from '../../__FAKES__/ProfileCRUD.fake'
 import { makeProfileEntityMock } from '../../__MOCKS__/profileEntity.mock'
+
+const mockPrisma = makePrismaClientMock({ profile: { findUnique: jest.fn() } })
 
 describe('Get Share Collection Logic', () => {
   let getShareCollectionLogic: GetShareCollectionLogic
   let collection_FAKE: Collection_FAKE
   let collectionFactory_FAKE: CollectionFactory_FAKE
-  let profileCRUD_FAKE: ProfileCRUD_FAKE
 
   const USER_ID = '12345'
 
@@ -16,9 +17,8 @@ describe('Get Share Collection Logic', () => {
     jest.clearAllMocks()
     collection_FAKE = new Collection_FAKE()
     collectionFactory_FAKE = new CollectionFactory_FAKE()
-    profileCRUD_FAKE = new ProfileCRUD_FAKE()
 
-    getShareCollectionLogic = new GetShareCollectionLogic(collectionFactory_FAKE, profileCRUD_FAKE)
+    getShareCollectionLogic = new GetShareCollectionLogic(mockPrisma, collectionFactory_FAKE)
 
     collectionFactory_FAKE.MAKE.mockReturnValue(collection_FAKE)
   })
@@ -40,7 +40,7 @@ describe('Get Share Collection Logic', () => {
 
   it('should return user name', async () => {
     const NAME = 'any name'
-    profileCRUD_FAKE.FIND.mockReturnValue({
+    mockPrisma.profile.findUnique.mockResolvedValue({
       ...makeProfileEntityMock({ name: NAME }),
     })
     const result = await getShareCollectionLogic.get(USER_ID)

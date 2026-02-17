@@ -2,8 +2,7 @@ import { SortableExpansion } from '../../../../src/server/logic/catalog/Expansio
 import GetExpansionsLogic from '../../../../src/server/logic/catalog/GetExpansionsLogic'
 import { CardExpansion } from '../../../../src/server/types/CardExpansion'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
-import ExpansionCRUD_FAKE from '../../__FAKES__/ExpansionCRUD.fake'
-import ExpansionOrderCRUD_FAKE from '../../__FAKES__/ExpansionOrderCRUD.fake'
+import ExpansionPokemonRepo_FAKE from '../../__FAKES__/ExpansionPokemonRepo.fake'
 import ExpansionSorter_FAKE from '../../__FAKES__/ExpansionSorter.fake'
 import {
   CARD_EXPANSION_FOSSIL_MOCK,
@@ -20,13 +19,15 @@ import {
   SORTABLE_EXPANSION_OTHER2_MOCK,
   SORTABLE_EXPANSION_PARADOX_RIFT_MOCK,
 } from '../../__MOCKS__/sortableExpansion.mock'
+import { makePrismaClientMock } from '../../__MOCKS__/prismaClient.mock'
+
+const mockPrisma = makePrismaClientMock({ expansionPokemonOrder: { findFirst: jest.fn() } })
 
 describe('Get Expansions Logic', () => {
   let getExpansionsLogic: GetExpansionsLogic
   let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
   let expansionSorter_FAKE: ExpansionSorter_FAKE
-  let expansionCRUD_FAKE: ExpansionCRUD_FAKE
-  let expansionOrderCRUD_FAKE: ExpansionOrderCRUD_FAKE
+  let expansionPokemonRepo_FAKE: ExpansionPokemonRepo_FAKE
 
   const cardExpansions: CardExpansion[] = [
     CARD_EXPANSION_ORIGINAL_MOCK,
@@ -47,20 +48,19 @@ describe('Get Expansions Logic', () => {
   beforeEach(() => {
     cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
     expansionSorter_FAKE = new ExpansionSorter_FAKE()
-    expansionCRUD_FAKE = new ExpansionCRUD_FAKE()
-    expansionOrderCRUD_FAKE = new ExpansionOrderCRUD_FAKE()
+    expansionPokemonRepo_FAKE = new ExpansionPokemonRepo_FAKE()
     getExpansionsLogic = new GetExpansionsLogic(
+      mockPrisma,
       cardTraderAdaptor_FAKE,
       expansionSorter_FAKE,
-      expansionCRUD_FAKE,
-      expansionOrderCRUD_FAKE
+      expansionPokemonRepo_FAKE
     )
   })
 
   it("should get pokemon expansions and return card dto's", async () => {
     cardTraderAdaptor_FAKE.GET_POKEMON_EXPANSIONS.mockResolvedValue(cardExpansions)
     expansionSorter_FAKE.SORT.mockReturnValue(sortableExpansions)
-    expansionOrderCRUD_FAKE.GET.mockReturnValue(EXPANSION_ORDER)
+    mockPrisma.expansionPokemonOrder.findFirst.mockResolvedValue(EXPANSION_ORDER)
 
     const result = await getExpansionsLogic.get()
 
@@ -77,7 +77,7 @@ describe('Get Expansions Logic', () => {
   it('should format slug', async () => {
     cardTraderAdaptor_FAKE.GET_POKEMON_EXPANSIONS.mockResolvedValue(cardExpansions)
     expansionSorter_FAKE.SORT.mockReturnValue(sortableExpansions)
-    expansionOrderCRUD_FAKE.GET.mockReturnValue(EXPANSION_ORDER)
+    mockPrisma.expansionPokemonOrder.findFirst.mockResolvedValue(EXPANSION_ORDER)
 
     const result = await getExpansionsLogic.get()
 

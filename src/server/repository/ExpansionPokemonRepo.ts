@@ -1,6 +1,7 @@
-import { prisma } from '../prismaClient'
+import { prisma } from '../../../prisma/prismaClient'
 
-export type ExpansionEntity = {
+export type ExpansionPokemonEntity = {
+  id: number
   cardTraderExpansionId: number
   name: string
   expansionNumberInSeries: number
@@ -17,12 +18,12 @@ export type ExpansionEntity = {
   updatedAt: Date
 }
 
-export interface IExpansionCRUD {
-  find: (cardTraderExpansionId: number) => Promise<ExpansionEntity | null>
+export interface IExpansionPokemonRepo {
+  find: (cardTraderExpansionId: number) => Promise<ExpansionPokemonEntity | null>
 }
 
-class ExpansionCRUD implements IExpansionCRUD {
-  find = async (cardTraderExpansionId: number): Promise<ExpansionEntity | null> => {
+class ExpansionPokemonRepo implements IExpansionPokemonRepo {
+  find = async (cardTraderExpansionId: number): Promise<ExpansionPokemonEntity | null> => {
     const platformLink = await prisma.expansionPlatformLink.findFirst({
       where: {
         platform: 'CARD_TRADER',
@@ -45,6 +46,7 @@ class ExpansionCRUD implements IExpansionCRUD {
     if (!pokemon) return null
 
     return {
+      id: expansion.id,
       cardTraderExpansionId,
       name: expansion.name,
       expansionNumberInSeries: pokemon.expansionNumberInSeries,
@@ -63,4 +65,4 @@ class ExpansionCRUD implements IExpansionCRUD {
   }
 }
 
-export default ExpansionCRUD
+export default ExpansionPokemonRepo
