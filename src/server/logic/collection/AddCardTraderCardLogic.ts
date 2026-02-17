@@ -101,15 +101,20 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
   }
 
   private ensureBlueprintsExist = async (expansionId: number, cardTraderExpansionId: number) => {
-    const existingCount = await this.prisma.cardBlueprint.count({
-      where: { expansionId },
-    })
-
-    if (existingCount > 0) return
-
     const blueprints = await this.cardTraderAdaptor.getPokemonBlueprints(cardTraderExpansionId)
 
-    for (const blueprint of blueprints) {
+    const existingLinks = await this.prisma.cardBlueprintPlatformLink.findMany({
+      where: {
+        platform: 'CARD_TRADER',
+        externalId: { in: blueprints.map((b) => String(b.blueprintId)) },
+      },
+    })
+
+    const existingExternalIds = new Set(existingLinks.map((l) => l.externalId))
+
+    const missingBlueprints = blueprints.filter((b) => !existingExternalIds.has(String(b.blueprintId)))
+
+    for (const blueprint of missingBlueprints) {
       const cardBlueprint = await this.prisma.cardBlueprint.create({
         data: {
           expansionId,
