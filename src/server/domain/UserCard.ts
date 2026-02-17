@@ -1,7 +1,6 @@
-import { prisma } from '../../../prisma/prismaClient'
+import { GameName, PrismaClient } from '@prisma/client'
 import { ICardTraderAdaptor } from '../clients/CardTrader/CardTraderAdaptor'
-import { IExpansionRepo } from '../repository/ExpansionRepo'
-import { IGameRepo } from '../repository/GameRepo'
+import { IExpansionPokemonRepo } from '../repository/ExpansionPokemonRepo'
 
 export interface IUserCard {
   add: (
@@ -13,14 +12,18 @@ export interface IUserCard {
 }
 
 class UserCard implements IUserCard {
+  private readonly prisma: PrismaClient
   private readonly cardTraderAdaptor: ICardTraderAdaptor
-  private readonly expansionRepo: IExpansionRepo
-  private readonly gameRepo: IGameRepo
+  private readonly expansionPokemonRepo: IExpansionPokemonRepo
 
-  constructor(cardTraderAdaptor: ICardTraderAdaptor, expansionRepo: IExpansionRepo, gameRepo: IGameRepo) {
+  constructor(
+    prisma: PrismaClient,
+    cardTraderAdaptor: ICardTraderAdaptor,
+    expansionPokemonRepo: IExpansionPokemonRepo,
+  ) {
+    this.prisma = prisma
     this.cardTraderAdaptor = cardTraderAdaptor
-    this.expansionRepo = expansionRepo
-    this.gameRepo = gameRepo
+    this.expansionPokemonRepo = expansionPokemonRepo
   }
 
   add = async (profileId: number, cardTraderBlueprintId: number, cardTraderExpansionId: number, condition: number) => {
@@ -28,7 +31,7 @@ class UserCard implements IUserCard {
     await this.ensureBlueprintsExist(expansionId, cardTraderExpansionId)
     const cardBlueprintId = await this.getCardBlueprintId(cardTraderBlueprintId)
 
-    await prisma.userCard.create({
+    await this.prisma.userCard.create({
       data: {
         profileId,
         cardBlueprintId,
@@ -38,34 +41,51 @@ class UserCard implements IUserCard {
   }
 
   private ensureExpansionExists = async (cardTraderExpansionId: number): Promise<number> => {
-    const existing = await this.expansionRepo.find(cardTraderExpansionId)
+    const existing = await this.expansionPokemonRepo.find(cardTraderExpansionId)
 
     if (existing) return existing.id
 
     const expansionName = await this.fetchExpansionName(cardTraderExpansionId)
-    const gameId = await this.gameRepo.findOrCreate('Pokemon')
+    const game = await this.prisma.game.upsert({
+      where: { name: GameName.Pokemon },
+      update: {},
+      create: { name: GameName.Pokemon },
+    })
+    const gameId = game.id
 
-    return await this.expansionRepo.create({
-      expansion: {
-        gameId,
-        name: expansionName,
-        imageUrl: '',
-        numberOfCards: 0,
-        releaseDate: new Date(),
-      },
-      pokemon: {
-        abbreviation: '',
-        series: '',
-        expansionType: '',
-        expansionNumberInSeries: 0,
-        numberOfSecretCards: 0,
-        symbolUrl: '',
-        bulbapediaUrl: '',
-      },
-      platformLink: {
-        platform: 'CARD_TRADER',
-        externalId: String(cardTraderExpansionId),
-      },
+    return await this.prisma.$transaction(async (tx) => {
+      const expansion = await tx.expansion.create({
+        data: {
+          gameId,
+          name: expansionName,
+          imageUrl: '',
+          numberOfCards: 0,
+          releaseDate: new Date(),
+        },
+      })
+
+      await tx.expansionPokemon.create({
+        data: {
+          expansionId: expansion.id,
+          abbreviation: '',
+          series: '',
+          expansionType: '',
+          expansionNumberInSeries: 0,
+          numberOfSecretCards: 0,
+          symbolUrl: '',
+          bulbapediaUrl: '',
+        },
+      })
+
+      await tx.expansionPlatformLink.create({
+        data: {
+          expansionId: expansion.id,
+          platform: 'CARD_TRADER',
+          externalId: String(cardTraderExpansionId),
+        },
+      })
+
+      return expansion.id
     })
   }
 
@@ -76,7 +96,7 @@ class UserCard implements IUserCard {
   }
 
   private ensureBlueprintsExist = async (expansionId: number, cardTraderExpansionId: number) => {
-    const existingCount = await prisma.cardBlueprint.count({
+    const existingCount = await this.prisma.cardBlueprint.count({
       where: { expansionId },
     })
 
@@ -85,7 +105,7 @@ class UserCard implements IUserCard {
     const blueprints = await this.cardTraderAdaptor.getPokemonBlueprints(cardTraderExpansionId)
 
     for (const blueprint of blueprints) {
-      const cardBlueprint = await prisma.cardBlueprint.create({
+      const cardBlueprint = await this.prisma.cardBlueprint.create({
         data: {
           expansionId,
           name: blueprint.name,
@@ -95,7 +115,7 @@ class UserCard implements IUserCard {
         },
       })
 
-      await prisma.cardBlueprintPlatformLink.create({
+      await this.prisma.cardBlueprintPlatformLink.create({
         data: {
           cardBlueprintId: cardBlueprint.id,
           platform: 'CARD_TRADER',
@@ -106,7 +126,7 @@ class UserCard implements IUserCard {
   }
 
   private getCardBlueprintId = async (cardTraderBlueprintId: number): Promise<number> => {
-    const link = await prisma.cardBlueprintPlatformLink.findFirst({
+    const link = await this.prisma.cardBlueprintPlatformLink.findFirst({
       where: {
         platform: 'CARD_TRADER',
         externalId: String(cardTraderBlueprintId),

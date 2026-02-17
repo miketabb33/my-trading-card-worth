@@ -6,17 +6,17 @@ import { IMyCardRepo, MyCardEntity } from '../../repository/MyCardRepo'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
 import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
-import { IExpansionRepo } from '../../repository/ExpansionRepo'
+import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 
 class GetCatalogLogic {
   private readonly myCardRepo: IMyCardRepo
   private readonly cardTraderAdaptor: ICardTraderAdaptor
-  private readonly expansionRepo: IExpansionRepo
+  private readonly expansionPokemonRepo: IExpansionPokemonRepo
 
-  constructor(myCardRepo: IMyCardRepo, cardTraderAdaptor: ICardTraderAdaptor, expansionRepo: IExpansionRepo) {
+  constructor(myCardRepo: IMyCardRepo, cardTraderAdaptor: ICardTraderAdaptor, expansionPokemonRepo: IExpansionPokemonRepo) {
     this.myCardRepo = myCardRepo
     this.cardTraderAdaptor = cardTraderAdaptor
-    this.expansionRepo = expansionRepo
+    this.expansionPokemonRepo = expansionPokemonRepo
   }
   get = async (
     userId: string | null,
@@ -106,7 +106,7 @@ class GetCatalogLogic {
   }
 
   private buildExpansionMainDetailsDto = async (expansionId: number): Promise<ExpansionDetailsDto | null> => {
-    const expansionsData = await this.expansionRepo.find(expansionId)
+    const expansionsData = await this.expansionPokemonRepo.find(expansionId)
 
     if (!expansionsData) return null
 

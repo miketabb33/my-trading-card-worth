@@ -7,7 +7,7 @@ import GetCatalogLogic from '../logic/catalog/GetCatalogLogic'
 import MyCardRepo from '../repository/MyCardRepo'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
 import Store from '../StoreRegistry'
-import ExpansionRepo from '../repository/ExpansionRepo'
+import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
 
 const CatalogController = Router()
 
@@ -27,7 +27,7 @@ CatalogController.get('/:id', async (req, res) => {
     const expansionId = +req.params.id
     if (!expansionId) throw new Error(`${req.params.id} is not a valid expansion id`)
 
-    const getCatalogLogic = new GetCatalogLogic(new MyCardRepo(), new CardTraderAdaptor(), new ExpansionRepo())
+    const getCatalogLogic = new GetCatalogLogic(new MyCardRepo(), new CardTraderAdaptor(), new ExpansionPokemonRepo())
 
     const userId = req.oidc.user ? parseAuth0User(req.oidc.user).sub : null
     const catalogDto = await getCatalogLogic.get(userId, expansionId, Store.blueprintValues.getState())

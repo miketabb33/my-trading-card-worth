@@ -3,7 +3,7 @@ import { Router } from 'express'
 import { formatError, formatResponse } from '../logic/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import Logger from '../logger'
-import ProfileRepo from '../repository/ProfileRepo'
+import { prisma } from '../../../prisma/prismaClient'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
 import Emailer from '../Emailer'
@@ -39,18 +39,17 @@ ProfileController.get('/', async (req, res) => {
 })
 
 const getProfile = async (auth0User: Auth0User) => {
-  const profileRepo = new ProfileRepo()
-  let profile = await profileRepo.find(auth0User.sub)
+  let profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
   if (!profile) {
-    await profileRepo.create({
-      userId: auth0User.sub,
-      email: auth0User.email ?? '',
-      name: auth0User.name ?? '',
-      nickname: auth0User.nickname ?? '',
-      picture: auth0User.picture ?? '',
+    profile = await prisma.profile.create({
+      data: {
+        userId: auth0User.sub,
+        email: auth0User.email ?? '',
+        name: auth0User.name ?? '',
+        nickname: auth0User.nickname ?? '',
+        picture: auth0User.picture ?? '',
+      },
     })
-    profile = await profileRepo.find(auth0User.sub)
-    if (!profile) throw new Error('Failed to create profile')
     await sendAccountCreatedEmail(auth0User.email ?? 'Someone')
   }
   return profile

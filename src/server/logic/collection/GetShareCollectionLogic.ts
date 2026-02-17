@@ -1,19 +1,19 @@
+import { PrismaClient } from '@prisma/client'
 import { ShareCollectionDto } from '../../../core/types/ShareCollectionDto'
-import { IProfileRepo } from '../../repository/ProfileRepo'
 import { ICollectionFactory } from '../../domain/CollectionFactory'
 
 class GetShareCollectionLogic {
+  private readonly prisma: PrismaClient
   private readonly collectionFactory: ICollectionFactory
-  private readonly profileRepo: IProfileRepo
 
-  constructor(collectionFactory: ICollectionFactory, profileRepo: IProfileRepo) {
+  constructor(prisma: PrismaClient, collectionFactory: ICollectionFactory) {
+    this.prisma = prisma
     this.collectionFactory = collectionFactory
-    this.profileRepo = profileRepo
   }
 
   get = async (userId: string): Promise<ShareCollectionDto> => {
     const collection = await this.collectionFactory.make(userId)
-    const profile = await this.profileRepo.find(userId)
+    const profile = await this.prisma.profile.findUnique({ where: { userId } })
 
     return {
       cards: collection.cards(),

@@ -3,7 +3,7 @@ import GetCatalogLogic from '../../../../src/server/logic/catalog/GetCatalogLogi
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
 import { EXPANSION_DTO_1 } from '../../../core/__MOCKS__/expansionDto.mock'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
-import ExpansionRepo_FAKE from '../../__FAKES__/ExpansionRepo.fake'
+import ExpansionPokemonRepo_FAKE from '../../__FAKES__/ExpansionPokemonRepo.fake'
 import MyCardRepo_FAKE from '../../__FAKES__/MyCardRepo.fake'
 import { BLUEPRINT_VALUE_MOCK } from '../../__MOCKS__/blueprintValue.mock'
 import { makeCardBlueprintMock } from '../../__MOCKS__/cardBlueprint.mock'
@@ -12,7 +12,7 @@ import { makeMyCardEntityMock } from '../../__MOCKS__/myCardEntity.mock'
 describe('Get Catalog Logic', () => {
   let getCatalogLogic: GetCatalogLogic
   let myCardRepo_FAKE: MyCardRepo_FAKE
-  let expansionRepo_FAKE: ExpansionRepo_FAKE
+  let expansionPokemonRepo_FAKE: ExpansionPokemonRepo_FAKE
   let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
 
   const BASE_SET_EXPANSION_ID = 1472
@@ -23,17 +23,17 @@ describe('Get Catalog Logic', () => {
   beforeEach(() => {
     myCardRepo_FAKE = new MyCardRepo_FAKE()
     cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
-    expansionRepo_FAKE = new ExpansionRepo_FAKE()
-    getCatalogLogic = new GetCatalogLogic(myCardRepo_FAKE, cardTraderAdaptor_FAKE, expansionRepo_FAKE)
+    expansionPokemonRepo_FAKE = new ExpansionPokemonRepo_FAKE()
+    getCatalogLogic = new GetCatalogLogic(myCardRepo_FAKE, cardTraderAdaptor_FAKE, expansionPokemonRepo_FAKE)
 
     cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
     myCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([])
-    expansionRepo_FAKE.FIND.mockResolvedValue(EXPANSION_DTO_1)
+    expansionPokemonRepo_FAKE.FIND.mockResolvedValue(EXPANSION_DTO_1)
   })
 
   describe('Details', () => {
     it('should return null when expansion id does not exist in expansion store', async () => {
-      expansionRepo_FAKE.FIND.mockResolvedValue(null)
+      expansionPokemonRepo_FAKE.FIND.mockResolvedValue(null)
       const result = await getCatalogLogic.get(USER_ID, 1, new Map<string, BlueprintValue>())
       expect(result.details).toBeNull()
     })

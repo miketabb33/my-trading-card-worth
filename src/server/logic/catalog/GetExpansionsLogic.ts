@@ -1,29 +1,30 @@
+import { PrismaClient } from '@prisma/client'
 import { ExpansionDto } from '../../../core/types/ExpansionDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
-import { IExpansionRepo } from '../../repository/ExpansionRepo'
-import { IExpansionOrderRepo } from '../../repository/ExpansionOrderRepo'
+import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 import { CardExpansion } from '../../types/CardExpansion'
 import { IExpansionSorter, SortableExpansion } from './ExpansionSorter'
+
 export interface IGetExpansionsLogic {
   get: () => Promise<ExpansionDto[]>
 }
 
 class GetExpansionsLogic implements IGetExpansionsLogic {
+  private readonly prisma: PrismaClient
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionSorter: IExpansionSorter
-  private readonly expansionRepo: IExpansionRepo
-  private readonly expansionOrderRepo: IExpansionOrderRepo
+  private readonly expansionPokemonRepo: IExpansionPokemonRepo
 
   constructor(
+    prisma: PrismaClient,
     cardTraderAdaptor: ICardTraderAdaptor,
     expansionSorter: IExpansionSorter,
-    expansionStoreMap: IExpansionRepo,
-    expansionOrderRepo: IExpansionOrderRepo
+    expansionPokemonRepo: IExpansionPokemonRepo,
   ) {
+    this.prisma = prisma
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionSorter = expansionSorter
-    this.expansionRepo = expansionStoreMap
-    this.expansionOrderRepo = expansionOrderRepo
+    this.expansionPokemonRepo = expansionPokemonRepo
   }
 
   get = async (): Promise<ExpansionDto[]> => {
@@ -31,9 +32,13 @@ class GetExpansionsLogic implements IGetExpansionsLogic {
 
     const sortableExpansions = await this.getSortableExpansions(pokemonExpansions)
 
-    const expansionOrder = await this.expansionOrderRepo.get()
+    const record = await this.prisma.expansionPokemonOrder.findFirst()
+    if (!record) throw Error('Missing expansion order')
 
-    if (!expansionOrder) throw Error('Missing expansion order')
+    const expansionOrder = {
+      mainSeries: record.mainSeries as string[],
+      otherSeries: record.otherSeries as string[],
+    }
 
     const sortedExpansions = this.expansionSorter.sort(sortableExpansions, expansionOrder)
 
@@ -54,7 +59,7 @@ class GetExpansionsLogic implements IGetExpansionsLogic {
       const cardExpansion = pokemonExpansions[i]
       const sortableExpansion: SortableExpansion = {
         cardExpansion,
-        expansionEntity: await this.expansionRepo.find(cardExpansion.expansionId),
+        expansionEntity: await this.expansionPokemonRepo.find(cardExpansion.expansionId),
       }
       sortableExpansions.push(sortableExpansion)
     }

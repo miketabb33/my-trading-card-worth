@@ -13,7 +13,7 @@ import Store from '../StoreRegistry'
 import RemoveCardLogic from '../logic/collection/RemoveCardLogic'
 import GetShareCollectionLogic from '../logic/collection/GetShareCollectionLogic'
 import CollectionFactory from '../domain/CollectionFactory'
-import ProfileRepo from '../repository/ProfileRepo'
+import { prisma } from '../../../prisma/prismaClient'
 
 const CollectionController = Router()
 
@@ -41,7 +41,7 @@ CollectionController.get('/:userId', async (req, res) => {
 
     const collectionFactory = new CollectionFactory(new MyCardRepo(), Store.blueprintValues.getState())
 
-    const getShareCollectionLogic = new GetShareCollectionLogic(collectionFactory, new ProfileRepo())
+    const getShareCollectionLogic = new GetShareCollectionLogic(prisma, collectionFactory)
 
     const dto = await getShareCollectionLogic.get(userId)
 
