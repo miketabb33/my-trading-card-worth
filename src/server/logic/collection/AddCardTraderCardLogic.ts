@@ -1,8 +1,8 @@
 import { CardCondition, GameName, PrismaClient } from '@prisma/client'
-import { ICardTraderAdaptor } from '../clients/CardTrader/CardTraderAdaptor'
-import { IExpansionPokemonRepo } from '../repository/ExpansionPokemonRepo'
+import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
+import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 
-export interface IUserCard {
+export interface IAddCardTraderCardLogic {
   add: (
     profileId: number,
     cardTraderBlueprintId: number,
@@ -11,7 +11,7 @@ export interface IUserCard {
   ) => Promise<void>
 }
 
-class UserCard implements IUserCard {
+class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
   private readonly prisma: PrismaClient
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionPokemonRepo: IExpansionPokemonRepo
@@ -139,4 +139,4 @@ class UserCard implements IUserCard {
   }
 }
 
-export default UserCard
+export default AddCardTraderCardLogic
