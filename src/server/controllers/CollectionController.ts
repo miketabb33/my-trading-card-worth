@@ -9,6 +9,7 @@ import AddCardLogic from '../logic/collection/AddCardLogic'
 import AddCardTraderCardLogic from '../logic/collection/AddCardTraderCardLogic'
 import MyCardRepo from '../repository/MyCardRepo'
 import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
+import CardBlueprintPokemonRepo from '../repository/CardBlueprintPokemonRepo'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
 import { CardCondition } from '@prisma/client'
 import { tryToParseRemoveMyCardBody } from '../logic/collection/parseRemoveMyCardBody'
@@ -67,7 +68,7 @@ CollectionController.post('/', requiresAuth(), async (req, res) => {
 
     const profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
     if (profile) {
-      const addCardTraderCardLogic = new AddCardTraderCardLogic(prisma, new CardTraderAdaptor(), new ExpansionPokemonRepo())
+      const addCardTraderCardLogic = new AddCardTraderCardLogic(prisma, new CardTraderAdaptor(), new ExpansionPokemonRepo(), new CardBlueprintPokemonRepo())
       await addCardTraderCardLogic.add(profile.id, myCardDto.blueprintId, myCardDto.expansionId, CardCondition.UNKNOWN)
     }
 

@@ -1,3 +1,4 @@
+import { GameName } from '@prisma/client'
 import { prisma } from '../../../prisma/prismaClient'
 
 export type ExpansionPokemonEntity = {
@@ -18,8 +19,11 @@ export type ExpansionPokemonEntity = {
   updatedAt: Date
 }
 
+export type CreateExpansionPokemonEntity = Omit<ExpansionPokemonEntity, 'id' | 'createdAt' | 'updatedAt'>
+
 export interface IExpansionPokemonRepo {
   find: (cardTraderExpansionId: number) => Promise<ExpansionPokemonEntity | null>
+  create: (entity: CreateExpansionPokemonEntity) => Promise<number>
 }
 
 class ExpansionPokemonRepo implements IExpansionPokemonRepo {
@@ -62,6 +66,46 @@ class ExpansionPokemonRepo implements IExpansionPokemonRepo {
       createdAt: expansion.createdAt,
       updatedAt: expansion.updatedAt,
     }
+  }
+  create = async (entity: CreateExpansionPokemonEntity): Promise<number> => {
+    const game = await prisma.game.findUnique({ where: { name: GameName.Pokemon } })
+
+    if (!game) throw new Error('Pokemon game not found')
+
+    return await prisma.$transaction(async (tx) => {
+      const expansion = await tx.expansion.create({
+        data: {
+          gameId: game.id,
+          name: entity.name,
+          imageUrl: entity.logoUrl ?? '',
+          numberOfCards: entity.numberOfCards,
+          releaseDate: entity.releaseDate,
+        },
+      })
+
+      await tx.expansionPokemon.create({
+        data: {
+          expansionId: expansion.id,
+          abbreviation: entity.abbreviation,
+          series: entity.series,
+          expansionType: entity.expansionType,
+          expansionNumberInSeries: entity.expansionNumberInSeries,
+          numberOfSecretCards: entity.numberOfSecretCards,
+          symbolUrl: entity.symbolUrl ?? '',
+          bulbapediaUrl: entity.bulbapediaUrl,
+        },
+      })
+
+      await tx.expansionPlatformLink.create({
+        data: {
+          expansionId: expansion.id,
+          platform: 'CARD_TRADER',
+          externalId: String(entity.cardTraderExpansionId),
+        },
+      })
+
+      return expansion.id
+    })
   }
 }
 
