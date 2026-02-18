@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { prisma } from '../../../prisma/prismaClient'
 import CardBlueprintPokemonRepo, {
   CreateCardBlueprintPokemonEntity,
@@ -129,7 +132,7 @@ describe('CardBlueprintPokemonRepo', () => {
 
     beforeEach(() => {
       mockTx.cardBlueprint.create.mockResolvedValue({ id: CARD_BLUEPRINT_ID })
-      TRANSACTION.mockImplementation(async (fn: any) => fn(mockTx))
+      TRANSACTION.mockImplementation((fn: any) => fn(mockTx))
     })
 
     it('should return the created card blueprint id', async () => {
