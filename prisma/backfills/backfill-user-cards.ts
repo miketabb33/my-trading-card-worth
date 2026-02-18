@@ -42,6 +42,8 @@ const backfillUserCards = async () => {
   const myCards = await MongoMyCard.find()
   console.log(`Found ${myCards.length} my_card documents in Mongo`)
 
+  const failures: string[] = []
+
   for (const myCard of myCards) {
     try {
       const userId = myCard.userId
@@ -120,8 +122,16 @@ const backfillUserCards = async () => {
 
       console.log(`Migrated ${cardsToCreate} card(s) for "${myCard.name}" (userId: ${userId})`)
     } catch (e) {
-      console.error(`Failed to migrate "${myCard.name}" (userId: ${myCard.userId}):`, e)
+      const msg = e instanceof Error ? e.message : String(e)
+      failures.push(`"${myCard.name}" (userId: ${myCard.userId}): ${msg}`)
     }
+  }
+
+  if (failures.length > 0) {
+    console.log(`\n--- Failures (${failures.length}) ---`)
+    failures.forEach((f) => console.error(f))
+  } else {
+    console.log('\nNo failures!')
   }
 }
 

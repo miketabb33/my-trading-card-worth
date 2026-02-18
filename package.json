@@ -18,7 +18,7 @@
     "test:watch": "jest --watch",
     "check": "prettier --ignore-path .gitignore --check . && eslint .",
     "fix": "prettier --ignore-path .gitignore --write . && eslint . --fix",
-    "backfill": "f() { tsc --esModuleInterop prisma/backfills/$1.ts --outDir dist/backfills && node dist/backfills/$1.js; }; f",
+    "backfill": "f() { ts-node prisma/backfills/$1.ts; }; f",
     "cypress": "cypress run",
     "cypress:open": "cypress open"
   },
