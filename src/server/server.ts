@@ -3,7 +3,6 @@ import path from 'path'
 import ControllerRegistry from './ControllerRegistry'
 import { auth } from 'express-openid-connect'
 import { auth0Config } from './auth0/auth0Config'
-import { connectToDb } from './database/connectToDb'
 import bodyParser from 'body-parser'
 import Store from './StoreRegistry'
 import CronJobs from './CronJobRegistry'
@@ -28,16 +27,6 @@ app.get('*', (_, res) => {
 app.listen(port, () => {
   Logger.info(`Server is listening on port ${port}`)
 })
-
-connectToDb()
-  .then(() => {
-    Logger.info('Database successfully connected')
-  })
-  .catch((e) => {
-    Logger.info('Error connecting to database')
-    const error = formatError(e)
-    Logger.error(error)
-  })
 
 Store.init()
   .then(() => Logger.info('Stores data loaded'))

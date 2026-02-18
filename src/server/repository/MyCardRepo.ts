@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Schema, model } from 'mongoose'
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { prisma } from '../../../prisma/prismaClient'
 
 export type MyCardItemEntity = {
   condition: number
@@ -23,51 +23,6 @@ export type MyCardEntity = {
   updatedAt: Date
 }
 
-const myCardSchema = new Schema(
-  {
-    userId: {
-      type: String,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    items: [
-      {
-        condition: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
-    imageUrlPreview: {
-      type: String,
-      required: true,
-    },
-    imageUrlShow: {
-      type: String,
-      required: true,
-    },
-    cardTrader: {
-      type: {
-        blueprintId: {
-          type: Number,
-          required: true,
-        },
-        expansionId: {
-          type: Number,
-          required: true,
-        },
-      },
-      required: true,
-    },
-  },
-  { timestamps: true }
-)
-
-const MyCardModel = model('my_card', myCardSchema)
-
 export interface IMyCardRepo {
   create: (entity: MyCardEntity) => Promise<void>
   addItem: (userId: string, blueprintId: number, item: MyCardItemEntity) => Promise<void>
@@ -75,92 +30,167 @@ export interface IMyCardRepo {
   removeItem: (userId: string, blueprintId: number) => Promise<void>
   findByExpansion: (userId: string, expansionId: number) => Promise<MyCardEntity[]>
   findByBlueprintId: (userId: string, blueprintId: number) => Promise<MyCardEntity | null>
-
   getAll: (userId: string) => Promise<MyCardEntity[]>
 }
 
 class MyCardRepo implements IMyCardRepo {
-  create = async (args: MyCardEntity) => {
-    const context = new MyCardModel(args)
-    await context.save()
+  create = async (entity: MyCardEntity): Promise<void> => {
+    const profile = await prisma.profile.findUnique({ where: { userId: entity.userId } })
+    if (!profile) return
+
+    const cardBlueprintId = await this.findCardBlueprintId(entity.cardTrader.blueprintId)
+    if (!cardBlueprintId) return
+
+    for (let i = 0; i < entity.items.length; i++) {
+      await prisma.userCard.create({
+        data: { profileId: profile.id, cardBlueprintId, condition: 'UNKNOWN' },
+      })
+    }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem = async (userId: string, blueprintId: number, item: MyCardItemEntity): Promise<void> => {
-    const context = await MyCardModel.findOne({
-      userId,
-      'cardTrader.blueprintId': blueprintId,
-    })
-    context?.items.push(item)
-    await context?.save()
-  }
+    const profile = await prisma.profile.findUnique({ where: { userId } })
+    if (!profile) return
 
-  delete = async (userId: string, blueprintId: number) => {
-    await MyCardModel.findOneAndDelete({
-      userId,
-      'cardTrader.blueprintId': blueprintId,
+    const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
+    if (!cardBlueprintId) return
+
+    await prisma.userCard.create({
+      data: { profileId: profile.id, cardBlueprintId, condition: 'UNKNOWN' },
     })
   }
 
-  removeItem = async (userId: string, blueprintId: number) => {
-    const context = await MyCardModel.findOne({
-      userId,
-      'cardTrader.blueprintId': blueprintId,
+  delete = async (userId: string, blueprintId: number): Promise<void> => {
+    const profile = await prisma.profile.findUnique({ where: { userId } })
+    if (!profile) return
+
+    const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
+    if (!cardBlueprintId) return
+
+    await prisma.userCard.deleteMany({
+      where: { profileId: profile.id, cardBlueprintId },
     })
-
-    if (!context) return
-
-    context.items.pop()
-
-    await context.save()
   }
 
-  findByExpansion = async (userId: string, expansionId: number): Promise<MyCardEntity[]> => {
-    const contexts = await MyCardModel.find({
-      userId,
-      'cardTrader.expansionId': expansionId,
-    })
-    if (!contexts) return []
+  removeItem = async (userId: string, blueprintId: number): Promise<void> => {
+    const profile = await prisma.profile.findUnique({ where: { userId } })
+    if (!profile) return
 
-    const myCards: MyCardEntity[] = contexts.map(this.mapContextToMyCardEntity)
-    return myCards
+    const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
+    if (!cardBlueprintId) return
+
+    const card = await prisma.userCard.findFirst({
+      where: { profileId: profile.id, cardBlueprintId },
+    })
+    if (!card) return
+
+    await prisma.userCard.delete({ where: { id: card.id } })
   }
 
-  findByBlueprintId = async (userId: string, blueprintId: number): Promise<MyCardEntity | null> => {
-    const context = await MyCardModel.findOne({
-      userId,
-      'cardTrader.blueprintId': blueprintId,
+  findByExpansion = async (userId: string, cardTraderExpansionId: number): Promise<MyCardEntity[]> => {
+    const profile = await prisma.profile.findUnique({ where: { userId } })
+    if (!profile) return []
+
+    const userCards = await prisma.userCard.findMany({
+      where: {
+        profileId: profile.id,
+        cardBlueprint: {
+          expansion: {
+            platformLinks: {
+              some: { platform: 'CARD_TRADER', externalId: String(cardTraderExpansionId) },
+            },
+          },
+        },
+      },
+      include: this.blueprintInclude,
     })
 
-    if (!context) return null
+    return this.toMyCardEntities(userId, userCards)
+  }
 
-    return this.mapContextToMyCardEntity(context)
+  findByBlueprintId = async (userId: string, cardTraderBlueprintId: number): Promise<MyCardEntity | null> => {
+    const profile = await prisma.profile.findUnique({ where: { userId } })
+    if (!profile) return null
+
+    const userCards = await prisma.userCard.findMany({
+      where: {
+        profileId: profile.id,
+        cardBlueprint: {
+          platformLinks: {
+            some: { platform: 'CARD_TRADER', externalId: String(cardTraderBlueprintId) },
+          },
+        },
+      },
+      include: this.blueprintInclude,
+    })
+
+    if (userCards.length === 0) return null
+
+    return this.toMyCardEntities(userId, userCards)[0]
   }
 
   getAll = async (userId: string): Promise<MyCardEntity[]> => {
-    const contexts = await MyCardModel.find({
-      userId,
+    const profile = await prisma.profile.findUnique({ where: { userId } })
+    if (!profile) return []
+
+    const userCards = await prisma.userCard.findMany({
+      where: { profileId: profile.id },
+      include: this.blueprintInclude,
     })
-    if (!contexts) return []
 
-    const myCards: MyCardEntity[] = contexts.map(this.mapContextToMyCardEntity)
-
-    return myCards
+    return this.toMyCardEntities(userId, userCards)
   }
 
-  private mapContextToMyCardEntity = (context: any): MyCardEntity => ({
-    _id: context._id.toString(),
-    userId: context.userId,
-    name: context.name,
-    imageUrlPreview: context.imageUrlPreview,
-    imageUrlShow: context.imageUrlShow,
-    cardTrader: {
-      blueprintId: context.cardTrader.blueprintId,
-      expansionId: context.cardTrader.expansionId,
+  private findCardBlueprintId = async (cardTraderBlueprintId: number): Promise<number | null> => {
+    const link = await prisma.cardBlueprintPlatformLink.findFirst({
+      where: { platform: 'CARD_TRADER', externalId: String(cardTraderBlueprintId) },
+    })
+    return link?.cardBlueprintId ?? null
+  }
+
+  private blueprintInclude = {
+    cardBlueprint: {
+      include: {
+        platformLinks: true,
+        expansion: {
+          include: { platformLinks: true },
+        },
+      },
     },
-    items: context.items,
-    createdAt: context.createdAt,
-    updatedAt: context.updatedAt,
-  })
+  }
+
+  private toMyCardEntities = (userId: string, userCards: any[]): MyCardEntity[] => {
+    const grouped = new Map<number, any[]>()
+
+    for (const uc of userCards) {
+      const id = uc.cardBlueprintId as number
+      if (!grouped.has(id)) grouped.set(id, [])
+      grouped.get(id)!.push(uc)
+    }
+
+    return Array.from(grouped.values()).map((cards): MyCardEntity => {
+      const first = cards[0]
+      const blueprint = first.cardBlueprint
+      const blueprintLink = blueprint.platformLinks.find((l: any) => l.platform === 'CARD_TRADER')
+      const expansionLink = blueprint.expansion.platformLinks.find((l: any) => l.platform === 'CARD_TRADER')
+
+      return {
+        _id: String(blueprint.id),
+        userId,
+        name: blueprint.name,
+        items: cards.map((): MyCardItemEntity => ({ condition: 0 })),
+        imageUrlPreview: blueprint.imagePreviewUrl,
+        imageUrlShow: blueprint.imageShowUrl,
+        cardTrader: {
+          blueprintId: Number(blueprintLink?.externalId ?? 0),
+          expansionId: Number(expansionLink?.externalId ?? 0),
+        },
+        createdAt: first.createdAt,
+        updatedAt: first.updatedAt,
+      }
+    })
+  }
 }
 
 export default MyCardRepo
