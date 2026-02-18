@@ -110,7 +110,6 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
 
     return link.cardBlueprintId
   }
-
 }
 
 export default AddCardTraderCardLogic
