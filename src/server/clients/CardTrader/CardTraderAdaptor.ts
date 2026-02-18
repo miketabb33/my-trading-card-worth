@@ -4,7 +4,6 @@ import { CardExpansion } from '../../types/CardExpansion'
 import { CardValue } from '../../types/CardValue'
 import * as CardTraderClient from './CardTraderClient'
 import { EXCLUDED_EXPANSION_IDS } from './excludedExpansionIds'
-import { parseCardCondition } from './parseCardCondition'
 
 export interface ICardTraderAdaptor {
   getPokemonExpansions: () => Promise<CardExpansion[]>
@@ -44,6 +43,8 @@ class CardTraderAdaptor implements ICardTraderAdaptor {
         expansionId: blueprint.expansionId,
         name: blueprint.name,
         version: blueprint.version || '',
+        collectorNumber: blueprint.fixedProperties.collectorNumber,
+        pokemonRarity: blueprint.fixedProperties.pokemonRarity,
         imageUrlPreview: `${this.cardTraderConfig.CARD_TRADER_BASE_URL}${blueprint.image.preview.url}`,
         imageUrlShow: `${this.cardTraderConfig.CARD_TRADER_BASE_URL}${blueprint.image.show.url}`,
       }
@@ -60,7 +61,7 @@ class CardTraderAdaptor implements ICardTraderAdaptor {
         const cardValue: CardValue = {
           blueprintId: v.blueprintId,
           priceCents: v.price.cents,
-          condition: parseCardCondition(v.propertiesHash.condition),
+          condition: v.propertiesHash.condition ?? '',
         }
         return cardValue
       })

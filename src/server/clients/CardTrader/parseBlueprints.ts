@@ -22,6 +22,10 @@ export const tryToParseBlueprints = (data: unknown): CardTraderBlueprintDto[] =>
       gameId: parser.num('game_id'),
       categoryId: parser.num('category_id'),
       expansionId: parser.num('expansion_id'),
+      fixedProperties: {
+        collectorNumber: item.fixed_properties?.collector_number ?? '',
+        pokemonRarity: item.fixed_properties?.pokemon_rarity ?? '',
+      },
       image: {
         show: {
           url: showUrl,

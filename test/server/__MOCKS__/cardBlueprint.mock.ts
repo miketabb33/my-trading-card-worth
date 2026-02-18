@@ -5,6 +5,8 @@ type MakeCardBlueprintMockArgs = {
   expansionId?: number
   name?: string
   version?: string
+  collectorNumber?: string
+  pokemonRarity?: string
   imageUrlShow?: string
   imageUrlPreview?: string
 }
@@ -14,6 +16,8 @@ export const makeCardBlueprintMock = ({
   expansionId = 2,
   name = 'name',
   version = 'version',
+  collectorNumber = '',
+  pokemonRarity = 'Common',
   imageUrlPreview = 'image url preview',
   imageUrlShow = 'image url show',
 }: MakeCardBlueprintMockArgs): CardBlueprint => ({
@@ -21,6 +25,8 @@ export const makeCardBlueprintMock = ({
   expansionId,
   name,
   version,
+  collectorNumber,
+  pokemonRarity,
   imageUrlShow,
   imageUrlPreview,
 })

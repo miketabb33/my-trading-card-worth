@@ -8,7 +8,6 @@ export const tryToParseAddMyCardBody = (body: unknown): AddMyCardDto => {
     blueprintId: typeParser.num('blueprintId'),
     expansionId: typeParser.num('expansionId'),
     name: typeParser.str('name'),
-    condition: typeParser.num('condition'),
     imageUrlPreview: typeParser.str('imageUrlPreview'),
     imageUrlShow: typeParser.str('imageUrlShow'),
   }

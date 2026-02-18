@@ -1,6 +1,7 @@
-import { CardCondition, GameName, PrismaClient } from '@prisma/client'
+import { CardCondition, PrismaClient } from '@prisma/client'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
+import { ICardBlueprintPokemonRepo } from '../../repository/CardBlueprintPokemonRepo'
 
 export interface IAddCardTraderCardLogic {
   add: (
@@ -15,15 +16,18 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
   private readonly prisma: PrismaClient
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionPokemonRepo: IExpansionPokemonRepo
+  private readonly cardBlueprintPokemonRepo: ICardBlueprintPokemonRepo
 
   constructor(
     prisma: PrismaClient,
     cardTraderAdaptor: ICardTraderAdaptor,
-    expansionPokemonRepo: IExpansionPokemonRepo
+    expansionPokemonRepo: IExpansionPokemonRepo,
+    cardBlueprintPokemonRepo: ICardBlueprintPokemonRepo
   ) {
     this.prisma = prisma
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionPokemonRepo = expansionPokemonRepo
+    this.cardBlueprintPokemonRepo = cardBlueprintPokemonRepo
   }
 
   add = async (
@@ -51,46 +55,20 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
     if (existing) return existing.id
 
     const expansionName = await this.fetchExpansionName(cardTraderExpansionId)
-    const game = await this.prisma.game.upsert({
-      where: { name: GameName.Pokemon },
-      update: {},
-      create: { name: GameName.Pokemon },
-    })
-    const gameId = game.id
 
-    return await this.prisma.$transaction(async (tx) => {
-      const expansion = await tx.expansion.create({
-        data: {
-          gameId,
-          name: expansionName,
-          imageUrl: '',
-          numberOfCards: 0,
-          releaseDate: new Date(),
-        },
-      })
-
-      await tx.expansionPokemon.create({
-        data: {
-          expansionId: expansion.id,
-          abbreviation: '',
-          series: '',
-          expansionType: '',
-          expansionNumberInSeries: 0,
-          numberOfSecretCards: 0,
-          symbolUrl: '',
-          bulbapediaUrl: '',
-        },
-      })
-
-      await tx.expansionPlatformLink.create({
-        data: {
-          expansionId: expansion.id,
-          platform: 'CARD_TRADER',
-          externalId: String(cardTraderExpansionId),
-        },
-      })
-
-      return expansion.id
+    return await this.expansionPokemonRepo.create({
+      cardTraderExpansionId,
+      name: expansionName,
+      abbreviation: '',
+      series: '',
+      expansionType: '',
+      expansionNumberInSeries: 0,
+      numberOfCards: 0,
+      numberOfSecretCards: 0,
+      releaseDate: new Date(),
+      symbolUrl: null,
+      logoUrl: null,
+      bulbapediaUrl: '',
     })
   }
 
@@ -101,31 +79,21 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
   }
 
   private ensureBlueprintsExist = async (expansionId: number, cardTraderExpansionId: number) => {
-    const existingCount = await this.prisma.cardBlueprint.count({
-      where: { expansionId },
-    })
-
-    if (existingCount > 0) return
-
     const blueprints = await this.cardTraderAdaptor.getPokemonBlueprints(cardTraderExpansionId)
 
     for (const blueprint of blueprints) {
-      const cardBlueprint = await this.prisma.cardBlueprint.create({
-        data: {
-          expansionId,
-          name: blueprint.name,
-          collectorNumber: '',
-          imageShowUrl: blueprint.imageUrlShow,
-          imagePreviewUrl: blueprint.imageUrlPreview,
-        },
-      })
+      const existing = await this.cardBlueprintPokemonRepo.find(blueprint.blueprintId)
 
-      await this.prisma.cardBlueprintPlatformLink.create({
-        data: {
-          cardBlueprintId: cardBlueprint.id,
-          platform: 'CARD_TRADER',
-          externalId: String(blueprint.blueprintId),
-        },
+      if (existing) continue
+
+      await this.cardBlueprintPokemonRepo.create({
+        expansionId,
+        cardTraderBlueprintId: blueprint.blueprintId,
+        name: blueprint.name,
+        collectorNumber: blueprint.collectorNumber,
+        rarity: blueprint.pokemonRarity,
+        imageShowUrl: blueprint.imageUrlShow,
+        imagePreviewUrl: blueprint.imageUrlPreview,
       })
     }
   }

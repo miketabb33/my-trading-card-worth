@@ -5,6 +5,10 @@ export type CardTraderBlueprintDto = {
   gameId: number
   categoryId: number
   expansionId: number
+  fixedProperties: {
+    collectorNumber: string
+    pokemonRarity: string
+  }
   image: {
     show: {
       url: string

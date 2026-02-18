@@ -1,16 +1,15 @@
-import { CardConditionOptions } from '../../../src/core/types/CardCondition'
 import { CardValue } from '../../../src/server/types/CardValue'
 
 type MakeCardValueMockArgs = {
   blueprintId?: number
   priceCents?: number
-  condition?: CardConditionOptions
+  condition?: string
 }
 
 export const makeCardValueMock = ({
   blueprintId = 0,
   priceCents = 0,
-  condition = 'Unknown',
+  condition = '',
 }: MakeCardValueMockArgs): CardValue => ({
   blueprintId,
   priceCents,
