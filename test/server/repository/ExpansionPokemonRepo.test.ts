@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { prisma } from '../../../prisma/prismaClient'
 import ExpansionPokemonRepo, { CreateExpansionPokemonEntity } from '../../../src/server/repository/ExpansionPokemonRepo'
 
@@ -156,7 +159,7 @@ describe('ExpansionPokemonRepo', () => {
     beforeEach(() => {
       FIND_GAME.mockResolvedValue({ id: GAME_ID })
       mockTx.expansion.create.mockResolvedValue({ id: EXPANSION_ID })
-      TRANSACTION.mockImplementation(async (fn: any) => fn(mockTx))
+      TRANSACTION.mockImplementation((fn: any) => fn(mockTx))
     })
 
     it('should throw when the Pokemon game is not found', async () => {
