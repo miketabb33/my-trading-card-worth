@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { prisma } from '../../../prisma/prismaClient'
 
 export type MyCardItemEntity = {
@@ -40,14 +41,15 @@ class MyCardRepo implements IMyCardRepo {
     const cardBlueprintId = await this.findCardBlueprintId(entity.cardTrader.blueprintId)
     if (!cardBlueprintId) return
 
-    for (const _ of entity.items) {
+    for (let i = 0; i < entity.items.length; i++) {
       await prisma.userCard.create({
         data: { profileId: profile.id, cardBlueprintId, condition: 'UNKNOWN' },
       })
     }
   }
 
-  addItem = async (userId: string, blueprintId: number, _item: MyCardItemEntity): Promise<void> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  addItem = async (userId: string, blueprintId: number, item: MyCardItemEntity): Promise<void> => {
     const profile = await prisma.profile.findUnique({ where: { userId } })
     if (!profile) return
 
