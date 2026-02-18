@@ -52,6 +52,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@honeybadger-io/js": "^6.12.3",
     "@octokit/rest": "^21.0.2",
     "@prisma/client": "^5.22.0",
     "body-parser": "^1.20.2",

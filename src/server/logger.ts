@@ -1,6 +1,8 @@
+import Honeybadger from '@honeybadger-io/js'
+
 class Logger {
   static error = (error: Error) => {
-    console.error('ERROR:', error)
+    Honeybadger.notify(error)
   }
 
   static info = (message: string) => {

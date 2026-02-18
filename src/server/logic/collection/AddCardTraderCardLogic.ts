@@ -2,6 +2,8 @@ import { CardCondition, PrismaClient } from '@prisma/client'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 import { ICardBlueprintPokemonRepo } from '../../repository/CardBlueprintPokemonRepo'
+import { CardBlueprint } from '../../types/CardBlueprint'
+import Logger from '../../logger'
 
 export interface IAddCardTraderCardLogic {
   add: (
@@ -37,8 +39,7 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
     condition: CardCondition
   ) => {
     const expansionId = await this.ensureExpansionExists(cardTraderExpansionId)
-    await this.ensureBlueprintsExist(expansionId, cardTraderExpansionId)
-    const cardBlueprintId = await this.getCardBlueprintId(cardTraderBlueprintId)
+    const cardBlueprintId = await this.ensureBlueprintExists(expansionId, cardTraderExpansionId, cardTraderBlueprintId)
 
     await this.prisma.userCard.create({
       data: {
@@ -78,12 +79,45 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
     return match?.name ?? ''
   }
 
-  private ensureBlueprintsExist = async (expansionId: number, cardTraderExpansionId: number) => {
-    const blueprints = await this.cardTraderAdaptor.getPokemonBlueprints(cardTraderExpansionId)
+  private ensureBlueprintExists = async (
+    expansionId: number,
+    cardTraderExpansionId: number,
+    cardTraderBlueprintId: number
+  ): Promise<number> => {
+    const existing = await this.cardBlueprintPokemonRepo.find(cardTraderBlueprintId)
+    if (existing) return existing.id
 
-    for (const blueprint of blueprints) {
+    const allBlueprints = await this.cardTraderAdaptor.getPokemonBlueprints(cardTraderExpansionId)
+    const target = allBlueprints.find((b) => b.blueprintId === cardTraderBlueprintId)
+
+    if (!target) throw new Error(`Blueprint ${cardTraderBlueprintId} not found in expansion ${cardTraderExpansionId}`)
+
+    const cardBlueprintId = await this.cardBlueprintPokemonRepo.create({
+      expansionId,
+      cardTraderBlueprintId: target.blueprintId,
+      name: target.name,
+      collectorNumber: target.collectorNumber,
+      rarity: target.pokemonRarity,
+      imageShowUrl: target.imageUrlShow,
+      imagePreviewUrl: target.imageUrlPreview,
+    })
+
+    this.backfillRemainingBlueprints(expansionId, allBlueprints, cardTraderBlueprintId).catch((e) => {
+      Logger.error(new Error(`Failed to backfill blueprints for expansion ${cardTraderExpansionId}: ${e}`))
+    })
+
+    return cardBlueprintId
+  }
+
+  private backfillRemainingBlueprints = async (
+    expansionId: number,
+    allBlueprints: CardBlueprint[],
+    excludeBlueprintId: number
+  ) => {
+    const remaining = allBlueprints.filter((b) => b.blueprintId !== excludeBlueprintId)
+
+    for (const blueprint of remaining) {
       const existing = await this.cardBlueprintPokemonRepo.find(blueprint.blueprintId)
-
       if (existing) continue
 
       await this.cardBlueprintPokemonRepo.create({
@@ -96,19 +130,6 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
         imagePreviewUrl: blueprint.imageUrlPreview,
       })
     }
-  }
-
-  private getCardBlueprintId = async (cardTraderBlueprintId: number): Promise<number> => {
-    const link = await this.prisma.cardBlueprintPlatformLink.findFirst({
-      where: {
-        platform: 'CARD_TRADER',
-        externalId: String(cardTraderBlueprintId),
-      },
-    })
-
-    if (!link) throw new Error(`Card blueprint not found for CardTrader blueprint ID: ${cardTraderBlueprintId}`)
-
-    return link.cardBlueprintId
   }
 }
 

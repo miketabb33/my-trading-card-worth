@@ -33,4 +33,5 @@ export const ENV = {
     SENDER: () => validatedEnv('EMAILER_SENDER', process.env.EMAILER_SENDER),
     PASSWORD: () => validatedEnv('EMAILER_PASSWORD', process.env.EMAILER_PASSWORD),
   },
+  HONEY_BADGER: () => validatedEnv('HONEY_BADGER', process.env.HONEY_BADGER),
 }

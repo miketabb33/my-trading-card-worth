@@ -7,8 +7,9 @@ import { makePrismaClientMock } from '../../__MOCKS__/prismaClient.mock'
 import { EXPANSION_ENTITY_ORIGINAL } from '../../__MOCKS__/expansionEntity.mock'
 import { makeCardBlueprintMock } from '../../__MOCKS__/cardBlueprint.mock'
 
+const flushPromises = () => new Promise((resolve) => setImmediate(resolve))
+
 const mockPrisma = makePrismaClientMock({
-  cardBlueprintPlatformLink: { findFirst: jest.fn() },
   userCard: { create: jest.fn() },
 })
 
@@ -40,11 +41,7 @@ describe('Add Card Trader Card Logic', () => {
 
   const setupHappyPath = () => {
     expansionPokemonRepo_FAKE.FIND.mockResolvedValue({ ...EXPANSION_ENTITY_ORIGINAL, id: EXPANSION_ID })
-    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
-      makeCardBlueprintMock({ blueprintId: CARD_TRADER_BLUEPRINT_ID }),
-    ])
-    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue({})
-    mockPrisma.cardBlueprintPlatformLink.findFirst.mockResolvedValue({ cardBlueprintId: CARD_BLUEPRINT_ID })
+    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue({ id: CARD_BLUEPRINT_ID })
   }
 
   it('should create a user card with the correct data', async () => {
@@ -79,8 +76,8 @@ describe('Add Card Trader Card Logic', () => {
     cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
       makeCardBlueprintMock({ blueprintId: CARD_TRADER_BLUEPRINT_ID }),
     ])
-    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue({})
-    mockPrisma.cardBlueprintPlatformLink.findFirst.mockResolvedValue({ cardBlueprintId: CARD_BLUEPRINT_ID })
+    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
+    cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
     await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
@@ -99,35 +96,36 @@ describe('Add Card Trader Card Logic', () => {
     cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
       makeCardBlueprintMock({ blueprintId: CARD_TRADER_BLUEPRINT_ID }),
     ])
-    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue({})
-    mockPrisma.cardBlueprintPlatformLink.findFirst.mockResolvedValue({ cardBlueprintId: CARD_BLUEPRINT_ID })
+    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
+    cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
     await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
     expect(expansionPokemonRepo_FAKE.CREATE).toHaveBeenCalledWith(expect.objectContaining({ name: '' }))
   })
 
-  it('should create blueprint when it does not exist', async () => {
-    const blueprint = makeCardBlueprintMock({ blueprintId: CARD_TRADER_BLUEPRINT_ID })
+  it('should create only the required blueprint when it does not exist', async () => {
+    const targetBlueprint = makeCardBlueprintMock({ blueprintId: CARD_TRADER_BLUEPRINT_ID })
+
     expansionPokemonRepo_FAKE.FIND.mockResolvedValue({ ...EXPANSION_ENTITY_ORIGINAL, id: EXPANSION_ID })
-    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([blueprint])
+    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([targetBlueprint])
     cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
-    mockPrisma.cardBlueprintPlatformLink.findFirst.mockResolvedValue({ cardBlueprintId: CARD_BLUEPRINT_ID })
+    cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
     await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
     expect(cardBlueprintPokemonRepo_FAKE.CREATE).toHaveBeenCalledWith({
       expansionId: EXPANSION_ID,
-      cardTraderBlueprintId: blueprint.blueprintId,
-      name: blueprint.name,
-      collectorNumber: blueprint.collectorNumber,
-      rarity: blueprint.pokemonRarity,
-      imageShowUrl: blueprint.imageUrlShow,
-      imagePreviewUrl: blueprint.imageUrlPreview,
+      cardTraderBlueprintId: targetBlueprint.blueprintId,
+      name: targetBlueprint.name,
+      collectorNumber: targetBlueprint.collectorNumber,
+      rarity: targetBlueprint.pokemonRarity,
+      imageShowUrl: targetBlueprint.imageUrlShow,
+      imagePreviewUrl: targetBlueprint.imageUrlPreview,
     })
   })
 
-  it('should skip creating blueprint when it already exists', async () => {
+  it('should not create blueprint when it already exists', async () => {
     setupHappyPath()
 
     await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
@@ -135,29 +133,47 @@ describe('Add Card Trader Card Logic', () => {
     expect(cardBlueprintPokemonRepo_FAKE.CREATE).not.toHaveBeenCalled()
   })
 
-  it('should throw when blueprint platform link is not found', async () => {
-    expansionPokemonRepo_FAKE.FIND.mockResolvedValue({ ...EXPANSION_ENTITY_ORIGINAL, id: EXPANSION_ID })
-    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
-      makeCardBlueprintMock({ blueprintId: CARD_TRADER_BLUEPRINT_ID }),
-    ])
-    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue({})
-    mockPrisma.cardBlueprintPlatformLink.findFirst.mockResolvedValue(null)
+  it('should backfill remaining blueprints after the required one is created', async () => {
+    const targetBlueprint = makeCardBlueprintMock({ blueprintId: CARD_TRADER_BLUEPRINT_ID })
+    const otherBlueprint = makeCardBlueprintMock({ blueprintId: 999 })
 
-    await expect(logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)).rejects.toThrow(
-      `Card blueprint not found for CardTrader blueprint ID: ${CARD_TRADER_BLUEPRINT_ID}`
+    expansionPokemonRepo_FAKE.FIND.mockResolvedValue({ ...EXPANSION_ENTITY_ORIGINAL, id: EXPANSION_ID })
+    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([targetBlueprint, otherBlueprint])
+    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
+    cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
+
+    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await flushPromises()
+
+    expect(cardBlueprintPokemonRepo_FAKE.CREATE).toHaveBeenCalledTimes(2)
+    expect(cardBlueprintPokemonRepo_FAKE.CREATE).toHaveBeenCalledWith(
+      expect.objectContaining({ cardTraderBlueprintId: otherBlueprint.blueprintId })
     )
   })
 
-  it('should look up the platform link with CARD_TRADER platform and stringified blueprint id', async () => {
-    setupHappyPath()
+  it('should skip already-existing blueprints during backfill', async () => {
+    const targetBlueprint = makeCardBlueprintMock({ blueprintId: CARD_TRADER_BLUEPRINT_ID })
+    const existingBlueprint = makeCardBlueprintMock({ blueprintId: 999 })
+
+    expansionPokemonRepo_FAKE.FIND.mockResolvedValue({ ...EXPANSION_ENTITY_ORIGINAL, id: EXPANSION_ID })
+    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([targetBlueprint, existingBlueprint])
+    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValueOnce(null) // target doesn't exist
+      .mockResolvedValue({ id: 999 }) // remaining blueprints already exist
+    cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
     await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await flushPromises()
 
-    expect(mockPrisma.cardBlueprintPlatformLink.findFirst).toHaveBeenCalledWith({
-      where: {
-        platform: 'CARD_TRADER',
-        externalId: String(CARD_TRADER_BLUEPRINT_ID),
-      },
-    })
+    expect(cardBlueprintPokemonRepo_FAKE.CREATE).toHaveBeenCalledTimes(1)
+  })
+
+  it('should throw when requested blueprint is not found in card trader response', async () => {
+    expansionPokemonRepo_FAKE.FIND.mockResolvedValue({ ...EXPANSION_ENTITY_ORIGINAL, id: EXPANSION_ID })
+    cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
+    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([makeCardBlueprintMock({ blueprintId: 999 })])
+
+    await expect(logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)).rejects.toThrow(
+      `Blueprint ${CARD_TRADER_BLUEPRINT_ID} not found in expansion ${CARD_TRADER_EXPANSION_ID}`
+    )
   })
 })

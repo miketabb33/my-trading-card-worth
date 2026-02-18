@@ -17,6 +17,8 @@ services:
       EMAILER_SENDER: ${EMAILER_SENDER}
       EMAILER_PASSWORD: ${EMAILER_PASSWORD}
       DATABASE_URL: ${DATABASE_URL}
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      HONEY_BADGER: ${HONEY_BADGER}
     depends_on:
       - mongo
       - postgres

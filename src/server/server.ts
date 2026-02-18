@@ -8,9 +8,16 @@ import Store from './StoreRegistry'
 import CronJobs from './CronJobRegistry'
 import Logger from './logger'
 import { formatError } from './logic/formatResponse'
+import Honeybadger from '@honeybadger-io/js'
+import { ENV } from './env'
 
 const app = express()
 const port = process.env.PORT || 3000
+
+Honeybadger.configure({
+  apiKey: ENV.HONEY_BADGER(),
+  environment: ENV.ID,
+})
 
 app.use(auth(auth0Config))
 
