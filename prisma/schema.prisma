@@ -121,24 +121,11 @@ enum CardCondition {
   UNKNOWN
 }
 
-enum PokemonRarity {
-  COMMON
-  UNCOMMON
-  RARE
-  DOUBLE_RARE
-  ULTRA_RARE
-  ILLUSTRATION_RARE
-  SPECIAL_ILLUSTRATION_RARE
-  HYPER_RARE
-  SHINY_RARE
-  SHINY_ULTRA_RARE
-  ACE_SPEC_RARE
-}
 
 model CardBlueprintPokemon {
   id              Int           @id @default(autoincrement())
   cardBlueprintId Int           @unique @map("card_blueprint_id")
-  rarity          PokemonRarity
+  rarity          String
   createdAt       DateTime      @default(now()) @map("created_at")
   updatedAt       DateTime      @updatedAt @map("updated_at")
   cardBlueprint   CardBlueprint @relation(fields: [cardBlueprintId], references: [id])

@@ -1,4 +1,4 @@
-import { CardCondition, GameName, PokemonRarity, PrismaClient } from '@prisma/client'
+import { CardCondition, GameName, PrismaClient } from '@prisma/client'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 
@@ -128,7 +128,7 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
       await this.prisma.cardBlueprintPokemon.create({
         data: {
           cardBlueprintId: cardBlueprint.id,
-          rarity: this.parseRarity(blueprint.pokemonRarity),
+          rarity: blueprint.pokemonRarity,
         },
       })
 
@@ -155,23 +155,6 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
     return link.cardBlueprintId
   }
 
-  private parseRarity = (rarity: string): PokemonRarity => {
-    const map: Record<string, PokemonRarity> = {
-      'Common': PokemonRarity.COMMON,
-      'Uncommon': PokemonRarity.UNCOMMON,
-      'Rare': PokemonRarity.RARE,
-      'Double Rare': PokemonRarity.DOUBLE_RARE,
-      'Ultra Rare': PokemonRarity.ULTRA_RARE,
-      'Illustration Rare': PokemonRarity.ILLUSTRATION_RARE,
-      'Special Illustration Rare': PokemonRarity.SPECIAL_ILLUSTRATION_RARE,
-      'Hyper Rare': PokemonRarity.HYPER_RARE,
-      'Shiny Rare': PokemonRarity.SHINY_RARE,
-      'Shiny Ultra Rare': PokemonRarity.SHINY_ULTRA_RARE,
-      'ACE SPEC Rare': PokemonRarity.ACE_SPEC_RARE,
-    }
-
-    return map[rarity] ?? PokemonRarity.COMMON
-  }
 }
 
 export default AddCardTraderCardLogic
