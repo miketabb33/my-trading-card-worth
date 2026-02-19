@@ -5,7 +5,7 @@ const PASSWORD = 'r3dGre3NRef@cTor'
 
 describe('e2e', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
+    cy.visit('http://localhost:3000/catalog')
   })
 
   it('e2e', () => {
