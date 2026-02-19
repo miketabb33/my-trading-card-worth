@@ -54,8 +54,12 @@ const CollectionNotLoggedIn = () => {
       </EmptyStateBody>
 
       <Actions>
-        <Button $variant="primary" onClick={signup}>Create a free account</Button>
-        <Button $variant="ghost" onClick={login}>Log In</Button>
+        <Button $variant="primary" onClick={signup}>
+          Create a free account
+        </Button>
+        <Button $variant="ghost" onClick={login}>
+          Log In
+        </Button>
       </Actions>
 
       <Hint>

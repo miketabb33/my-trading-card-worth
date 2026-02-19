@@ -27,8 +27,12 @@ const NavigationUserControls = () => {
       {showLoading && <LoadingText>Loading...</LoadingText>}
       {showLoggedOut && (
         <>
-          <Button $variant="ghost" onClick={login} id="LoginButton">Log In</Button>
-          <Button $variant="primary" onClick={signup} id="SignUpButton">Sign Up</Button>
+          <Button $variant="ghost" onClick={login} id="LoginButton">
+            Log In
+          </Button>
+          <Button $variant="primary" onClick={signup} id="SignUpButton">
+            Sign Up
+          </Button>
         </>
       )}
       {showLoggedIn && profile && (
