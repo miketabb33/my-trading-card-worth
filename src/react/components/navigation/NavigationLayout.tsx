@@ -2,6 +2,8 @@ import styled, { css } from 'styled-components'
 import { tabLandAndUp } from '../../styles/Responsive'
 import { ResponsiveLayout } from '../base/layout/ResponsiveLayout'
 import React, { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
+import { PATH_VALUES } from '../../router/pathValues'
 
 const Bar = styled.div`
   background-color: ${({ theme }) => theme.staticColor.gray_900};
@@ -36,13 +38,14 @@ const BrandColumn = styled.div`
   `)}
 `
 
-const Wordmark = styled.span`
+const Wordmark = styled(Link)`
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 2.4rem;
   color: ${({ theme }) => theme.staticColor.gray_50};
   letter-spacing: 0.05em;
   white-space: nowrap;
+  text-decoration: none;
 
   ${tabLandAndUp(css`
     font-size: 2.8rem;
@@ -99,7 +102,7 @@ const NavigationLayout = ({ options, userControls, storeStatus }: NavigationLayo
     <Bar>
       <Container>
         <BrandColumn>
-          <Wordmark>
+          <Wordmark to={PATH_VALUES.home}>
             TCG<Accent>VALOR</Accent>
           </Wordmark>
           <StoreStatusWrap>{storeStatus}</StoreStatusWrap>

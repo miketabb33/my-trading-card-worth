@@ -17,6 +17,7 @@ const collection = (userId?: string) => {
 }
 
 export const PATH_VALUES = {
+  home: '/',
   catalog,
   collection,
   series: '/series',
