@@ -10,7 +10,7 @@ describe('e2e', () => {
 
   it('e2e', () => {
     // Search Expansion
-    cy.get('#NoExpansionSelected').contains('No Expansion Selected')
+    cy.get('#NoExpansionSelected').contains('Choose Your Expansion')
     cy.get('#CatalogAutocomplete:not([disabled])').type('Twilight')
 
     cy.get('#CatalogAutocomplete-0').click()
@@ -19,14 +19,14 @@ describe('e2e', () => {
 
     // Logged out collection
     cy.get('#NavCollection').click()
-    cy.get('h1').first().should('have.text', 'Welcome To Your Collection!')
+    cy.get('h2').first().should('have.text', 'Your Collection Awaits')
     cy.get('#NavCatalog').click()
 
     loginInWith(USERNAME, PASSWORD)
 
     // Go to Collection and back
     cy.get('#NavCollection').click()
-    cy.get('h1').first().should('have.text', 'There Are No Items In Your Collection!')
+    cy.get('h2').first().should('have.text', 'Your Collection is Empty')
     cy.get('#CollectionCatalogLink').click()
     cy.get('#ExpansionTitle').should('have.text', 'Scarlet & Violet - Twilight Masquerade Expansion')
 
@@ -83,7 +83,7 @@ describe('e2e', () => {
     cy.wait(2000)
 
     cy.get('#CardListItem-0').contains('Remove').click()
-    cy.get('h1').first().should('have.text', 'There Are No Items In Your Collection!')
+    cy.get('h2').first().should('have.text', 'Your Collection is Empty')
   })
 })
 

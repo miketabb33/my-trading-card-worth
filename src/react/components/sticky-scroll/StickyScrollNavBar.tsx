@@ -11,8 +11,14 @@ const Bar = styled.div<{ $isHidden: boolean }>`
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 0 2rem;
   pointer-events: none;
+
+  @media (min-width: 650px) {
+    justify-content: center;
+    padding: 0;
+  }
 
   transition:
     visibility 0s,

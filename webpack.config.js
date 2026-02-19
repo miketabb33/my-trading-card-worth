@@ -27,16 +27,6 @@ module.exports = {
       '@repository': path.resolve(__dirname, 'src/server/repository'),
       '@stores': path.resolve(__dirname, 'src/server/stores'),
     },
-    fallback: {
-      'mongodb-client-encryption': false,
-      aws4: false,
-      socks: false,
-      snappy: false,
-      'gcp-metadata': false,
-      '@aws-sdk/credential-providers': false,
-      '@mongodb-js/zstd': false,
-      kerberos: false,
-    },
   },
   externals: {
     '@prisma/client': 'commonjs @prisma/client',

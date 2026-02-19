@@ -27,6 +27,11 @@ app.use(bodyParser.json())
 app.use(express.static(`${__dirname}/public`))
 app.use('/api', ControllerRegistry)
 
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+app.get('/signup', async (req, res) => {
+  await res.oidc.login({ authorizationParams: { screen_hint: 'signup' } })
+})
+
 app.get('*', (_, res) => {
   res.sendFile(path.join(__dirname, '/index.html'))
 })

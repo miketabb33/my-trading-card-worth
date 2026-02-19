@@ -1,29 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useProfile } from '../../providers/ProfileProvider'
+import { Button } from '../base/Button'
 
 const UserControls = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-`
-
-const NavButton = styled.button`
-  padding: 0.5rem 1.2rem;
-  cursor: pointer;
-  background-color: transparent;
-  border: 1px solid ${({ theme }) => theme.staticColor.gray_600};
-  border-radius: 0.4rem;
-  color: ${({ theme }) => theme.staticColor.gray_200};
-  font-size: 1.3rem;
-  font-weight: 500;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: ${({ theme }) => theme.staticColor.gold_400};
-    color: ${({ theme }) => theme.staticColor.gold_400};
-  }
 `
 
 const Nickname = styled.p`
@@ -37,19 +21,24 @@ const LoadingText = styled.p`
 `
 
 const NavigationUserControls = () => {
-  const { profile, showLoading, showLoggedIn, showLoggedOut, logout, login } = useInNavigationUserControls()
+  const { profile, showLoading, showLoggedIn, showLoggedOut, logout, login, signup } = useInNavigationUserControls()
   return (
     <UserControls>
       {showLoading && <LoadingText>Loading...</LoadingText>}
       {showLoggedOut && (
-        <NavButton onClick={login} id="LoginButton">
-          Login
-        </NavButton>
+        <>
+          <Button $variant="ghost" onClick={login} id="LoginButton">
+            Log In
+          </Button>
+          <Button $variant="primary" onClick={signup} id="SignUpButton">
+            Sign Up
+          </Button>
+        </>
       )}
       {showLoggedIn && profile && (
         <>
           <Nickname id="NavNameTag">Hi, {profile.nickname}</Nickname>
-          <NavButton onClick={logout}>Logout</NavButton>
+          <Button onClick={logout}>Logout</Button>
         </>
       )}
     </UserControls>
@@ -57,7 +46,7 @@ const NavigationUserControls = () => {
 }
 
 export const useInNavigationUserControls = () => {
-  const { profile, isLoading, logout, login } = useProfile()
+  const { profile, isLoading, logout, login, signup } = useProfile()
 
   const showLoading = isLoading
   const showLoggedOut = !isLoading && !profile
@@ -70,6 +59,7 @@ export const useInNavigationUserControls = () => {
     showLoggedIn,
     logout,
     login,
+    signup,
   }
 }
 

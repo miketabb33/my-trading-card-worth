@@ -12,6 +12,7 @@ export type ProfileContextType = {
   isLoggedIn: boolean
   logout: () => void
   login: () => void
+  signup: () => void
 }
 
 const ProfileContext = createContext<ProfileContextType>({
@@ -26,6 +27,7 @@ const ProfileContext = createContext<ProfileContextType>({
   isLoggedIn: false,
   logout: () => {},
   login: () => {},
+  signup: () => {},
 })
 
 export const useProfileProvider = () => {
@@ -45,9 +47,13 @@ export const useProfileProvider = () => {
     setAuthReturnUrl(location.pathname)
     location.pathname = '/login'
   }
+  const signup = () => {
+    setAuthReturnUrl(location.pathname)
+    location.pathname = '/signup'
+  }
 
   return {
-    value: { profile, isLoading, isLoggedIn, logout, login },
+    value: { profile, isLoading, isLoggedIn, logout, login, signup },
     loggedInEffect,
   }
 }

@@ -1,11 +1,7 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { useExpansion } from '../../providers/ExpansionProvider'
-
-const revealUp = keyframes`
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-`
+import { revealUp } from '../base/animations'
 
 const StatsRow = styled.div`
   display: flex;
@@ -57,11 +53,6 @@ const HeroStats = () => {
       <StatBlock>
         <StatNum>Live</StatNum>
         <StatText>Market Data</StatText>
-      </StatBlock>
-      <StatSep />
-      <StatBlock>
-        <StatNum>Free</StatNum>
-        <StatText>To Start</StatText>
       </StatBlock>
     </StatsRow>
   )

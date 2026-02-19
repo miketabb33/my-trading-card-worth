@@ -36,7 +36,6 @@ jobs:
           AUTH_SECRET=${{ secrets.AUTH_SECRET }}
           AUTH_ISSUER_BASE_URL=${{ secrets.AUTH_ISSUER_BASE_URL }}
           AUTH_BASE_URL=${{ secrets.AUTH_BASE_URL }}
-          MONGODB_CONNECTION_STRING=${{ secrets.MONGODB_CONNECTION_STRING }}
           ADMIN_TOKEN=${{ secrets.ADMIN_TOKEN }}
           EMAILER_SERVICE=${{ secrets.EMAILER_SERVICE }}
           EMAILER_SENDER=${{ secrets.EMAILER_SENDER }}
