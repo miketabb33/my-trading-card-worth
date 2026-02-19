@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components'
 import Autocomplete from '../base/form/Autocomplete'
 import useHomeSearch from './useHomeSearch'
 import HeroStats from './HeroStats'
+import { useProfile } from '../../providers/ProfileProvider'
 
 const revealUp = keyframes`
   from { opacity: 0; transform: translateY(24px); }
@@ -65,8 +66,29 @@ const Sub = styled.p`
   font-family: 'DM Sans', sans-serif;
   font-size: 1.5rem;
   line-height: 1.7;
-  color: rgba(240, 234, 216, 0.42);
+  color: #f0ead8;
   animation: ${revealUp} 0.5s ease 0.16s both;
+`
+
+const Journey = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  animation: ${revealUp} 0.5s ease 0.2s both;
+`
+
+const JourneyStep = styled.span`
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(240, 234, 216, 0.5);
+  white-space: nowrap;
+`
+
+const JourneyArrow = styled.span`
+  font-size: 1rem;
+  color: rgba(232, 160, 20, 0.4);
 `
 
 const SearchPanel = styled.div`
@@ -91,16 +113,46 @@ const SearchPrompt = styled.p`
   font-size: 1rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(240, 234, 216, 0.28);
+  color: #f0ead8;
   text-align: left;
+`
+
+const AccountNudge = styled.div`
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.2rem;
+  color: rgba(240, 234, 216, 0.45);
+`
+
+const AccountLink = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #e8a020;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.75;
+  }
 `
 
 const HeroContent = () => {
   const { autocompleteBind } = useHomeSearch()
+  const { signup } = useProfile()
 
   return (
     <Content>
-      <Badge>Pokémon TCG Market Intelligence</Badge>
+      <Badge>TCG Market Intelligence</Badge>
 
       <Heading>
         Know the <GoldWord>Valor</GoldWord>
@@ -108,14 +160,27 @@ const HeroContent = () => {
         of Your Collection
       </Heading>
       <Sub>
-        Real-time market prices across every Pokémon expansion.
+        Real-time market prices across TCG expansions.
         <br />
         Track, compare, and grow your collection.
       </Sub>
 
+      <Journey>
+        <JourneyStep>Search expansion</JourneyStep>
+        <JourneyArrow>→</JourneyArrow>
+        <JourneyStep>Browse prices</JourneyStep>
+        <JourneyArrow>→</JourneyArrow>
+        <JourneyStep>Know your worth</JourneyStep>
+      </Journey>
+
       <SearchPanel>
-        <SearchPrompt>Search by Expansion</SearchPrompt>
+        <SearchPrompt>Find your expansion to get started</SearchPrompt>
         <Autocomplete {...autocompleteBind} />
+
+        <AccountNudge>
+          Want to save and manage your collection?
+          <AccountLink onClick={signup}>Create a free account →</AccountLink>
+        </AccountNudge>
       </SearchPanel>
 
       <HeroStats />

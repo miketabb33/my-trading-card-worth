@@ -6,4 +6,5 @@ export const PROFILE_CONTEXT_TYPE: ProfileContextType = {
   isLoggedIn: false,
   logout: () => {},
   login: () => {},
+  signup: () => {},
 }

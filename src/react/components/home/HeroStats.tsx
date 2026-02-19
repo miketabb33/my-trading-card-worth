@@ -58,11 +58,6 @@ const HeroStats = () => {
         <StatNum>Live</StatNum>
         <StatText>Market Data</StatText>
       </StatBlock>
-      <StatSep />
-      <StatBlock>
-        <StatNum>Free</StatNum>
-        <StatText>To Start</StatText>
-      </StatBlock>
     </StatsRow>
   )
 }

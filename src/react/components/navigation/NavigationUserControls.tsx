@@ -9,20 +9,21 @@ const UserControls = styled.div`
   padding: 1rem;
 `
 
-const NavButton = styled.button`
+const NavButton = styled.button<{ $primary?: boolean }>`
   padding: 0.5rem 1.2rem;
   cursor: pointer;
-  background-color: transparent;
-  border: 1px solid ${({ theme }) => theme.staticColor.gray_600};
+  background-color: ${({ $primary }) => ($primary ? '#e8a020' : 'transparent')};
+  border: 1px solid ${({ $primary, theme }) => ($primary ? '#e8a020' : theme.staticColor.gray_600)};
   border-radius: 0.4rem;
-  color: ${({ theme }) => theme.staticColor.gray_200};
+  color: ${({ $primary, theme }) => ($primary ? '#0a0b14' : theme.staticColor.gray_200)};
   font-size: 1.3rem;
-  font-weight: 500;
+  font-weight: ${({ $primary }) => ($primary ? '600' : '500')};
   transition: all 0.2s;
 
   &:hover {
-    border-color: ${({ theme }) => theme.staticColor.gold_400};
-    color: ${({ theme }) => theme.staticColor.gold_400};
+    border-color: ${({ $primary }) => ($primary ? '#f5c433' : undefined)};
+    background-color: ${({ $primary }) => ($primary ? '#f5c433' : 'transparent')};
+    color: ${({ $primary, theme }) => ($primary ? '#0a0b14' : theme.staticColor.gold_400)};
   }
 `
 
@@ -37,14 +38,19 @@ const LoadingText = styled.p`
 `
 
 const NavigationUserControls = () => {
-  const { profile, showLoading, showLoggedIn, showLoggedOut, logout, login } = useInNavigationUserControls()
+  const { profile, showLoading, showLoggedIn, showLoggedOut, logout, login, signup } = useInNavigationUserControls()
   return (
     <UserControls>
       {showLoading && <LoadingText>Loading...</LoadingText>}
       {showLoggedOut && (
-        <NavButton onClick={login} id="LoginButton">
-          Login
-        </NavButton>
+        <>
+          <NavButton onClick={login} id="LoginButton">
+            Log In
+          </NavButton>
+          <NavButton onClick={signup} $primary id="SignUpButton">
+            Sign Up
+          </NavButton>
+        </>
       )}
       {showLoggedIn && profile && (
         <>
@@ -57,7 +63,7 @@ const NavigationUserControls = () => {
 }
 
 export const useInNavigationUserControls = () => {
-  const { profile, isLoading, logout, login } = useProfile()
+  const { profile, isLoading, logout, login, signup } = useProfile()
 
   const showLoading = isLoading
   const showLoggedOut = !isLoading && !profile
@@ -70,6 +76,7 @@ export const useInNavigationUserControls = () => {
     showLoggedIn,
     logout,
     login,
+    signup,
   }
 }
 

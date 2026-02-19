@@ -38,7 +38,7 @@ const Canvas = styled.section`
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 13rem 1.5rem 5rem;
+  padding: 9rem 1.5rem 5rem;
   box-sizing: border-box;
 
   /* Escape ResponsiveLayout padding to go full-width */
