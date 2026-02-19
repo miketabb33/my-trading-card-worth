@@ -1,19 +1,11 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import Autocomplete from '../base/form/Autocomplete'
 import useHomeSearch from './useHomeSearch'
 import HeroStats from './HeroStats'
 import { useProfile } from '../../providers/ProfileProvider'
-
-const revealUp = keyframes`
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-`
-
-const goldFlow = keyframes`
-  from { background-position: 0% center; }
-  to   { background-position: 200% center; }
-`
+import { revealUp } from '../base/animations'
+import { GoldWord } from '../base/GoldWord'
 
 const Content = styled.div`
   position: relative;
@@ -49,16 +41,6 @@ const Heading = styled.h1`
   line-height: 1.08;
   color: #f0ead8;
   animation: ${revealUp} 0.5s ease 0.08s both;
-`
-
-const GoldWord = styled.span`
-  display: inline-block;
-  background: linear-gradient(90deg, #b87010, #f5c433 30%, #ffd060 50%, #e8a020 70%, #c88020);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: ${goldFlow} 4s linear infinite;
 `
 
 const Sub = styled.p`

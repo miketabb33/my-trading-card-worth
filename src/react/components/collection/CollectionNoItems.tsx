@@ -1,16 +1,44 @@
 import React from 'react'
-import InternalTextLink from '../base/text-link/InternalTextLink'
+import styled from 'styled-components'
 import { PATH_VALUES } from '../../router/pathValues'
+import {
+  EmptyStateWrapper,
+  EmptyStateCardIcon,
+  EmptyStateDivider,
+  EmptyStateHeading,
+  EmptyStateBody,
+} from '../base/EmptyState'
+import { GoldWord } from '../base/GoldWord'
+
+const CatalogLink = styled.a`
+  color: #e8a020;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.75;
+  }
+`
 
 const CollectionNoItems = () => {
   return (
-    <>
-      <h1>There Are No Items In Your Collection!</h1>
-      <h3>
-        Add cards to your collection with the{' '}
-        <InternalTextLink id="CollectionCatalogLink" label="Catalog" pathValue={PATH_VALUES.catalog()} />.
-      </h3>
-    </>
+    <EmptyStateWrapper $variant="dark" style={{ maxWidth: '480px' }}>
+      <EmptyStateCardIcon />
+      <EmptyStateDivider />
+
+      <EmptyStateHeading>
+        Your <GoldWord>Collection</GoldWord> is Empty
+      </EmptyStateHeading>
+
+      <EmptyStateBody>
+        Head to the{' '}
+        <CatalogLink id="CollectionCatalogLink" href={PATH_VALUES.catalog()}>
+          Catalog
+        </CatalogLink>{' '}
+        to browse expansions and add cards to your collection.
+      </EmptyStateBody>
+    </EmptyStateWrapper>
   )
 }
 

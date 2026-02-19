@@ -1,21 +1,7 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
-import { Card } from '../base/Card'
-
-const revealUp = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-`
-
-const Wrapper = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.6rem;
-  max-width: 380px;
-  padding: 4rem 3rem;
-`
+import styled from 'styled-components'
+import { revealUp } from '../base/animations'
+import { EmptyStateWrapper, EmptyStateDivider, EmptyStateHeading, EmptyStateBody } from '../base/EmptyState'
 
 const IconWrapper = styled.div`
   position: relative;
@@ -52,71 +38,24 @@ const InnerRing = styled.div`
   }
 `
 
-const Divider = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  width: 100%;
-  animation: ${revealUp} 0.4s ease 0.05s both;
-`
-
-const DividerLine = styled.div`
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(232, 160, 20, 0.6));
-
-  &:last-child {
-    background: linear-gradient(90deg, rgba(232, 160, 20, 0.6), transparent);
-  }
-`
-
-const Diamond = styled.div`
-  width: 5px;
-  height: 5px;
-  background: #e8a020;
-  transform: rotate(45deg);
-`
-
-const Heading = styled.h2`
-  margin: 0;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
-  font-weight: 700;
-  color: #f0ead8;
-  animation: ${revealUp} 0.4s ease 0.1s both;
-`
-
-const Body = styled.p`
-  margin: 0;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1.35rem;
-  line-height: 1.7;
-  color: #f0ead8;
-  animation: ${revealUp} 0.4s ease 0.15s both;
-`
-
 const CatalogNoCards = () => {
   return (
-    <Wrapper $variant="dark">
+    <EmptyStateWrapper $variant="dark" style={{ maxWidth: '380px', gap: '1.6rem' }}>
       <IconWrapper>
         <Ring />
         <InnerRing />
       </IconWrapper>
 
-      <Divider>
-        <DividerLine />
-        <Diamond />
-        <DividerLine />
-      </Divider>
+      <EmptyStateDivider />
 
-      <Heading>Coming Soon</Heading>
+      <EmptyStateHeading>Coming Soon</EmptyStateHeading>
 
-      <Body>
+      <EmptyStateBody>
         This expansion is still being catalogued.
         <br />
         Check back soon.
-      </Body>
-    </Wrapper>
+      </EmptyStateBody>
+    </EmptyStateWrapper>
   )
 }
 
