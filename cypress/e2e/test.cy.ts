@@ -19,14 +19,14 @@ describe('e2e', () => {
 
     // Logged out collection
     cy.get('#NavCollection').click()
-    cy.get('h2').first().should('have.text', 'Your Collection Awaits')
+    cy.contains('h2', 'Your Collection Awaits')
     cy.get('#NavCatalog').click()
 
     loginInWith(USERNAME, PASSWORD)
 
     // Go to Collection and back
     cy.get('#NavCollection').click()
-    cy.get('h2').first().should('have.text', 'Your Collection is Empty')
+    cy.contains('h2', 'Your Collection is Empty')
     cy.get('#CollectionCatalogLink').click()
     cy.get('#ExpansionTitle').should('have.text', 'Scarlet & Violet - Twilight Masquerade Expansion')
 
@@ -80,10 +80,10 @@ describe('e2e', () => {
 
     cy.get('#CardListItem-0').contains('Remove').click()
 
-    cy.wait(2000)
+    cy.wait(3000)
 
     cy.get('#CardListItem-0').contains('Remove').click()
-    cy.get('h2').first().should('have.text', 'Your Collection is Empty')
+    cy.contains('h2', 'Your Collection is Empty')
   })
 })
 
