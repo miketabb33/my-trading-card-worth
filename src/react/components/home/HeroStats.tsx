@@ -23,7 +23,7 @@ const StatBlock = styled.div`
 
 const StatNum = styled.span`
   font-family: 'Cinzel', serif;
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #e8a020;
   line-height: 1;
@@ -31,7 +31,7 @@ const StatNum = styled.span`
 
 const StatText = styled.span`
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(240, 234, 216, 0.28);

@@ -34,9 +34,9 @@ Environment variables are required for the project to run. Contact an admin to r
 `npm run cypress`
 `npm run cypress:open`
 
-## Add Expansions
+## Add Expansions Details
 
-Go to mongo database and add a new expansion entry.
+Find the expansion and add a card - this will create blank expansion data. Then, go to the database, search expansion by name, and fill out the expansion details.
 
 1. Make sure the correct card trader id is provided.
 1. Make sure the exact text for the series is provided.
@@ -44,7 +44,7 @@ Go to mongo database and add a new expansion entry.
 
 ## Add Series
 
-Go to mongo database and add series name to expansion order.
+Go to database's expansion order and add series name to expansion order.
 
 1. Add the expansion by following "Add Expansions"
 1. Refresh Store

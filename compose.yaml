@@ -12,7 +12,6 @@ services:
       AUTH_ISSUER_BASE_URL: ${AUTH_ISSUER_BASE_URL}
       AUTH_SECRET: ${AUTH_SECRET}
       CARD_TRADER_API_KEY: ${CARD_TRADER_API_KEY}
-      MONGODB_CONNECTION_STRING: ${MONGODB_CONNECTION_STRING}
       EMAILER_SERVICE: ${EMAILER_SERVICE}
       EMAILER_SENDER: ${EMAILER_SENDER}
       EMAILER_PASSWORD: ${EMAILER_PASSWORD}
@@ -20,24 +19,7 @@ services:
       ADMIN_TOKEN: ${ADMIN_TOKEN}
       HONEY_BADGER: ${HONEY_BADGER}
     depends_on:
-      - mongo
       - postgres
-
-  mongo:
-    image: mongo:4.4.6
-    ports:
-      - 27017:27017
-    restart: always
-    volumes:
-      - mongo_dbv:/data/db/
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-
-  mongo-seed:
-    build: ./mongo-seed
-    depends_on:
-      - mongo
 
   postgres:
     image: postgres:16-alpine
@@ -57,5 +39,4 @@ services:
       - server
 
 volumes:
-  mongo_dbv: {}
   postgres_dbv: {}
