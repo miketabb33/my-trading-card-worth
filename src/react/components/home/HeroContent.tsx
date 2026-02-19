@@ -2,6 +2,7 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import Autocomplete from '../base/form/Autocomplete'
 import useHomeSearch from './useHomeSearch'
+import HeroStats from './HeroStats'
 
 const revealUp = keyframes`
   from { opacity: 0; transform: translateY(24px); }
@@ -104,7 +105,7 @@ const HeroContent = () => {
       <Heading>
         Know the <GoldWord>Valor</GoldWord>
         <br />
-        of Every Card
+        of Your Collection
       </Heading>
       <Sub>
         Real-time market prices across every Pokémon expansion.
@@ -116,6 +117,8 @@ const HeroContent = () => {
         <SearchPrompt>Search by Expansion</SearchPrompt>
         <Autocomplete {...autocompleteBind} />
       </SearchPanel>
+
+      <HeroStats />
     </Content>
   )
 }
