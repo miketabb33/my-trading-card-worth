@@ -20,7 +20,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.6rem;
+  gap: 2rem;
   max-width: 580px;
   width: 100%;
   text-align: center;
@@ -28,7 +28,7 @@ const Content = styled.div`
 
 const Badge = styled.span`
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.68rem;
+  font-size: 1.1rem;
   font-weight: 500;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -43,7 +43,7 @@ const Badge = styled.span`
 const Heading = styled.h1`
   margin: 0;
   font-family: 'Cinzel', serif;
-  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  font-size: clamp(4rem, 12vw, 5.5rem);
   font-weight: 900;
   line-height: 1.08;
   color: #f0ead8;
@@ -63,7 +63,7 @@ const GoldWord = styled.span`
 const Sub = styled.p`
   margin: 0;
   font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
+  font-size: 1.5rem;
   line-height: 1.7;
   color: rgba(240, 234, 216, 0.42);
   animation: ${revealUp} 0.5s ease 0.16s both;
@@ -88,7 +88,7 @@ const SearchPanel = styled.div`
 const SearchPrompt = styled.p`
   margin: 0 0 0.7rem;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.7rem;
+  font-size: 1rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(240, 234, 216, 0.28);
