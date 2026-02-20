@@ -145,7 +145,8 @@ const buildDetailsRowItems = (details: ExpansionDetailsDto) => {
       title: 'Series:',
       value: (
         <>
-          {details.series} <i>(expansion number {details.expansionNumber})</i>{' '}
+          {details.series}
+          {details.expansionNumber > 0 && <i>&nbsp;(expansion number {details.expansionNumber})</i>}
         </>
       ),
     })
