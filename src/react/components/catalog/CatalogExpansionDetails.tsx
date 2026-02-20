@@ -72,7 +72,8 @@ const Logo = styled.img`
 `
 
 const Symbol = styled.img`
-  object-fit: contain;
+  width: 4rem;
+  height: auto;
 `
 
 type CatalogExpansionDetailsProps = {
