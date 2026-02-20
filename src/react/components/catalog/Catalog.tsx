@@ -142,6 +142,9 @@ export const useInCatalog = () => {
     deps: [expansionSlug, expansions],
   }
 
+  const slugNotFound = !!expansions && !!expansionSlug && !expansions.find((e) => e.slug === expansionSlug)
+  const pendingLoad = !!expansionSlug && !slugNotFound && !selectedExpansion
+
   return {
     autocompleteBind: { ...autocompleteBind, id: 'CatalogAutocomplete' },
     cardsDto: filteredCardsDto,
@@ -149,9 +152,9 @@ export const useInCatalog = () => {
     expansionsLoadedEffect,
     fetchExpansionDetailsAndCardsEffect,
     refreshCards: fetchExpansionDetailsAndCards,
-    showLoading: isLoadingCatalog && filteredCardsDto.length === 0,
+    showLoading: (isLoadingCatalog || pendingLoad) && filteredCardsDto.length === 0,
     showNoCardsYet: !isLoadingCatalog && selectedExpansion?.cards.length === 0,
-    showNoExpansionsSelected: !isLoadingCatalog && !selectedExpansion,
+    showNoExpansionsSelected: !expansionSlug || slugNotFound,
   }
 }
 export default Catalog

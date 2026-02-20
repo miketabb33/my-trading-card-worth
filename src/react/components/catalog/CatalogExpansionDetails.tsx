@@ -74,6 +74,7 @@ const Logo = styled.img`
 const Symbol = styled.img`
   width: 4rem;
   height: auto;
+  flex-shrink: 0;
 `
 
 type CatalogExpansionDetailsProps = {
@@ -82,6 +83,8 @@ type CatalogExpansionDetailsProps = {
 
 const CatalogExpansionDetails = ({ expansionDetailsDto: details }: CatalogExpansionDetailsProps) => {
   const { detailsRowItems, priceRowItems } = catalogExpansionDetailsController(details)
+  const fallbackLogo =
+    'https://archives.bulbagarden.net/media/upload/archive/6/62/20100514003048%21Pok%C3%A9mon_TCG_logo.png'
 
   return (
     <PageDetailsLayout
@@ -93,14 +96,18 @@ const CatalogExpansionDetails = ({ expansionDetailsDto: details }: CatalogExpans
       }
       content={
         <Grid>
-          <LogoContainer>{details.logoUrl && <Logo src={details.logoUrl}></Logo>}</LogoContainer>
+          <LogoContainer>
+            <Logo src={details.logoUrl ?? fallbackLogo} />
+          </LogoContainer>
 
           <Details>
             <h2>Details</h2>
             {detailsRowItems.map((item) => (
               <DetailsRowItem key={item.title} {...item} />
             ))}
-            <ExternalTextLink href={details.bulbapediaUrl}>See on Bulbapedia</ExternalTextLink>
+            {details.bulbapediaUrl && (
+              <ExternalTextLink href={details.bulbapediaUrl}>See on Bulbapedia</ExternalTextLink>
+            )}
           </Details>
           <Prices>
             <h2>Prices</h2>
@@ -126,21 +133,22 @@ export const catalogExpansionDetailsController = (details: ExpansionDetailsDto) 
 
 const buildDetailsRowItems = (details: ExpansionDetailsDto) => {
   const detailsRowItems: RowItemProps[] = []
-  detailsRowItems.push({ title: 'Release Date:', value: details.releaseDate })
-  detailsRowItems.push({ title: 'Number Of Cards:', value: details.cardCount })
+  if (details.releaseDate) detailsRowItems.push({ title: 'Release Date:', value: details.releaseDate })
+  if (details.cardCount) detailsRowItems.push({ title: 'Number Of Cards:', value: details.cardCount })
   if (details.secretCardCount > 0)
     detailsRowItems.push({
       title: 'Number Of Secret Card:',
       value: details.secretCardCount,
     })
-  detailsRowItems.push({
-    title: 'Series:',
-    value: (
-      <>
-        {details.series} <i>(expansion number {details.expansionNumber})</i>{' '}
-      </>
-    ),
-  })
+  if (details.series)
+    detailsRowItems.push({
+      title: 'Series:',
+      value: (
+        <>
+          {details.series} <i>(expansion number {details.expansionNumber})</i>{' '}
+        </>
+      ),
+    })
   return detailsRowItems
 }
 

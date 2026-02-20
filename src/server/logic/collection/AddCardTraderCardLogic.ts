@@ -66,7 +66,7 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
       expansionNumberInSeries: 0,
       numberOfCards: 0,
       numberOfSecretCards: 0,
-      releaseDate: new Date(),
+      releaseDate: new Date(0),
       symbolUrl: null,
       logoUrl: null,
       bulbapediaUrl: '',
