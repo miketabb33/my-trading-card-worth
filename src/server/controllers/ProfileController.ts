@@ -1,18 +1,20 @@
 import { Router } from 'express'
-import { formatResponse } from '../logic/formatResponse'
+import { formatResponse } from '../http/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import { prisma } from '../../../prisma/prismaClient'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
 import Emailer from '../Emailer'
-import { AppError } from '../AppError'
-import { asyncHandler } from '../asyncHandler'
+import { asyncHandler } from '../http/asyncHandler'
 
 const ProfileController = Router()
 
 ProfileController.get('/', asyncHandler(async (req, res) => {
   const user = req.oidc.user
-  if (!user || !req.oidc.isAuthenticated()) throw new AppError('User not logged in')
+  if (!user || !req.oidc.isAuthenticated()) {
+    res.send(formatResponse({ errors: ['User not logged in'] }))
+    return
+  }
 
   const auth0User = parseAuth0User(user)
   const profile = await getProfile(auth0User)

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Router } from 'express'
-import { formatResponse } from '../logic/formatResponse'
+import { formatResponse } from '../http/formatResponse'
 import TypeParser from '../../core/TypeParser'
 import { SendEmailDto } from '../../core/types/SendEmailDto'
 import { ENV } from '../env'
 import Emailer from '../Emailer'
-import { asyncHandler } from '../asyncHandler'
+import { asyncHandler } from '../http/asyncHandler'
 
 const EmailController = Router()
 

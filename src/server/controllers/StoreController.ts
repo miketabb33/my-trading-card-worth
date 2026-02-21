@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Router } from 'express'
-import { formatResponse } from '../logic/formatResponse'
+import { formatResponse } from '../http/formatResponse'
 import Store from '../StoreRegistry'
 import GetStoreStatusLogic from '../logic/store/GetStoreStatusLogic'
 import { ENV } from '../env'

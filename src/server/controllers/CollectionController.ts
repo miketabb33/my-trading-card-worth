@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { formatResponse } from '../logic/formatResponse'
+import { formatResponse } from '../http/formatResponse'
 import { requiresAuth } from 'express-openid-connect'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import { tryToParseAddMyCardBody } from '../logic/collection/parseAddMyCardBody'
@@ -15,8 +15,7 @@ import RemoveCardLogic from '../logic/collection/RemoveCardLogic'
 import GetShareCollectionLogic from '../logic/collection/GetShareCollectionLogic'
 import CollectionFactory from '../domain/CollectionFactory'
 import { prisma } from '../../../prisma/prismaClient'
-import { AppError } from '../AppError'
-import { asyncHandler } from '../asyncHandler'
+import { asyncHandler } from '../http/asyncHandler'
 
 const CollectionController = Router()
 
@@ -41,7 +40,10 @@ CollectionController.post('/', requiresAuth(), asyncHandler(async (req, res) => 
   const myCardDto = tryToParseAddMyCardBody(req.body)
 
   const profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
-  if (!profile) throw new AppError(`No profile found for userId "${auth0User.sub}"`)
+  if (!profile) {
+    res.send(formatResponse({ errors: [`No profile found for userId "${auth0User.sub}"`] }))
+    return
+  }
 
   const addCardTraderCardLogic = new AddCardTraderCardLogic(
     prisma,

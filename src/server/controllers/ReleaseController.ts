@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { formatResponse } from '../logic/formatResponse'
+import { formatResponse } from '../http/formatResponse'
 import { ListReleases } from '../clients/Github/GithubClient'
-import { asyncHandler } from '../asyncHandler'
+import { asyncHandler } from '../http/asyncHandler'
 
 const ReleaseController = Router()
 

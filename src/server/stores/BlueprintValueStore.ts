@@ -1,6 +1,5 @@
 import { ExpansionDto } from '../../core/types/ExpansionDto'
 import Logger from '../logger'
-import { formatError } from '../logic/formatResponse'
 import { IGetBlueprintValueLogic } from '../logic/price/GetBlueprintValueLogic'
 import { BlueprintValue } from '../types/BlueprintValue'
 import { IStore } from './IStore'
@@ -38,8 +37,7 @@ class BlueprintValueStore implements IStore<Map<string, BlueprintValue>> {
           newState.set(key, value)
         }
       } catch (e) {
-        const error = formatError(e)
-        Logger.error(error)
+        Logger.error(e)
         Logger.info(`Failed Loading blueprint value store for ${expansionIds[i]}`)
       }
     }

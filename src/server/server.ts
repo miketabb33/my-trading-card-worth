@@ -7,10 +7,9 @@ import bodyParser from 'body-parser'
 import Store from './StoreRegistry'
 import CronJobs from './CronJobRegistry'
 import Logger from './logger'
-import { formatError } from './logic/formatResponse'
 import Honeybadger from '@honeybadger-io/js'
 import { ENV } from './env'
-import { errorMiddleware } from './errorMiddleware'
+import { exceptionMiddleware } from './http/exceptionMiddleware'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -37,7 +36,7 @@ app.get('*', (_, res) => {
   res.sendFile(path.join(__dirname, '/index.html'))
 })
 
-app.use(errorMiddleware)
+app.use(exceptionMiddleware)
 
 app.listen(port, () => {
   Logger.info(`Server is listening on port ${port}`)
@@ -47,8 +46,7 @@ Store.init()
   .then(() => Logger.info('Stores data loaded'))
   .catch((e) => {
     Logger.info('Error in initialize stores')
-    const error = formatError(e)
-    Logger.error(error)
+    Logger.error(e)
   })
 
 CronJobs.start()
