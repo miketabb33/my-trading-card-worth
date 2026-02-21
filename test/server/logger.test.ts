@@ -1,9 +1,9 @@
 import Honeybadger from '@honeybadger-io/js'
 import Logger from '../../src/server/logger'
 
-jest.mock('@honeybadger-io/js', () => ({
-  notify: jest.fn(),
-}))
+const NOTIFY = jest.spyOn(Honeybadger, 'notify')
+
+NOTIFY.mockImplementation(() => true)
 
 describe('Logger', () => {
   beforeEach(() => {
@@ -14,21 +14,18 @@ describe('Logger', () => {
     it('should notify Honeybadger with the error when given an Error', () => {
       const error = new Error('something broke')
       Logger.error(error)
-      expect(Honeybadger.notify).toHaveBeenCalledWith(error)
+      expect(NOTIFY).toHaveBeenCalledWith(error)
     })
 
     it('should wrap a string in an Error and notify Honeybadger', () => {
       Logger.error('something broke')
-      expect(Honeybadger.notify).toHaveBeenCalledWith(new Error('something broke'))
+      expect(NOTIFY).toHaveBeenCalledWith(new Error('something broke'))
     })
 
     it('should notify Honeybadger with Unknown error and raw context when given an unknown type', () => {
       const raw = { code: 42 }
       Logger.error(raw)
-      expect(Honeybadger.notify).toHaveBeenCalledWith(
-        new Error('Unknown error'),
-        { context: { raw } }
-      )
+      expect(NOTIFY).toHaveBeenCalledWith(new Error('Unknown error'), { context: { raw } })
     })
   })
 
