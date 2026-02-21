@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { asyncHandler } from '../http/asyncHandler'
+import { User } from '@prisma/client'
 
 const ProfileController = Router()
 
@@ -12,16 +13,16 @@ ProfileController.get(
       return
     }
 
-    const profileDto: ProfileDto = {
-      userId: req.currentUser.externalId,
-      name: req.currentUser.name,
-      nickname: req.currentUser.nickname,
-      email: req.currentUser.email,
-      picture: req.currentUser.picture,
-    }
-
-    res.sendData({ data: profileDto })
+    res.sendData({ data: profileDto(req.currentUser) })
   })
 )
+
+const profileDto = (user: User): ProfileDto => ({
+  userId: user.externalId,
+  name: user.name,
+  nickname: user.nickname,
+  email: user.email,
+  picture: user.picture,
+})
 
 export default ProfileController

@@ -5,5 +5,5 @@ type AsyncRequestHandler = (req: Request, res: Response, next: NextFunction) => 
 export const asyncHandler =
   (fn: AsyncRequestHandler): RequestHandler =>
   (req, res, next) => {
-    fn(req, res, next).catch(next)
+    return fn(req, res, next).catch(next)
   }
