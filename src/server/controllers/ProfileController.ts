@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { formatResponse } from '../http/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import { prisma } from '../../../prisma/prismaClient'
 import { ProfileDto } from '../../core/types/ProfileDto'
@@ -9,26 +8,29 @@ import { asyncHandler } from '../http/asyncHandler'
 
 const ProfileController = Router()
 
-ProfileController.get('/', asyncHandler(async (req, res) => {
-  const user = req.oidc.user
-  if (!user || !req.oidc.isAuthenticated()) {
-    res.send(formatResponse({ errors: ['User not logged in'] }))
-    return
-  }
+ProfileController.get(
+  '/',
+  asyncHandler(async (req, res) => {
+    const user = req.oidc.user
+    if (!user || !req.oidc.isAuthenticated()) {
+      res.sendError({ errors: ['User not logged in'] })
+      return
+    }
 
-  const auth0User = parseAuth0User(user)
-  const profile = await getProfile(auth0User)
+    const auth0User = parseAuth0User(user)
+    const profile = await getProfile(auth0User)
 
-  const profileDto: ProfileDto = {
-    userId: profile.userId,
-    name: profile.name,
-    nickname: profile.nickname,
-    email: profile.email,
-    picture: profile.picture,
-  }
+    const profileDto: ProfileDto = {
+      userId: profile.userId,
+      name: profile.name,
+      nickname: profile.nickname,
+      email: profile.email,
+      picture: profile.picture,
+    }
 
-  res.send(formatResponse({ data: profileDto }))
-}))
+    res.sendData({ data: profileDto })
+  })
+)
 
 const getProfile = async (auth0User: Auth0User) => {
   let profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })

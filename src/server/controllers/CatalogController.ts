@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { formatResponse } from '../http/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import GetCatalogLogic from '../logic/catalog/GetCatalogLogic'
 import MyCardRepo from '../repository/MyCardRepo'
@@ -11,8 +10,7 @@ import { asyncHandler } from '../http/asyncHandler'
 const CatalogController = Router()
 
 CatalogController.get('/', (_, res) => {
-  const expansionsDto = Store.expansions.getState()
-  res.send(formatResponse({ data: expansionsDto }))
+  res.sendData({ data: Store.expansions.getState() })
 })
 
 CatalogController.get(
@@ -20,7 +18,7 @@ CatalogController.get(
   asyncHandler(async (req, res) => {
     const expansionId = +req.params.id
     if (!expansionId) {
-      res.send(formatResponse({ errors: [`${req.params.id} is not a valid expansion id`] }))
+      res.sendError({ errors: [`${req.params.id} is not a valid expansion id`] })
       return
     }
 
@@ -29,7 +27,7 @@ CatalogController.get(
     const userId = req.oidc.user ? parseAuth0User(req.oidc.user).sub : null
     const catalogDto = await getCatalogLogic.get(userId, expansionId, Store.blueprintValues.getState())
 
-    res.send(formatResponse({ data: catalogDto }))
+    res.sendData({ data: catalogDto })
   })
 )
 

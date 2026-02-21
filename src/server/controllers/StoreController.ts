@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Router } from 'express'
-import { formatResponse } from '../http/formatResponse'
 import Store from '../StoreRegistry'
 import GetStoreStatusLogic from '../logic/store/GetStoreStatusLogic'
 import { ENV } from '../env'
@@ -13,7 +12,7 @@ StoreController.get('/status', (_, res) => {
     Store.expansions.getLastUpdated(),
     Store.blueprintValues.getLastUpdated()
   )
-  res.send(formatResponse({ data: storeStatusDto }))
+  res.sendData({ data: storeStatusDto })
 })
 
 StoreController.post('/marketplace/refresh', (req, res) => {
@@ -22,16 +21,16 @@ StoreController.post('/marketplace/refresh', (req, res) => {
     return
   }
   void Store.blueprintValues.refreshStore()
-  res.send(formatResponse({ data: 'marketplace refresh initiated' }))
+  res.sendData({ data: 'marketplace refresh initiated' })
 })
 
 StoreController.post('/expansions/refresh', (req, res) => {
   if (req.body.adminToken !== ENV.ADMIN_TOKEN()) {
-    res.status(401).send()
+    res.sendError({ errors: [], status: 401 })
     return
   }
   void Store.expansions.refreshStore()
-  res.send(formatResponse({ data: 'expansions refresh initiated' }))
+  res.sendData({ data: 'expansions refresh initiated' })
 })
 
 export default StoreController
