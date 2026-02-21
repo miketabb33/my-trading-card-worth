@@ -11,6 +11,7 @@ import Honeybadger from '@honeybadger-io/js'
 import { ENV } from './env'
 import { exceptionMiddleware } from './http/exceptionMiddleware'
 import { responseExtensions } from './http/responseExtensions'
+import { currentUserMiddleware } from './http/currentUserMiddleware'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -27,7 +28,7 @@ app.use(bodyParser.json())
 
 app.use(responseExtensions)
 app.use(express.static(`${__dirname}/public`))
-app.use('/api', ControllerRegistry)
+app.use('/api', currentUserMiddleware, ControllerRegistry)
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.get('/signup', async (req, res) => {

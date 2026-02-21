@@ -19,7 +19,7 @@ describe('Add Card Trader Card Logic', () => {
   let expansionPokemonRepo_FAKE: ExpansionPokemonRepo_FAKE
   let cardBlueprintPokemonRepo_FAKE: CardBlueprintPokemonRepo_FAKE
 
-  const PROFILE_ID = 1
+  const USER_ID = 1
   const CARD_TRADER_BLUEPRINT_ID = 100
   const CARD_TRADER_EXPANSION_ID = 200
   const CONDITION: CardCondition = 'NEAR_MINT'
@@ -47,11 +47,11 @@ describe('Add Card Trader Card Logic', () => {
   it('should create a user card with the correct data', async () => {
     setupHappyPath()
 
-    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
     expect(mockPrisma.userCard.create).toHaveBeenCalledWith({
       data: {
-        profileId: PROFILE_ID,
+        userId: USER_ID,
         cardBlueprintId: CARD_BLUEPRINT_ID,
         condition: CONDITION,
       },
@@ -61,7 +61,7 @@ describe('Add Card Trader Card Logic', () => {
   it('should not create expansion when it already exists', async () => {
     setupHappyPath()
 
-    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
     expect(expansionPokemonRepo_FAKE.FIND).toHaveBeenCalledWith(CARD_TRADER_EXPANSION_ID)
     expect(expansionPokemonRepo_FAKE.CREATE).not.toHaveBeenCalled()
@@ -79,7 +79,7 @@ describe('Add Card Trader Card Logic', () => {
     cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
     cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
-    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
     expect(expansionPokemonRepo_FAKE.CREATE).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -99,7 +99,7 @@ describe('Add Card Trader Card Logic', () => {
     cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
     cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
-    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
     expect(expansionPokemonRepo_FAKE.CREATE).toHaveBeenCalledWith(expect.objectContaining({ name: '' }))
   })
@@ -112,7 +112,7 @@ describe('Add Card Trader Card Logic', () => {
     cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
     cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
-    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
     expect(cardBlueprintPokemonRepo_FAKE.CREATE).toHaveBeenCalledWith({
       expansionId: EXPANSION_ID,
@@ -128,7 +128,7 @@ describe('Add Card Trader Card Logic', () => {
   it('should not create blueprint when it already exists', async () => {
     setupHappyPath()
 
-    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
 
     expect(cardBlueprintPokemonRepo_FAKE.CREATE).not.toHaveBeenCalled()
   })
@@ -142,7 +142,7 @@ describe('Add Card Trader Card Logic', () => {
     cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
     cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
-    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
     await flushPromises()
 
     expect(cardBlueprintPokemonRepo_FAKE.CREATE).toHaveBeenCalledTimes(2)
@@ -161,7 +161,7 @@ describe('Add Card Trader Card Logic', () => {
       .mockResolvedValue({ id: 999 }) // remaining blueprints already exist
     cardBlueprintPokemonRepo_FAKE.CREATE.mockResolvedValue(CARD_BLUEPRINT_ID)
 
-    await logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
+    await logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)
     await flushPromises()
 
     expect(cardBlueprintPokemonRepo_FAKE.CREATE).toHaveBeenCalledTimes(1)
@@ -172,7 +172,7 @@ describe('Add Card Trader Card Logic', () => {
     cardBlueprintPokemonRepo_FAKE.FIND.mockResolvedValue(null)
     cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([makeCardBlueprintMock({ blueprintId: 999 })])
 
-    await expect(logic.add(PROFILE_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)).rejects.toThrow(
+    await expect(logic.add(USER_ID, CARD_TRADER_BLUEPRINT_ID, CARD_TRADER_EXPANSION_ID, CONDITION)).rejects.toThrow(
       `Blueprint ${CARD_TRADER_BLUEPRINT_ID} not found in expansion ${CARD_TRADER_EXPANSION_ID}`
     )
   })

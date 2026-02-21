@@ -35,38 +35,38 @@ export interface IUserCardRepo {
 class UserCardRepo implements IUserCardRepo {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem = async (userId: string, blueprintId: number, item: MyCardItemEntity): Promise<void> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return
 
     const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
     if (!cardBlueprintId) return
 
     await prisma.userCard.create({
-      data: { profileId: profile.id, cardBlueprintId, condition: 'UNKNOWN' },
+      data: { userId: user.id, cardBlueprintId, condition: 'UNKNOWN' },
     })
   }
 
   delete = async (userId: string, blueprintId: number): Promise<void> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return
 
     const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
     if (!cardBlueprintId) return
 
     await prisma.userCard.deleteMany({
-      where: { profileId: profile.id, cardBlueprintId },
+      where: { userId: user.id, cardBlueprintId },
     })
   }
 
   removeItem = async (userId: string, blueprintId: number): Promise<void> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return
 
     const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
     if (!cardBlueprintId) return
 
     const card = await prisma.userCard.findFirst({
-      where: { profileId: profile.id, cardBlueprintId },
+      where: { userId: user.id, cardBlueprintId },
     })
     if (!card) return
 
@@ -74,12 +74,12 @@ class UserCardRepo implements IUserCardRepo {
   }
 
   findByExpansion = async (userId: string, cardTraderExpansionId: number): Promise<MyCardEntity[]> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return []
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return []
 
     const userCards = await prisma.userCard.findMany({
       where: {
-        profileId: profile.id,
+        userId: user.id,
         cardBlueprint: {
           expansion: {
             platformLinks: {
@@ -95,12 +95,12 @@ class UserCardRepo implements IUserCardRepo {
   }
 
   findByBlueprintId = async (userId: string, cardTraderBlueprintId: number): Promise<MyCardEntity | null> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return null
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return null
 
     const userCards = await prisma.userCard.findMany({
       where: {
-        profileId: profile.id,
+        userId: user.id,
         cardBlueprint: {
           platformLinks: {
             some: { platform: 'CARD_TRADER', externalId: String(cardTraderBlueprintId) },
@@ -116,11 +116,11 @@ class UserCardRepo implements IUserCardRepo {
   }
 
   getAll = async (userId: string): Promise<MyCardEntity[]> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return []
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return []
 
     const userCards = await prisma.userCard.findMany({
-      where: { profileId: profile.id },
+      where: { userId: user.id },
       include: this.blueprintInclude,
     })
 

@@ -84,29 +84,29 @@ model CardBlueprint {
   @@map("card_blueprint")
 }
 
-model Profile {
-  id        Int      @id @default(autoincrement())
-  userId    String   @unique @map("user_id")
-  email     String
-  name      String 
-  nickname  String
-  picture   String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+model User {
+  id         Int      @id @default(autoincrement())
+  externalId String   @unique @map("external_id")
+  email      String
+  name       String
+  nickname   String
+  picture    String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   userCards  UserCard[]
 
-  @@map("profile")
+  @@map("user")
 }
 
 model UserCard {
   id              Int           @id @default(autoincrement())
-  profileId       Int           @map("profile_id")
+  userId          Int           @map("user_id")
   cardBlueprintId Int           @map("card_blueprint_id")
   condition       CardCondition
   createdAt       DateTime      @default(now()) @map("created_at")
   updatedAt       DateTime      @updatedAt @map("updated_at")
-  profile         Profile       @relation(fields: [profileId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
   cardBlueprint   CardBlueprint @relation(fields: [cardBlueprintId], references: [id])
 
   @@map("user_card")

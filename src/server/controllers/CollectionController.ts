@@ -1,6 +1,4 @@
 import { Router } from 'express'
-import { requiresAuth } from 'express-openid-connect'
-import { parseAuth0User } from '../auth0/parseAuth0User'
 import { tryToParseAddMyCardBody } from '../logic/collection/parseAddMyCardBody'
 import AddCardTraderCardLogic from '../logic/collection/AddCardTraderCardLogic'
 import UserCardRepo from '../repository/UserCardRepo'
@@ -15,6 +13,7 @@ import GetShareCollectionLogic from '../logic/collection/GetShareCollectionLogic
 import CollectionFactory from '../domain/CollectionFactory'
 import { prisma } from '../../../prisma/prismaClient'
 import { asyncHandler } from '../http/asyncHandler'
+import { requiresAuth } from 'express-openid-connect'
 
 const CollectionController = Router()
 
@@ -22,10 +21,9 @@ CollectionController.get(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const auth0User = parseAuth0User(req.oidc.user)
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getCollectionLogic = new GetCollectionLogic(collectionFactory)
-    const cardBlueprintDto = await getCollectionLogic.get(auth0User.sub)
+    const cardBlueprintDto = await getCollectionLogic.get(req.currentUser!.externalId)
     res.sendData({ data: cardBlueprintDto })
   })
 )
@@ -45,23 +43,14 @@ CollectionController.post(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const auth0User = parseAuth0User(req.oidc.user)
     const myCardDto = tryToParseAddMyCardBody(req.body)
-
-    const profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
-    if (!profile) {
-      res.sendError({ errors: [`No profile found for userId "${auth0User.sub}"`] })
-      return
-    }
-
     const addCardTraderCardLogic = new AddCardTraderCardLogic(
       prisma,
       new CardTraderAdaptor(),
       new ExpansionPokemonRepo(),
       new CardBlueprintPokemonRepo()
     )
-    await addCardTraderCardLogic.add(profile.id, myCardDto.blueprintId, myCardDto.expansionId, 'UNKNOWN')
-
+    await addCardTraderCardLogic.add(req.currentUser!.id, myCardDto.blueprintId, myCardDto.expansionId, 'UNKNOWN')
     res.sendSuccess({ status: 201 })
   })
 )
@@ -70,10 +59,9 @@ CollectionController.delete(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const auth0User = parseAuth0User(req.oidc.user)
     const blueprintId = tryToParseRemoveMyCardBody(req.body)
     const removeCardLogic = new RemoveCardLogic(new UserCardRepo())
-    await removeCardLogic.remove(auth0User.sub, blueprintId)
+    await removeCardLogic.remove(req.currentUser!.externalId, blueprintId)
     res.sendSuccess()
   })
 )
