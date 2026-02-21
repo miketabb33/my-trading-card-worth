@@ -26,12 +26,3 @@ export const formatResponse = <T>({ data, errors }: FormatResponseArgs<T>): Resp
     isSuccessful,
   }
 }
-
-export const formatError = (e: unknown): Error => {
-  if (typeof e === 'string') {
-    return new Error(e)
-  } else if (e instanceof Error) {
-    return e
-  }
-  return new Error('Unknown Error')
-}

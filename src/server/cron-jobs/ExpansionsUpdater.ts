@@ -1,6 +1,5 @@
 import { ExpansionDto } from '../../core/types/ExpansionDto'
 import Logger from '../logger'
-import { formatError } from '../logic/formatResponse'
 import { IStore } from '../stores/IStore'
 import { ICronJob } from './ICronJob'
 import { ExpiresIn, isExpired } from './isExpired'
@@ -26,8 +25,7 @@ class ExpansionsUpdater implements ICronJob {
       .then(() => Logger.info('expansion store refreshed'))
       .catch((e) => {
         Logger.info('Error occurred in expansion updater cron job')
-        const error = formatError(e)
-        Logger.error(error)
+        Logger.error(e)
       })
   }
 }

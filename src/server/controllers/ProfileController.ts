@@ -1,21 +1,19 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { formatError, formatResponse } from '../logic/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
-import Logger from '../logger'
 import { prisma } from '../../../prisma/prismaClient'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
 import Emailer from '../Emailer'
+import { asyncHandler } from '../http/asyncHandler'
 
 const ProfileController = Router()
 
-ProfileController.get('/', async (req, res) => {
-  try {
+ProfileController.get(
+  '/',
+  asyncHandler(async (req, res) => {
     const user = req.oidc.user
-
     if (!user || !req.oidc.isAuthenticated()) {
-      res.send(formatResponse({ errors: ['User not logged in'] }))
+      res.sendError({ errors: ['User not logged in'] })
       return
     }
 
@@ -30,13 +28,9 @@ ProfileController.get('/', async (req, res) => {
       picture: profile.picture,
     }
 
-    res.send(formatResponse({ data: profileDto }))
-  } catch (e) {
-    const error = formatError(e)
-    Logger.error(error)
-    res.send(formatResponse({ errors: [error.message] }))
-  }
-})
+    res.sendData({ data: profileDto })
+  })
+)
 
 const getProfile = async (auth0User: Auth0User) => {
   let profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
