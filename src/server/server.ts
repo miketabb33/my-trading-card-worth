@@ -10,6 +10,7 @@ import Logger from './logger'
 import { formatError } from './logic/formatResponse'
 import Honeybadger from '@honeybadger-io/js'
 import { ENV } from './env'
+import { errorMiddleware } from './errorMiddleware'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -35,6 +36,8 @@ app.get('/signup', async (req, res) => {
 app.get('*', (_, res) => {
   res.sendFile(path.join(__dirname, '/index.html'))
 })
+
+app.use(errorMiddleware)
 
 app.listen(port, () => {
   Logger.info(`Server is listening on port ${port}`)

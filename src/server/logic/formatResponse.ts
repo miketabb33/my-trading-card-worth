@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { ResponseDto } from '../../core/types/ResponseDto'
 
 type FormatResponseArgs<T> = {
@@ -27,7 +28,16 @@ export const formatResponse = <T>({ data, errors }: FormatResponseArgs<T>): Resp
   }
 }
 
+const isPrismaError = (e: unknown): boolean =>
+  e instanceof Prisma.PrismaClientInitializationError ||
+  e instanceof Prisma.PrismaClientKnownRequestError ||
+  e instanceof Prisma.PrismaClientUnknownRequestError ||
+  e instanceof Prisma.PrismaClientValidationError
+
 export const formatError = (e: unknown): Error => {
+  if (isPrismaError(e)) {
+    return new Error('An internal server error occurred', { cause: e })
+  }
   if (typeof e === 'string') {
     return new Error(e)
   } else if (e instanceof Error) {

@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { formatError, formatResponse } from '../logic/formatResponse'
-import Logger from '../logger'
+import { formatResponse } from '../logic/formatResponse'
 import { requiresAuth } from 'express-openid-connect'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import { tryToParseAddMyCardBody } from '../logic/collection/parseAddMyCardBody'
@@ -17,84 +15,51 @@ import RemoveCardLogic from '../logic/collection/RemoveCardLogic'
 import GetShareCollectionLogic from '../logic/collection/GetShareCollectionLogic'
 import CollectionFactory from '../domain/CollectionFactory'
 import { prisma } from '../../../prisma/prismaClient'
+import { AppError } from '../AppError'
+import { asyncHandler } from '../asyncHandler'
 
 const CollectionController = Router()
 
-CollectionController.get('/', requiresAuth(), async (req, res) => {
-  try {
-    const auth0User = parseAuth0User(req.oidc.user)
+CollectionController.get('/', requiresAuth(), asyncHandler(async (req, res) => {
+  const auth0User = parseAuth0User(req.oidc.user)
+  const collectionFactory = new CollectionFactory(new MyCardRepo(), Store.blueprintValues.getState())
+  const getCollectionLogic = new GetCollectionLogic(collectionFactory)
+  const cardBlueprintDto = await getCollectionLogic.get(auth0User.sub)
+  res.send(formatResponse({ data: cardBlueprintDto }))
+}))
 
-    const collectionFactory = new CollectionFactory(new MyCardRepo(), Store.blueprintValues.getState())
+CollectionController.get('/:userId', asyncHandler(async (req, res) => {
+  const userId = req.params.userId
+  const collectionFactory = new CollectionFactory(new MyCardRepo(), Store.blueprintValues.getState())
+  const getShareCollectionLogic = new GetShareCollectionLogic(prisma, collectionFactory)
+  const dto = await getShareCollectionLogic.get(userId)
+  res.send(formatResponse({ data: dto }))
+}))
 
-    const getCollectionLogic = new GetCollectionLogic(collectionFactory)
+CollectionController.post('/', requiresAuth(), asyncHandler(async (req, res) => {
+  const auth0User = parseAuth0User(req.oidc.user)
+  const myCardDto = tryToParseAddMyCardBody(req.body)
 
-    const cardBlueprintDto = await getCollectionLogic.get(auth0User.sub)
+  const profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
+  if (!profile) throw new AppError(`No profile found for userId "${auth0User.sub}"`)
 
-    res.send(formatResponse({ data: cardBlueprintDto }))
-  } catch (e) {
-    const error = formatError(e)
-    Logger.error(error)
-    res.send(formatResponse({ errors: [error.message] }))
-  }
-})
+  const addCardTraderCardLogic = new AddCardTraderCardLogic(
+    prisma,
+    new CardTraderAdaptor(),
+    new ExpansionPokemonRepo(),
+    new CardBlueprintPokemonRepo()
+  )
+  await addCardTraderCardLogic.add(profile.id, myCardDto.blueprintId, myCardDto.expansionId, 'UNKNOWN')
 
-CollectionController.get('/:userId', async (req, res) => {
-  try {
-    const userId = req.params.userId
+  res.send(formatResponse({}))
+}))
 
-    const collectionFactory = new CollectionFactory(new MyCardRepo(), Store.blueprintValues.getState())
-
-    const getShareCollectionLogic = new GetShareCollectionLogic(prisma, collectionFactory)
-
-    const dto = await getShareCollectionLogic.get(userId)
-
-    res.send(formatResponse({ data: dto }))
-  } catch (e) {
-    const error = formatError(e)
-    Logger.error(error)
-    res.send(formatResponse({ errors: [error.message] }))
-  }
-})
-
-CollectionController.post('/', requiresAuth(), async (req, res) => {
-  try {
-    const auth0User = parseAuth0User(req.oidc.user)
-    const myCardDto = tryToParseAddMyCardBody(req.body)
-
-    const profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
-    if (!profile) throw new Error(`No profile found for userId "${auth0User.sub}"`)
-
-    const addCardTraderCardLogic = new AddCardTraderCardLogic(
-      prisma,
-      new CardTraderAdaptor(),
-      new ExpansionPokemonRepo(),
-      new CardBlueprintPokemonRepo()
-    )
-    await addCardTraderCardLogic.add(profile.id, myCardDto.blueprintId, myCardDto.expansionId, 'UNKNOWN')
-
-    res.send(formatResponse({}))
-  } catch (e) {
-    const error = formatError(e)
-    Logger.error(error)
-    res.send(formatResponse({ errors: [error.message] }))
-  }
-})
-
-CollectionController.delete('/', requiresAuth(), async (req, res) => {
-  try {
-    const auth0User = parseAuth0User(req.oidc.user)
-    const blueprintId = tryToParseRemoveMyCardBody(req.body)
-
-    const removeCardLogic = new RemoveCardLogic(new MyCardRepo())
-
-    await removeCardLogic.remove(auth0User.sub, blueprintId)
-
-    res.send(formatResponse({}))
-  } catch (e) {
-    const error = formatError(e)
-    Logger.error(error)
-    res.send(formatResponse({ errors: [error.message] }))
-  }
-})
+CollectionController.delete('/', requiresAuth(), asyncHandler(async (req, res) => {
+  const auth0User = parseAuth0User(req.oidc.user)
+  const blueprintId = tryToParseRemoveMyCardBody(req.body)
+  const removeCardLogic = new RemoveCardLogic(new MyCardRepo())
+  await removeCardLogic.remove(auth0User.sub, blueprintId)
+  res.send(formatResponse({}))
+}))
 
 export default CollectionController

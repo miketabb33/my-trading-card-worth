@@ -1,42 +1,32 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { formatError, formatResponse } from '../logic/formatResponse'
+import { formatResponse } from '../logic/formatResponse'
 import { parseAuth0User } from '../auth0/parseAuth0User'
-import Logger from '../logger'
 import { prisma } from '../../../prisma/prismaClient'
 import { ProfileDto } from '../../core/types/ProfileDto'
 import { Auth0User } from '../auth0/types/Auth0User'
 import Emailer from '../Emailer'
+import { AppError } from '../AppError'
+import { asyncHandler } from '../asyncHandler'
 
 const ProfileController = Router()
 
-ProfileController.get('/', async (req, res) => {
-  try {
-    const user = req.oidc.user
+ProfileController.get('/', asyncHandler(async (req, res) => {
+  const user = req.oidc.user
+  if (!user || !req.oidc.isAuthenticated()) throw new AppError('User not logged in')
 
-    if (!user || !req.oidc.isAuthenticated()) {
-      res.send(formatResponse({ errors: ['User not logged in'] }))
-      return
-    }
+  const auth0User = parseAuth0User(user)
+  const profile = await getProfile(auth0User)
 
-    const auth0User = parseAuth0User(user)
-    const profile = await getProfile(auth0User)
-
-    const profileDto: ProfileDto = {
-      userId: profile.userId,
-      name: profile.name,
-      nickname: profile.nickname,
-      email: profile.email,
-      picture: profile.picture,
-    }
-
-    res.send(formatResponse({ data: profileDto }))
-  } catch (e) {
-    const error = formatError(e)
-    Logger.error(error)
-    res.send(formatResponse({ errors: [error.message] }))
+  const profileDto: ProfileDto = {
+    userId: profile.userId,
+    name: profile.name,
+    nickname: profile.nickname,
+    email: profile.email,
+    picture: profile.picture,
   }
-})
+
+  res.send(formatResponse({ data: profileDto }))
+}))
 
 const getProfile = async (auth0User: Auth0User) => {
   let profile = await prisma.profile.findUnique({ where: { userId: auth0User.sub } })
