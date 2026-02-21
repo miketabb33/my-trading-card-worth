@@ -2,23 +2,23 @@ import { CatalogDto } from '../../../core/types/CatalogDto'
 import { CardDto } from '../../../core/types/CardDto'
 import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
-import { IMyCardRepo, MyCardEntity } from '../../repository/MyCardRepo'
+import { IUserCardRepo, MyCardEntity } from '../../repository/UserCardRepo'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
 import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
 import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 
 class GetCatalogLogic {
-  private readonly myCardRepo: IMyCardRepo
+  private readonly userCardRepo: IUserCardRepo
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionPokemonRepo: IExpansionPokemonRepo
 
   constructor(
-    myCardRepo: IMyCardRepo,
+    userCardRepo: IUserCardRepo,
     cardTraderAdaptor: ICardTraderAdaptor,
     expansionPokemonRepo: IExpansionPokemonRepo
   ) {
-    this.myCardRepo = myCardRepo
+    this.userCardRepo = userCardRepo
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionPokemonRepo = expansionPokemonRepo
   }
@@ -31,7 +31,7 @@ class GetCatalogLogic {
 
     let myCardsInExpansion: MyCardEntity[] = []
 
-    if (userId) myCardsInExpansion = await this.myCardRepo.findByExpansion(userId, expansionId)
+    if (userId) myCardsInExpansion = await this.userCardRepo.findByExpansion(userId, expansionId)
 
     const cards: CardDto[] = this.buildCardDtoList(cardBlueprints, myCardsInExpansion, blueprintValues)
 

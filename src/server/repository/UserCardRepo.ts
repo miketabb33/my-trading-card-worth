@@ -23,7 +23,7 @@ export type MyCardEntity = {
   updatedAt: Date
 }
 
-export interface IMyCardRepo {
+export interface IUserCardRepo {
   create: (entity: MyCardEntity) => Promise<void>
   addItem: (userId: string, blueprintId: number, item: MyCardItemEntity) => Promise<void>
   delete: (userId: string, blueprintId: number) => Promise<void>
@@ -33,7 +33,7 @@ export interface IMyCardRepo {
   getAll: (userId: string) => Promise<MyCardEntity[]>
 }
 
-class MyCardRepo implements IMyCardRepo {
+class UserCardRepo implements IUserCardRepo {
   create = async (entity: MyCardEntity): Promise<void> => {
     const profile = await prisma.profile.findUnique({ where: { userId: entity.userId } })
     if (!profile) return
@@ -193,4 +193,4 @@ class MyCardRepo implements IMyCardRepo {
   }
 }
 
-export default MyCardRepo
+export default UserCardRepo

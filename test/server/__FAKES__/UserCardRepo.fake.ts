@@ -1,6 +1,6 @@
-import { IMyCardRepo } from '../../../src/server/repository/MyCardRepo'
+import { IUserCardRepo } from '../../../src/server/repository/UserCardRepo'
 
-class MyCardRepo_FAKE implements IMyCardRepo {
+class UserCardRepo_FAKE implements IUserCardRepo {
   CREATE = jest.fn()
   ADD_ITEM = jest.fn()
   DELETE = jest.fn()
@@ -18,4 +18,4 @@ class MyCardRepo_FAKE implements IMyCardRepo {
   getAll = this.GET_ALL
 }
 
-export default MyCardRepo_FAKE
+export default UserCardRepo_FAKE

@@ -1,6 +1,6 @@
 import { CardDto } from '../../core/types/CardDto'
 import { CollectionMetaDto } from '../../core/types/CollectionMetaDto'
-import { MyCardEntity } from '../repository/MyCardRepo'
+import { MyCardEntity } from '../repository/UserCardRepo'
 import { BlueprintValue } from '../types/BlueprintValue'
 
 export interface ICollection {

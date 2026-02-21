@@ -4,14 +4,14 @@ import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
 import { EXPANSION_DTO_1 } from '../../../core/__MOCKS__/expansionDto.mock'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import ExpansionPokemonRepo_FAKE from '../../__FAKES__/ExpansionPokemonRepo.fake'
-import MyCardRepo_FAKE from '../../__FAKES__/MyCardRepo.fake'
+import UserCardRepo_FAKE from '../../__FAKES__/UserCardRepo.fake'
 import { BLUEPRINT_VALUE_MOCK } from '../../__MOCKS__/blueprintValue.mock'
 import { makeCardBlueprintMock } from '../../__MOCKS__/cardBlueprint.mock'
 import { makeMyCardEntityMock } from '../../__MOCKS__/myCardEntity.mock'
 
 describe('Get Catalog Logic', () => {
   let getCatalogLogic: GetCatalogLogic
-  let myCardRepo_FAKE: MyCardRepo_FAKE
+  let userCardRepo_FAKE: UserCardRepo_FAKE
   let expansionPokemonRepo_FAKE: ExpansionPokemonRepo_FAKE
   let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
 
@@ -21,13 +21,13 @@ describe('Get Catalog Logic', () => {
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([['1', { medianCents: 1534, listingCount: 20 }]])
 
   beforeEach(() => {
-    myCardRepo_FAKE = new MyCardRepo_FAKE()
+    userCardRepo_FAKE = new UserCardRepo_FAKE()
     cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
     expansionPokemonRepo_FAKE = new ExpansionPokemonRepo_FAKE()
-    getCatalogLogic = new GetCatalogLogic(myCardRepo_FAKE, cardTraderAdaptor_FAKE, expansionPokemonRepo_FAKE)
+    getCatalogLogic = new GetCatalogLogic(userCardRepo_FAKE, cardTraderAdaptor_FAKE, expansionPokemonRepo_FAKE)
 
     cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
-    myCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([])
+    userCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([])
     expansionPokemonRepo_FAKE.FIND.mockResolvedValue(EXPANSION_DTO_1)
   })
 
@@ -151,9 +151,9 @@ describe('Get Catalog Logic', () => {
         cardTrader: { blueprintId: 5 },
         items: [{ condition: 0 }],
       })
-      myCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([myCardEntity1, myCardEntity2, myCardEntity3])
+      userCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([myCardEntity1, myCardEntity2, myCardEntity3])
       const result = await getCatalogLogic.get(USER_ID, BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
-      expect(myCardRepo_FAKE.FIND_BY_EXPANSION).toHaveBeenCalledWith(USER_ID, BASE_SET_EXPANSION_ID)
+      expect(userCardRepo_FAKE.FIND_BY_EXPANSION).toHaveBeenCalledWith(USER_ID, BASE_SET_EXPANSION_ID)
       expect(result.cards.length).toEqual(5)
       expect(result.cards[0].owned).toEqual(0)
       expect(result.cards[1].owned).toEqual(3)

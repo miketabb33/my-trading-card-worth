@@ -3,7 +3,7 @@ import { requiresAuth } from 'express-openid-connect'
 import { parseAuth0User } from '../auth0/parseAuth0User'
 import { tryToParseAddMyCardBody } from '../logic/collection/parseAddMyCardBody'
 import AddCardTraderCardLogic from '../logic/collection/AddCardTraderCardLogic'
-import MyCardRepo from '../repository/MyCardRepo'
+import UserCardRepo from '../repository/UserCardRepo'
 import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
 import CardBlueprintPokemonRepo from '../repository/CardBlueprintPokemonRepo'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
@@ -23,7 +23,7 @@ CollectionController.get(
   requiresAuth(),
   asyncHandler(async (req, res) => {
     const auth0User = parseAuth0User(req.oidc.user)
-    const collectionFactory = new CollectionFactory(new MyCardRepo(), Store.blueprintValues.getState())
+    const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getCollectionLogic = new GetCollectionLogic(collectionFactory)
     const cardBlueprintDto = await getCollectionLogic.get(auth0User.sub)
     res.sendData({ data: cardBlueprintDto })
@@ -34,7 +34,7 @@ CollectionController.get(
   '/:userId',
   asyncHandler(async (req, res) => {
     const userId = req.params.userId
-    const collectionFactory = new CollectionFactory(new MyCardRepo(), Store.blueprintValues.getState())
+    const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getShareCollectionLogic = new GetShareCollectionLogic(prisma, collectionFactory)
     const dto = await getShareCollectionLogic.get(userId)
     res.sendData({ data: dto })
@@ -72,7 +72,7 @@ CollectionController.delete(
   asyncHandler(async (req, res) => {
     const auth0User = parseAuth0User(req.oidc.user)
     const blueprintId = tryToParseRemoveMyCardBody(req.body)
-    const removeCardLogic = new RemoveCardLogic(new MyCardRepo())
+    const removeCardLogic = new RemoveCardLogic(new UserCardRepo())
     await removeCardLogic.remove(auth0User.sub, blueprintId)
     res.sendSuccess()
   })
