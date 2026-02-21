@@ -1,7 +1,6 @@
 import { IUserCardRepo } from '../../../src/server/repository/UserCardRepo'
 
 class UserCardRepo_FAKE implements IUserCardRepo {
-  CREATE = jest.fn()
   ADD_ITEM = jest.fn()
   DELETE = jest.fn()
   REMOVE_ITEM = jest.fn()
@@ -9,7 +8,6 @@ class UserCardRepo_FAKE implements IUserCardRepo {
   FIND_BY_BLUEPRINT_ID = jest.fn()
   GET_ALL = jest.fn()
 
-  create = this.CREATE
   addItem = this.ADD_ITEM
   delete = this.DELETE
   removeItem = this.REMOVE_ITEM

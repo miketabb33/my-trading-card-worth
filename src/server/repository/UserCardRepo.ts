@@ -24,7 +24,6 @@ export type MyCardEntity = {
 }
 
 export interface IUserCardRepo {
-  create: (entity: MyCardEntity) => Promise<void>
   addItem: (userId: string, blueprintId: number, item: MyCardItemEntity) => Promise<void>
   delete: (userId: string, blueprintId: number) => Promise<void>
   removeItem: (userId: string, blueprintId: number) => Promise<void>
@@ -34,20 +33,6 @@ export interface IUserCardRepo {
 }
 
 class UserCardRepo implements IUserCardRepo {
-  create = async (entity: MyCardEntity): Promise<void> => {
-    const profile = await prisma.profile.findUnique({ where: { userId: entity.userId } })
-    if (!profile) return
-
-    const cardBlueprintId = await this.findCardBlueprintId(entity.cardTrader.blueprintId)
-    if (!cardBlueprintId) return
-
-    for (let i = 0; i < entity.items.length; i++) {
-      await prisma.userCard.create({
-        data: { profileId: profile.id, cardBlueprintId, condition: 'UNKNOWN' },
-      })
-    }
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem = async (userId: string, blueprintId: number, item: MyCardItemEntity): Promise<void> => {
     const profile = await prisma.profile.findUnique({ where: { userId } })
