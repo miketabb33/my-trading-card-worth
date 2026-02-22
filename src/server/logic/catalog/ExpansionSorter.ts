@@ -27,73 +27,31 @@ class ExpansionSorter implements IExpansionSorter {
     return mainSeriesOrder
       .slice()
       .reverse()
-      .flatMap((expansionSeries) => {
-        const mainSeriesExpansions = this.extractExpansionSeries(sortableExpansions, expansionSeries)
-        return mainSeriesExpansions.sort(this.sortByOldest)
-      })
+      .flatMap((series) => this.extractExpansionSeries(sortableExpansions, series).sort(this.sortByOldest))
   }
 
   private extractAndSortOtherSeriesExpansions = (
     sortableExpansions: SortableExpansion[],
     otherSeriesOrder: string[]
   ) => {
-    return otherSeriesOrder.flatMap((expansionSeries) => {
-      const otherSeriesExpansions = this.extractExpansionSeries(sortableExpansions, expansionSeries)
-      return otherSeriesExpansions.sort(this.sortByMostRecent)
-    })
-  }
-
-  private sortByOldest = (a: SortableExpansion, b: SortableExpansion) => {
-    return (
-      new Date(b.expansionEntity?.releaseDate ?? 0).getTime() - new Date(a.expansionEntity?.releaseDate ?? 0).getTime()
+    return otherSeriesOrder.flatMap((series) =>
+      this.extractExpansionSeries(sortableExpansions, series).sort(this.sortByMostRecent)
     )
   }
 
-  private sortByMostRecent = (a: SortableExpansion, b: SortableExpansion) => {
-    return (
-      new Date(a.expansionEntity?.releaseDate ?? 0).getTime() - new Date(b.expansionEntity?.releaseDate ?? 0).getTime()
-    )
-  }
-
-  private extractExpansionSeries = (
-    sortableExpansions: SortableExpansion[],
-    expansionSeries: string
-  ): SortableExpansion[] => {
-    const { series, expansionIdsToBeCleared } = this.getSeriesAndExpansionsToClear(sortableExpansions, expansionSeries)
-
-    this.clearExpansionsFrom(sortableExpansions, expansionIdsToBeCleared)
-
-    return series
-  }
-
-  private getSeriesAndExpansionsToClear = (sortableExpansions: SortableExpansion[], expansionSeries: string) => {
-    const expansionIdsToBeCleared: number[] = []
-
-    const series = sortableExpansions.filter((sortableExpansion) => {
-      if (sortableExpansion.expansionEntity?.series === expansionSeries) {
-        expansionIdsToBeCleared.push(sortableExpansion.cardExpansion.expansionId)
-        return true
+  private extractExpansionSeries = (sortableExpansions: SortableExpansion[], series: string): SortableExpansion[] => {
+    const extracted: SortableExpansion[] = []
+    for (let i = sortableExpansions.length - 1; i >= 0; i--) {
+      if (sortableExpansions[i].expansionEntity?.series === series) {
+        extracted.unshift(...sortableExpansions.splice(i, 1))
       }
-      return false
-    })
-
-    return { series, expansionIdsToBeCleared }
+    }
+    return extracted
   }
 
-  private clearExpansionsFrom = (sortableExpansions: SortableExpansion[], expansionIdsToBeCleared: number[]) => {
-    expansionIdsToBeCleared.forEach((expansionId) => {
-      let index: number | null = null
-      sortableExpansions.find((sortableExpansion, i) => {
-        if (sortableExpansion.cardExpansion?.expansionId === expansionId) {
-          index = i
-          return true
-        }
-        return false
-      })
-
-      if (index) sortableExpansions.splice(index, 1)
-    })
-  }
+  private getTime = (e: SortableExpansion) => new Date(e.expansionEntity?.releaseDate ?? 0).getTime()
+  private sortByOldest = (a: SortableExpansion, b: SortableExpansion) => this.getTime(b) - this.getTime(a)
+  private sortByMostRecent = (a: SortableExpansion, b: SortableExpansion) => this.getTime(a) - this.getTime(b)
 }
 
 export default ExpansionSorter
