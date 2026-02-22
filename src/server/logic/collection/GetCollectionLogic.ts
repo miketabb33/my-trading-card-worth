@@ -8,7 +8,7 @@ class GetCollectionLogic {
     this.collectionFactory = collectionFactory
   }
 
-  get = async (userId: string): Promise<CollectionDto> => {
+  get = async (userId: number): Promise<CollectionDto> => {
     const collection = await this.collectionFactory.make(userId)
 
     return {

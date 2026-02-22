@@ -23,7 +23,7 @@ CollectionController.get(
   asyncHandler(async (req, res) => {
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getCollectionLogic = new GetCollectionLogic(collectionFactory)
-    const cardBlueprintDto = await getCollectionLogic.get(req.currentUser!.externalId)
+    const cardBlueprintDto = await getCollectionLogic.get(req.currentUser!.id)
     res.sendData({ data: cardBlueprintDto })
   })
 )
@@ -31,11 +31,12 @@ CollectionController.get(
 CollectionController.get(
   '/:userId',
   asyncHandler(async (req, res) => {
-    const userId = req.params.userId
+    const userId = Number(req.params.userId)
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getShareCollectionLogic = new GetShareCollectionLogic(prisma, collectionFactory)
-    const dto = await getShareCollectionLogic.get(userId)
-    res.sendData({ data: dto })
+    const result = await getShareCollectionLogic.get(userId)
+    if (result.kind === 'failure') return res.sendError({ errors: [result.error], status: 404 })
+    res.sendData({ data: result.value })
   })
 )
 
