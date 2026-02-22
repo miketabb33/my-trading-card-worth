@@ -1,15 +1,15 @@
 import { ExpansionDto } from '../../core/types/ExpansionDto'
 import Logger from '../logger'
-import { IGetExpansionsLogic } from '../logic/catalog/GetExpansionsLogic'
+import { IGetExpansionsUseCase } from '../use-cases/catalog/GetExpansionsUseCase'
 import { IStore } from './IStore'
 
 class ExpansionsStore implements IStore<ExpansionDto[]> {
-  private readonly getExpansionsLogic: IGetExpansionsLogic
+  private readonly getExpansionsUseCase: IGetExpansionsUseCase
   private state: ExpansionDto[] = []
   private lastUpdated: Date | null = null
 
-  constructor(getExpansionsLogic: IGetExpansionsLogic) {
-    this.getExpansionsLogic = getExpansionsLogic
+  constructor(getExpansionsUseCase: IGetExpansionsUseCase) {
+    this.getExpansionsUseCase = getExpansionsUseCase
   }
 
   getState = () => {
@@ -21,7 +21,7 @@ class ExpansionsStore implements IStore<ExpansionDto[]> {
   }
 
   refreshStore = async () => {
-    const result = await this.getExpansionsLogic.get()
+    const result = await this.getExpansionsUseCase.get()
     if (result.isSuccess()) {
       this.state = result.value
       this.lastUpdated = new Date()

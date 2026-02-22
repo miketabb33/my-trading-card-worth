@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import GetCatalogLogic from '../logic/catalog/GetCatalogLogic'
+import GetCatalogUseCase from '../use-cases/catalog/GetCatalogUseCase'
 import UserCardRepo from '../repository/UserCardRepo'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
 import Store from '../StoreRegistry'
@@ -21,9 +21,13 @@ CatalogController.get(
       return
     }
 
-    const getCatalogLogic = new GetCatalogLogic(new UserCardRepo(), new CardTraderAdaptor(), new ExpansionPokemonRepo())
+    const getCatalogUseCase = new GetCatalogUseCase(
+      new UserCardRepo(),
+      new CardTraderAdaptor(),
+      new ExpansionPokemonRepo()
+    )
 
-    const result = await getCatalogLogic.get(expansionId, Store.blueprintValues.getState(), req.currentUser?.id)
+    const result = await getCatalogUseCase.get(expansionId, Store.blueprintValues.getState(), req.currentUser?.id)
     if (result.isSuccess()) {
       res.sendData({ data: result.value })
     } else {

@@ -33,7 +33,7 @@
       "@controllers/*": ["src/server/controllers/*"],
       "@clients/*": ["src/server/clients/*"],
       "@domain/*": ["src/server/domain/*"],
-      "@logic/*": ["src/server/logic/*"],
+      "@use-cases/*": ["src/server/use-cases/*"],
       "@repository/*": ["src/server/repository/*"],
       "@stores/*": ["src/server/stores/*"]
     },

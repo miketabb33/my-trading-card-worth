@@ -1,9 +1,9 @@
 import { prisma } from '../../prisma/prismaClient'
 import CardTraderAdaptor from './clients/CardTrader/CardTraderAdaptor'
 import { ENV } from './env'
-import GetBlueprintValueLogic from './logic/price/GetBlueprintValueLogic'
-import ExpansionSorter from './logic/catalog/ExpansionSorter'
-import GetExpansionsLogic from './logic/catalog/GetExpansionsLogic'
+import GetBlueprintValueUseCase from './use-cases/price/GetBlueprintValueUseCase'
+import ExpansionSorter from './use-cases/catalog/ExpansionSorter'
+import GetExpansionsUseCase from './use-cases/catalog/GetExpansionsUseCase'
 import BlueprintValueStore from './stores/BlueprintValueStore'
 import ExpansionsStore from './stores/ExpansionsStore'
 import { IStore } from './stores/IStore'
@@ -31,11 +31,11 @@ export class StoreRegistry {
 const getStore = () => {
   if (ENV.ID === 'production') {
     const expansionsStore = new ExpansionsStore(
-      new GetExpansionsLogic(prisma, new CardTraderAdaptor(), new ExpansionSorter(), new ExpansionPokemonRepo())
+      new GetExpansionsUseCase(prisma, new CardTraderAdaptor(), new ExpansionSorter(), new ExpansionPokemonRepo())
     )
 
     const blueprintValueStore = new BlueprintValueStore(
-      new GetBlueprintValueLogic(new CardTraderAdaptor()),
+      new GetBlueprintValueUseCase(new CardTraderAdaptor()),
       expansionsStore
     )
 

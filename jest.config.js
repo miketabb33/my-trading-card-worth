@@ -2,7 +2,7 @@ const moduleNameMapper = {
   '^@controllers/(.*)$': '<rootDir>/src/server/controllers/$1',
   '^@clients/(.*)$': '<rootDir>/src/server/clients/$1',
   '^@domain/(.*)$': '<rootDir>/src/server/domain/$1',
-  '^@logic/(.*)$': '<rootDir>/src/server/logic/$1',
+  '^@use-cases/(.*)$': '<rootDir>/src/server/use-cases/$1',
   '^@repository/(.*)$': '<rootDir>/src/server/repository/$1',
   '^@stores/(.*)$': '<rootDir>/src/server/stores/$1',
 }

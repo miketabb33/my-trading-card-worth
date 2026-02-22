@@ -23,7 +23,7 @@ module.exports = {
       '@controllers': path.resolve(__dirname, 'src/server/controllers'),
       '@clients': path.resolve(__dirname, 'src/server/clients'),
       '@domain': path.resolve(__dirname, 'src/server/domain'),
-      '@logic': path.resolve(__dirname, 'src/server/logic'),
+      '@use-cases': path.resolve(__dirname, 'src/server/use-cases'),
       '@repository': path.resolve(__dirname, 'src/server/repository'),
       '@stores': path.resolve(__dirname, 'src/server/stores'),
     },
