@@ -84,11 +84,7 @@ class UserCardRepo implements IUserCardRepo {
       select: { expansionId: true },
     })
 
-    console.log('expansionLink', expansionLink)
-
     if (!expansionLink) return []
-
-    console.log(userId)
 
     return prisma.userCard.findMany({
       where: { userId, cardBlueprint: { expansionId: expansionLink.expansionId } },

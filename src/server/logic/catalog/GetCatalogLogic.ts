@@ -34,7 +34,6 @@ class GetCatalogLogic {
 
     if (userId) {
       const cards = await this.userCardRepo.listByExpansion(userId, expansionId)
-      console.log(cards)
       userCardStack = new UserCardStack(cards)
     }
 
