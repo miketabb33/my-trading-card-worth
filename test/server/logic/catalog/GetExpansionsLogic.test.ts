@@ -64,14 +64,14 @@ describe('Get Expansions Logic', () => {
 
     const result = await getExpansionsLogic.get()
 
-    expect(result.length).toEqual(5)
-    expect(result[0].name).toEqual(SORTABLE_EXPANSION_ORIGINAL_MOCK.cardExpansion.name)
-    expect(result[0].expansionId).toEqual(SORTABLE_EXPANSION_ORIGINAL_MOCK.cardExpansion.expansionId)
-    expect(result[0].symbol).toEqual(SORTABLE_EXPANSION_ORIGINAL_MOCK.expansionEntity!.symbolUrl)
+    expect(result.value.length).toEqual(5)
+    expect(result.value[0].name).toEqual(SORTABLE_EXPANSION_ORIGINAL_MOCK.cardExpansion.name)
+    expect(result.value[0].expansionId).toEqual(SORTABLE_EXPANSION_ORIGINAL_MOCK.cardExpansion.expansionId)
+    expect(result.value[0].symbol).toEqual(SORTABLE_EXPANSION_ORIGINAL_MOCK.expansionEntity!.symbolUrl)
 
-    expect(result[3].name).toEqual(SORTABLE_EXPANSION_OTHER2_MOCK.cardExpansion.name)
-    expect(result[3].expansionId).toEqual(SORTABLE_EXPANSION_OTHER2_MOCK.cardExpansion.expansionId)
-    expect(result[3].symbol).toBeNull()
+    expect(result.value[3].name).toEqual(SORTABLE_EXPANSION_OTHER2_MOCK.cardExpansion.name)
+    expect(result.value[3].expansionId).toEqual(SORTABLE_EXPANSION_OTHER2_MOCK.cardExpansion.expansionId)
+    expect(result.value[3].symbol).toBeNull()
   })
 
   it('should format slug', async () => {
@@ -81,10 +81,10 @@ describe('Get Expansions Logic', () => {
 
     const result = await getExpansionsLogic.get()
 
-    expect(result[0].slug).toEqual('original')
-    expect(result[1].slug).toEqual('fossil')
-    expect(result[2].slug).toEqual('mcdonalds')
-    expect(result[3].slug).toEqual('other2')
-    expect(result[4].slug).toEqual('paradox-rift')
+    expect(result.value[0].slug).toEqual('original')
+    expect(result.value[1].slug).toEqual('fossil')
+    expect(result.value[2].slug).toEqual('mcdonalds')
+    expect(result.value[3].slug).toEqual('other2')
+    expect(result.value[4].slug).toEqual('paradox-rift')
   })
 })

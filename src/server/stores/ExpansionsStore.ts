@@ -1,4 +1,5 @@
 import { ExpansionDto } from '../../core/types/ExpansionDto'
+import Logger from '../logger'
 import { IGetExpansionsLogic } from '../logic/catalog/GetExpansionsLogic'
 import { IStore } from './IStore'
 
@@ -20,8 +21,13 @@ class ExpansionsStore implements IStore<ExpansionDto[]> {
   }
 
   refreshStore = async () => {
-    this.state = await this.getExpansionsLogic.get()
-    this.lastUpdated = new Date()
+    const result = await this.getExpansionsLogic.get()
+    if (result.isSuccess()) {
+      this.state = result.value
+      this.lastUpdated = new Date()
+    } else {
+      Logger.error(`Expansion store failed to refresh: ${result.error}`)
+    }
   }
 }
 

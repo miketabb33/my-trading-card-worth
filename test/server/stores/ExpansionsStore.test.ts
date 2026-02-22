@@ -1,4 +1,5 @@
 import ExpansionsStore from '../../../src/server/stores/ExpansionsStore'
+import { Result } from '../../../src/server/logic/Result'
 import { EXPANSION_DTO_1 } from '../../core/__MOCKS__/expansionDto.mock'
 import GetExpansionsLogic_FAKE from '../__FAKES__/GetExpansionsLogic.fake'
 
@@ -12,7 +13,7 @@ describe('Expansions Store', () => {
   })
 
   it('should return empty cache when refresh is not called ', () => {
-    getExpansionsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
+    getExpansionsLogic_FAKE.GET.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
 
     const result = expansionsStore.getState()
 
@@ -20,7 +21,7 @@ describe('Expansions Store', () => {
   })
 
   it('should use cache for Get Expansions Logic', async () => {
-    getExpansionsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
+    getExpansionsLogic_FAKE.GET.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
 
     await expansionsStore.refreshStore()
 
@@ -34,11 +35,29 @@ describe('Expansions Store', () => {
   })
 
   it('should set last updated date when refresh is called', async () => {
-    getExpansionsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
+    getExpansionsLogic_FAKE.GET.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
     expect(expansionsStore.getLastUpdated()).toBeNull()
 
     await expansionsStore.refreshStore()
 
     expect(expansionsStore.getLastUpdated()).not.toBeNull()
+  })
+
+  describe('on failure', () => {
+    it('should not update state', async () => {
+      getExpansionsLogic_FAKE.GET.mockResolvedValue(Result.failure('error'))
+
+      await expansionsStore.refreshStore()
+
+      expect(expansionsStore.getState()).toEqual([])
+    })
+
+    it('should not update last updated date', async () => {
+      getExpansionsLogic_FAKE.GET.mockResolvedValue(Result.failure('error'))
+
+      await expansionsStore.refreshStore()
+
+      expect(expansionsStore.getLastUpdated()).toBeNull()
+    })
   })
 })
