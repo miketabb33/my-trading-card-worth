@@ -2,47 +2,48 @@ import { CatalogDto } from '../../../core/types/CatalogDto'
 import { CardDto } from '../../../core/types/CardDto'
 import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
-import { IMyCardRepo, MyCardEntity } from '../../repository/MyCardRepo'
+import { IUserCardRepo } from '../../repository/UserCardRepo'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
 import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
 import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
+import UserCardStack from '@domain/UserCardStack'
 
 class GetCatalogLogic {
-  private readonly myCardRepo: IMyCardRepo
+  private readonly userCardRepo: IUserCardRepo
   private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionPokemonRepo: IExpansionPokemonRepo
 
   constructor(
-    myCardRepo: IMyCardRepo,
+    userCardRepo: IUserCardRepo,
     cardTraderAdaptor: ICardTraderAdaptor,
     expansionPokemonRepo: IExpansionPokemonRepo
   ) {
-    this.myCardRepo = myCardRepo
+    this.userCardRepo = userCardRepo
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionPokemonRepo = expansionPokemonRepo
   }
   get = async (
-    userId: string | null,
     expansionId: number,
-    blueprintValues: Map<string, BlueprintValue>
+    blueprintValues: Map<string, BlueprintValue>,
+    userId?: number
   ): Promise<CatalogDto> => {
-    const cardBlueprints = await this.cardTraderAdaptor.getPokemonBlueprints(expansionId)
+    const expansionCards = await this.cardTraderAdaptor.getPokemonBlueprints(expansionId)
 
-    let myCardsInExpansion: MyCardEntity[] = []
+    let userCardStack: UserCardStack | undefined
 
-    if (userId) myCardsInExpansion = await this.myCardRepo.findByExpansion(userId, expansionId)
+    if (userId) {
+      const cards = await this.userCardRepo.listByExpansion(userId, expansionId)
+      userCardStack = new UserCardStack(cards)
+    }
 
-    const cards: CardDto[] = this.buildCardDtoList(cardBlueprints, myCardsInExpansion, blueprintValues)
+    const cards: CardDto[] = this.buildCardDtoList(expansionCards, blueprintValues, userCardStack)
 
     const details = await this.buildExpansionMainDetailsDto(expansionId)
 
     if (details) details.priceDetails = this.buildExpansionPriceDetails(cards)
 
-    const dto: CatalogDto = {
-      details,
-      cards: cards,
-    }
+    const dto: CatalogDto = { details, cards }
 
     return dto
   }
@@ -74,39 +75,26 @@ class GetCatalogLogic {
   }
 
   private buildCardDtoList = (
-    cardBlueprints: CardBlueprint[],
-    myCardsInExpansion: MyCardEntity[],
-    blueprintValues: Map<string, BlueprintValue>
+    expansionCards: CardBlueprint[],
+    blueprintValues: Map<string, BlueprintValue>,
+    userCardStack?: UserCardStack
   ) => {
-    const cardDto: CardDto[] = cardBlueprints.map((blueprint) => {
-      const ownedCard = myCardsInExpansion.find((myCard) => myCard.cardTrader.blueprintId === blueprint.blueprintId)
-      const owned = ownedCard?.items.length || 0
+    return expansionCards.map((card) => {
+      const blueprintValue = blueprintValues.get(`${card.blueprintId}`)
 
-      return this.buildCardDto(blueprint, owned, blueprintValues)
+      const cardDto: CardDto = {
+        blueprintId: card.blueprintId,
+        expansionId: card.expansionId,
+        name: card.name,
+        imageUrlPreview: card.imageUrlPreview,
+        imageUrlShow: card.imageUrlShow,
+        owned: userCardStack?.filter(card.blueprintId).length ?? 0,
+        medianMarketValueCents: blueprintValue?.medianCents ?? -1,
+        listingCount: blueprintValue?.listingCount ?? -1,
+      }
+
+      return cardDto
     })
-
-    return cardDto
-  }
-
-  private buildCardDto = (
-    cardBlueprint: CardBlueprint,
-    owned: number,
-    blueprintValues: Map<string, BlueprintValue>
-  ) => {
-    const blueprintValue = blueprintValues.get(`${cardBlueprint.blueprintId}`)
-
-    const cardDto: CardDto = {
-      blueprintId: cardBlueprint.blueprintId,
-      expansionId: cardBlueprint.expansionId,
-      name: cardBlueprint.name,
-      imageUrlPreview: cardBlueprint.imageUrlPreview,
-      imageUrlShow: cardBlueprint.imageUrlShow,
-      owned,
-      medianMarketValueCents: blueprintValue?.medianCents ?? -1,
-      listingCount: blueprintValue?.listingCount ?? -1,
-    }
-
-    return cardDto
   }
 
   private buildExpansionMainDetailsDto = async (expansionId: number): Promise<ExpansionDetailsDto | null> => {

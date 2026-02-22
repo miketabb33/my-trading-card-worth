@@ -1,23 +1,23 @@
-import { IMyCardRepo } from '../../repository/MyCardRepo'
+import { IUserCardRepo } from '../../repository/UserCardRepo'
 
 class RemoveCardLogic {
-  private readonly myCardRepo: IMyCardRepo
+  private readonly userCardRepo: IUserCardRepo
 
-  constructor(myCardRepo: IMyCardRepo) {
-    this.myCardRepo = myCardRepo
+  constructor(userCardRepo: IUserCardRepo) {
+    this.userCardRepo = userCardRepo
   }
 
   remove = async (userId: string, blueprintId: number) => {
-    const existingMyCardEntity = await this.myCardRepo.findByBlueprintId(userId, blueprintId)
+    const existingMyCardEntity = await this.userCardRepo.findByBlueprintId(userId, blueprintId)
 
     if (!existingMyCardEntity) return
 
     const itemCount = existingMyCardEntity?.items.length || 0
 
     if (itemCount === 1) {
-      await this.myCardRepo.delete(userId, blueprintId)
+      await this.userCardRepo.delete(userId, blueprintId)
     } else {
-      await this.myCardRepo.removeItem(userId, blueprintId)
+      await this.userCardRepo.removeItem(userId, blueprintId)
     }
   }
 }

@@ -1,44 +1,73 @@
 import { CardDto } from '../../../../src/core/types/CardDto'
 import GetCatalogLogic from '../../../../src/server/logic/catalog/GetCatalogLogic'
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
+import { UserCardWithBlueprint } from '../../../../src/server/repository/UserCardRepo'
 import { EXPANSION_DTO_1 } from '../../../core/__MOCKS__/expansionDto.mock'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import ExpansionPokemonRepo_FAKE from '../../__FAKES__/ExpansionPokemonRepo.fake'
-import MyCardRepo_FAKE from '../../__FAKES__/MyCardRepo.fake'
+import UserCardRepo_FAKE from '../../__FAKES__/UserCardRepo.fake'
 import { BLUEPRINT_VALUE_MOCK } from '../../__MOCKS__/blueprintValue.mock'
 import { makeCardBlueprintMock } from '../../__MOCKS__/cardBlueprint.mock'
-import { makeMyCardEntityMock } from '../../__MOCKS__/myCardEntity.mock'
+
+const makeUserCardWithBlueprintMock = (cardTraderId: number): UserCardWithBlueprint => ({
+  id: cardTraderId,
+  userId: 10,
+  cardBlueprintId: cardTraderId,
+  condition: 'UNKNOWN',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  cardBlueprint: {
+    id: cardTraderId,
+    expansionId: 1,
+    name: `Card ${cardTraderId}`,
+    collectorNumber: String(cardTraderId),
+    imageShowUrl: '',
+    imagePreviewUrl: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    platformLinks: [
+      {
+        id: cardTraderId,
+        cardBlueprintId: cardTraderId,
+        platform: 'CARD_TRADER',
+        externalId: String(cardTraderId),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ],
+  },
+})
 
 describe('Get Catalog Logic', () => {
   let getCatalogLogic: GetCatalogLogic
-  let myCardRepo_FAKE: MyCardRepo_FAKE
+  let userCardRepo_FAKE: UserCardRepo_FAKE
   let expansionPokemonRepo_FAKE: ExpansionPokemonRepo_FAKE
   let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
 
   const BASE_SET_EXPANSION_ID = 1472
-  const USER_ID = '10'
+  const USER_ID = 10
 
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([['1', { medianCents: 1534, listingCount: 20 }]])
 
   beforeEach(() => {
-    myCardRepo_FAKE = new MyCardRepo_FAKE()
+    userCardRepo_FAKE = new UserCardRepo_FAKE()
     cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
     expansionPokemonRepo_FAKE = new ExpansionPokemonRepo_FAKE()
-    getCatalogLogic = new GetCatalogLogic(myCardRepo_FAKE, cardTraderAdaptor_FAKE, expansionPokemonRepo_FAKE)
+    getCatalogLogic = new GetCatalogLogic(userCardRepo_FAKE, cardTraderAdaptor_FAKE, expansionPokemonRepo_FAKE)
 
     cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
-    myCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([])
+    userCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([])
     expansionPokemonRepo_FAKE.FIND.mockResolvedValue(EXPANSION_DTO_1)
   })
 
   describe('Details', () => {
     it('should return null when expansion id does not exist in expansion store', async () => {
       expansionPokemonRepo_FAKE.FIND.mockResolvedValue(null)
-      const result = await getCatalogLogic.get(USER_ID, 1, new Map<string, BlueprintValue>())
+      const result = await getCatalogLogic.get(1, new Map<string, BlueprintValue>(), USER_ID)
       expect(result.details).toBeNull()
     })
     it('should return prices as 0 when store has no values', async () => {
-      const result = await getCatalogLogic.get(USER_ID, BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>())
+      const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>(), USER_ID)
       expect(result.details?.priceDetails).toEqual({
         fiftyToOneHundred: 0,
         oneHundredTwoHundred: 0,
@@ -61,7 +90,6 @@ describe('Get Catalog Logic', () => {
         makeCardBlueprintMock({ blueprintId: 11 }),
       ])
       const result = await getCatalogLogic.get(
-        USER_ID,
         BASE_SET_EXPANSION_ID,
         new Map<string, BlueprintValue>([
           ['1', { ...BLUEPRINT_VALUE_MOCK, medianCents: 1 }],
@@ -75,7 +103,8 @@ describe('Get Catalog Logic', () => {
           ['9', { ...BLUEPRINT_VALUE_MOCK, medianCents: 199_99 }],
           ['10', { ...BLUEPRINT_VALUE_MOCK, medianCents: 200_00 }],
           ['11', { ...BLUEPRINT_VALUE_MOCK, medianCents: 10_032_23 }],
-        ])
+        ]),
+        USER_ID
       )
       expect(result.details?.priceDetails.zeroToFifty).toEqual(3)
       expect(result.details?.priceDetails.fiftyToOneHundred).toEqual(2)
@@ -87,7 +116,7 @@ describe('Get Catalog Logic', () => {
   describe('Cards', () => {
     it('should return an empty array when no blueprints and user is not logged in', async () => {
       cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
-      const result = await getCatalogLogic.get(null, BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
+      const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
       expect(cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS).toHaveBeenCalledWith(BASE_SET_EXPANSION_ID)
       expect(result.cards).toEqual([])
     })
@@ -100,7 +129,7 @@ describe('Get Catalog Logic', () => {
         imageUrlShow: 'show',
       })
       cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([blueprint1])
-      const result = await getCatalogLogic.get(null, BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
+      const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
       const expectedResult: CardDto = {
         blueprintId: 1,
         expansionId: 2,
@@ -123,7 +152,7 @@ describe('Get Catalog Logic', () => {
         imageUrlShow: 'show',
       })
       cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([blueprint1])
-      const result = await getCatalogLogic.get(null, BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>())
+      const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>())
       expect(result.cards[0].medianMarketValueCents).toEqual(-1)
     })
     it('should return blueprints with owned values when user is logged in', async () => {
@@ -139,21 +168,16 @@ describe('Get Catalog Logic', () => {
         blueprint4,
         blueprint5,
       ])
-      const myCardEntity1 = makeMyCardEntityMock({
-        cardTrader: { blueprintId: 2 },
-        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }],
-      })
-      const myCardEntity2 = makeMyCardEntityMock({
-        cardTrader: { blueprintId: 3 },
-        items: [{ condition: 0 }, { condition: 0 }],
-      })
-      const myCardEntity3 = makeMyCardEntityMock({
-        cardTrader: { blueprintId: 5 },
-        items: [{ condition: 0 }],
-      })
-      myCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([myCardEntity1, myCardEntity2, myCardEntity3])
-      const result = await getCatalogLogic.get(USER_ID, BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
-      expect(myCardRepo_FAKE.FIND_BY_EXPANSION).toHaveBeenCalledWith(USER_ID, BASE_SET_EXPANSION_ID)
+      userCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([
+        makeUserCardWithBlueprintMock(2),
+        makeUserCardWithBlueprintMock(2),
+        makeUserCardWithBlueprintMock(2),
+        makeUserCardWithBlueprintMock(3),
+        makeUserCardWithBlueprintMock(3),
+        makeUserCardWithBlueprintMock(5),
+      ])
+      const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES, USER_ID)
+      expect(userCardRepo_FAKE.FIND_BY_EXPANSION).toHaveBeenCalledWith(USER_ID, BASE_SET_EXPANSION_ID)
       expect(result.cards.length).toEqual(5)
       expect(result.cards[0].owned).toEqual(0)
       expect(result.cards[1].owned).toEqual(3)

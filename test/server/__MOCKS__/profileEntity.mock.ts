@@ -1,17 +1,17 @@
-import { Profile } from '@prisma/client'
+import { User } from '@prisma/client'
 
 export const makeProfileEntityMock = ({
   id = 0,
-  userId = '',
+  externalId = '',
   email = '',
   name = '',
   nickname = '',
   picture = '',
   createdAt = new Date(),
   updatedAt = new Date(),
-}: Partial<Profile>): Profile => ({
+}: Partial<User>): User => ({
   id,
-  userId,
+  externalId,
   email,
   name,
   nickname,

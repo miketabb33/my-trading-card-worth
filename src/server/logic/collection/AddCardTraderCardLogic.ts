@@ -7,7 +7,7 @@ import Logger from '../../logger'
 
 export interface IAddCardTraderCardLogic {
   add: (
-    profileId: number,
+    userId: number,
     cardTraderBlueprintId: number,
     cardTraderExpansionId: number,
     condition: CardCondition
@@ -33,7 +33,7 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
   }
 
   add = async (
-    profileId: number,
+    userId: number,
     cardTraderBlueprintId: number,
     cardTraderExpansionId: number,
     condition: CardCondition
@@ -43,7 +43,7 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
 
     await this.prisma.userCard.create({
       data: {
-        profileId,
+        userId,
         cardBlueprintId,
         condition,
       },

@@ -1,4 +1,4 @@
-import { IMyCardRepo } from '../repository/MyCardRepo'
+import { IUserCardRepo } from '../repository/UserCardRepo'
 import { BlueprintValue } from '../types/BlueprintValue'
 import Collection, { ICollection } from './Collection'
 
@@ -7,10 +7,10 @@ export interface ICollectionFactory {
 }
 
 class CollectionFactory implements ICollectionFactory {
-  private readonly cardRepo: IMyCardRepo
+  private readonly cardRepo: IUserCardRepo
   private readonly blueprintValues: Map<string, BlueprintValue>
 
-  constructor(cardRepo: IMyCardRepo, blueprintValues: Map<string, BlueprintValue>) {
+  constructor(cardRepo: IUserCardRepo, blueprintValues: Map<string, BlueprintValue>) {
     this.cardRepo = cardRepo
     this.blueprintValues = blueprintValues
   }

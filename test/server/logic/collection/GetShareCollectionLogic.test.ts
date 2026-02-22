@@ -4,7 +4,7 @@ import Collection_FAKE from '../../__FAKES__/Collection.fake'
 import CollectionFactory_FAKE from '../../__FAKES__/CollectionFactory.fake'
 import { makeProfileEntityMock } from '../../__MOCKS__/profileEntity.mock'
 
-const mockPrisma = makePrismaClientMock({ profile: { findUnique: jest.fn() } })
+const mockPrisma = makePrismaClientMock({ user: { findUnique: jest.fn() } })
 
 describe('Get Share Collection Logic', () => {
   let getShareCollectionLogic: GetShareCollectionLogic
@@ -40,7 +40,7 @@ describe('Get Share Collection Logic', () => {
 
   it('should return user name', async () => {
     const NAME = 'any name'
-    mockPrisma.profile.findUnique.mockResolvedValue({
+    mockPrisma.user.findUnique.mockResolvedValue({
       ...makeProfileEntityMock({ name: NAME }),
     })
     const result = await getShareCollectionLogic.get(USER_ID)

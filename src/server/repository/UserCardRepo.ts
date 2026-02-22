@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+import { Prisma } from '@prisma/client'
 import { prisma } from '../../../prisma/prismaClient'
 
 export type MyCardItemEntity = {
@@ -23,99 +24,85 @@ export type MyCardEntity = {
   updatedAt: Date
 }
 
-export interface IMyCardRepo {
-  create: (entity: MyCardEntity) => Promise<void>
+export type UserCardWithBlueprint = Prisma.UserCardGetPayload<{
+  include: { cardBlueprint: { include: { platformLinks: true } } }
+}>
+
+export interface IUserCardRepo {
   addItem: (userId: string, blueprintId: number, item: MyCardItemEntity) => Promise<void>
   delete: (userId: string, blueprintId: number) => Promise<void>
   removeItem: (userId: string, blueprintId: number) => Promise<void>
-  findByExpansion: (userId: string, expansionId: number) => Promise<MyCardEntity[]>
+  listByExpansion: (userId: number, expansionId: number) => Promise<UserCardWithBlueprint[]>
   findByBlueprintId: (userId: string, blueprintId: number) => Promise<MyCardEntity | null>
   getAll: (userId: string) => Promise<MyCardEntity[]>
 }
 
-class MyCardRepo implements IMyCardRepo {
-  create = async (entity: MyCardEntity): Promise<void> => {
-    const profile = await prisma.profile.findUnique({ where: { userId: entity.userId } })
-    if (!profile) return
-
-    const cardBlueprintId = await this.findCardBlueprintId(entity.cardTrader.blueprintId)
-    if (!cardBlueprintId) return
-
-    for (let i = 0; i < entity.items.length; i++) {
-      await prisma.userCard.create({
-        data: { profileId: profile.id, cardBlueprintId, condition: 'UNKNOWN' },
-      })
-    }
-  }
-
+class UserCardRepo implements IUserCardRepo {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem = async (userId: string, blueprintId: number, item: MyCardItemEntity): Promise<void> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return
 
     const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
     if (!cardBlueprintId) return
 
     await prisma.userCard.create({
-      data: { profileId: profile.id, cardBlueprintId, condition: 'UNKNOWN' },
+      data: { userId: user.id, cardBlueprintId, condition: 'UNKNOWN' },
     })
   }
 
   delete = async (userId: string, blueprintId: number): Promise<void> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return
 
     const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
     if (!cardBlueprintId) return
 
     await prisma.userCard.deleteMany({
-      where: { profileId: profile.id, cardBlueprintId },
+      where: { userId: user.id, cardBlueprintId },
     })
   }
 
   removeItem = async (userId: string, blueprintId: number): Promise<void> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return
 
     const cardBlueprintId = await this.findCardBlueprintId(blueprintId)
     if (!cardBlueprintId) return
 
     const card = await prisma.userCard.findFirst({
-      where: { profileId: profile.id, cardBlueprintId },
+      where: { userId: user.id, cardBlueprintId },
     })
     if (!card) return
 
     await prisma.userCard.delete({ where: { id: card.id } })
   }
 
-  findByExpansion = async (userId: string, cardTraderExpansionId: number): Promise<MyCardEntity[]> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return []
-
-    const userCards = await prisma.userCard.findMany({
-      where: {
-        profileId: profile.id,
-        cardBlueprint: {
-          expansion: {
-            platformLinks: {
-              some: { platform: 'CARD_TRADER', externalId: String(cardTraderExpansionId) },
-            },
-          },
-        },
-      },
-      include: this.blueprintInclude,
+  listByExpansion = async (userId: number, cardTraderExpansionId: number): Promise<UserCardWithBlueprint[]> => {
+    const expansionLink = await prisma.expansionPlatformLink.findFirst({
+      where: { platform: 'CARD_TRADER', externalId: String(cardTraderExpansionId) },
+      select: { expansionId: true },
     })
 
-    return this.toMyCardEntities(userId, userCards)
+    if (!expansionLink) return []
+
+    return prisma.userCard.findMany({
+      where: { userId, cardBlueprint: { expansionId: expansionLink.expansionId } },
+      include: {
+        cardBlueprint: {
+          include: { platformLinks: true },
+        },
+      },
+    })
   }
 
   findByBlueprintId = async (userId: string, cardTraderBlueprintId: number): Promise<MyCardEntity | null> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return null
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return null
 
     const userCards = await prisma.userCard.findMany({
       where: {
-        profileId: profile.id,
+        userId: user.id,
         cardBlueprint: {
           platformLinks: {
             some: { platform: 'CARD_TRADER', externalId: String(cardTraderBlueprintId) },
@@ -131,11 +118,11 @@ class MyCardRepo implements IMyCardRepo {
   }
 
   getAll = async (userId: string): Promise<MyCardEntity[]> => {
-    const profile = await prisma.profile.findUnique({ where: { userId } })
-    if (!profile) return []
+    const user = await prisma.user.findUnique({ where: { externalId: userId } })
+    if (!user) return []
 
     const userCards = await prisma.userCard.findMany({
-      where: { profileId: profile.id },
+      where: { userId: user.id },
       include: this.blueprintInclude,
     })
 
@@ -193,4 +180,4 @@ class MyCardRepo implements IMyCardRepo {
   }
 }
 
-export default MyCardRepo
+export default UserCardRepo

@@ -13,12 +13,12 @@ class GetShareCollectionLogic {
 
   get = async (userId: string): Promise<ShareCollectionDto> => {
     const collection = await this.collectionFactory.make(userId)
-    const profile = await this.prisma.profile.findUnique({ where: { userId } })
+    const user = await this.prisma.user.findUnique({ where: { externalId: userId } })
 
     return {
       cards: collection.cards(),
       meta: collection.details(),
-      name: profile?.name || '',
+      name: user?.name || '',
     }
   }
 }

@@ -1,7 +1,6 @@
 import { Router } from 'express'
-import { parseAuth0User } from '../auth0/parseAuth0User'
 import GetCatalogLogic from '../logic/catalog/GetCatalogLogic'
-import MyCardRepo from '../repository/MyCardRepo'
+import UserCardRepo from '../repository/UserCardRepo'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
 import Store from '../StoreRegistry'
 import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
@@ -22,10 +21,9 @@ CatalogController.get(
       return
     }
 
-    const getCatalogLogic = new GetCatalogLogic(new MyCardRepo(), new CardTraderAdaptor(), new ExpansionPokemonRepo())
+    const getCatalogLogic = new GetCatalogLogic(new UserCardRepo(), new CardTraderAdaptor(), new ExpansionPokemonRepo())
 
-    const userId = req.oidc.user ? parseAuth0User(req.oidc.user).sub : null
-    const catalogDto = await getCatalogLogic.get(userId, expansionId, Store.blueprintValues.getState())
+    const catalogDto = await getCatalogLogic.get(expansionId, Store.blueprintValues.getState(), req.currentUser?.id)
 
     res.sendData({ data: catalogDto })
   })
