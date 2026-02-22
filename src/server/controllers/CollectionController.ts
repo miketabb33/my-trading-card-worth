@@ -35,8 +35,11 @@ CollectionController.get(
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getShareCollectionLogic = new GetShareCollectionLogic(prisma, collectionFactory)
     const result = await getShareCollectionLogic.get(userId)
-    if (result.kind === 'failure') return res.sendError({ errors: [result.error], status: 404 })
-    res.sendData({ data: result.value })
+    if (result.isSuccess()) {
+      res.sendData({ data: result.value })
+    } else {
+      res.sendError({ errors: [result.error], status: 404 })
+    }
   })
 )
 

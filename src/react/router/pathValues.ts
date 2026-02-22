@@ -11,7 +11,7 @@ const catalog = (slug?: string) => {
   }
 }
 
-const collection = (userId?: string) => {
+const collection = (userId?: number) => {
   if (!userId) return '/collection'
   else return `/collection/${userId}`
 }

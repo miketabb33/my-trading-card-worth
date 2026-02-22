@@ -1,119 +1,69 @@
 import Collection from '../../../src/server/domain/Collection'
 import { BlueprintValue } from '../../../src/server/types/BlueprintValue'
-import { makeMyCardEntityMock } from '../__MOCKS__/myCardEntity.mock'
+import { makeUserCardWithBlueprintMock } from '../__MOCKS__/userCardWithBlueprint.mock'
 
 describe('Collection', () => {
   const MEDIAN_CENTS = 1534
   const BLUEPRINT_VALUES = new Map<string, BlueprintValue>([
     ['1234', { medianCents: MEDIAN_CENTS, listingCount: 25 }],
-    [
-      '1001',
-      {
-        medianCents: 4,
-        listingCount: 25,
-      },
-    ],
-    [
-      '1002',
-      {
-        medianCents: 40,
-        listingCount: 25,
-      },
-    ],
-    [
-      '1003',
-      {
-        medianCents: 400,
-        listingCount: 25,
-      },
-    ],
-    [
-      '1004',
-      {
-        medianCents: 4000,
-        listingCount: 25,
-      },
-    ],
+    ['1001', { medianCents: 4, listingCount: 25 }],
+    ['1002', { medianCents: 40, listingCount: 25 }],
+    ['1003', { medianCents: 400, listingCount: 25 }],
+    ['1004', { medianCents: 4000, listingCount: 25 }],
   ])
 
+  const entry = (blueprintId: number, expansionId: number, cardBlueprintId = blueprintId) => ({
+    card: makeUserCardWithBlueprintMock({ blueprintExternalId: blueprintId, cardBlueprintId }),
+    expansionId,
+  })
+
   it('should return card details', () => {
-    const blueprintId = 1234
-    const expansionId = 2345
-    const name = 'anyName'
-    const previewUrl = 'anyPreviewUrl'
-    const showUrl = 'anyShowUrl'
+    const e = {
+      card: makeUserCardWithBlueprintMock({
+        blueprintExternalId: 1234,
+        cardBlueprintId: 1234,
+        name: 'anyName',
+        imagePreviewUrl: 'anyPreviewUrl',
+        imageShowUrl: 'anyShowUrl',
+      }),
+      expansionId: 2345,
+    }
 
-    const cardsEntity = makeMyCardEntityMock({
-      cardTrader: {
-        blueprintId,
-        expansionId,
-      },
-      name,
-      imageUrlPreview: previewUrl,
-      imageUrlShow: showUrl,
-    })
-
-    const collection = new Collection([cardsEntity], BLUEPRINT_VALUES)
+    const collection = new Collection([e], BLUEPRINT_VALUES)
     const cards = collection.cards()
 
     expect(cards.length).toEqual(1)
-    expect(cards[0].blueprintId).toEqual(blueprintId)
-    expect(cards[0].expansionId).toEqual(expansionId)
-    expect(cards[0].name).toEqual(name)
-    expect(cards[0].imageUrlPreview).toEqual(previewUrl)
-    expect(cards[0].imageUrlShow).toEqual(showUrl)
+    expect(cards[0].blueprintId).toEqual(1234)
+    expect(cards[0].expansionId).toEqual(2345)
+    expect(cards[0].name).toEqual('anyName')
+    expect(cards[0].imageUrlPreview).toEqual('anyPreviewUrl')
+    expect(cards[0].imageUrlShow).toEqual('anyShowUrl')
     expect(cards[0].owned).toEqual(1)
     expect(cards[0].medianMarketValueCents).toEqual(MEDIAN_CENTS)
     expect(cards[0].listingCount).toEqual(25)
   })
 
-  it('should return default values for values when blueprint cant be found', () => {
-    const collection = new Collection([makeMyCardEntityMock({})], BLUEPRINT_VALUES)
-    const cards = collection.cards()
-
-    expect(cards[0].medianMarketValueCents).toEqual(-1)
+  it('should return default values when blueprint cannot be found', () => {
+    const collection = new Collection([entry(3, 4)], BLUEPRINT_VALUES)
+    expect(collection.cards()[0].medianMarketValueCents).toEqual(-1)
   })
 
   it('should return many items', () => {
-    const cardEntities = [
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 10, expansionId: 11 },
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 20, expansionId: 21 },
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 30, expansionId: 31 },
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 40, expansionId: 41 },
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 50, expansionId: 51 },
-      }),
-    ]
-    const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
-    const cards = collection.cards()
-    expect(cards.length).toEqual(5)
+    const entries = [entry(10, 11), entry(20, 21), entry(30, 31), entry(40, 41), entry(50, 51)]
+    expect(new Collection(entries, BLUEPRINT_VALUES).cards().length).toEqual(5)
   })
 
   it('should return owned amounts', () => {
-    const cardEntities = [
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 10, expansionId: 11 },
-        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }, { condition: 0 }],
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 20, expansionId: 21 },
-        items: [{ condition: 0 }, { condition: 0 }],
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 30, expansionId: 31 },
-        items: [{ condition: 0 }],
-      }),
+    const entries = [
+      entry(10, 11),
+      entry(10, 11),
+      entry(10, 11),
+      entry(10, 11),
+      entry(20, 21),
+      entry(20, 21),
+      entry(30, 31),
     ]
-    const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
-    const cards = collection.cards()
+    const cards = new Collection(entries, BLUEPRINT_VALUES).cards()
 
     expect(cards.length).toEqual(3)
     expect(cards[0].owned).toEqual(4)
@@ -122,75 +72,22 @@ describe('Collection', () => {
   })
 
   it('should total up blueprint values for my cards', () => {
-    const cardEntities = [
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1001, expansionId: 11 },
-        items: [{ condition: 0 }],
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1002, expansionId: 21 },
-        items: [{ condition: 0 }],
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1003, expansionId: 31 },
-        items: [{ condition: 0 }],
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1004, expansionId: 31 },
-        items: [{ condition: 0 }],
-      }),
-    ]
-
-    const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
-    const details = collection.details()
-
-    expect(details.medianMarketValueCents).toEqual(4444)
+    const entries = [entry(1001, 11), entry(1002, 21), entry(1003, 31), entry(1004, 41)]
+    expect(new Collection(entries, BLUEPRINT_VALUES).details().medianMarketValueCents).toEqual(4444)
   })
 
-  it('should total up blueprint values for a single my cards with multiple items', () => {
-    const cardEntities = [
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1001, expansionId: 11 },
-        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }],
-      }),
-    ]
-    const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
-    const details = collection.details()
-
-    expect(details.medianMarketValueCents).toEqual(12)
+  it('should total up blueprint values for a single card with multiple copies', () => {
+    const entries = [entry(1001, 11), entry(1001, 11), entry(1001, 11)]
+    expect(new Collection(entries, BLUEPRINT_VALUES).details().medianMarketValueCents).toEqual(12)
   })
 
-  it('should total up blueprint values for many my cards with multiple items', () => {
-    const cardEntities = [
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1001, expansionId: 11 },
-        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }],
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1002, expansionId: 11 },
-        items: [{ condition: 0 }, { condition: 0 }],
-      }),
-    ]
-    const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
-    const details = collection.details()
-
-    expect(details.medianMarketValueCents).toEqual(92)
+  it('should total up blueprint values for many cards with multiple copies', () => {
+    const entries = [entry(1001, 11), entry(1001, 11), entry(1001, 11), entry(1002, 11), entry(1002, 11)]
+    expect(new Collection(entries, BLUEPRINT_VALUES).details().medianMarketValueCents).toEqual(92)
   })
 
   it('should total up card count', () => {
-    const cardEntities = [
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1001, expansionId: 11 },
-        items: [{ condition: 0 }, { condition: 0 }, { condition: 0 }],
-      }),
-      makeMyCardEntityMock({
-        cardTrader: { blueprintId: 1002, expansionId: 11 },
-        items: [{ condition: 0 }, { condition: 0 }],
-      }),
-    ]
-    const collection = new Collection(cardEntities, BLUEPRINT_VALUES)
-    const details = collection.details()
-
-    expect(details.cardsInCollection).toEqual(5)
+    const entries = [entry(1001, 11), entry(1001, 11), entry(1001, 11), entry(1002, 11), entry(1002, 11)]
+    expect(new Collection(entries, BLUEPRINT_VALUES).details().cardsInCollection).toEqual(5)
   })
 })

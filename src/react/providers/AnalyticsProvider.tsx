@@ -35,7 +35,7 @@ export const useAnalyticsProvider = () => {
   const identifyEffect: UseEffectType = {
     effect: () => {
       if (ENV.ID === 'production') {
-        if (profile) posthog.identify(profile.userId, { ...profile })
+        if (profile) posthog.identify(String(profile.id), { ...profile })
       }
     },
     deps: [profile],

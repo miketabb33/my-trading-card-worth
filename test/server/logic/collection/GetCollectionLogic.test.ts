@@ -7,7 +7,7 @@ describe('Get Collection Logic', () => {
   let collection_FAKE: Collection_FAKE
   let collectionFactory_FAKE: CollectionFactory_FAKE
 
-  const USER_ID = '12345'
+  const USER_ID = 12345
 
   beforeEach(() => {
     jest.clearAllMocks()

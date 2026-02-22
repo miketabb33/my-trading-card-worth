@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { ShareCollectionDto } from '../../../core/types/ShareCollectionDto'
 import { ICollectionFactory } from '../../domain/CollectionFactory'
-import { Failure, Result, Success } from '../../types/Result'
+import { Result } from '../Result'
 
 class GetShareCollectionLogic {
   private readonly prisma: PrismaClient
@@ -12,9 +12,9 @@ class GetShareCollectionLogic {
     this.collectionFactory = collectionFactory
   }
 
-  get = async (userId: number): Promise<Success<ShareCollectionDto> | Failure> => {
+  get = async (userId: number): Promise<Result<ShareCollectionDto>> => {
     const user = await this.prisma.user.findUnique({ where: { id: userId } })
-    if (!user) return Result.failure('user not found', 'NOT_FOUND')
+    if (!user) return Result.failure('user not found')
 
     const collection = await this.collectionFactory.make(userId)
 

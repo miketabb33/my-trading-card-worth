@@ -1,42 +1,13 @@
 import { CardDto } from '../../../../src/core/types/CardDto'
 import GetCatalogLogic from '../../../../src/server/logic/catalog/GetCatalogLogic'
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
-import { UserCardWithBlueprint } from '../../../../src/server/repository/UserCardRepo'
 import { EXPANSION_DTO_1 } from '../../../core/__MOCKS__/expansionDto.mock'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import ExpansionPokemonRepo_FAKE from '../../__FAKES__/ExpansionPokemonRepo.fake'
 import UserCardRepo_FAKE from '../../__FAKES__/UserCardRepo.fake'
 import { BLUEPRINT_VALUE_MOCK } from '../../__MOCKS__/blueprintValue.mock'
 import { makeCardBlueprintMock } from '../../__MOCKS__/cardBlueprint.mock'
-
-const makeUserCardWithBlueprintMock = (cardTraderId: number): UserCardWithBlueprint => ({
-  id: cardTraderId,
-  userId: 10,
-  cardBlueprintId: cardTraderId,
-  condition: 'UNKNOWN',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  cardBlueprint: {
-    id: cardTraderId,
-    expansionId: 1,
-    name: `Card ${cardTraderId}`,
-    collectorNumber: String(cardTraderId),
-    imageShowUrl: '',
-    imagePreviewUrl: '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    platformLinks: [
-      {
-        id: cardTraderId,
-        cardBlueprintId: cardTraderId,
-        platform: 'CARD_TRADER',
-        externalId: String(cardTraderId),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ],
-  },
-})
+import { makeUserCardWithBlueprintMock } from '../../__MOCKS__/userCardWithBlueprint.mock'
 
 describe('Get Catalog Logic', () => {
   let getCatalogLogic: GetCatalogLogic
@@ -169,12 +140,12 @@ describe('Get Catalog Logic', () => {
         blueprint5,
       ])
       userCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([
-        makeUserCardWithBlueprintMock(2),
-        makeUserCardWithBlueprintMock(2),
-        makeUserCardWithBlueprintMock(2),
-        makeUserCardWithBlueprintMock(3),
-        makeUserCardWithBlueprintMock(3),
-        makeUserCardWithBlueprintMock(5),
+        makeUserCardWithBlueprintMock({ blueprintExternalId: 2, cardBlueprintId: 2 }),
+        makeUserCardWithBlueprintMock({ blueprintExternalId: 2, cardBlueprintId: 2 }),
+        makeUserCardWithBlueprintMock({ blueprintExternalId: 2, cardBlueprintId: 2 }),
+        makeUserCardWithBlueprintMock({ blueprintExternalId: 3, cardBlueprintId: 3 }),
+        makeUserCardWithBlueprintMock({ blueprintExternalId: 3, cardBlueprintId: 3 }),
+        makeUserCardWithBlueprintMock({ blueprintExternalId: 5, cardBlueprintId: 5 }),
       ])
       const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES, USER_ID)
       expect(userCardRepo_FAKE.FIND_BY_EXPANSION).toHaveBeenCalledWith(USER_ID, BASE_SET_EXPANSION_ID)
