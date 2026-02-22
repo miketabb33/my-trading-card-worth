@@ -4,6 +4,7 @@ import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 import { ICardBlueprintPokemonRepo } from '../../repository/CardBlueprintPokemonRepo'
 import { CardBlueprint } from '../../types/CardBlueprint'
 import Logger from '../../logger'
+import { Result } from '@logic/Result'
 
 export interface IAddCardTraderCardLogic {
   add: (
@@ -11,7 +12,7 @@ export interface IAddCardTraderCardLogic {
     cardTraderBlueprintId: number,
     cardTraderExpansionId: number,
     condition: CardCondition
-  ) => Promise<void>
+  ) => Promise<Result<boolean>>
 }
 
 class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
@@ -48,6 +49,7 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
         condition,
       },
     })
+    return Result.success(true)
   }
 
   private ensureExpansionExists = async (cardTraderExpansionId: number): Promise<number> => {
@@ -90,7 +92,11 @@ class AddCardTraderCardLogic implements IAddCardTraderCardLogic {
     const allBlueprints = await this.cardTraderAdaptor.getPokemonBlueprints(cardTraderExpansionId)
     const target = allBlueprints.find((b) => b.blueprintId === cardTraderBlueprintId)
 
-    if (!target) throw new Error(`Blueprint ${cardTraderBlueprintId} not found in expansion ${cardTraderExpansionId}`)
+    if (!target) {
+      const err = new Error(`Blueprint ${cardTraderBlueprintId} not found in expansion ${cardTraderExpansionId}`)
+      Logger.error(err)
+      throw err
+    }
 
     const cardBlueprintId = await this.cardBlueprintPokemonRepo.create({
       expansionId,

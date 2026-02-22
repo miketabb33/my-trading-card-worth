@@ -1,3 +1,4 @@
+import { Result } from '@logic/Result'
 import { StoreStatusDto } from '../../../core/types/StoreStatusDto'
 
 class GetStoreStatusLogic {
@@ -6,7 +7,7 @@ class GetStoreStatusLogic {
       expansionsLastUpdatedDateString: expansionLastUpdated?.toISOString() ?? null,
       pricesLastUpdatedDateString: pricesLastUpdated?.toISOString() ?? null,
     }
-    return storeStatusDto
+    return Result.success(storeStatusDto)
   }
 }
 

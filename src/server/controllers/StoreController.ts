@@ -8,11 +8,12 @@ const StoreController = Router()
 
 StoreController.get('/status', (_, res) => {
   const getStoreStatusLogic = new GetStoreStatusLogic()
-  const storeStatusDto = getStoreStatusLogic.get(
-    Store.expansions.getLastUpdated(),
-    Store.blueprintValues.getLastUpdated()
-  )
-  res.sendData({ data: storeStatusDto })
+  const result = getStoreStatusLogic.get(Store.expansions.getLastUpdated(), Store.blueprintValues.getLastUpdated())
+  if (result.isSuccess()) {
+    res.sendData({ data: result.value })
+  } else {
+    res.sendError({ errors: [result.error] })
+  }
 })
 
 StoreController.post('/marketplace/refresh', (req, res) => {

@@ -10,8 +10,8 @@ describe('Get Store Status Logic', () => {
   it('should return null when given null', () => {
     const result = getStoreStatusLogic.get(null, null)
 
-    expect(result.expansionsLastUpdatedDateString).toEqual(null)
-    expect(result.pricesLastUpdatedDateString).toEqual(null)
+    expect(result.value.expansionsLastUpdatedDateString).toEqual(null)
+    expect(result.value.pricesLastUpdatedDateString).toEqual(null)
   })
 
   it('should build iso date for price and expansions', () => {
@@ -20,7 +20,7 @@ describe('Get Store Status Logic', () => {
 
     const result = getStoreStatusLogic.get(expansionDate, pricesDate)
 
-    expect(result.expansionsLastUpdatedDateString).toEqual(expansionDate.toISOString())
-    expect(result.pricesLastUpdatedDateString).toEqual(pricesDate.toISOString())
+    expect(result.value.expansionsLastUpdatedDateString).toEqual(expansionDate.toISOString())
+    expect(result.value.pricesLastUpdatedDateString).toEqual(pricesDate.toISOString())
   })
 })

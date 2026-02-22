@@ -1,8 +1,9 @@
+import { Result } from '@logic/Result'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { BlueprintValue } from '../../types/BlueprintValue'
 
 export interface IGetBlueprintValueLogic {
-  get: (expansionId: number) => Promise<Map<string, BlueprintValue>>
+  get: (expansionId: number) => Promise<Result<Map<string, BlueprintValue>>>
 }
 
 class GetBlueprintValueLogic implements IGetBlueprintValueLogic {
@@ -24,7 +25,7 @@ class GetBlueprintValueLogic implements IGetBlueprintValueLogic {
       }
       blueprintIdToBlueprintValueMap.set(blueprintId, blueprintValue)
     })
-    return blueprintIdToBlueprintValueMap
+    return Result.success(blueprintIdToBlueprintValueMap)
   }
 
   private median = (values: number[]): number => {

@@ -1,4 +1,5 @@
 import BlueprintValueStore from '../../../src/server/stores/BlueprintValueStore'
+import { Result } from '../../../src/server/logic/Result'
 import { BlueprintValue } from '../../../src/server/types/BlueprintValue'
 import { makeExpansionDto } from '../../core/__MOCKS__/expansionDto.mock'
 import ExpansionStore_FAKE from '../__FAKES__/ExpansionsStore.fake'
@@ -27,7 +28,7 @@ describe('Blueprint Value Store', () => {
         listingCount: id,
       }
       cache.set(`${id}`, blueprintValue)
-      return cache
+      return Result.success(cache)
     })
 
     await blueprintValueStore.refreshStore()
@@ -49,7 +50,7 @@ describe('Blueprint Value Store', () => {
         listingCount: id,
       }
       cache.set(`${id}`, blueprintValue)
-      return cache
+      return Result.success(cache)
     })
     expect(blueprintValueStore.getLastUpdated()).toBeNull()
 

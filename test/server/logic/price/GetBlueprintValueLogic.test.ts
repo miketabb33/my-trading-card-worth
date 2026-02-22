@@ -44,11 +44,11 @@ describe('Get Expansion Blueprint Value Logic', () => {
 
     expect(cardTraderAdaptor_FAKE.GET_POKEMON_CARD_VALUES).toHaveBeenCalledWith(EXPANSION_ID)
 
-    expect(blueprintValueMap.size).toEqual(2)
-    expect(blueprintValueMap.get('1')!.medianCents).toEqual(4)
-    expect(blueprintValueMap.get('1')!.listingCount).toEqual(6)
+    expect(blueprintValueMap.value.size).toEqual(2)
+    expect(blueprintValueMap.value.get('1')!.medianCents).toEqual(4)
+    expect(blueprintValueMap.value.get('1')!.listingCount).toEqual(6)
 
-    expect(blueprintValueMap.get('2')!.medianCents).toEqual(30475)
-    expect(blueprintValueMap.get('2')!.listingCount).toEqual(6)
+    expect(blueprintValueMap.value.get('2')!.medianCents).toEqual(30475)
+    expect(blueprintValueMap.value.get('2')!.listingCount).toEqual(6)
   })
 })

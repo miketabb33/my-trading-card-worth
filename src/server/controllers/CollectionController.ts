@@ -58,8 +58,17 @@ CollectionController.post(
       new ExpansionPokemonRepo(),
       new CardBlueprintPokemonRepo()
     )
-    await addCardTraderCardLogic.add(req.currentUser!.id, myCardDto.blueprintId, myCardDto.expansionId, 'UNKNOWN')
-    res.sendSuccess({ status: 201 })
+    const result = await addCardTraderCardLogic.add(
+      req.currentUser!.id,
+      myCardDto.blueprintId,
+      myCardDto.expansionId,
+      'UNKNOWN'
+    )
+    if (result.isSuccess()) {
+      res.sendSuccess({ status: 201 })
+    } else {
+      res.sendError({ errors: [result.error], status: 409 })
+    }
   })
 )
 
