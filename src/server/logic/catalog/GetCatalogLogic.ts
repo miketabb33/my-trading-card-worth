@@ -6,7 +6,7 @@ import { IUserCardRepo } from '../../repository/UserCardRepo'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { CardBlueprint } from '../../types/CardBlueprint'
 import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
-import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
+import { ExpansionPokemonEntity, IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 import UserCardStack from '@domain/UserCardStack'
 
 class GetCatalogLogic {
@@ -28,50 +28,27 @@ class GetCatalogLogic {
     blueprintValues: Map<string, BlueprintValue>,
     userId?: number
   ): Promise<CatalogDto> => {
-    const expansionCards = await this.cardTraderAdaptor.getPokemonBlueprints(expansionId)
+    const [expansionCards, expansion] = await Promise.all([
+      this.cardTraderAdaptor.getPokemonBlueprints(expansionId),
+      this.expansionPokemonRepo.find(expansionId),
+    ])
 
     let userCardStack: UserCardStack | undefined
 
     if (userId) {
-      const cards = await this.userCardRepo.listByExpansion(userId, expansionId)
-      userCardStack = new UserCardStack(cards)
+      const userCards = await this.userCardRepo.listByExpansion(userId, expansionId)
+      userCardStack = new UserCardStack(userCards)
     }
 
     const cards: CardDto[] = this.buildCardDtoList(expansionCards, blueprintValues, userCardStack)
+    let details: ExpansionDetailsDto | null = null
 
-    const details = await this.buildExpansionMainDetailsDto(expansionId)
-
-    if (details) details.priceDetails = this.buildExpansionPriceDetails(cards)
-
-    const dto: CatalogDto = { details, cards }
-
-    return dto
-  }
-
-  private buildExpansionPriceDetails = (cards: CardDto[]) => {
-    const zeroToFiftyCards = cards.filter((card) => {
-      return card.medianMarketValueCents >= 1 && card.medianMarketValueCents <= 49_99
-    })
-
-    const fiftyToOneHundredCards = cards.filter((card) => {
-      return card.medianMarketValueCents >= 50_00 && card.medianMarketValueCents <= 99_99
-    })
-
-    const oneHundredTwoHundredCards = cards.filter((card) => {
-      return card.medianMarketValueCents >= 100_00 && card.medianMarketValueCents <= 199_99
-    })
-
-    const twoHundredPlus = cards.filter((card) => {
-      return card.medianMarketValueCents >= 200_00
-    })
-
-    const priceDetails: ExpansionPriceDetailsDto = {
-      zeroToFifty: zeroToFiftyCards.length,
-      fiftyToOneHundred: fiftyToOneHundredCards.length,
-      oneHundredTwoHundred: oneHundredTwoHundredCards.length,
-      twoHundredPlus: twoHundredPlus.length,
+    if (expansion) {
+      const priceDetails = this.buildExpansionPriceDetails(cards)
+      details = this.buildExpansionMainDetailsDto(expansion, priceDetails)
     }
-    return priceDetails
+
+    return { details, cards }
   }
 
   private buildCardDtoList = (
@@ -97,38 +74,41 @@ class GetCatalogLogic {
     })
   }
 
-  private buildExpansionMainDetailsDto = async (expansionId: number): Promise<ExpansionDetailsDto | null> => {
-    const expansionsData = await this.expansionPokemonRepo.find(expansionId)
+  private buildExpansionMainDetailsDto = (
+    expansion: ExpansionPokemonEntity,
+    priceDetails: ExpansionPriceDetailsDto
+  ): ExpansionDetailsDto | null => {
+    const release = new Date(expansion.releaseDate)
 
-    if (!expansionsData) return null
-
-    const release = new Date(expansionsData.releaseDate)
-
-    const priceDetailsPlaceholder = {
-      zeroToFifty: 0,
-      fiftyToOneHundred: 0,
-      oneHundredTwoHundred: 0,
-      twoHundredPlus: 0,
-    }
-
-    const details: ExpansionDetailsDto = {
-      name: expansionsData.name,
-      expansionNumber: expansionsData.expansionNumberInSeries,
-      series: expansionsData.series,
-      cardCount: expansionsData.numberOfCards,
-      secretCardCount: expansionsData.numberOfSecretCards,
+    return {
+      name: expansion.name,
+      expansionNumber: expansion.expansionNumberInSeries,
+      series: expansion.series,
+      cardCount: expansion.numberOfCards,
+      secretCardCount: expansion.numberOfSecretCards,
       releaseDate: release.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
       }),
-      logoUrl: expansionsData.logoUrl,
-      symbolUrl: expansionsData.symbolUrl,
-      bulbapediaUrl: expansionsData.bulbapediaUrl,
-      priceDetails: priceDetailsPlaceholder,
+      logoUrl: expansion.logoUrl,
+      symbolUrl: expansion.symbolUrl,
+      bulbapediaUrl: expansion.bulbapediaUrl,
+      priceDetails,
     }
+  }
 
-    return details
+  private buildExpansionPriceDetails = (cards: CardDto[]): ExpansionPriceDetailsDto => {
+    return cards.reduce(
+      (acc, { medianMarketValueCents: v }) => {
+        if (v >= 1 && v <= 49_99) acc.zeroToFifty++
+        else if (v <= 99_99) acc.fiftyToOneHundred++
+        else if (v <= 199_99) acc.oneHundredTwoHundred++
+        else if (v >= 200_00) acc.twoHundredPlus++
+        return acc
+      },
+      { zeroToFifty: 0, fiftyToOneHundred: 0, oneHundredTwoHundred: 0, twoHundredPlus: 0 }
+    )
   }
 }
 
