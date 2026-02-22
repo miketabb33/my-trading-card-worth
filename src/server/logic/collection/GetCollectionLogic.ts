@@ -1,3 +1,4 @@
+import { Result } from '@logic/Result'
 import { CollectionDto } from '../../../core/types/CollectionDto'
 import { ICollectionFactory } from '../../domain/CollectionFactory'
 
@@ -8,13 +9,13 @@ class GetCollectionLogic {
     this.collectionFactory = collectionFactory
   }
 
-  get = async (userId: number): Promise<CollectionDto> => {
+  get = async (userId: number): Promise<Result<CollectionDto>> => {
     const collection = await this.collectionFactory.make(userId)
 
-    return {
+    return Result.success({
       cards: collection.cards(),
       meta: collection.details(),
-    }
+    })
   }
 }
 

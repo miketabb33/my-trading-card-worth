@@ -23,8 +23,12 @@ CollectionController.get(
   asyncHandler(async (req, res) => {
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getCollectionLogic = new GetCollectionLogic(collectionFactory)
-    const cardBlueprintDto = await getCollectionLogic.get(req.currentUser!.id)
-    res.sendData({ data: cardBlueprintDto })
+    const result = await getCollectionLogic.get(req.currentUser!.id)
+    if (result.isSuccess()) {
+      res.sendData({ data: result.value, status: 200 })
+    } else {
+      res.sendError({ errors: [result.error], status: 404 })
+    }
   })
 )
 
@@ -36,7 +40,7 @@ CollectionController.get(
     const getShareCollectionLogic = new GetShareCollectionLogic(prisma, collectionFactory)
     const result = await getShareCollectionLogic.get(userId)
     if (result.isSuccess()) {
-      res.sendData({ data: result.value })
+      res.sendData({ data: result.value, status: 200 })
     } else {
       res.sendError({ errors: [result.error], status: 404 })
     }
@@ -65,8 +69,12 @@ CollectionController.delete(
   asyncHandler(async (req, res) => {
     const blueprintId = tryToParseRemoveMyCardBody(req.body)
     const removeCardLogic = new RemoveCardLogic(new UserCardRepo())
-    await removeCardLogic.remove(req.currentUser!.externalId, blueprintId)
-    res.sendSuccess()
+    const result = await removeCardLogic.remove(req.currentUser!.externalId, blueprintId)
+    if (result.isSuccess()) {
+      res.sendSuccess({ status: 204 })
+    } else {
+      res.sendError({ errors: [result.error], status: 409 })
+    }
   })
 )
 

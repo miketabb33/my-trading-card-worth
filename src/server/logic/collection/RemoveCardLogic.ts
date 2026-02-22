@@ -1,3 +1,4 @@
+import { Result } from '@logic/Result'
 import { IUserCardRepo } from '../../repository/UserCardRepo'
 
 class RemoveCardLogic {
@@ -9,6 +10,7 @@ class RemoveCardLogic {
 
   remove = async (userId: string, blueprintId: number) => {
     await this.userCardRepo.removeItem(userId, blueprintId)
+    return Result.success(true)
   }
 }
 
