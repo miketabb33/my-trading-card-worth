@@ -34,7 +34,7 @@ export interface IUserCardRepo {
   removeItem: (userId: string, blueprintId: number) => Promise<void>
   listByExpansion: (userId: number, expansionId: number) => Promise<UserCardWithBlueprint[]>
   findByBlueprintId: (userId: string, blueprintId: number) => Promise<MyCardEntity | null>
-  getAll: (userId: number) => Promise<{ card: UserCardWithBlueprint; expansionId: number }[]>
+  listAll: (userId: number) => Promise<{ card: UserCardWithBlueprint; expansionId: number }[]>
 }
 
 class UserCardRepo implements IUserCardRepo {
@@ -117,7 +117,7 @@ class UserCardRepo implements IUserCardRepo {
     return this.toMyCardEntities(userId, userCards)[0]
   }
 
-  getAll = async (userId: number): Promise<{ card: UserCardWithBlueprint; expansionId: number }[]> => {
+  listAll = async (userId: number): Promise<{ card: UserCardWithBlueprint; expansionId: number }[]> => {
     const userCards = await prisma.userCard.findMany({
       where: { userId },
       include: {

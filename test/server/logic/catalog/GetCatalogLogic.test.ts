@@ -35,11 +35,11 @@ describe('Get Catalog Logic', () => {
     it('should return null when expansion id does not exist in expansion store', async () => {
       expansionPokemonRepo_FAKE.FIND.mockResolvedValue(null)
       const result = await getCatalogLogic.get(1, new Map<string, BlueprintValue>(), USER_ID)
-      expect(result.details).toBeNull()
+      expect(result.value.details).toBeNull()
     })
     it('should return prices as 0 when store has no values', async () => {
       const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>(), USER_ID)
-      expect(result.details?.priceDetails).toEqual({
+      expect(result.value.details?.priceDetails).toEqual({
         fiftyToOneHundred: 0,
         oneHundredTwoHundred: 0,
         twoHundredPlus: 0,
@@ -77,10 +77,10 @@ describe('Get Catalog Logic', () => {
         ]),
         USER_ID
       )
-      expect(result.details?.priceDetails.zeroToFifty).toEqual(3)
-      expect(result.details?.priceDetails.fiftyToOneHundred).toEqual(2)
-      expect(result.details?.priceDetails.oneHundredTwoHundred).toEqual(4)
-      expect(result.details?.priceDetails.twoHundredPlus).toEqual(2)
+      expect(result.value.details?.priceDetails.zeroToFifty).toEqual(3)
+      expect(result.value.details?.priceDetails.fiftyToOneHundred).toEqual(2)
+      expect(result.value.details?.priceDetails.oneHundredTwoHundred).toEqual(4)
+      expect(result.value.details?.priceDetails.twoHundredPlus).toEqual(2)
     })
   })
 
@@ -89,7 +89,7 @@ describe('Get Catalog Logic', () => {
       cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
       const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
       expect(cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS).toHaveBeenCalledWith(BASE_SET_EXPANSION_ID)
-      expect(result.cards).toEqual([])
+      expect(result.value.cards).toEqual([])
     })
     it('should return blueprints when user is not logged in', async () => {
       const blueprint1 = makeCardBlueprintMock({
@@ -111,7 +111,7 @@ describe('Get Catalog Logic', () => {
         medianMarketValueCents: 1534,
         listingCount: 20,
       }
-      expect(result.cards[0]).toEqual(expectedResult)
+      expect(result.value.cards[0]).toEqual(expectedResult)
     })
     it('should return blueprints with no prices when prices are not available', async () => {
       const blueprint1 = makeCardBlueprintMock({
@@ -124,7 +124,7 @@ describe('Get Catalog Logic', () => {
       })
       cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([blueprint1])
       const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>())
-      expect(result.cards[0].medianMarketValueCents).toEqual(-1)
+      expect(result.value.cards[0].medianMarketValueCents).toEqual(-1)
     })
     it('should return blueprints with owned values when user is logged in', async () => {
       const blueprint1 = makeCardBlueprintMock({ blueprintId: 1 })
@@ -149,12 +149,12 @@ describe('Get Catalog Logic', () => {
       ])
       const result = await getCatalogLogic.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES, USER_ID)
       expect(userCardRepo_FAKE.FIND_BY_EXPANSION).toHaveBeenCalledWith(USER_ID, BASE_SET_EXPANSION_ID)
-      expect(result.cards.length).toEqual(5)
-      expect(result.cards[0].owned).toEqual(0)
-      expect(result.cards[1].owned).toEqual(3)
-      expect(result.cards[2].owned).toEqual(2)
-      expect(result.cards[3].owned).toEqual(0)
-      expect(result.cards[4].owned).toEqual(1)
+      expect(result.value.cards.length).toEqual(5)
+      expect(result.value.cards[0].owned).toEqual(0)
+      expect(result.value.cards[1].owned).toEqual(3)
+      expect(result.value.cards[2].owned).toEqual(2)
+      expect(result.value.cards[3].owned).toEqual(0)
+      expect(result.value.cards[4].owned).toEqual(1)
     })
   })
 })

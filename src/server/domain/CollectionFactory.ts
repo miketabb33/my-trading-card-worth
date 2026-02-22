@@ -16,8 +16,8 @@ class CollectionFactory implements ICollectionFactory {
   }
 
   make = async (userId: number): Promise<ICollection> => {
-    const cardEntities = await this.cardRepo.getAll(userId)
-    return new Collection(cardEntities, this.blueprintValues)
+    const cards = await this.cardRepo.listAll(userId)
+    return new Collection(cards, this.blueprintValues)
   }
 }
 

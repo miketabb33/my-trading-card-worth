@@ -8,6 +8,7 @@ import { CardBlueprint } from '../../types/CardBlueprint'
 import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
 import { ExpansionPokemonEntity, IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 import UserCardStack from '@domain/UserCardStack'
+import { Result } from '@logic/Result'
 
 class GetCatalogLogic {
   private readonly userCardRepo: IUserCardRepo
@@ -27,7 +28,7 @@ class GetCatalogLogic {
     expansionId: number,
     blueprintValues: Map<string, BlueprintValue>,
     userId?: number
-  ): Promise<CatalogDto> => {
+  ): Promise<Result<CatalogDto>> => {
     const [expansionCards, expansion] = await Promise.all([
       this.cardTraderAdaptor.getPokemonBlueprints(expansionId),
       this.expansionPokemonRepo.find(expansionId),
@@ -48,7 +49,7 @@ class GetCatalogLogic {
       details = this.buildExpansionMainDetailsDto(expansion, priceDetails)
     }
 
-    return { details, cards }
+    return Result.success({ details, cards })
   }
 
   private buildCardDtoList = (
