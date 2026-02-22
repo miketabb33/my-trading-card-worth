@@ -40,7 +40,7 @@ describe('Get Expansion Blueprint Value UseCase', () => {
     ])
     cardTraderAdaptor_FAKE.GET_POKEMON_CARD_VALUES.mockResolvedValue(cardValueMap)
 
-    const blueprintValueMap = await getBlueprintValueUseCase.get(EXPANSION_ID)
+    const blueprintValueMap = await getBlueprintValueUseCase.call(EXPANSION_ID)
 
     expect(cardTraderAdaptor_FAKE.GET_POKEMON_CARD_VALUES).toHaveBeenCalledWith(EXPANSION_ID)
 

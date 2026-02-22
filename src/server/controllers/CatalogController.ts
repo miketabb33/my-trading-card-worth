@@ -27,7 +27,7 @@ CatalogController.get(
       new ExpansionPokemonRepo()
     )
 
-    const result = await getCatalogUseCase.get(expansionId, Store.blueprintValues.getState(), req.currentUser?.id)
+    const result = await getCatalogUseCase.call(expansionId, Store.blueprintValues.getState(), req.currentUser?.id)
     if (result.isSuccess()) {
       res.sendData({ data: result.value })
     } else {

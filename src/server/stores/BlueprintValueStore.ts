@@ -32,7 +32,7 @@ class BlueprintValueStore implements IStore<Map<string, BlueprintValue>> {
     Logger.info(`Price Sync Started: ${expansionIds.length} expansions will be synced`)
     for (let i = 0; i < expansionIds.length; i++) {
       try {
-        const result = await this.getBlueprintValueUseCase.get(expansionIds[i])
+        const result = await this.getBlueprintValueUseCase.call(expansionIds[i])
         if (result.isSuccess()) {
           for (const [key, value] of result.value) {
             newState.set(key, value)

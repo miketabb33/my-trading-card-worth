@@ -7,7 +7,7 @@ import Logger from '../../logger'
 import { Result } from '@use-cases/Result'
 
 export interface IAddCardTraderCardUseCase {
-  add: (
+  call: (
     userId: number,
     cardTraderBlueprintId: number,
     cardTraderExpansionId: number,
@@ -33,7 +33,7 @@ class AddCardTraderCardUseCase implements IAddCardTraderCardUseCase {
     this.cardBlueprintPokemonRepo = cardBlueprintPokemonRepo
   }
 
-  add = async (
+  call = async (
     userId: number,
     cardTraderBlueprintId: number,
     cardTraderExpansionId: number,

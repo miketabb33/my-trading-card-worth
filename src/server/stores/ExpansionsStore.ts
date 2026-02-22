@@ -21,7 +21,7 @@ class ExpansionsStore implements IStore<ExpansionDto[]> {
   }
 
   refreshStore = async () => {
-    const result = await this.getExpansionsUseCase.get()
+    const result = await this.getExpansionsUseCase.call()
     if (result.isSuccess()) {
       this.state = result.value
       this.lastUpdated = new Date()

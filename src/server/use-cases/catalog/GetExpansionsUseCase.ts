@@ -7,7 +7,7 @@ import { IExpansionSorter, SortableExpansion } from './ExpansionSorter'
 import { Result } from '@use-cases/Result'
 
 export interface IGetExpansionsUseCase {
-  get: () => Promise<Result<ExpansionDto[]>>
+  call: () => Promise<Result<ExpansionDto[]>>
 }
 
 class GetExpansionsUseCase implements IGetExpansionsUseCase {
@@ -28,7 +28,7 @@ class GetExpansionsUseCase implements IGetExpansionsUseCase {
     this.expansionPokemonRepo = expansionPokemonRepo
   }
 
-  get = async (): Promise<Result<ExpansionDto[]>> => {
+  call = async (): Promise<Result<ExpansionDto[]>> => {
     const pokemonExpansions = await this.cardTraderAdaptor.getPokemonExpansions()
 
     const sortableExpansions = await this.getSortableExpansions(pokemonExpansions)

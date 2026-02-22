@@ -3,7 +3,7 @@ import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { BlueprintValue } from '../../types/BlueprintValue'
 
 export interface IGetBlueprintValueUseCase {
-  get: (expansionId: number) => Promise<Result<Map<string, BlueprintValue>>>
+  call: (expansionId: number) => Promise<Result<Map<string, BlueprintValue>>>
 }
 
 class GetBlueprintValueUseCase implements IGetBlueprintValueUseCase {
@@ -12,7 +12,7 @@ class GetBlueprintValueUseCase implements IGetBlueprintValueUseCase {
   constructor(cardTraderAdaptor: ICardTraderAdaptor) {
     this.cardTraderAdaptor = cardTraderAdaptor
   }
-  get = async (expansionId: number) => {
+  call = async (expansionId: number) => {
     const blueprintIdToBlueprintValueMap = new Map<string, BlueprintValue>()
     const blueprintIdToCardValueMap = await this.cardTraderAdaptor.getPokemonCardValues(expansionId)
 

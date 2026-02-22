@@ -24,7 +24,7 @@ class GetCatalogUseCase {
     this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionPokemonRepo = expansionPokemonRepo
   }
-  get = async (
+  call = async (
     expansionId: number,
     blueprintValues: Map<string, BlueprintValue>,
     userId?: number

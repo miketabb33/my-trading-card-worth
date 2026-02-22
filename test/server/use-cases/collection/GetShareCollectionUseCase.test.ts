@@ -31,7 +31,7 @@ describe('Get Share Collection UseCase', () => {
     collection_FAKE.COLLECTION.mockReturnValue(expectedCards)
     collection_FAKE.DETAILS.mockReturnValue(expectedDetails)
 
-    const result = await getShareCollectionUseCase.get(USER_ID)
+    const result = await getShareCollectionUseCase.call(USER_ID)
 
     expect(collectionFactory_FAKE.MAKE).toHaveBeenCalledWith(USER_ID)
     expect(result.isSuccess()).toBe(true)
@@ -43,7 +43,7 @@ describe('Get Share Collection UseCase', () => {
     const NAME = 'any name'
     mockPrisma.user.findUnique.mockResolvedValue(makeProfileEntityMock({ name: NAME }))
 
-    const result = await getShareCollectionUseCase.get(USER_ID)
+    const result = await getShareCollectionUseCase.call(USER_ID)
 
     expect(result.isSuccess()).toBe(true)
     expect(result.value.name).toEqual(NAME)
@@ -52,7 +52,7 @@ describe('Get Share Collection UseCase', () => {
   it('should return failure when user is not found', async () => {
     mockPrisma.user.findUnique.mockResolvedValue(null)
 
-    const result = await getShareCollectionUseCase.get(USER_ID)
+    const result = await getShareCollectionUseCase.call(USER_ID)
 
     expect(result.isFailure()).toBe(true)
     expect(collectionFactory_FAKE.MAKE).not.toHaveBeenCalled()

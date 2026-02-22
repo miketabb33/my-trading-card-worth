@@ -8,7 +8,7 @@ const StoreController = Router()
 
 StoreController.get('/status', (_, res) => {
   const getStoreStatusUseCase = new GetStoreStatusUseCase()
-  const result = getStoreStatusUseCase.get(Store.expansions.getLastUpdated(), Store.blueprintValues.getLastUpdated())
+  const result = getStoreStatusUseCase.call(Store.expansions.getLastUpdated(), Store.blueprintValues.getLastUpdated())
   if (result.isSuccess()) {
     res.sendData({ data: result.value })
   } else {

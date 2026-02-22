@@ -8,7 +8,7 @@ describe('Get Store Status UseCase', () => {
   })
 
   it('should return null when given null', () => {
-    const result = getStoreStatusUseCase.get(null, null)
+    const result = getStoreStatusUseCase.call(null, null)
 
     expect(result.value.expansionsLastUpdatedDateString).toEqual(null)
     expect(result.value.pricesLastUpdatedDateString).toEqual(null)
@@ -18,7 +18,7 @@ describe('Get Store Status UseCase', () => {
     const expansionDate = new Date(2022, 0, 16)
     const pricesDate = new Date(1990, 1, 13)
 
-    const result = getStoreStatusUseCase.get(expansionDate, pricesDate)
+    const result = getStoreStatusUseCase.call(expansionDate, pricesDate)
 
     expect(result.value.expansionsLastUpdatedDateString).toEqual(expansionDate.toISOString())
     expect(result.value.pricesLastUpdatedDateString).toEqual(pricesDate.toISOString())

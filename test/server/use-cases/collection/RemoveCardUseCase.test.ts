@@ -14,7 +14,7 @@ describe('Remove Card UseCase', () => {
   })
 
   it('should remove item by id', async () => {
-    await removeCardUseCase.remove(USER_ID, BLUEPRINT_ID)
+    await removeCardUseCase.call(USER_ID, BLUEPRINT_ID)
 
     expect(userCardRepo_FAKE.REMOVE_ITEM).toHaveBeenCalledWith(USER_ID, BLUEPRINT_ID)
   })

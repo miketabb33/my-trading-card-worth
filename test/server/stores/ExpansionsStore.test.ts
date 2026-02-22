@@ -13,7 +13,7 @@ describe('Expansions Store', () => {
   })
 
   it('should return empty cache when refresh is not called ', () => {
-    getExpansionsUseCase_FAKE.GET.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
+    getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
 
     const result = expansionsStore.getState()
 
@@ -21,21 +21,21 @@ describe('Expansions Store', () => {
   })
 
   it('should use cache for Get Expansions UseCase', async () => {
-    getExpansionsUseCase_FAKE.GET.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
+    getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
 
     await expansionsStore.refreshStore()
 
     const result1 = expansionsStore.getState()
     const result2 = expansionsStore.getState()
 
-    expect(getExpansionsUseCase_FAKE.GET).toHaveBeenCalledTimes(1)
+    expect(getExpansionsUseCase_FAKE.CALL).toHaveBeenCalledTimes(1)
 
     expect(result1).toEqual([EXPANSION_DTO_1])
     expect(result2).toEqual([EXPANSION_DTO_1])
   })
 
   it('should set last updated date when refresh is called', async () => {
-    getExpansionsUseCase_FAKE.GET.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
+    getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
     expect(expansionsStore.getLastUpdated()).toBeNull()
 
     await expansionsStore.refreshStore()
@@ -45,7 +45,7 @@ describe('Expansions Store', () => {
 
   describe('on failure', () => {
     it('should not update state', async () => {
-      getExpansionsUseCase_FAKE.GET.mockResolvedValue(Result.failure('error'))
+      getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.failure('error'))
 
       await expansionsStore.refreshStore()
 
@@ -53,7 +53,7 @@ describe('Expansions Store', () => {
     })
 
     it('should not update last updated date', async () => {
-      getExpansionsUseCase_FAKE.GET.mockResolvedValue(Result.failure('error'))
+      getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.failure('error'))
 
       await expansionsStore.refreshStore()
 

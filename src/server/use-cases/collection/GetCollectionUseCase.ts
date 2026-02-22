@@ -9,7 +9,7 @@ class GetCollectionUseCase {
     this.collectionFactory = collectionFactory
   }
 
-  get = async (userId: number): Promise<Result<CollectionDto>> => {
+  call = async (userId: number): Promise<Result<CollectionDto>> => {
     const collection = await this.collectionFactory.make(userId)
 
     return Result.success({

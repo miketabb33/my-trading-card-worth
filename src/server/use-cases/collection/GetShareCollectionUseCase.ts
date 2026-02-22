@@ -12,7 +12,7 @@ class GetShareCollectionUseCase {
     this.collectionFactory = collectionFactory
   }
 
-  get = async (userId: number): Promise<Result<ShareCollectionDto>> => {
+  call = async (userId: number): Promise<Result<ShareCollectionDto>> => {
     const user = await this.prisma.user.findUnique({ where: { id: userId } })
     if (!user) return Result.failure('user not found')
 

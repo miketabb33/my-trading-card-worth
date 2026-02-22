@@ -25,7 +25,7 @@ describe('Get Collection UseCase', () => {
     collection_FAKE.COLLECTION.mockReturnValue(expectedCards)
     collection_FAKE.DETAILS.mockReturnValue(expectedDetails)
 
-    const result = await getCollectionUseCase.get(USER_ID)
+    const result = await getCollectionUseCase.call(USER_ID)
 
     expect(collectionFactory_FAKE.MAKE).toHaveBeenCalledWith(USER_ID)
 

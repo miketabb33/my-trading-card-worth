@@ -62,7 +62,7 @@ describe('Get Expansions UseCase', () => {
     expansionSorter_FAKE.SORT.mockReturnValue(sortableExpansions)
     mockPrisma.expansionPokemonOrder.findFirst.mockResolvedValue(EXPANSION_ORDER)
 
-    const result = await getExpansionsUseCase.get()
+    const result = await getExpansionsUseCase.call()
 
     expect(result.value.length).toEqual(5)
     expect(result.value[0].name).toEqual(SORTABLE_EXPANSION_ORIGINAL_MOCK.cardExpansion.name)
@@ -79,7 +79,7 @@ describe('Get Expansions UseCase', () => {
     expansionSorter_FAKE.SORT.mockReturnValue(sortableExpansions)
     mockPrisma.expansionPokemonOrder.findFirst.mockResolvedValue(EXPANSION_ORDER)
 
-    const result = await getExpansionsUseCase.get()
+    const result = await getExpansionsUseCase.call()
 
     expect(result.value[0].slug).toEqual('original')
     expect(result.value[1].slug).toEqual('fossil')

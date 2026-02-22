@@ -8,7 +8,7 @@ class RemoveCardUseCase {
     this.userCardRepo = userCardRepo
   }
 
-  remove = async (userId: string, blueprintId: number) => {
+  call = async (userId: string, blueprintId: number) => {
     await this.userCardRepo.removeItem(userId, blueprintId)
     return Result.success(true)
   }

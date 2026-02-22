@@ -23,7 +23,7 @@ CollectionController.get(
   asyncHandler(async (req, res) => {
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getCollectionUseCase = new GetCollectionUseCase(collectionFactory)
-    const result = await getCollectionUseCase.get(req.currentUser!.id)
+    const result = await getCollectionUseCase.call(req.currentUser!.id)
     if (result.isSuccess()) {
       res.sendData({ data: result.value, status: 200 })
     } else {
@@ -38,7 +38,7 @@ CollectionController.get(
     const userId = Number(req.params.userId)
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
     const getShareCollectionUseCase = new GetShareCollectionUseCase(prisma, collectionFactory)
-    const result = await getShareCollectionUseCase.get(userId)
+    const result = await getShareCollectionUseCase.call(userId)
     if (result.isSuccess()) {
       res.sendData({ data: result.value, status: 200 })
     } else {
@@ -58,7 +58,7 @@ CollectionController.post(
       new ExpansionPokemonRepo(),
       new CardBlueprintPokemonRepo()
     )
-    const result = await addCardTraderCardUseCase.add(
+    const result = await addCardTraderCardUseCase.call(
       req.currentUser!.id,
       myCardDto.blueprintId,
       myCardDto.expansionId,
@@ -78,7 +78,7 @@ CollectionController.delete(
   asyncHandler(async (req, res) => {
     const blueprintId = tryToParseRemoveMyCardBody(req.body)
     const removeCardUseCase = new RemoveCardUseCase(new UserCardRepo())
-    const result = await removeCardUseCase.remove(req.currentUser!.externalId, blueprintId)
+    const result = await removeCardUseCase.call(req.currentUser!.externalId, blueprintId)
     if (result.isSuccess()) {
       res.sendSuccess({ status: 204 })
     } else {

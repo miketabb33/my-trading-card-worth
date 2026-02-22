@@ -34,11 +34,11 @@ describe('Get Catalog UseCase', () => {
   describe('Details', () => {
     it('should return null when expansion id does not exist in expansion store', async () => {
       expansionPokemonRepo_FAKE.FIND.mockResolvedValue(null)
-      const result = await getCatalogUseCase.get(1, new Map<string, BlueprintValue>(), USER_ID)
+      const result = await getCatalogUseCase.call(1, new Map<string, BlueprintValue>(), USER_ID)
       expect(result.value.details).toBeNull()
     })
     it('should return prices as 0 when store has no values', async () => {
-      const result = await getCatalogUseCase.get(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>(), USER_ID)
+      const result = await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>(), USER_ID)
       expect(result.value.details?.priceDetails).toEqual({
         fiftyToOneHundred: 0,
         oneHundredTwoHundred: 0,
@@ -60,7 +60,7 @@ describe('Get Catalog UseCase', () => {
         makeCardBlueprintMock({ blueprintId: 10 }),
         makeCardBlueprintMock({ blueprintId: 11 }),
       ])
-      const result = await getCatalogUseCase.get(
+      const result = await getCatalogUseCase.call(
         BASE_SET_EXPANSION_ID,
         new Map<string, BlueprintValue>([
           ['1', { ...BLUEPRINT_VALUE_MOCK, medianCents: 1 }],
@@ -87,7 +87,7 @@ describe('Get Catalog UseCase', () => {
   describe('Cards', () => {
     it('should return an empty array when no blueprints and user is not logged in', async () => {
       cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
-      const result = await getCatalogUseCase.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
+      const result = await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
       expect(cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS).toHaveBeenCalledWith(BASE_SET_EXPANSION_ID)
       expect(result.value.cards).toEqual([])
     })
@@ -100,7 +100,7 @@ describe('Get Catalog UseCase', () => {
         imageUrlShow: 'show',
       })
       cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([blueprint1])
-      const result = await getCatalogUseCase.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
+      const result = await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
       const expectedResult: CardDto = {
         blueprintId: 1,
         expansionId: 2,
@@ -123,7 +123,7 @@ describe('Get Catalog UseCase', () => {
         imageUrlShow: 'show',
       })
       cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([blueprint1])
-      const result = await getCatalogUseCase.get(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>())
+      const result = await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>())
       expect(result.value.cards[0].medianMarketValueCents).toEqual(-1)
     })
     it('should return blueprints with owned values when user is logged in', async () => {
@@ -147,7 +147,7 @@ describe('Get Catalog UseCase', () => {
         makeUserCardWithBlueprintMock({ blueprintExternalId: 3, cardBlueprintId: 3 }),
         makeUserCardWithBlueprintMock({ blueprintExternalId: 5, cardBlueprintId: 5 }),
       ])
-      const result = await getCatalogUseCase.get(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES, USER_ID)
+      const result = await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES, USER_ID)
       expect(userCardRepo_FAKE.FIND_BY_EXPANSION).toHaveBeenCalledWith(USER_ID, BASE_SET_EXPANSION_ID)
       expect(result.value.cards.length).toEqual(5)
       expect(result.value.cards[0].owned).toEqual(0)

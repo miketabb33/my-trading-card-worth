@@ -21,7 +21,7 @@ describe('Blueprint Value Store', () => {
   })
 
   it('should refresh and get state', async () => {
-    getBlueprintValueUseCase_FAKE.ADD.mockImplementation((id: number) => {
+    getBlueprintValueUseCase_FAKE.CALL.mockImplementation((id: number) => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
         medianCents: id,
@@ -43,7 +43,7 @@ describe('Blueprint Value Store', () => {
   })
 
   it('should refresh and get last updated', async () => {
-    getBlueprintValueUseCase_FAKE.ADD.mockImplementation((id: number) => {
+    getBlueprintValueUseCase_FAKE.CALL.mockImplementation((id: number) => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
         medianCents: id,
