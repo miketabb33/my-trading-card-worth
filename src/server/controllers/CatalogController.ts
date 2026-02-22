@@ -23,9 +23,12 @@ CatalogController.get(
 
     const getCatalogLogic = new GetCatalogLogic(new UserCardRepo(), new CardTraderAdaptor(), new ExpansionPokemonRepo())
 
-    const catalogDto = await getCatalogLogic.get(expansionId, Store.blueprintValues.getState(), req.currentUser?.id)
-
-    res.sendData({ data: catalogDto })
+    const result = await getCatalogLogic.get(expansionId, Store.blueprintValues.getState(), req.currentUser?.id)
+    if (result.isSuccess()) {
+      res.sendData({ data: result.value })
+    } else {
+      res.sendError({ errors: [result.error], status: 404 })
+    }
   })
 )
 

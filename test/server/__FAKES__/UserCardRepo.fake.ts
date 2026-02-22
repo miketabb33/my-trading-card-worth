@@ -6,14 +6,14 @@ class UserCardRepo_FAKE implements IUserCardRepo {
   REMOVE_ITEM = jest.fn()
   FIND_BY_EXPANSION = jest.fn()
   FIND_BY_BLUEPRINT_ID = jest.fn()
-  GET_ALL = jest.fn()
+  LIST_ALL = jest.fn()
 
   addItem = this.ADD_ITEM
   delete = this.DELETE
   removeItem = this.REMOVE_ITEM
   listByExpansion = this.FIND_BY_EXPANSION
   findByBlueprintId = this.FIND_BY_BLUEPRINT_ID
-  getAll = this.GET_ALL
+  listAll = this.LIST_ALL
 }
 
 export default UserCardRepo_FAKE

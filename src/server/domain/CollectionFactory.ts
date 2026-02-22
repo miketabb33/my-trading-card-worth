@@ -3,7 +3,7 @@ import { BlueprintValue } from '../types/BlueprintValue'
 import Collection, { ICollection } from './Collection'
 
 export interface ICollectionFactory {
-  make: (userId: string) => Promise<ICollection>
+  make: (userId: number) => Promise<ICollection>
 }
 
 class CollectionFactory implements ICollectionFactory {
@@ -15,9 +15,9 @@ class CollectionFactory implements ICollectionFactory {
     this.blueprintValues = blueprintValues
   }
 
-  make = async (userId: string): Promise<ICollection> => {
-    const cardEntities = await this.cardRepo.getAll(userId)
-    return new Collection(cardEntities, this.blueprintValues)
+  make = async (userId: number): Promise<ICollection> => {
+    const cards = await this.cardRepo.listAll(userId)
+    return new Collection(cards, this.blueprintValues)
   }
 }
 

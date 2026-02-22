@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { ShareCollectionDto } from '../../../core/types/ShareCollectionDto'
 import { ICollectionFactory } from '../../domain/CollectionFactory'
+import { Result } from '../Result'
 
 class GetShareCollectionLogic {
   private readonly prisma: PrismaClient
@@ -11,15 +12,17 @@ class GetShareCollectionLogic {
     this.collectionFactory = collectionFactory
   }
 
-  get = async (userId: string): Promise<ShareCollectionDto> => {
-    const collection = await this.collectionFactory.make(userId)
-    const user = await this.prisma.user.findUnique({ where: { externalId: userId } })
+  get = async (userId: number): Promise<Result<ShareCollectionDto>> => {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } })
+    if (!user) return Result.failure('user not found')
 
-    return {
+    const collection = await this.collectionFactory.make(userId)
+
+    return Result.success({
       cards: collection.cards(),
       meta: collection.details(),
-      name: user?.name || '',
-    }
+      name: user.name,
+    })
   }
 }
 

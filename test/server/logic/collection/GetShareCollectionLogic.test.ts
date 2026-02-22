@@ -11,7 +11,7 @@ describe('Get Share Collection Logic', () => {
   let collection_FAKE: Collection_FAKE
   let collectionFactory_FAKE: CollectionFactory_FAKE
 
-  const USER_ID = '12345'
+  const USER_ID = 12345
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -21,6 +21,7 @@ describe('Get Share Collection Logic', () => {
     getShareCollectionLogic = new GetShareCollectionLogic(mockPrisma, collectionFactory_FAKE)
 
     collectionFactory_FAKE.MAKE.mockReturnValue(collection_FAKE)
+    mockPrisma.user.findUnique.mockResolvedValue(makeProfileEntityMock({}))
   })
 
   it('should return collection domain values', async () => {
@@ -33,18 +34,27 @@ describe('Get Share Collection Logic', () => {
     const result = await getShareCollectionLogic.get(USER_ID)
 
     expect(collectionFactory_FAKE.MAKE).toHaveBeenCalledWith(USER_ID)
-
-    expect(result.cards).toEqual(expectedCards)
-    expect(result.meta).toEqual(expectedDetails)
+    expect(result.isSuccess()).toBe(true)
+    expect(result.value.cards).toEqual(expectedCards)
+    expect(result.value.meta).toEqual(expectedDetails)
   })
 
   it('should return user name', async () => {
     const NAME = 'any name'
-    mockPrisma.user.findUnique.mockResolvedValue({
-      ...makeProfileEntityMock({ name: NAME }),
-    })
+    mockPrisma.user.findUnique.mockResolvedValue(makeProfileEntityMock({ name: NAME }))
+
     const result = await getShareCollectionLogic.get(USER_ID)
 
-    expect(result.name).toEqual(NAME)
+    expect(result.isSuccess()).toBe(true)
+    expect(result.value.name).toEqual(NAME)
+  })
+
+  it('should return failure when user is not found', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue(null)
+
+    const result = await getShareCollectionLogic.get(USER_ID)
+
+    expect(result.isFailure()).toBe(true)
+    expect(collectionFactory_FAKE.MAKE).not.toHaveBeenCalled()
   })
 })

@@ -1,5 +1,5 @@
 export type ProfileDto = {
-  userId: string
+  id: number
   email: string | null
   name: string
   nickname: string

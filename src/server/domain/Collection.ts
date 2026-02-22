@@ -1,7 +1,10 @@
 import { CardDto } from '../../core/types/CardDto'
 import { CollectionMetaDto } from '../../core/types/CollectionMetaDto'
-import { MyCardEntity } from '../repository/UserCardRepo'
+import { UserCardWithBlueprint } from '../repository/UserCardRepo'
 import { BlueprintValue } from '../types/BlueprintValue'
+import UserCardStack from './UserCardStack'
+
+type UserCardEntry = { card: UserCardWithBlueprint; expansionId: number }
 
 export interface ICollection {
   cards: () => CardDto[]
@@ -12,85 +15,72 @@ class Collection implements ICollection {
   private cardCollection: CardDto[]
   private cardDetails: CollectionMetaDto
 
-  constructor(myCardEntities: MyCardEntity[], blueprintValues: Map<string, BlueprintValue>) {
-    const { cards, details } = this.calculateValues(myCardEntities, blueprintValues)
+  constructor(entries: UserCardEntry[], blueprintValues: Map<string, BlueprintValue>) {
+    const { cards, details } = this.calculateValues(entries, blueprintValues)
     this.cardCollection = cards
     this.cardDetails = details
   }
 
-  cards = () => {
-    return this.cardCollection
-  }
+  cards = () => this.cardCollection
+  details = () => this.cardDetails
 
-  details = () => {
-    return this.cardDetails
-  }
-
-  private calculateValues = (myCardEntities: MyCardEntity[], blueprintValues: Map<string, BlueprintValue>) => {
-    const myCollectionTotalValue = this.getEmptyBlueprintValue()
+  private calculateValues = (entries: UserCardEntry[], blueprintValues: Map<string, BlueprintValue>) => {
+    const stack = new UserCardStack(entries.map((e) => e.card))
+    const totalValue = this.getEmptyBlueprintValue()
     let cardsInCollection = 0
 
-    const cardCollection = myCardEntities.map((myCardEntity) => {
-      cardsInCollection += myCardEntity.items.length
+    const uniqueBlueprints = this.uniqueByBlueprint(entries)
 
-      let blueprintValue = blueprintValues.get(`${myCardEntity.cardTrader.blueprintId}`)
+    const cards = uniqueBlueprints.map(({ card, expansionId }) => {
+      const blueprintLink = card.cardBlueprint.platformLinks.find((l) => l.platform === 'CARD_TRADER')
+      const blueprintId = Number(blueprintLink?.externalId ?? -1)
 
-      if (blueprintValue)
-        this.addBlueprintValueToTotalValues(myCollectionTotalValue, blueprintValue, myCardEntity.items.length)
+      const owned = stack.filter(blueprintId).length
+      cardsInCollection += owned
 
+      let blueprintValue = blueprintValues.get(`${blueprintId}`)
+      if (blueprintValue) this.addToTotal(totalValue, blueprintValue, owned)
       if (!blueprintValue) blueprintValue = this.getMissingBlueprintValue()
 
-      return this.buildCardDto(myCardEntity, blueprintValue)
+      const cardDto: CardDto = {
+        blueprintId,
+        expansionId,
+        name: card.cardBlueprint.name,
+        imageUrlPreview: card.cardBlueprint.imagePreviewUrl,
+        imageUrlShow: card.cardBlueprint.imageShowUrl,
+        owned,
+        medianMarketValueCents: blueprintValue.medianCents,
+        listingCount: blueprintValue.listingCount,
+      }
+
+      return cardDto
     })
 
     const details: CollectionMetaDto = {
-      medianMarketValueCents: myCollectionTotalValue.medianCents,
+      medianMarketValueCents: totalValue.medianCents,
       cardsInCollection,
     }
 
-    return {
-      cards: cardCollection,
-      details,
+    return { cards, details }
+  }
+
+  private uniqueByBlueprint = (entries: UserCardEntry[]): UserCardEntry[] => {
+    const seen = new Set<number>()
+    return entries.filter(({ card }) => {
+      if (seen.has(card.cardBlueprintId)) return false
+      seen.add(card.cardBlueprintId)
+      return true
+    })
+  }
+
+  private addToTotal = (total: BlueprintValue, blueprintValue: BlueprintValue, count: number) => {
+    for (let i = 1; i <= count; i++) {
+      total.medianCents += blueprintValue.medianCents
     }
   }
 
-  private buildCardDto = (myCardEntity: MyCardEntity, blueprintValue: BlueprintValue) => {
-    const cardDto: CardDto = {
-      blueprintId: myCardEntity.cardTrader.blueprintId,
-      expansionId: myCardEntity.cardTrader.expansionId,
-      name: myCardEntity.name,
-      imageUrlPreview: myCardEntity.imageUrlPreview,
-      imageUrlShow: myCardEntity.imageUrlShow,
-      owned: myCardEntity.items.length,
-      medianMarketValueCents: blueprintValue.medianCents,
-      listingCount: blueprintValue.listingCount,
-    }
-    return cardDto
-  }
-
-  private addBlueprintValueToTotalValues = (
-    totalValues: BlueprintValue,
-    blueprintValue: BlueprintValue,
-    blueprintCount: number
-  ) => {
-    for (let i = 1; i <= blueprintCount; i++) {
-      totalValues.medianCents += blueprintValue.medianCents
-    }
-  }
-
-  private getEmptyBlueprintValue = (): BlueprintValue => {
-    return {
-      medianCents: 0,
-      listingCount: 0,
-    }
-  }
-
-  private getMissingBlueprintValue = (): BlueprintValue => {
-    return {
-      medianCents: -1,
-      listingCount: -1,
-    }
-  }
+  private getEmptyBlueprintValue = (): BlueprintValue => ({ medianCents: 0, listingCount: 0 })
+  private getMissingBlueprintValue = (): BlueprintValue => ({ medianCents: -1, listingCount: -1 })
 }
 
 export default Collection

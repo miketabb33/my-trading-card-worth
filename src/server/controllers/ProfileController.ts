@@ -14,7 +14,7 @@ ProfileController.get('/', (req, res) => {
 })
 
 const profileDto = (user: User): ProfileDto => ({
-  userId: user.externalId,
+  id: user.id,
   name: user.name,
   nickname: user.nickname,
   email: user.email,

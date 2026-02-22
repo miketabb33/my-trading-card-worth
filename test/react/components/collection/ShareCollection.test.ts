@@ -52,11 +52,11 @@ describe('Use In Share Collection', () => {
   })
 
   it('should use router param for get share data', () => {
-    const USER_ID = 'user_id'
+    const USER_ID = '123'
 
     USE_PROFILE.mockReturnValue({
       ...PROFILE_CONTEXT_TYPE,
-      profile: { ...PROFILE_DTO, userId: USER_ID },
+      profile: { ...PROFILE_DTO, id: Number(USER_ID) },
     })
 
     GET_PARAM.mockReturnValue(USER_ID)
@@ -121,11 +121,11 @@ describe('Use In Share Collection', () => {
   })
 
   it('should show edit link when collection belongs to logged in user ', () => {
-    const USER_ID = 'user_id'
+    const USER_ID = '123'
 
     USE_PROFILE.mockReturnValue({
       ...PROFILE_CONTEXT_TYPE,
-      profile: { ...PROFILE_DTO, userId: USER_ID },
+      profile: { ...PROFILE_DTO, id: Number(USER_ID) },
     })
 
     GET_PARAM.mockReturnValue(USER_ID)

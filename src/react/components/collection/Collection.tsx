@@ -80,7 +80,7 @@ export const useInCollection = () => {
     refreshCards: refresh,
   }
 
-  const shareLinkPath = PATH_VALUES.collection(profile?.userId)
+  const shareLinkPath = PATH_VALUES.collection(profile?.id)
 
   const copyShareLinkToClipboard = async () => {
     await navigator.clipboard.writeText(`${location.origin}${shareLinkPath}`)

@@ -72,7 +72,7 @@ export const useInShareCollection = () => {
     showUserFoundView: collectionFound && !isLoading,
     showNoUserFoundView: !collectionFound && !isLoading,
     showLoading: isLoading,
-    showEditLink: userId === profile?.userId,
+    showEditLink: Number(userId) === profile?.id,
   }
 }
 
