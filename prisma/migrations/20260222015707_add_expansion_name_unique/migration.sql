@@ -1,12 +1,11 @@
-/*
-  Warnings:
+-- AlterTable
+ALTER TABLE "user" RENAME CONSTRAINT "profile_pkey" TO "user_pkey";
 
-  - A unique constraint covering the columns `[expansion_id,name,collector_number]` on the table `card_blueprint` will be added. If there are existing duplicate values, this will fail.
-  - A unique constraint covering the columns `[game_id,name]` on the table `expansion` will be added. If there are existing duplicate values, this will fail.
+-- RenameForeignKey
+ALTER TABLE "user_card" RENAME CONSTRAINT "user_card_profile_id_fkey" TO "user_card_user_id_fkey";
 
-*/
--- DropIndex
-DROP INDEX "expansion_name_key";
+-- RenameIndex
+ALTER INDEX "profile_user_id_key" RENAME TO "user_external_id_key";
 
 -- CreateIndex
 CREATE UNIQUE INDEX "card_blueprint_expansion_id_name_collector_number_key" ON "card_blueprint"("expansion_id", "name", "collector_number");
