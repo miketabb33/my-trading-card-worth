@@ -36,6 +36,7 @@ model Expansion {
   platformLinks     ExpansionPlatformLink[]
   pokemonExpansion  ExpansionPokemon?
 
+  @@unique([gameId, name])
   @@map("expansion")
 }
 
@@ -81,6 +82,7 @@ model CardBlueprint {
 
   userCards               UserCard[]
 
+  @@unique([expansionId, name, collectorNumber])
   @@map("card_blueprint")
 }
 

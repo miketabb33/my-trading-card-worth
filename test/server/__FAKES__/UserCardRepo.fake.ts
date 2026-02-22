@@ -11,7 +11,7 @@ class UserCardRepo_FAKE implements IUserCardRepo {
   addItem = this.ADD_ITEM
   delete = this.DELETE
   removeItem = this.REMOVE_ITEM
-  findByExpansion = this.FIND_BY_EXPANSION
+  listByExpansion = this.FIND_BY_EXPANSION
   findByBlueprintId = this.FIND_BY_BLUEPRINT_ID
   getAll = this.GET_ALL
 }

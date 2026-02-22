@@ -23,8 +23,7 @@ CatalogController.get(
 
     const getCatalogLogic = new GetCatalogLogic(new UserCardRepo(), new CardTraderAdaptor(), new ExpansionPokemonRepo())
 
-    const userId = req.currentUser?.externalId ?? null
-    const catalogDto = await getCatalogLogic.get(userId, expansionId, Store.blueprintValues.getState())
+    const catalogDto = await getCatalogLogic.get(expansionId, Store.blueprintValues.getState(), req.currentUser?.id)
 
     res.sendData({ data: catalogDto })
   })
