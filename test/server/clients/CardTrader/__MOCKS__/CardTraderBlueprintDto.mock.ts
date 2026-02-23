@@ -1,4 +1,4 @@
-import { CardTraderBlueprintDto } from '../../../../../src/server/clients/CardTrader/types/CardTraderBlueprintDto'
+import { CardTraderBlueprintDto } from '../../../../../src/server/clients/CardTrader/parseBlueprints'
 
 type MakeBlueprintDto = {
   id?: number

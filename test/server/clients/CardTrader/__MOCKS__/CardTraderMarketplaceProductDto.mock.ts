@@ -1,4 +1,4 @@
-import { CardTraderMarketplaceProductDto } from '../../../../../src/server/clients/CardTrader/types/CardTraderMarketplaceProductDto'
+import { CardTraderMarketplaceProductDto } from '../../../../../src/server/clients/CardTrader/parseMarketplaceProducts'
 
 type MakeMarketplaceProductDtoArgs = {
   blueprintId?: number
