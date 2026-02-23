@@ -1,12 +1,12 @@
-import { AddMyCardBody, CollectionDto, ShareCollectionDto } from '@core/network-types/collection'
+import { AddUserCardBody, CollectionDto, ShareCollectionDto } from '@core/network-types/collection'
 import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
 
-export const addMyCard = async (addMyCardBody: AddMyCardBody) => {
-  await fetchApi({ path: '/collection', method: 'POST', body: addMyCardBody })
+export const addUserCard = async (addUserCardBody: AddUserCardBody) => {
+  await fetchApi({ path: '/collection', method: 'POST', body: addUserCardBody })
 }
 
-export const removeMyCard = async (blueprintId: number) => {
+export const removeUserCard = async (blueprintId: number) => {
   await fetchApi({
     path: '/collection',
     method: 'DELETE',
@@ -14,7 +14,7 @@ export const removeMyCard = async (blueprintId: number) => {
   })
 }
 
-export const useMyCards = (isLoggedIn: boolean) => {
+export const useUserCards = (isLoggedIn: boolean) => {
   return useApi<CollectionDto>({
     path: '/collection',
     shouldMakeRequest: isLoggedIn,

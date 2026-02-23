@@ -1,6 +1,6 @@
 import React from 'react'
 import CardList, { CardListProps } from '../card-list/CardList'
-import { useMyCards } from '../../network/collectionClient'
+import { useUserCards } from '../../network/collectionClient'
 import CollectionDetails from './CollectionDetails'
 import { useProfile } from '../../providers/ProfileProvider'
 import CollectionNotLoggedIn from './CollectionNotLoggedIn'
@@ -67,7 +67,7 @@ const Collection = () => {
 export const useInCollection = () => {
   const { isLoggedIn, isLoading: isLoadingProfile, profile } = useProfile()
 
-  const { data: collectionDto, refresh, isLoading: isLoadingCollection } = useMyCards(isLoggedIn)
+  const { data: collectionDto, refresh, isLoading: isLoadingCollection } = useUserCards(isLoggedIn)
 
   const cardsDto = collectionDto?.cards || []
 

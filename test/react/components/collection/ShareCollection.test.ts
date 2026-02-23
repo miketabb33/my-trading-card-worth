@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { useInShareCollection } from '../../../../src/react/components/collection/ShareCollection'
-import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
+import { CARD_DTO } from '../../../core/__MOCKS__/card.mock'
 import * as ProfileProviderModule from '../../../../src/react/providers/ProfileProvider'
 import * as UseRouterModule from '../../../../src/react/router/useRouter'
 import * as CollectionClientModule from '../../../../src/react/network/collectionClient'
@@ -8,8 +8,8 @@ import { USE_ROUTER_RETURN } from '../../__MOCKS__/useRouterReturn.mock'
 import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
 import { ShareCollectionDto } from '@core/network-types/collection'
 import { UseApiReturn } from '../../../../src/react/network/useApi'
-import { COLLECTION_META_DTO } from '../../../core/__MOCKS__/collectionMetaDto.mock'
-import { PROFILE_DTO } from '../../../core/__MOCKS__/profileDto.mock'
+import { COLLECTION_META_DTO } from '../../../core/__MOCKS__/collection.mock'
+import { PROFILE_DTO } from '../../../core/__MOCKS__/profile.mock'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
 const USE_ROUTER = jest.spyOn(UseRouterModule, 'useRouter')

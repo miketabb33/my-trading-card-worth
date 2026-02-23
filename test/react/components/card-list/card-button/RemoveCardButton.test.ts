@@ -3,12 +3,12 @@ import { act, renderHook } from '@testing-library/react'
 import * as CollectionsClientModule from '../../../../../src/react/network/collectionClient'
 import { useInRemoveCardButton } from '../../../../../src/react/components/card-list/card-button/RemoveCardButton'
 
-const REMOVE_MY_CARD = jest.spyOn(CollectionsClientModule, 'removeMyCard')
+const REMOVE_USER_CARD = jest.spyOn(CollectionsClientModule, 'removeUserCard')
 const REFRESH = jest.fn()
 
 const BLUEPRINT_ID = 1234
 
-REMOVE_MY_CARD.mockResolvedValue()
+REMOVE_USER_CARD.mockResolvedValue()
 
 beforeEach(jest.clearAllMocks)
 
@@ -21,7 +21,7 @@ describe('Use In Remove Card Button', () => {
     await act(async () => await result.current.click())
 
     expect(REFRESH).toHaveBeenCalled()
-    expect(REMOVE_MY_CARD).toHaveBeenCalledWith(BLUEPRINT_ID)
+    expect(REMOVE_USER_CARD).toHaveBeenCalledWith(BLUEPRINT_ID)
 
     expect(result.current.shouldShowCheckmark).toEqual(true)
     expect(result.current.shouldShowLoading).toEqual(false)

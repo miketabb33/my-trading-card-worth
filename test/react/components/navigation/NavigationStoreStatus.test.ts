@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react'
 import { useInNavigationStoreStatus } from '../../../../src/react/components/navigation/NavigationStoreStatus'
 import * as StoreStatusProviderModule from '../../../../src/react/providers/StoreStatusProvider'
 import { STORE_STATUS_CONTEXT_TYPE } from '../../__MOCKS__/storeStatusContextType.mock'
-import { STORE_STATUS_DTO } from '../../../core/__MOCKS__/storeStatusDto.mock'
+import { STORE_STATUS_DTO } from '../../../core/__MOCKS__/store.mock'
 
 const USE_STORE_STATUS = jest.spyOn(StoreStatusProviderModule, 'useStoreStatus')
 

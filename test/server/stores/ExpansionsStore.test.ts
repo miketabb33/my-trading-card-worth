@@ -1,6 +1,6 @@
 import ExpansionsStore from '../../../src/server/stores/ExpansionsStore'
 import { Result } from '../../../src/server/use-cases/Result'
-import { EXPANSION_DTO_1 } from '../../core/__MOCKS__/expansionDto.mock'
+import { EXPANSION_DTO_1 } from '../../core/__MOCKS__/catalog.mock'
 import GetExpansionsUseCase_FAKE from '../__FAKES__/GetExpansionsUseCase.fake'
 
 describe('Expansions Store', () => {

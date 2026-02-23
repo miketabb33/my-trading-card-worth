@@ -1,7 +1,7 @@
 import React from 'react'
-import { addMyCard } from '../../../network/collectionClient'
+import { addUserCard } from '../../../network/collectionClient'
 import { CardDto } from '@core/network-types/card'
-import { AddMyCardBody } from '@core/network-types/collection'
+import { AddUserCardBody } from '@core/network-types/collection'
 import CardButtonBase, { useWithCardButtonBase } from './CardButton'
 
 type AddCardButtonProps = {
@@ -16,7 +16,7 @@ const AddCardButton = ({ cardDto, refreshCards }: AddCardButtonProps) => {
 
 export const useInAddCardButton = (cardDto: CardDto, refreshCards: () => void) => {
   const addCard = () => {
-    const dto: AddMyCardBody = {
+    const dto: AddUserCardBody = {
       blueprintId: cardDto.blueprintId,
       expansionId: cardDto.expansionId,
       name: cardDto.name,
@@ -24,7 +24,7 @@ export const useInAddCardButton = (cardDto: CardDto, refreshCards: () => void) =
       imageUrlShow: cardDto.imageUrlShow,
     }
 
-    return addMyCard(dto)
+    return addUserCard(dto)
   }
 
   const cardButtonBase = useWithCardButtonBase(addCard, refreshCards)

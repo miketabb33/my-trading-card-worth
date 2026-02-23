@@ -1,6 +1,6 @@
 import { CollectionMetaDto } from '@core/network-types/collection'
 import { collectionDetailsController } from '../../../../src/react/components/collection/CollectionDetails'
-import { COLLECTION_META_DTO } from '../../../core/__MOCKS__/collectionMetaDto.mock'
+import { COLLECTION_META_DTO } from '../../../core/__MOCKS__/collection.mock'
 
 describe('Collection Details Controller', () => {
   it('should return formatted amount', () => {

@@ -1,7 +1,7 @@
 import { CardDto } from '@core/network-types/card'
 import GetCatalogUseCase from '../../../../src/server/use-cases/catalog/GetCatalogUseCase'
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
-import { EXPANSION_DTO_1 } from '../../../core/__MOCKS__/expansionDto.mock'
+import { EXPANSION_DTO_1 } from '../../../core/__MOCKS__/catalog.mock'
 import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import ExpansionPokemonRepo_FAKE from '../../__FAKES__/ExpansionPokemonRepo.fake'
 import UserCardRepo_FAKE from '../../__FAKES__/UserCardRepo.fake'

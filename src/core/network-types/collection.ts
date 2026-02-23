@@ -17,7 +17,7 @@ export type ShareCollectionDto = {
   name: string
 }
 
-export const AddMyCardBodySchema = z.object({
+export const AddUserCardBodySchema = z.object({
   blueprintId: z.number(),
   expansionId: z.number(),
   name: z.string(),
@@ -25,10 +25,10 @@ export const AddMyCardBodySchema = z.object({
   imageUrlShow: z.string(),
 })
 
-export type AddMyCardBody = z.infer<typeof AddMyCardBodySchema>
+export type AddUserCardBody = z.infer<typeof AddUserCardBodySchema>
 
-export const RemoveMyCardBodySchema = z.object({
+export const RemoveUserCardBodySchema = z.object({
   blueprintId: z.number(),
 })
 
-export type RemoveMyCardBody = z.infer<typeof RemoveMyCardBodySchema>
+export type RemoveUserCardBody = z.infer<typeof RemoveUserCardBodySchema>

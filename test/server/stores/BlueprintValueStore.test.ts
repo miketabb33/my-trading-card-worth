@@ -1,7 +1,7 @@
 import BlueprintValueStore from '../../../src/server/stores/BlueprintValueStore'
 import { Result } from '../../../src/server/use-cases/Result'
 import { BlueprintValue } from '../../../src/server/types/BlueprintValue'
-import { makeExpansionDto } from '../../core/__MOCKS__/expansionDto.mock'
+import { makeExpansionDto } from '../../core/__MOCKS__/catalog.mock'
 import ExpansionStore_FAKE from '../__FAKES__/ExpansionsStore.fake'
 import GetBlueprintValueUseCase_FAKE from '../__FAKES__/GetBlueprintValueUseCase.fake'
 

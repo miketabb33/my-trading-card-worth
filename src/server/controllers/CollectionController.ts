@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { AddMyCardBodySchema, RemoveMyCardBodySchema } from '@core/network-types/collection'
+import { AddUserCardBodySchema, RemoveUserCardBodySchema } from '@core/network-types/collection'
 import AddCardTraderCardUseCase from '../use-cases/collection/AddCardTraderCardUseCase'
 import UserCardRepo from '../repository/UserCardRepo'
 import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
@@ -50,7 +50,7 @@ CollectionController.post(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const parsed = AddMyCardBodySchema.safeParse(req.body)
+    const parsed = AddUserCardBodySchema.safeParse(req.body)
     if (!parsed.success) {
       res.sendError({ errors: parsed.error.issues.map((issue) => issue.message), status: 400 })
       return
@@ -79,7 +79,7 @@ CollectionController.delete(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const parsed = RemoveMyCardBodySchema.safeParse(req.body)
+    const parsed = RemoveUserCardBodySchema.safeParse(req.body)
     if (!parsed.success) {
       res.sendError({ errors: parsed.error.issues.map((issue) => issue.message), status: 400 })
       return

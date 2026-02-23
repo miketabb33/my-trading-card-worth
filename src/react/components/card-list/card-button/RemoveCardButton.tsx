@@ -1,5 +1,5 @@
 import React from 'react'
-import { removeMyCard } from '../../../network/collectionClient'
+import { removeUserCard } from '../../../network/collectionClient'
 
 import CardButtonBase, { useWithCardButtonBase } from './CardButton'
 
@@ -17,7 +17,7 @@ const RemoveCardButton = ({ blueprintId, cardsOwned, refreshCards }: RemoveCardB
 
 export const useInRemoveCardButton = (blueprintId: number, cardsOwned: number, refreshCards: () => void) => {
   const removeCard = () => {
-    return removeMyCard(blueprintId)
+    return removeUserCard(blueprintId)
   }
 
   const cardButtonBase = useWithCardButtonBase(removeCard, refreshCards)

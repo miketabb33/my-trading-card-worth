@@ -2,7 +2,7 @@
 import { renderHook } from '@testing-library/react'
 import { CardDto } from '@core/network-types/card'
 import { useInCardList } from '../../../../src/react/components/card-list/CardList'
-import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
+import { CARD_DTO } from '../../../core/__MOCKS__/card.mock'
 import * as InputModule from '../../../../src/react/components/base/form/Input'
 import { USE_WITH_INPUT_RETURN } from '../../__MOCKS__/useWithInputReturn.mock'
 import { act } from 'react'
