@@ -4,12 +4,12 @@ const CardTraderMarketplaceProductSchema = z
   .object({
     blueprint_id: z.number(),
     price: z.object({ cents: z.number() }),
-    properties_hash: z.object({ condition: z.string().nullable() }),
+    properties_hash: z.object({ condition: z.string().nullish() }),
   })
   .transform((parsed) => ({
     blueprintId: parsed.blueprint_id,
     price: { cents: parsed.price.cents },
-    propertiesHash: { condition: parsed.properties_hash.condition },
+    propertiesHash: { condition: parsed.properties_hash.condition ?? null },
   }))
 
 export type CardTraderMarketplaceProductDto = z.infer<typeof CardTraderMarketplaceProductSchema>

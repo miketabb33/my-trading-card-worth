@@ -4,7 +4,7 @@ const CardTraderBlueprintSchema = z
   .object({
     id: z.number(),
     name: z.string(),
-    version: z.string().nullable(),
+    version: z.string().nullish(),
     game_id: z.number(),
     category_id: z.number(),
     expansion_id: z.number(),
@@ -24,7 +24,7 @@ const CardTraderBlueprintSchema = z
   .transform((parsed) => ({
     id: parsed.id,
     name: parsed.name,
-    version: parsed.version,
+    version: parsed.version ?? null,
     gameId: parsed.game_id,
     categoryId: parsed.category_id,
     expansionId: parsed.expansion_id,
