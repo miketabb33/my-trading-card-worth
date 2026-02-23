@@ -1,5 +1,5 @@
 import { prisma } from '../../../prisma/prismaClient'
-import { parseAuth0User } from '../auth0/parseAuth0User'
+import { parseAuth0User } from '../clients/Auth0/parseAuth0User'
 import { asyncHandler } from './asyncHandler'
 import Emailer from '../Emailer'
 

@@ -1,4 +1,4 @@
-import { ExpansionDto } from '../../../src/core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import { IStore } from '../../../src/server/stores/IStore'
 
 class ExpansionStore_FAKE implements IStore<ExpansionDto[]> {

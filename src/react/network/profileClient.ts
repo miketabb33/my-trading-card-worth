@@ -1,4 +1,4 @@
-import { ProfileDto } from '../../core/types/ProfileDto'
+import { ProfileDto } from '@core/network-types/profile'
 import { useApi } from './useApi'
 
 export const useProfileData = () => {

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Router } from 'express'
-import TypeParser from '../../core/TypeParser'
-import { SendEmailDto } from '../../core/types/SendEmailDto'
+import { SendEmailBodySchema } from '@core/network-types/email'
 import { ENV } from '../env'
 import Emailer from '../Emailer'
 import { asyncHandler } from '../http/asyncHandler'
@@ -15,19 +14,14 @@ EmailController.post(
       res.sendError({ errors: [], status: 401 })
       return
     }
-    const sendEmailDto = tryToParseEmailBody(req.body)
-    await Emailer.send({ to: sendEmailDto.to, subject: sendEmailDto.subject, text: sendEmailDto.text })
+    const parsed = SendEmailBodySchema.safeParse(req.body)
+    if (!parsed.success) {
+      res.sendError({ errors: parsed.error.issues.map((issue) => issue.message), status: 400 })
+      return
+    }
+    await Emailer.send({ to: parsed.data.to, subject: parsed.data.subject, text: parsed.data.text })
     res.sendSuccess()
   })
 )
-
-const tryToParseEmailBody = (body: unknown): SendEmailDto => {
-  const typeParser = new TypeParser(body, 'Email Controller')
-  return {
-    to: typeParser.str('to'),
-    subject: typeParser.str('subject'),
-    text: typeParser.str('text'),
-  }
-}
 
 export default EmailController

@@ -2,7 +2,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { UseApiArgs, useApiController } from '../../../src/react/network/useApi'
 import * as FetchApiModule from '../../../src/react/network/fetchApi'
-import { ResponseDto } from '../../../src/core/types/ResponseDto'
+import { ResponseDto } from '@core/network-types/response'
 
 type FakeData = {
   id: string

@@ -1,4 +1,4 @@
-import { ApplicationReleaseDto } from '../../core/types/ApplicationReleaseDto'
+import { ApplicationReleaseDto } from '@core/network-types/release'
 import { useApi } from './useApi'
 
 export const useReleaseListData = () => {

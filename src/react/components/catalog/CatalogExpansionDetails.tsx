@@ -1,9 +1,8 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { ExpansionDetailsDto } from '../../../core/types/ExpansionDetailsDto'
+import { ExpansionDetailsDto, ExpansionPriceDetailsDto } from '@core/network-types/catalog'
 import PageDetailsLayout from '../base/layout/PageDetailsLayout'
 import { DetailsRowItem, PriceRowItem, RowItemProps } from './RowItem'
-import { ExpansionPriceDetailsDto } from '../../../core/types/ExpansionPriceDetailsDto'
 import { desktopAndUp, tabLandAndUp } from '../../styles/Responsive'
 import ExternalTextLink from '../base/text-link/ExternalTextLink'
 

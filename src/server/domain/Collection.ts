@@ -1,5 +1,5 @@
-import { CardDto } from '../../core/types/CardDto'
-import { CollectionMetaDto } from '../../core/types/CollectionMetaDto'
+import { CardDto } from '@core/network-types/card'
+import { CollectionMetaDto } from '@core/network-types/collection'
 import { UserCardWithBlueprint } from '../repository/UserCardRepo'
 import { BlueprintValue } from '../types/BlueprintValue'
 import UserCardStack from './UserCardStack'

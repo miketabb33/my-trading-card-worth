@@ -1,8 +1,8 @@
 import CardTraderAdaptor from '../../../../src/server/clients/CardTrader/CardTraderAdaptor'
 import * as CardTraderClientModule from '../../../../src/server/clients/CardTrader/CardTraderClient'
-import { CardTraderBlueprintDto } from '../../../../src/server/clients/CardTrader/types/CardTraderBlueprintDto'
-import { CardTraderExpansionDto } from '../../../../src/server/clients/CardTrader/types/CardTraderExpansionDto'
-import { CardTraderMarketplaceProductDto } from '../../../../src/server/clients/CardTrader/types/CardTraderMarketplaceProductDto'
+import { CardTraderBlueprintDto } from '../../../../src/server/clients/CardTrader/parseBlueprints'
+import { CardTraderExpansionDto } from '../../../../src/server/clients/CardTrader/parseExpansions'
+import { CardTraderMarketplaceProductDto } from '../../../../src/server/clients/CardTrader/parseMarketplaceProducts'
 import { ENV } from '../../../../src/server/env'
 import { makeBlueprintDto } from './__MOCKS__/CardTraderBlueprintDto.mock'
 import { makeMarketplaceProductDto } from './__MOCKS__/CardTraderMarketplaceProductDto.mock'
@@ -73,8 +73,7 @@ describe('Card Trader Adaptor', () => {
           id,
           name,
           version,
-          imageUrlPreview,
-          imageUrlShow,
+          image: { show: { url: imageUrlShow }, preview: { url: imageUrlPreview } },
           categoryId: POKEMON_SINGLE_CARD_CATEGORY,
         }),
       ]
@@ -108,25 +107,25 @@ describe('Card Trader Adaptor', () => {
     it('should port card trader market place products map to card value map', async () => {
       const product1a = makeMarketplaceProductDto({
         blueprintId: 1,
-        priceCents: 1,
-        condition: 'good',
+        price: { cents: 1 },
+        propertiesHash: { condition: 'good' },
       })
 
       const product1b = makeMarketplaceProductDto({
         blueprintId: 1,
-        priceCents: 2,
-        condition: 'Mint',
+        price: { cents: 2 },
+        propertiesHash: { condition: 'Mint' },
       })
 
       const product1c = makeMarketplaceProductDto({
         blueprintId: 1,
-        priceCents: 3,
+        price: { cents: 3 },
       })
 
       const product2a = makeMarketplaceProductDto({
         blueprintId: 2,
-        priceCents: 4,
-        condition: 'Poor',
+        price: { cents: 4 },
+        propertiesHash: { condition: 'Poor' },
       })
       const productsMap = new Map<string, CardTraderMarketplaceProductDto[]>([
         ['1', [product1a, product1b, product1c]],

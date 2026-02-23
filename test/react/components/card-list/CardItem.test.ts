@@ -5,8 +5,8 @@ import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
 import * as GlobalPopupProviderModule from '../../../../src/react/providers/GlobalPopupProvider'
 import { GLOBAL_CONTEXT_POPUP_CONTEXT } from '../../__MOCKS__/globalPopupContextType.mock'
 import { CLICK_EVENT } from '../../__MOCKS__/clickEvent.mock'
-import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
-import { CardDto } from '../../../../src/core/types/CardDto'
+import { CARD_DTO } from '../../../core/__MOCKS__/card.mock'
+import { CardDto } from '@core/network-types/card'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
 const USE_GLOBAL_POPUP = jest.spyOn(GlobalPopupProviderModule, 'useGlobalPopup')

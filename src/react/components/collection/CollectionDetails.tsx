@@ -1,5 +1,5 @@
 import React from 'react'
-import { CollectionMetaDto } from '../../../core/types/CollectionMetaDto'
+import { CollectionMetaDto } from '@core/network-types/collection'
 import styled, { css } from 'styled-components'
 import { formatCentsToDollars } from '../../../core/currencyFormatter'
 import { tabLandAndUp } from '../../styles/Responsive'

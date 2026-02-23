@@ -1,18 +1,19 @@
 import BlueprintValueStore from '../../../src/server/stores/BlueprintValueStore'
+import { Result } from '../../../src/server/use-cases/Result'
 import { BlueprintValue } from '../../../src/server/types/BlueprintValue'
-import { makeExpansionDto } from '../../core/__MOCKS__/expansionDto.mock'
+import { makeExpansionDto } from '../../core/__MOCKS__/catalog.mock'
 import ExpansionStore_FAKE from '../__FAKES__/ExpansionsStore.fake'
-import GetBlueprintValueLogic_FAKE from '../__FAKES__/GetBlueprintValueLogic.fake'
+import GetBlueprintValueUseCase_FAKE from '../__FAKES__/GetBlueprintValueUseCase.fake'
 
 describe('Blueprint Value Store', () => {
   let blueprintValueStore: BlueprintValueStore
-  let getBlueprintValueLogic_FAKE: GetBlueprintValueLogic_FAKE
+  let getBlueprintValueUseCase_FAKE: GetBlueprintValueUseCase_FAKE
   let expansionsStore_FAKE: ExpansionStore_FAKE
 
   beforeEach(() => {
-    getBlueprintValueLogic_FAKE = new GetBlueprintValueLogic_FAKE()
+    getBlueprintValueUseCase_FAKE = new GetBlueprintValueUseCase_FAKE()
     expansionsStore_FAKE = new ExpansionStore_FAKE()
-    blueprintValueStore = new BlueprintValueStore(getBlueprintValueLogic_FAKE, expansionsStore_FAKE)
+    blueprintValueStore = new BlueprintValueStore(getBlueprintValueUseCase_FAKE, expansionsStore_FAKE)
     expansionsStore_FAKE.GET_STATE.mockReturnValue([
       makeExpansionDto({ expansionId: 1 }),
       makeExpansionDto({ expansionId: 2 }),
@@ -20,14 +21,14 @@ describe('Blueprint Value Store', () => {
   })
 
   it('should refresh and get state', async () => {
-    getBlueprintValueLogic_FAKE.ADD.mockImplementation((id: number) => {
+    getBlueprintValueUseCase_FAKE.CALL.mockImplementation((id: number) => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
         medianCents: id,
         listingCount: id,
       }
       cache.set(`${id}`, blueprintValue)
-      return cache
+      return Result.success(cache)
     })
 
     await blueprintValueStore.refreshStore()
@@ -42,14 +43,14 @@ describe('Blueprint Value Store', () => {
   })
 
   it('should refresh and get last updated', async () => {
-    getBlueprintValueLogic_FAKE.ADD.mockImplementation((id: number) => {
+    getBlueprintValueUseCase_FAKE.CALL.mockImplementation((id: number) => {
       const cache = new Map<string, BlueprintValue>()
       const blueprintValue: BlueprintValue = {
         medianCents: id,
         listingCount: id,
       }
       cache.set(`${id}`, blueprintValue)
-      return cache
+      return Result.success(cache)
     })
     expect(blueprintValueStore.getLastUpdated()).toBeNull()
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { createContext, useContext } from 'react'
 import { ChildrenProp } from '../types/ChildrenProp'
-import { StoreStatusDto } from '../../core/types/StoreStatusDto'
+import { StoreStatusDto } from '@core/network-types/store'
 import { useStoreStatusData } from '../network/storeClient'
 
 export type StoreStatusContextType = {

@@ -1,52 +1,44 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import TypeParser from '../../../core/TypeParser'
-import { CardTraderBlueprintDto } from './types/CardTraderBlueprintDto'
+import { z } from 'zod'
 
-export const tryToParseBlueprints = (data: unknown): CardTraderBlueprintDto[] => {
-  const array = TypeParser.rootIsArray(data, tryToParseBlueprints.name)
-
-  return array.map((item) => {
-    const parser = new TypeParser(item, tryToParseBlueprints.name)
-    const id = parser.num('id')
-    const name = parser.str('name')
-
-    const [showUrl, previewUrl] = parseImageUrls(item)
-
-    const blueprint: CardTraderBlueprintDto = {
-      id,
-      name,
-      version: parser.strOrNull('version'),
-      gameId: parser.num('game_id'),
-      categoryId: parser.num('category_id'),
-      expansionId: parser.num('expansion_id'),
-      fixedProperties: {
-        collectorNumber: item.fixed_properties?.collector_number ?? '',
-        pokemonRarity: item.fixed_properties?.pokemon_rarity ?? '',
-      },
-      image: {
-        show: {
-          url: showUrl,
-        },
-        preview: {
-          url: previewUrl,
-        },
-      },
-    }
-    return blueprint
+const CardTraderBlueprintSchema = z
+  .object({
+    id: z.number(),
+    name: z.string(),
+    version: z.string().nullable(),
+    game_id: z.number(),
+    category_id: z.number(),
+    expansion_id: z.number(),
+    fixed_properties: z
+      .object({
+        collector_number: z.string().optional().default(''),
+        pokemon_rarity: z.string().optional().default(''),
+      })
+      .optional(),
+    image: z
+      .object({
+        show: z.object({ url: z.string() }).optional(),
+        preview: z.object({ url: z.string() }).optional(),
+      })
+      .optional(),
   })
-}
+  .transform((parsed) => ({
+    id: parsed.id,
+    name: parsed.name,
+    version: parsed.version,
+    gameId: parsed.game_id,
+    categoryId: parsed.category_id,
+    expansionId: parsed.expansion_id,
+    fixedProperties: {
+      collectorNumber: parsed.fixed_properties?.collector_number ?? '',
+      pokemonRarity: parsed.fixed_properties?.pokemon_rarity ?? '',
+    },
+    image: {
+      show: { url: parsed.image?.show?.url ?? '' },
+      preview: { url: parsed.image?.preview?.url ?? '' },
+    },
+  }))
 
-const parseImageUrls = (item: any): [string, string] => {
-  if (!item.image) return ['', '']
+export type CardTraderBlueprintDto = z.infer<typeof CardTraderBlueprintSchema>
 
-  let showUrl = ''
-  let previewUrl = ''
-
-  if (item.image.show && item.image.show.url) showUrl = item.image.show.url
-  if (item.image.preview && item.image.preview.url) previewUrl = item.image.preview.url
-
-  return [showUrl, previewUrl]
-}
+export const tryToParseBlueprints = (data: unknown): CardTraderBlueprintDto[] =>
+  z.array(CardTraderBlueprintSchema).parse(data)

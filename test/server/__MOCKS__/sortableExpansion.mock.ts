@@ -1,4 +1,4 @@
-import { SortableExpansion } from '../../../src/server/logic/catalog/ExpansionSorter'
+import { SortableExpansion } from '../../../src/server/use-cases/catalog/ExpansionSorter'
 import {
   CARD_EXPANSION_FOSSIL_MOCK,
   CARD_EXPANSION_MCDONALD_MOCK,

@@ -1,15 +1,14 @@
 import { Router } from 'express'
-import { tryToParseAddMyCardBody } from '../logic/collection/parseAddMyCardBody'
-import AddCardTraderCardLogic from '../logic/collection/AddCardTraderCardLogic'
+import { AddUserCardBodySchema, RemoveUserCardBodySchema } from '@core/network-types/collection'
+import AddCardTraderCardUseCase from '../use-cases/collection/AddCardTraderCardUseCase'
 import UserCardRepo from '../repository/UserCardRepo'
 import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
 import CardBlueprintPokemonRepo from '../repository/CardBlueprintPokemonRepo'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
-import { tryToParseRemoveMyCardBody } from '../logic/collection/parseRemoveMyCardBody'
-import GetCollectionLogic from '../logic/collection/GetCollectionLogic'
+import GetCollectionUseCase from '../use-cases/collection/GetCollectionUseCase'
 import Store from '../StoreRegistry'
-import RemoveCardLogic from '../logic/collection/RemoveCardLogic'
-import GetShareCollectionLogic from '../logic/collection/GetShareCollectionLogic'
+import RemoveCardUseCase from '../use-cases/collection/RemoveCardUseCase'
+import GetShareCollectionUseCase from '../use-cases/collection/GetShareCollectionUseCase'
 import CollectionFactory from '../domain/CollectionFactory'
 import { prisma } from '../../../prisma/prismaClient'
 import { asyncHandler } from '../http/asyncHandler'
@@ -22,9 +21,13 @@ CollectionController.get(
   requiresAuth(),
   asyncHandler(async (req, res) => {
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
-    const getCollectionLogic = new GetCollectionLogic(collectionFactory)
-    const cardBlueprintDto = await getCollectionLogic.get(req.currentUser!.id)
-    res.sendData({ data: cardBlueprintDto })
+    const getCollectionUseCase = new GetCollectionUseCase(collectionFactory)
+    const result = await getCollectionUseCase.call(req.currentUser!.id)
+    if (result.isSuccess()) {
+      res.sendData({ data: result.value, status: 200 })
+    } else {
+      res.sendError({ errors: [result.error], status: 404 })
+    }
   })
 )
 
@@ -33,10 +36,10 @@ CollectionController.get(
   asyncHandler(async (req, res) => {
     const userId = Number(req.params.userId)
     const collectionFactory = new CollectionFactory(new UserCardRepo(), Store.blueprintValues.getState())
-    const getShareCollectionLogic = new GetShareCollectionLogic(prisma, collectionFactory)
-    const result = await getShareCollectionLogic.get(userId)
+    const getShareCollectionUseCase = new GetShareCollectionUseCase(prisma, collectionFactory)
+    const result = await getShareCollectionUseCase.call(userId)
     if (result.isSuccess()) {
-      res.sendData({ data: result.value })
+      res.sendData({ data: result.value, status: 200 })
     } else {
       res.sendError({ errors: [result.error], status: 404 })
     }
@@ -47,15 +50,28 @@ CollectionController.post(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const myCardDto = tryToParseAddMyCardBody(req.body)
-    const addCardTraderCardLogic = new AddCardTraderCardLogic(
+    const parsed = AddUserCardBodySchema.safeParse(req.body)
+    if (!parsed.success) {
+      res.sendError({ errors: parsed.error.issues.map((issue) => issue.message), status: 400 })
+      return
+    }
+    const addCardTraderCardUseCase = new AddCardTraderCardUseCase(
       prisma,
       new CardTraderAdaptor(),
       new ExpansionPokemonRepo(),
       new CardBlueprintPokemonRepo()
     )
-    await addCardTraderCardLogic.add(req.currentUser!.id, myCardDto.blueprintId, myCardDto.expansionId, 'UNKNOWN')
-    res.sendSuccess({ status: 201 })
+    const result = await addCardTraderCardUseCase.call(
+      req.currentUser!.id,
+      parsed.data.blueprintId,
+      parsed.data.expansionId,
+      'UNKNOWN'
+    )
+    if (result.isSuccess()) {
+      res.sendSuccess({ status: 201 })
+    } else {
+      res.sendError({ errors: [result.error], status: 409 })
+    }
   })
 )
 
@@ -63,10 +79,18 @@ CollectionController.delete(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const blueprintId = tryToParseRemoveMyCardBody(req.body)
-    const removeCardLogic = new RemoveCardLogic(new UserCardRepo())
-    await removeCardLogic.remove(req.currentUser!.externalId, blueprintId)
-    res.sendSuccess()
+    const parsed = RemoveUserCardBodySchema.safeParse(req.body)
+    if (!parsed.success) {
+      res.sendError({ errors: parsed.error.issues.map((issue) => issue.message), status: 400 })
+      return
+    }
+    const removeCardUseCase = new RemoveCardUseCase(new UserCardRepo())
+    const result = await removeCardUseCase.call(req.currentUser!.externalId, parsed.data.blueprintId)
+    if (result.isSuccess()) {
+      res.sendSuccess()
+    } else {
+      res.sendError({ errors: [result.error], status: 409 })
+    }
   })
 )
 

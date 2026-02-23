@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/rest'
-import { ApplicationReleaseDto } from '../../../core/types/ApplicationReleaseDto'
+import { ApplicationReleaseDto } from '@core/network-types/release'
 import { ENV } from '../../env'
 
 const octokit = new Octokit({ auth: ENV.GITHUB_TOKEN() })

@@ -6,7 +6,7 @@ import { useProfile } from '../../providers/ProfileProvider'
 import AddCardButton from './card-button/AddCardButton'
 import { formatCentsToDollars } from '../../../core/currencyFormatter'
 import RemoveCardButton from './card-button/RemoveCardButton'
-import { CardDto } from '../../../core/types/CardDto'
+import { CardDto } from '@core/network-types/card'
 import { Line } from '../base/Line'
 import { formatWithCommas } from '../../../core/numberFormatter'
 

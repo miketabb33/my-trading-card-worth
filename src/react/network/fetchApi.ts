@@ -1,4 +1,4 @@
-import { ResponseDto } from '../../core/types/ResponseDto'
+import { ResponseDto } from '@core/network-types/response'
 
 type RestMethod = 'POST' | 'GET' | 'DELETE' | 'PUT'
 

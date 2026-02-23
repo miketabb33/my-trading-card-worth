@@ -1,4 +1,4 @@
-import { StoreStatusDto } from '../../core/types/StoreStatusDto'
+import { StoreStatusDto } from '@core/network-types/store'
 import { useApi } from './useApi'
 
 export const useStoreStatusData = () => {

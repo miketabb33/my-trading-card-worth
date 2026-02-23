@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { act, renderHook } from '@testing-library/react'
-import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
-import * as MyCardClient from '../../../../src/react/network/collectionClient'
+import { CARD_DTO } from '../../../core/__MOCKS__/card.mock'
+import * as UserCardClient from '../../../../src/react/network/collectionClient'
 import { useInCollection } from '../../../../src/react/components/collection/Collection'
 import { UseApiReturn } from '../../../../src/react/network/useApi'
-import { CollectionDto } from '../../../../src/core/types/CollectionDto'
+import { CollectionDto } from '@core/network-types/collection'
 import * as ProfileProviderModule from '../../../../src/react/providers/ProfileProvider'
 import { PROFILE_CONTEXT_TYPE } from '../../__MOCKS__/profileContextType.mock'
-import { COLLECTION_META_DTO } from '../../../core/__MOCKS__/collectionMetaDto.mock'
-import { PROFILE_DTO } from '../../../core/__MOCKS__/profileDto.mock'
+import { COLLECTION_META_DTO } from '../../../core/__MOCKS__/collection.mock'
+import { PROFILE_DTO } from '../../../core/__MOCKS__/profile.mock'
 
 const CARDS = [CARD_DTO, CARD_DTO]
 
@@ -18,15 +18,15 @@ const COLLECTION_DTO: CollectionDto = {
 }
 
 const REFRESH = jest.fn()
-const USE_MY_CARDS = jest.spyOn(MyCardClient, 'useMyCards')
+const USE_USER_CARDS = jest.spyOn(UserCardClient, 'useUserCards')
 
-const USE_MY_CARDS_RETURN: UseApiReturn<CollectionDto> = {
+const USE_USER_CARDS_RETURN: UseApiReturn<CollectionDto> = {
   data: null,
   isLoading: false,
   errors: null,
   refresh: REFRESH,
 }
-USE_MY_CARDS.mockReturnValue(USE_MY_CARDS_RETURN)
+USE_USER_CARDS.mockReturnValue(USE_USER_CARDS_RETURN)
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
 USE_PROFILE.mockReturnValue(PROFILE_CONTEXT_TYPE)
@@ -35,14 +35,14 @@ beforeEach(jest.clearAllMocks)
 
 describe('Use In Collection', () => {
   it('should init as empty array', () => {
-    USE_MY_CARDS.mockReturnValue(USE_MY_CARDS_RETURN)
+    USE_USER_CARDS.mockReturnValue(USE_USER_CARDS_RETURN)
     const { result } = renderHook(useInCollection)
     expect(result.current.cardListProps.cardsDto).toEqual([])
   })
 
   it('should return cards when available', () => {
-    USE_MY_CARDS.mockReturnValue({
-      ...USE_MY_CARDS_RETURN,
+    USE_USER_CARDS.mockReturnValue({
+      ...USE_USER_CARDS_RETURN,
       data: COLLECTION_DTO,
     })
     const { result } = renderHook(useInCollection)
@@ -74,7 +74,7 @@ describe('Use In Collection', () => {
       isLoggedIn: false,
       isLoading: false,
     })
-    USE_MY_CARDS.mockReturnValue({ ...USE_MY_CARDS_RETURN, isLoading: false })
+    USE_USER_CARDS.mockReturnValue({ ...USE_USER_CARDS_RETURN, isLoading: false })
 
     const { result } = renderHook(useInCollection)
     expect(result.current.showNotLoggedIn).toEqual(true)
@@ -89,7 +89,7 @@ describe('Use In Collection', () => {
       isLoggedIn: true,
       isLoading: false,
     })
-    USE_MY_CARDS.mockReturnValue({ ...USE_MY_CARDS_RETURN, isLoading: false })
+    USE_USER_CARDS.mockReturnValue({ ...USE_USER_CARDS_RETURN, isLoading: false })
 
     const { result } = renderHook(useInCollection)
     expect(result.current.showNotLoggedIn).toEqual(false)
@@ -104,8 +104,8 @@ describe('Use In Collection', () => {
       isLoggedIn: false,
       isLoading: true,
     })
-    USE_MY_CARDS.mockReturnValue({
-      ...USE_MY_CARDS_RETURN,
+    USE_USER_CARDS.mockReturnValue({
+      ...USE_USER_CARDS_RETURN,
       isLoading: true,
     })
 
@@ -122,8 +122,8 @@ describe('Use In Collection', () => {
       isLoggedIn: true,
       isLoading: false,
     })
-    USE_MY_CARDS.mockReturnValue({
-      ...USE_MY_CARDS_RETURN,
+    USE_USER_CARDS.mockReturnValue({
+      ...USE_USER_CARDS_RETURN,
       isLoading: false,
       data: COLLECTION_DTO,
     })

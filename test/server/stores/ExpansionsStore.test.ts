@@ -1,44 +1,63 @@
 import ExpansionsStore from '../../../src/server/stores/ExpansionsStore'
-import { EXPANSION_DTO_1 } from '../../core/__MOCKS__/expansionDto.mock'
-import GetExpansionsLogic_FAKE from '../__FAKES__/GetExpansionsLogic.fake'
+import { Result } from '../../../src/server/use-cases/Result'
+import { EXPANSION_DTO_1 } from '../../core/__MOCKS__/catalog.mock'
+import GetExpansionsUseCase_FAKE from '../__FAKES__/GetExpansionsUseCase.fake'
 
 describe('Expansions Store', () => {
   let expansionsStore: ExpansionsStore
-  let getExpansionsLogic_FAKE: GetExpansionsLogic_FAKE
+  let getExpansionsUseCase_FAKE: GetExpansionsUseCase_FAKE
 
   beforeEach(() => {
-    getExpansionsLogic_FAKE = new GetExpansionsLogic_FAKE()
-    expansionsStore = new ExpansionsStore(getExpansionsLogic_FAKE)
+    getExpansionsUseCase_FAKE = new GetExpansionsUseCase_FAKE()
+    expansionsStore = new ExpansionsStore(getExpansionsUseCase_FAKE)
   })
 
   it('should return empty cache when refresh is not called ', () => {
-    getExpansionsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
+    getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
 
     const result = expansionsStore.getState()
 
     expect(result).toEqual([])
   })
 
-  it('should use cache for Get Expansions Logic', async () => {
-    getExpansionsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
+  it('should use cache for Get Expansions UseCase', async () => {
+    getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
 
     await expansionsStore.refreshStore()
 
     const result1 = expansionsStore.getState()
     const result2 = expansionsStore.getState()
 
-    expect(getExpansionsLogic_FAKE.GET).toHaveBeenCalledTimes(1)
+    expect(getExpansionsUseCase_FAKE.CALL).toHaveBeenCalledTimes(1)
 
     expect(result1).toEqual([EXPANSION_DTO_1])
     expect(result2).toEqual([EXPANSION_DTO_1])
   })
 
   it('should set last updated date when refresh is called', async () => {
-    getExpansionsLogic_FAKE.GET.mockResolvedValue([EXPANSION_DTO_1])
+    getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.success([EXPANSION_DTO_1]))
     expect(expansionsStore.getLastUpdated()).toBeNull()
 
     await expansionsStore.refreshStore()
 
     expect(expansionsStore.getLastUpdated()).not.toBeNull()
+  })
+
+  describe('on failure', () => {
+    it('should not update state', async () => {
+      getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.failure('error'))
+
+      await expansionsStore.refreshStore()
+
+      expect(expansionsStore.getState()).toEqual([])
+    })
+
+    it('should not update last updated date', async () => {
+      getExpansionsUseCase_FAKE.CALL.mockResolvedValue(Result.failure('error'))
+
+      await expansionsStore.refreshStore()
+
+      expect(expansionsStore.getLastUpdated()).toBeNull()
+    })
   })
 })

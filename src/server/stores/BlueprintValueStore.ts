@@ -1,17 +1,17 @@
-import { ExpansionDto } from '../../core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import Logger from '../logger'
-import { IGetBlueprintValueLogic } from '../logic/price/GetBlueprintValueLogic'
+import { IGetBlueprintValueUseCase } from '../use-cases/price/GetBlueprintValueUseCase'
 import { BlueprintValue } from '../types/BlueprintValue'
 import { IStore } from './IStore'
 
 class BlueprintValueStore implements IStore<Map<string, BlueprintValue>> {
-  private readonly getBlueprintValueLogic: IGetBlueprintValueLogic
+  private readonly getBlueprintValueUseCase: IGetBlueprintValueUseCase
   private readonly expansionsStore: IStore<ExpansionDto[]>
   private state = new Map<string, BlueprintValue>()
   private lastUpdated: Date | null = null
 
-  constructor(getBlueprintValueLogic: IGetBlueprintValueLogic, expansionStore: IStore<ExpansionDto[]>) {
-    this.getBlueprintValueLogic = getBlueprintValueLogic
+  constructor(getBlueprintValueUseCase: IGetBlueprintValueUseCase, expansionStore: IStore<ExpansionDto[]>) {
+    this.getBlueprintValueUseCase = getBlueprintValueUseCase
     this.expansionsStore = expansionStore
   }
 
@@ -32,9 +32,13 @@ class BlueprintValueStore implements IStore<Map<string, BlueprintValue>> {
     Logger.info(`Price Sync Started: ${expansionIds.length} expansions will be synced`)
     for (let i = 0; i < expansionIds.length; i++) {
       try {
-        const blueprintValueMap = await this.getBlueprintValueLogic.get(expansionIds[i])
-        for (const [key, value] of blueprintValueMap) {
-          newState.set(key, value)
+        const result = await this.getBlueprintValueUseCase.call(expansionIds[i])
+        if (result.isSuccess()) {
+          for (const [key, value] of result.value) {
+            newState.set(key, value)
+          }
+        } else {
+          Logger.error(`Failed Loading blueprint value store for ${expansionIds[i]}: ${result.error}`)
         }
       } catch (e) {
         Logger.error(e)
