@@ -87,7 +87,7 @@ CollectionController.delete(
     const removeCardUseCase = new RemoveCardUseCase(new UserCardRepo())
     const result = await removeCardUseCase.call(req.currentUser!.externalId, parsed.data.blueprintId)
     if (result.isSuccess()) {
-      res.sendSuccess({ status: 204 })
+      res.sendSuccess()
     } else {
       res.sendError({ errors: [result.error], status: 409 })
     }
