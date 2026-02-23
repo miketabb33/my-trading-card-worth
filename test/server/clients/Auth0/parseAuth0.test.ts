@@ -1,4 +1,4 @@
-import { parseAuth0User } from '../../../src/server/auth0/parseAuth0User'
+import { parseAuth0User } from '../../../src/server/clients/Auth0/parseAuth0User'
 import { AUTH_0_USER_UNPARSED } from './__MOCKS__/auth0User.mock'
 
 describe('Parse Auth 0', () => {

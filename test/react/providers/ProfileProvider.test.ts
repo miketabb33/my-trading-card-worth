@@ -5,7 +5,7 @@ import { useProfileProvider } from '../../../src/react/providers/ProfileProvider
 import * as ProfileClientModule from '../../../src/react/network/profileClient'
 import { PROFILE_DTO } from '../../core/__MOCKS__/profileDto.mock'
 import { UseApiReturn } from '../../../src/react/network/useApi'
-import { ProfileDto } from '../../../src/core/types/ProfileDto'
+import { ProfileDto } from '@core/network-types/profile'
 
 const USE_PROFILE_DATA = jest.spyOn(ProfileClientModule, 'useProfileData')
 

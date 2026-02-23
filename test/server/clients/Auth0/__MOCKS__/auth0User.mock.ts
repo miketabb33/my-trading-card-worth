@@ -1,4 +1,4 @@
-import { Auth0User } from '../../../../src/server/auth0/types/Auth0User'
+import { Auth0User } from '@clients/Auth0/types/Auth0User'
 
 export const AUTH_0_USER: Auth0User = {
   sub: 'facebook|10231654143446747',

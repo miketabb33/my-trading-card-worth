@@ -20,6 +20,7 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
+      '@core': path.resolve(__dirname, 'src/core'),
       '@controllers': path.resolve(__dirname, 'src/server/controllers'),
       '@clients': path.resolve(__dirname, 'src/server/clients'),
       '@domain': path.resolve(__dirname, 'src/server/domain'),

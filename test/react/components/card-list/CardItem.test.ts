@@ -6,7 +6,7 @@ import * as GlobalPopupProviderModule from '../../../../src/react/providers/Glob
 import { GLOBAL_CONTEXT_POPUP_CONTEXT } from '../../__MOCKS__/globalPopupContextType.mock'
 import { CLICK_EVENT } from '../../__MOCKS__/clickEvent.mock'
 import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
-import { CardDto } from '../../../../src/core/types/CardDto'
+import { CardDto } from '@core/network-types/card'
 
 const USE_PROFILE = jest.spyOn(ProfileProviderModule, 'useProfile')
 const USE_GLOBAL_POPUP = jest.spyOn(GlobalPopupProviderModule, 'useGlobalPopup')

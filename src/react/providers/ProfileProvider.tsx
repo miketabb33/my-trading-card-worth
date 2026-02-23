@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { createContext, useContext } from 'react'
 import { ChildrenProp } from '../types/ChildrenProp'
-import { ProfileDto } from '../../core/types/ProfileDto'
+import { ProfileDto } from '@core/network-types/profile'
 import { useProfileData } from '../network/profileClient'
 import { UseEffectType } from '../types/UseEffectType'
 import { setAuthReturnUrl } from '../router/authReturnUrl'

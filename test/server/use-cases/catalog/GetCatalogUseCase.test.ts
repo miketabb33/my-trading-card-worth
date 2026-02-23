@@ -1,4 +1,4 @@
-import { CardDto } from '../../../../src/core/types/CardDto'
+import { CardDto } from '@core/network-types/card'
 import GetCatalogUseCase from '../../../../src/server/use-cases/catalog/GetCatalogUseCase'
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
 import { EXPANSION_DTO_1 } from '../../../core/__MOCKS__/expansionDto.mock'

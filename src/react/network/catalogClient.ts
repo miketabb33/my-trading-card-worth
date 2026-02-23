@@ -1,5 +1,4 @@
-import { CatalogDto } from '../../core/types/CatalogDto'
-import { ExpansionDto } from '../../core/types/ExpansionDto'
+import { CatalogDto, ExpansionDto } from '@core/network-types/catalog'
 import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
 

@@ -1,11 +1,10 @@
 import { Router } from 'express'
-import { parseAddMyCardBody } from '../http/parse/addMyCardBody'
+import { AddMyCardBodySchema, RemoveMyCardBodySchema } from '@core/network-types/collection'
 import AddCardTraderCardUseCase from '../use-cases/collection/AddCardTraderCardUseCase'
 import UserCardRepo from '../repository/UserCardRepo'
 import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
 import CardBlueprintPokemonRepo from '../repository/CardBlueprintPokemonRepo'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
-import { parseRemoveMyCardBody } from '../http/parse/removeMyCardBody'
 import GetCollectionUseCase from '../use-cases/collection/GetCollectionUseCase'
 import Store from '../StoreRegistry'
 import RemoveCardUseCase from '../use-cases/collection/RemoveCardUseCase'
@@ -51,7 +50,11 @@ CollectionController.post(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const myCardDto = parseAddMyCardBody(req.body)
+    const parsed = AddMyCardBodySchema.safeParse(req.body)
+    if (!parsed.success) {
+      res.sendError({ errors: parsed.error.issues.map((issue) => issue.message), status: 400 })
+      return
+    }
     const addCardTraderCardUseCase = new AddCardTraderCardUseCase(
       prisma,
       new CardTraderAdaptor(),
@@ -60,8 +63,8 @@ CollectionController.post(
     )
     const result = await addCardTraderCardUseCase.call(
       req.currentUser!.id,
-      myCardDto.blueprintId,
-      myCardDto.expansionId,
+      parsed.data.blueprintId,
+      parsed.data.expansionId,
       'UNKNOWN'
     )
     if (result.isSuccess()) {
@@ -76,9 +79,13 @@ CollectionController.delete(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const blueprintId = parseRemoveMyCardBody(req.body)
+    const parsed = RemoveMyCardBodySchema.safeParse(req.body)
+    if (!parsed.success) {
+      res.sendError({ errors: parsed.error.issues.map((issue) => issue.message), status: 400 })
+      return
+    }
     const removeCardUseCase = new RemoveCardUseCase(new UserCardRepo())
-    const result = await removeCardUseCase.call(req.currentUser!.externalId, blueprintId)
+    const result = await removeCardUseCase.call(req.currentUser!.externalId, parsed.data.blueprintId)
     if (result.isSuccess()) {
       res.sendSuccess({ status: 204 })
     } else {

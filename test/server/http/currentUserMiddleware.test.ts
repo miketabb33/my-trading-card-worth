@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import { currentUserMiddleware } from '../../../src/server/http/currentUserMiddleware'
 import { makeProfileEntityMock } from '../__MOCKS__/profileEntity.mock'
-import { AUTH_0_USER, AUTH_0_USER_UNPARSED } from '../auth0/__MOCKS__/auth0User.mock'
+import { AUTH_0_USER, AUTH_0_USER_UNPARSED } from '../clients/Auth0/__MOCKS__/auth0User.mock'
 import { prisma } from '../../../prisma/prismaClient'
 import Emailer from '../../../src/server/Emailer'
-import { parseAuth0User } from '../../../src/server/auth0/parseAuth0User'
+import { parseAuth0User } from '../../../src/server/clients/Auth0/parseAuth0User'
 
 jest.mock('../../../prisma/prismaClient', () => ({
   prisma: { user: { findUnique: jest.fn(), create: jest.fn() } },
 }))
 
-jest.mock('../../../src/server/auth0/parseAuth0User', () => ({
+jest.mock('../../../src/server/clients/Auth0/parseAuth0User', () => ({
   parseAuth0User: jest.fn(),
 }))
 

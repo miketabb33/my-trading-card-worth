@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { ExpansionDto } from '../../../core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 import { CardExpansion } from '../../types/CardExpansion'

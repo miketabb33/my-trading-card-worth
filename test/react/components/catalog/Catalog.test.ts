@@ -8,7 +8,7 @@ import * as UseRouterClient from '../../../../src/react/router/useRouter'
 import * as ExpansionProviderClient from '../../../../src/react/providers/ExpansionProvider'
 import { EXPANSION_DTO_1, EXPANSION_DTO_2 } from '../../../core/__MOCKS__/expansionDto.mock'
 import { UseApiReturn } from '../../../../src/react/network/useApi'
-import { ExpansionDto } from '../../../../src/core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 
 const FETCH_CATALOG = jest.spyOn(catalogClientModule, 'fetchCatalog')
 const USE_EXPANSIONS_DATA = jest.spyOn(catalogClientModule, 'useExpansionsData')

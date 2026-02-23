@@ -1,4 +1,4 @@
-import { ExpansionDto } from '../../core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import Logger from '../logger'
 import { IStore } from '../stores/IStore'
 import { ICronJob } from './ICronJob'

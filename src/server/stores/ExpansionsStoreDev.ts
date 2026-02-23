@@ -1,4 +1,4 @@
-import { ExpansionDto } from '../../core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import { IStore } from './IStore'
 
 class ExpansionsStoreDev implements IStore<ExpansionDto[]> {

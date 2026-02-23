@@ -1,4 +1,4 @@
-import TypeParser from '../../core/TypeParser'
+import TypeParser from '@core/TypeParser'
 import { Auth0User } from './types/Auth0User'
 
 export const parseAuth0User = (user: unknown) => {

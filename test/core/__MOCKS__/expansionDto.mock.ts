@@ -1,4 +1,4 @@
-import { ExpansionDto } from '../../../src/core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 
 export const EXPANSION_DTO_1: ExpansionDto = {
   expansionId: 1469,

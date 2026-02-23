@@ -1,5 +1,5 @@
 import { ConfigParams } from 'express-openid-connect'
-import { ENV } from '../env'
+import { ENV } from '../../env'
 
 export const auth0Config: ConfigParams = {
   authRequired: false,

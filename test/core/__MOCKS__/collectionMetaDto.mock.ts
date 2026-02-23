@@ -1,4 +1,4 @@
-import { CollectionMetaDto } from '../../../src/core/types/CollectionMetaDto'
+import { CollectionMetaDto } from '@core/network-types/collection'
 
 export const COLLECTION_META_DTO: CollectionMetaDto = {
   medianMarketValueCents: 0,

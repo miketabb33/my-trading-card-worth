@@ -1,4 +1,4 @@
-import { ExpansionDto } from '../../core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import Logger from '../logger'
 import { IGetExpansionsUseCase } from '../use-cases/catalog/GetExpansionsUseCase'
 import { IStore } from './IStore'

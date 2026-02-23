@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { renderHook } from '@testing-library/react'
-import { CardDto } from '../../../../src/core/types/CardDto'
+import { CardDto } from '@core/network-types/card'
 import { useInCardList } from '../../../../src/react/components/card-list/CardList'
 import { CARD_DTO } from '../../../core/__MOCKS__/cardDto.mock'
 import * as InputModule from '../../../../src/react/components/base/form/Input'

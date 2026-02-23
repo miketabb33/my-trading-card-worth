@@ -1,4 +1,4 @@
-import { ProfileDto } from '../../../src/core/types/ProfileDto'
+import { ProfileDto } from '@core/network-types/profile'
 
 export const PROFILE_DTO: ProfileDto = {
   id: 0,

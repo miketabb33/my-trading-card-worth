@@ -3,7 +3,7 @@ import { useWithAutocomplete } from '../base/form/Autocomplete'
 import { useExpansion } from '../../providers/ExpansionProvider'
 import { useRouter } from '../../router/useRouter'
 import { PATH_VALUES } from '../../router/pathValues'
-import { ExpansionDto } from '../../../core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import { DropdownOption } from '../base/form/utilities/InputFieldDropdown'
 
 const useHomeSearch = () => {

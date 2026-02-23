@@ -1,4 +1,4 @@
-import { ExpansionDto } from '../../core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import Logger from '../logger'
 import { IGetBlueprintValueUseCase } from '../use-cases/price/GetBlueprintValueUseCase'
 import { BlueprintValue } from '../types/BlueprintValue'

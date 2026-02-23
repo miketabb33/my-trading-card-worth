@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useReleaseListData } from '../../network/releaseClient'
-import { ApplicationReleaseDto } from '../../../core/types/ApplicationReleaseDto'
+import { ApplicationReleaseDto } from '@core/network-types/release'
 import MarkdownDescription from './MarkdownDescription'
 import { CenterContent } from '../base/layout/CenterContent'
 import Spinner from '../base/Spinner'

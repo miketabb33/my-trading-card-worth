@@ -2,7 +2,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { useWithAutocomplete } from '../../../../../src/react/components/base/form/Autocomplete'
 import * as FilterAutocompleteModule from '../../../../../src/react/components/base/form/utilities/filterAutocomplete'
-import { ExpansionDto } from '../../../../../src/core/types/ExpansionDto'
+import { ExpansionDto } from '@core/network-types/catalog'
 import * as Dropdown from '../../../__MOCKS__/dropdownOption.mock'
 
 const FILTER_AUTOCOMPLETE = jest.spyOn(FilterAutocompleteModule, 'filterAutocomplete')

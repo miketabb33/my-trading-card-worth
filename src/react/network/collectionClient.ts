@@ -1,11 +1,9 @@
-import { AddMyCardDto } from '../../core/types/AddMyCardDto'
+import { AddMyCardBody, CollectionDto, ShareCollectionDto } from '@core/network-types/collection'
 import { fetchApi } from './fetchApi'
 import { useApi } from './useApi'
-import { CollectionDto } from '../../core/types/CollectionDto'
-import { ShareCollectionDto } from '../../core/types/ShareCollectionDto'
 
-export const addMyCard = async (addMyCardDto: AddMyCardDto) => {
-  await fetchApi({ path: '/collection', method: 'POST', body: addMyCardDto })
+export const addMyCard = async (addMyCardBody: AddMyCardBody) => {
+  await fetchApi({ path: '/collection', method: 'POST', body: addMyCardBody })
 }
 
 export const removeMyCard = async (blueprintId: number) => {

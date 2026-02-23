@@ -1,5 +1,5 @@
 import { Result } from '@use-cases/Result'
-import { CollectionDto } from '../../../core/types/CollectionDto'
+import { CollectionDto } from '@core/network-types/collection'
 import { ICollectionFactory } from '../../domain/CollectionFactory'
 
 class GetCollectionUseCase {

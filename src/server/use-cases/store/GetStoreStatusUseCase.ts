@@ -1,5 +1,5 @@
 import { Result } from '@use-cases/Result'
-import { StoreStatusDto } from '../../../core/types/StoreStatusDto'
+import { StoreStatusDto } from '@core/network-types/store'
 
 class GetStoreStatusUseCase {
   call = (expansionLastUpdated: Date | null, pricesLastUpdated: Date | null) => {

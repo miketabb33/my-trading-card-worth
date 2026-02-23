@@ -1,4 +1,4 @@
-import { CardDto } from '../../../src/core/types/CardDto'
+import { CardDto } from '@core/network-types/card'
 
 export const CARD_DTO: CardDto = {
   blueprintId: 0,

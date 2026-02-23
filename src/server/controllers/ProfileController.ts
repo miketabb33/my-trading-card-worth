@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { ProfileDto } from '../../core/types/ProfileDto'
+import { ProfileDto } from '@core/network-types/profile'
 import { User } from '@prisma/client'
 
 const ProfileController = Router()

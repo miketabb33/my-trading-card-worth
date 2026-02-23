@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { ShareCollectionDto } from '../../../core/types/ShareCollectionDto'
+import { ShareCollectionDto } from '@core/network-types/collection'
 import { ICollectionFactory } from '../../domain/CollectionFactory'
 import { Result } from '../Result'
 
