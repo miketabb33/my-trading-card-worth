@@ -1,7 +1,7 @@
 import TypeParser from '../../../core/TypeParser'
 import { AddMyCardDto } from '../../../core/types/AddMyCardDto'
 
-export const tryToParseAddMyCardBody = (body: unknown): AddMyCardDto => {
+export const parseAddMyCardBody = (body: unknown): AddMyCardDto => {
   const typeParser = new TypeParser(body, 'Add my card body')
 
   return {

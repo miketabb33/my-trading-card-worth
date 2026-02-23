@@ -1,6 +1,6 @@
-import { tryToParseAddMyCardBody } from '../../../../src/server/use-cases/collection/parseAddMyCardBody'
+import { parseAddMyCardBody } from '../../../../src/server/http/parse/addMyCardBody'
 
-describe('Try To Parse Add My Card Body', () => {
+describe('parseAddMyCardBody', () => {
   it('should parse', () => {
     const body = {
       blueprintId: 123,
@@ -10,7 +10,7 @@ describe('Try To Parse Add My Card Body', () => {
       imageUrlShow: 'show',
     }
 
-    const result = tryToParseAddMyCardBody(body)
+    const result = parseAddMyCardBody(body)
 
     expect(result.blueprintId).toEqual(body.blueprintId)
     expect(result.expansionId).toEqual(body.expansionId)
@@ -20,6 +20,6 @@ describe('Try To Parse Add My Card Body', () => {
   })
 
   it('should throw when data is incorrect', () => {
-    expect(() => tryToParseAddMyCardBody({})).toThrow()
+    expect(() => parseAddMyCardBody({})).toThrow()
   })
 })

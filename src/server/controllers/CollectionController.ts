@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import { tryToParseAddMyCardBody } from '../use-cases/collection/parseAddMyCardBody'
+import { parseAddMyCardBody } from '../http/parse/addMyCardBody'
 import AddCardTraderCardUseCase from '../use-cases/collection/AddCardTraderCardUseCase'
 import UserCardRepo from '../repository/UserCardRepo'
 import ExpansionPokemonRepo from '../repository/ExpansionPokemonRepo'
 import CardBlueprintPokemonRepo from '../repository/CardBlueprintPokemonRepo'
 import CardTraderAdaptor from '../clients/CardTrader/CardTraderAdaptor'
-import { tryToParseRemoveMyCardBody } from '../use-cases/collection/parseRemoveMyCardBody'
+import { parseRemoveMyCardBody } from '../http/parse/removeMyCardBody'
 import GetCollectionUseCase from '../use-cases/collection/GetCollectionUseCase'
 import Store from '../StoreRegistry'
 import RemoveCardUseCase from '../use-cases/collection/RemoveCardUseCase'
@@ -51,7 +51,7 @@ CollectionController.post(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const myCardDto = tryToParseAddMyCardBody(req.body)
+    const myCardDto = parseAddMyCardBody(req.body)
     const addCardTraderCardUseCase = new AddCardTraderCardUseCase(
       prisma,
       new CardTraderAdaptor(),
@@ -76,7 +76,7 @@ CollectionController.delete(
   '/',
   requiresAuth(),
   asyncHandler(async (req, res) => {
-    const blueprintId = tryToParseRemoveMyCardBody(req.body)
+    const blueprintId = parseRemoveMyCardBody(req.body)
     const removeCardUseCase = new RemoveCardUseCase(new UserCardRepo())
     const result = await removeCardUseCase.call(req.currentUser!.externalId, blueprintId)
     if (result.isSuccess()) {
