@@ -37,15 +37,14 @@ class CardBlueprintPokemonRepo implements ICardBlueprintPokemonRepo {
   }
 
   listByExpansion = async (cardTraderExpansionId: number): Promise<PokemonCardBlueprint[]> => {
-    const expansionLink = await prisma.expansionPlatformLink.findFirst({
-      where: { platform: 'CARD_TRADER', externalId: String(cardTraderExpansionId) },
-      select: { expansionId: true },
-    })
-
-    if (!expansionLink) return []
-
-    return prisma.cardBlueprint.findMany({
-      where: { expansionId: expansionLink.expansionId },
+    return await prisma.cardBlueprint.findMany({
+      where: {
+        expansion: {
+          platformLinks: {
+            some: { platform: 'CARD_TRADER', externalId: String(cardTraderExpansionId) },
+          },
+        },
+      },
       include: {
         platformLinks: true,
         pokemonCardBlueprint: true,

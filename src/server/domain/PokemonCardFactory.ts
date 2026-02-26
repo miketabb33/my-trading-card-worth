@@ -22,7 +22,7 @@ class PokemonCardFactory implements IPokemonCardFactory {
       const link = b.platformLinks.find((l) => l.platform === 'CARD_TRADER')
       if (!link) throw new Error(`No CARD_TRADER link for blueprint ${b.id}`)
       return new PokemonCard({
-        cardTraderBlueprintId: Number(link?.externalId),
+        cardTraderBlueprintId: Number(link.externalId),
         cardTraderExpansionId,
         name: b.name,
         collectorNumber: b.collectorNumber,
