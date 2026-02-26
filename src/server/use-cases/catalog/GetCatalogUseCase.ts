@@ -1,36 +1,39 @@
 import { CatalogDto, ExpansionDetailsDto, ExpansionPriceDetailsDto } from '@core/network-types/catalog'
 import { CardDto } from '@core/network-types/card'
-import { ICardTraderAdaptor } from '../../clients/CardTrader/CardTraderAdaptor'
 import { IUserCardRepo } from '../../repository/UserCardRepo'
 import { BlueprintValue } from '../../types/BlueprintValue'
-import { CardBlueprint } from '../../types/CardBlueprint'
 import { ExpansionPokemonEntity, IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
+import { IPokemonCardFactory } from '@domain/PokemonCardFactory'
 import UserCardStack from '@domain/UserCardStack'
 import { Result } from '@use-cases/Result'
 
 class GetCatalogUseCase {
   private readonly userCardRepo: IUserCardRepo
-  private readonly cardTraderAdaptor: ICardTraderAdaptor
   private readonly expansionPokemonRepo: IExpansionPokemonRepo
+  private readonly pokemonCardFactory: IPokemonCardFactory
 
   constructor(
     userCardRepo: IUserCardRepo,
-    cardTraderAdaptor: ICardTraderAdaptor,
-    expansionPokemonRepo: IExpansionPokemonRepo
+    expansionPokemonRepo: IExpansionPokemonRepo,
+    pokemonCardFactory: IPokemonCardFactory
   ) {
     this.userCardRepo = userCardRepo
-    this.cardTraderAdaptor = cardTraderAdaptor
     this.expansionPokemonRepo = expansionPokemonRepo
+    this.pokemonCardFactory = pokemonCardFactory
   }
+
   call = async (
     expansionId: number,
     blueprintValues: Map<string, BlueprintValue>,
     userId?: number
   ): Promise<Result<CatalogDto>> => {
-    const [expansionCards, expansion] = await Promise.all([
-      this.cardTraderAdaptor.getPokemonBlueprints(expansionId),
+    const [postgresCards, expansion] = await Promise.all([
+      this.pokemonCardFactory.fromPostgres(expansionId),
       this.expansionPokemonRepo.find(expansionId),
     ])
+
+    const pokemonCards =
+      postgresCards.length > 0 ? postgresCards : await this.pokemonCardFactory.fromCardTrader(expansionId)
 
     let userCardStack: UserCardStack | undefined
 
@@ -39,7 +42,7 @@ class GetCatalogUseCase {
       userCardStack = new UserCardStack(userCards)
     }
 
-    const cards: CardDto[] = this.buildCardDtoList(expansionCards, blueprintValues, userCardStack)
+    const cards = pokemonCards.map((c) => c.toCardDto(blueprintValues, userCardStack))
     let details: ExpansionDetailsDto | null = null
 
     if (expansion) {
@@ -48,29 +51,6 @@ class GetCatalogUseCase {
     }
 
     return Result.success({ details, cards })
-  }
-
-  private buildCardDtoList = (
-    expansionCards: CardBlueprint[],
-    blueprintValues: Map<string, BlueprintValue>,
-    userCardStack?: UserCardStack
-  ) => {
-    return expansionCards.map((card) => {
-      const blueprintValue = blueprintValues.get(`${card.blueprintId}`)
-
-      const cardDto: CardDto = {
-        blueprintId: card.blueprintId,
-        expansionId: card.expansionId,
-        name: card.name,
-        imageUrlPreview: card.imageUrlPreview,
-        imageUrlShow: card.imageUrlShow,
-        owned: userCardStack?.filter(card.blueprintId).length ?? 0,
-        medianMarketValueCents: blueprintValue?.medianCents ?? -1,
-        listingCount: blueprintValue?.listingCount ?? -1,
-      }
-
-      return cardDto
-    })
   }
 
   private buildExpansionMainDetailsDto = (
