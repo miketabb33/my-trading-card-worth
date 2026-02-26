@@ -22,8 +22,8 @@ export interface ICardBlueprintPokemonRepo {
 }
 
 class CardBlueprintPokemonRepo implements ICardBlueprintPokemonRepo {
-  find = async (cardTraderBlueprintId: number): Promise<PokemonCardBlueprint | null> => {
-    return await prisma.cardBlueprint.findFirst({
+  find = (cardTraderBlueprintId: number): Promise<PokemonCardBlueprint | null> => {
+    return prisma.cardBlueprint.findFirst({
       where: {
         platformLinks: {
           some: { platform: 'CARD_TRADER', externalId: String(cardTraderBlueprintId) },
@@ -36,8 +36,8 @@ class CardBlueprintPokemonRepo implements ICardBlueprintPokemonRepo {
     })
   }
 
-  listByExpansion = async (cardTraderExpansionId: number): Promise<PokemonCardBlueprint[]> => {
-    return await prisma.cardBlueprint.findMany({
+  listByExpansion = (cardTraderExpansionId: number): Promise<PokemonCardBlueprint[]> => {
+    return prisma.cardBlueprint.findMany({
       where: {
         expansion: {
           platformLinks: {
@@ -52,8 +52,8 @@ class CardBlueprintPokemonRepo implements ICardBlueprintPokemonRepo {
     })
   }
 
-  create = async (entity: CreateCardBlueprintPokemonEntity): Promise<number> => {
-    return await prisma.$transaction(async (tx) => {
+  create = (entity: CreateCardBlueprintPokemonEntity): Promise<number> => {
+    return prisma.$transaction(async (tx) => {
       const cardBlueprint = await tx.cardBlueprint.create({
         data: {
           expansionId: entity.expansionId,

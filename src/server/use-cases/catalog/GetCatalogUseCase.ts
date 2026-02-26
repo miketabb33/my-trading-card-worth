@@ -4,7 +4,6 @@ import { IUserCardRepo } from '../../repository/UserCardRepo'
 import { BlueprintValue } from '../../types/BlueprintValue'
 import { ExpansionPokemonEntity, IExpansionPokemonRepo } from '../../repository/ExpansionPokemonRepo'
 import { IPokemonCardFactory } from '@domain/PokemonCardFactory'
-import PokemonCard from '@domain/PokemonCard'
 import UserCardStack from '@domain/UserCardStack'
 import { Result } from '@use-cases/Result'
 
@@ -33,7 +32,7 @@ class GetCatalogUseCase {
       this.expansionPokemonRepo.find(expansionId),
     ])
 
-    const pokemonCards: PokemonCard[] =
+    const pokemonCards =
       postgresCards.length > 0 ? postgresCards : await this.pokemonCardFactory.fromCardTrader(expansionId)
 
     let userCardStack: UserCardStack | undefined
@@ -43,7 +42,7 @@ class GetCatalogUseCase {
       userCardStack = new UserCardStack(userCards)
     }
 
-    const cards: CardDto[] = pokemonCards.map((c) => c.toCardDto(blueprintValues, userCardStack))
+    const cards = pokemonCards.map((c) => c.toCardDto(blueprintValues, userCardStack))
     let details: ExpansionDetailsDto | null = null
 
     if (expansion) {
