@@ -1,7 +1,11 @@
+import { Prisma } from '@prisma/client'
 import { prisma } from '../../../prisma/prismaClient'
 
-export type CardBlueprintPokemonEntity = {
-  id: number
+export type PokemonCardBlueprint = Prisma.CardBlueprintGetPayload<{
+  include: { platformLinks: true; pokemonCardBlueprint: true }
+}>
+
+export type CreateCardBlueprintPokemonEntity = {
   expansionId: number
   cardTraderBlueprintId: number
   name: string
@@ -9,52 +13,44 @@ export type CardBlueprintPokemonEntity = {
   rarity: string
   imageShowUrl: string
   imagePreviewUrl: string
-  createdAt: Date
-  updatedAt: Date
 }
 
-export type CreateCardBlueprintPokemonEntity = Omit<CardBlueprintPokemonEntity, 'id' | 'createdAt' | 'updatedAt'>
-
 export interface ICardBlueprintPokemonRepo {
-  find: (cardTraderBlueprintId: number) => Promise<CardBlueprintPokemonEntity | null>
+  find: (cardTraderBlueprintId: number) => Promise<PokemonCardBlueprint | null>
+  listByExpansion: (cardTraderExpansionId: number) => Promise<PokemonCardBlueprint[]>
   create: (entity: CreateCardBlueprintPokemonEntity) => Promise<number>
 }
 
 class CardBlueprintPokemonRepo implements ICardBlueprintPokemonRepo {
-  find = async (cardTraderBlueprintId: number): Promise<CardBlueprintPokemonEntity | null> => {
-    const platformLink = await prisma.cardBlueprintPlatformLink.findFirst({
+  find = async (cardTraderBlueprintId: number): Promise<PokemonCardBlueprint | null> => {
+    return await prisma.cardBlueprint.findFirst({
       where: {
-        platform: 'CARD_TRADER',
-        externalId: String(cardTraderBlueprintId),
-      },
-      include: {
-        cardBlueprint: {
-          include: {
-            pokemonCardBlueprint: true,
-          },
+        platformLinks: {
+          some: { platform: 'CARD_TRADER', externalId: String(cardTraderBlueprintId) },
         },
       },
+      include: {
+        platformLinks: true,
+        pokemonCardBlueprint: true,
+      },
+    })
+  }
+
+  listByExpansion = async (cardTraderExpansionId: number): Promise<PokemonCardBlueprint[]> => {
+    const expansionLink = await prisma.expansionPlatformLink.findFirst({
+      where: { platform: 'CARD_TRADER', externalId: String(cardTraderExpansionId) },
+      select: { expansionId: true },
     })
 
-    if (!platformLink) return null
+    if (!expansionLink) return []
 
-    const { cardBlueprint } = platformLink
-    const pokemon = cardBlueprint.pokemonCardBlueprint
-
-    if (!pokemon) return null
-
-    return {
-      id: cardBlueprint.id,
-      expansionId: cardBlueprint.expansionId,
-      cardTraderBlueprintId,
-      name: cardBlueprint.name,
-      collectorNumber: cardBlueprint.collectorNumber,
-      rarity: pokemon.rarity,
-      imageShowUrl: cardBlueprint.imageShowUrl,
-      imagePreviewUrl: cardBlueprint.imagePreviewUrl,
-      createdAt: cardBlueprint.createdAt,
-      updatedAt: cardBlueprint.updatedAt,
-    }
+    return prisma.cardBlueprint.findMany({
+      where: { expansionId: expansionLink.expansionId },
+      include: {
+        platformLinks: true,
+        pokemonCardBlueprint: true,
+      },
+    })
   }
 
   create = async (entity: CreateCardBlueprintPokemonEntity): Promise<number> => {

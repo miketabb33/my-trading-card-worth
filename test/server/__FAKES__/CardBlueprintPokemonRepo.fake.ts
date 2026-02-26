@@ -2,9 +2,11 @@ import { ICardBlueprintPokemonRepo } from '../../../src/server/repository/CardBl
 
 class CardBlueprintPokemonRepo_FAKE implements ICardBlueprintPokemonRepo {
   FIND = jest.fn()
+  LIST_BY_EXPANSION = jest.fn()
   CREATE = jest.fn()
 
   find = this.FIND
+  listByExpansion = this.LIST_BY_EXPANSION
   create = this.CREATE
 }
 

@@ -9,12 +9,12 @@ import CardBlueprintPokemonRepo, {
 
 jest.mock('../../../prisma/prismaClient', () => ({
   prisma: {
-    cardBlueprintPlatformLink: { findFirst: jest.fn() },
+    cardBlueprint: { findFirst: jest.fn() },
     $transaction: jest.fn(),
   },
 }))
 
-const FIND_FIRST = prisma.cardBlueprintPlatformLink.findFirst as jest.Mock
+const FIND_FIRST = prisma.cardBlueprint.findFirst as jest.Mock
 const TRANSACTION = prisma.$transaction as jest.Mock
 
 describe('CardBlueprintPokemonRepo', () => {
@@ -28,7 +28,7 @@ describe('CardBlueprintPokemonRepo', () => {
   describe('find', () => {
     const CARD_TRADER_BLUEPRINT_ID = 100
 
-    it('should return null when platform link is not found', async () => {
+    it('should return null when no blueprint is found', async () => {
       FIND_FIRST.mockResolvedValue(null)
 
       const result = await repo.find(CARD_TRADER_BLUEPRINT_ID)
@@ -36,76 +36,40 @@ describe('CardBlueprintPokemonRepo', () => {
       expect(result).toBeNull()
     })
 
-    it('should return null when pokemonCardBlueprint is missing', async () => {
-      FIND_FIRST.mockResolvedValue({
-        cardBlueprint: {
-          id: 1,
-          expansionId: 2,
-          name: 'Charizard',
-          collectorNumber: '4',
-          imageShowUrl: 'show-url',
-          imagePreviewUrl: 'preview-url',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          pokemonCardBlueprint: null,
-        },
-      })
-
-      const result = await repo.find(CARD_TRADER_BLUEPRINT_ID)
-
-      expect(result).toBeNull()
-    })
-
-    it('should return a mapped entity when platform link and pokemon blueprint exist', async () => {
-      const createdAt = new Date('2024-01-01')
-      const updatedAt = new Date('2024-01-02')
-
-      FIND_FIRST.mockResolvedValue({
-        cardBlueprint: {
-          id: 10,
-          expansionId: 20,
-          name: 'Charizard',
-          collectorNumber: '4',
-          imageShowUrl: 'show-url',
-          imagePreviewUrl: 'preview-url',
-          createdAt,
-          updatedAt,
-          pokemonCardBlueprint: { rarity: 'Rare Holo' },
-        },
-      })
-
-      const result = await repo.find(CARD_TRADER_BLUEPRINT_ID)
-
-      expect(result).toEqual({
+    it('should return the raw blueprint when found', async () => {
+      const blueprint = {
         id: 10,
         expansionId: 20,
-        cardTraderBlueprintId: CARD_TRADER_BLUEPRINT_ID,
         name: 'Charizard',
         collectorNumber: '4',
-        rarity: 'Rare Holo',
         imageShowUrl: 'show-url',
         imagePreviewUrl: 'preview-url',
-        createdAt,
-        updatedAt,
-      })
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-02'),
+        platformLinks: [{ platform: 'CARD_TRADER', externalId: String(CARD_TRADER_BLUEPRINT_ID) }],
+        pokemonCardBlueprint: { rarity: 'Rare Holo' },
+      }
+      FIND_FIRST.mockResolvedValue(blueprint)
+
+      const result = await repo.find(CARD_TRADER_BLUEPRINT_ID)
+
+      expect(result).toEqual(blueprint)
     })
 
-    it('should query with CARD_TRADER platform and stringified blueprint id', async () => {
+    it('should query cardBlueprint with CARD_TRADER platform link and includes', async () => {
       FIND_FIRST.mockResolvedValue(null)
 
       await repo.find(CARD_TRADER_BLUEPRINT_ID)
 
       expect(FIND_FIRST).toHaveBeenCalledWith({
         where: {
-          platform: 'CARD_TRADER',
-          externalId: String(CARD_TRADER_BLUEPRINT_ID),
+          platformLinks: {
+            some: { platform: 'CARD_TRADER', externalId: String(CARD_TRADER_BLUEPRINT_ID) },
+          },
         },
         include: {
-          cardBlueprint: {
-            include: {
-              pokemonCardBlueprint: true,
-            },
-          },
+          platformLinks: true,
+          pokemonCardBlueprint: true,
         },
       })
     })

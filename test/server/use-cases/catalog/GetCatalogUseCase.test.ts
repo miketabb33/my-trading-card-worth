@@ -2,18 +2,18 @@ import { CardDto } from '@core/network-types/card'
 import GetCatalogUseCase from '../../../../src/server/use-cases/catalog/GetCatalogUseCase'
 import { BlueprintValue } from '../../../../src/server/types/BlueprintValue'
 import { EXPANSION_DTO_1 } from '../../../core/__MOCKS__/catalog.mock'
-import CardTraderAdaptor_FAKE from '../../__FAKES__/CardTraderAdaptor.fake'
 import ExpansionPokemonRepo_FAKE from '../../__FAKES__/ExpansionPokemonRepo.fake'
 import UserCardRepo_FAKE from '../../__FAKES__/UserCardRepo.fake'
+import PokemonCardFactory_FAKE from '../../__FAKES__/PokemonCardFactory.fake'
 import { BLUEPRINT_VALUE_MOCK } from '../../__MOCKS__/blueprintValue.mock'
-import { makeCardBlueprintMock } from '../../__MOCKS__/cardBlueprint.mock'
+import { makePokemonCardMock } from '../../__MOCKS__/pokemonCard.mock'
 import { makeUserCardWithBlueprintMock } from '../../__MOCKS__/userCardWithBlueprint.mock'
 
 describe('Get Catalog UseCase', () => {
   let getCatalogUseCase: GetCatalogUseCase
   let userCardRepo_FAKE: UserCardRepo_FAKE
   let expansionPokemonRepo_FAKE: ExpansionPokemonRepo_FAKE
-  let cardTraderAdaptor_FAKE: CardTraderAdaptor_FAKE
+  let pokemonCardFactory_FAKE: PokemonCardFactory_FAKE
 
   const BASE_SET_EXPANSION_ID = 1472
   const USER_ID = 10
@@ -22,11 +22,12 @@ describe('Get Catalog UseCase', () => {
 
   beforeEach(() => {
     userCardRepo_FAKE = new UserCardRepo_FAKE()
-    cardTraderAdaptor_FAKE = new CardTraderAdaptor_FAKE()
     expansionPokemonRepo_FAKE = new ExpansionPokemonRepo_FAKE()
-    getCatalogUseCase = new GetCatalogUseCase(userCardRepo_FAKE, cardTraderAdaptor_FAKE, expansionPokemonRepo_FAKE)
+    pokemonCardFactory_FAKE = new PokemonCardFactory_FAKE()
+    getCatalogUseCase = new GetCatalogUseCase(userCardRepo_FAKE, expansionPokemonRepo_FAKE, pokemonCardFactory_FAKE)
 
-    cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
+    pokemonCardFactory_FAKE.FROM_POSTGRES.mockResolvedValue([])
+    pokemonCardFactory_FAKE.FROM_CARD_TRADER.mockResolvedValue([])
     userCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([])
     expansionPokemonRepo_FAKE.FIND.mockResolvedValue(EXPANSION_DTO_1)
   })
@@ -47,18 +48,18 @@ describe('Get Catalog UseCase', () => {
       })
     })
     it('should return price count for median price details', async () => {
-      cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
-        makeCardBlueprintMock({ blueprintId: 1 }),
-        makeCardBlueprintMock({ blueprintId: 2 }),
-        makeCardBlueprintMock({ blueprintId: 3 }),
-        makeCardBlueprintMock({ blueprintId: 4 }),
-        makeCardBlueprintMock({ blueprintId: 5 }),
-        makeCardBlueprintMock({ blueprintId: 6 }),
-        makeCardBlueprintMock({ blueprintId: 7 }),
-        makeCardBlueprintMock({ blueprintId: 8 }),
-        makeCardBlueprintMock({ blueprintId: 9 }),
-        makeCardBlueprintMock({ blueprintId: 10 }),
-        makeCardBlueprintMock({ blueprintId: 11 }),
+      pokemonCardFactory_FAKE.FROM_CARD_TRADER.mockResolvedValue([
+        makePokemonCardMock({ blueprintId: 1 }),
+        makePokemonCardMock({ blueprintId: 2 }),
+        makePokemonCardMock({ blueprintId: 3 }),
+        makePokemonCardMock({ blueprintId: 4 }),
+        makePokemonCardMock({ blueprintId: 5 }),
+        makePokemonCardMock({ blueprintId: 6 }),
+        makePokemonCardMock({ blueprintId: 7 }),
+        makePokemonCardMock({ blueprintId: 8 }),
+        makePokemonCardMock({ blueprintId: 9 }),
+        makePokemonCardMock({ blueprintId: 10 }),
+        makePokemonCardMock({ blueprintId: 11 }),
       ])
       const result = await getCatalogUseCase.call(
         BASE_SET_EXPANSION_ID,
@@ -86,20 +87,20 @@ describe('Get Catalog UseCase', () => {
 
   describe('Cards', () => {
     it('should return an empty array when no blueprints and user is not logged in', async () => {
-      cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([])
       const result = await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
-      expect(cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS).toHaveBeenCalledWith(BASE_SET_EXPANSION_ID)
+      expect(pokemonCardFactory_FAKE.FROM_POSTGRES).toHaveBeenCalledWith(BASE_SET_EXPANSION_ID)
+      expect(pokemonCardFactory_FAKE.FROM_CARD_TRADER).toHaveBeenCalledWith(BASE_SET_EXPANSION_ID)
       expect(result.value.cards).toEqual([])
     })
-    it('should return blueprints when user is not logged in', async () => {
-      const blueprint1 = makeCardBlueprintMock({
+    it('should return blueprints from card trader when user is not logged in', async () => {
+      const card = makePokemonCardMock({
         blueprintId: 1,
         expansionId: 2,
         name: 'name',
         imageUrlPreview: 'preview',
         imageUrlShow: 'show',
       })
-      cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([blueprint1])
+      pokemonCardFactory_FAKE.FROM_CARD_TRADER.mockResolvedValue([card])
       const result = await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
       const expectedResult: CardDto = {
         blueprintId: 1,
@@ -113,31 +114,26 @@ describe('Get Catalog UseCase', () => {
       }
       expect(result.value.cards[0]).toEqual(expectedResult)
     })
+    it('should prefer postgres cards over card trader', async () => {
+      const postgresCard = makePokemonCardMock({ blueprintId: 1 })
+      pokemonCardFactory_FAKE.FROM_POSTGRES.mockResolvedValue([postgresCard])
+      await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, BLUEPRINT_VALUES)
+      expect(pokemonCardFactory_FAKE.FROM_CARD_TRADER).not.toHaveBeenCalled()
+    })
     it('should return blueprints with no prices when prices are not available', async () => {
-      const blueprint1 = makeCardBlueprintMock({
-        blueprintId: 1,
-        expansionId: 2,
-        name: 'name',
-        version: 'version',
-        imageUrlPreview: 'preview',
-        imageUrlShow: 'show',
-      })
-      cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([blueprint1])
+      pokemonCardFactory_FAKE.FROM_CARD_TRADER.mockResolvedValue([
+        makePokemonCardMock({ blueprintId: 1, expansionId: 2 }),
+      ])
       const result = await getCatalogUseCase.call(BASE_SET_EXPANSION_ID, new Map<string, BlueprintValue>())
       expect(result.value.cards[0].medianMarketValueCents).toEqual(-1)
     })
     it('should return blueprints with owned values when user is logged in', async () => {
-      const blueprint1 = makeCardBlueprintMock({ blueprintId: 1 })
-      const blueprint2 = makeCardBlueprintMock({ blueprintId: 2 })
-      const blueprint3 = makeCardBlueprintMock({ blueprintId: 3 })
-      const blueprint4 = makeCardBlueprintMock({ blueprintId: 4 })
-      const blueprint5 = makeCardBlueprintMock({ blueprintId: 5 })
-      cardTraderAdaptor_FAKE.GET_POKEMON_BLUEPRINTS.mockResolvedValue([
-        blueprint1,
-        blueprint2,
-        blueprint3,
-        blueprint4,
-        blueprint5,
+      pokemonCardFactory_FAKE.FROM_CARD_TRADER.mockResolvedValue([
+        makePokemonCardMock({ blueprintId: 1 }),
+        makePokemonCardMock({ blueprintId: 2 }),
+        makePokemonCardMock({ blueprintId: 3 }),
+        makePokemonCardMock({ blueprintId: 4 }),
+        makePokemonCardMock({ blueprintId: 5 }),
       ])
       userCardRepo_FAKE.FIND_BY_EXPANSION.mockResolvedValue([
         makeUserCardWithBlueprintMock({ blueprintExternalId: 2, cardBlueprintId: 2 }),
