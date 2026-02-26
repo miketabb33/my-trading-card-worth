@@ -20,9 +20,10 @@ class PokemonCardFactory implements IPokemonCardFactory {
     const blueprints = await this.cardBlueprintPokemonRepo.listByExpansion(cardTraderExpansionId)
     return blueprints.map((b) => {
       const link = b.platformLinks.find((l) => l.platform === 'CARD_TRADER')
+      if (!link) throw new Error(`No CARD_TRADER link for blueprint ${b.id}`)
       return new PokemonCard({
-        blueprintId: Number(link?.externalId ?? 0),
-        expansionId: cardTraderExpansionId,
+        cardTraderBlueprintId: Number(link?.externalId),
+        cardTraderExpansionId,
         name: b.name,
         collectorNumber: b.collectorNumber,
         pokemonRarity: b.pokemonCardBlueprint?.rarity ?? '',
@@ -37,8 +38,8 @@ class PokemonCardFactory implements IPokemonCardFactory {
     return blueprints.map(
       (b) =>
         new PokemonCard({
-          blueprintId: b.blueprintId,
-          expansionId: b.expansionId,
+          cardTraderBlueprintId: b.blueprintId,
+          cardTraderExpansionId: b.expansionId,
           name: b.name,
           collectorNumber: b.collectorNumber,
           pokemonRarity: b.pokemonRarity,

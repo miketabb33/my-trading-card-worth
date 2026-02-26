@@ -9,12 +9,15 @@ import CardBlueprintPokemonRepo, {
 
 jest.mock('../../../prisma/prismaClient', () => ({
   prisma: {
-    cardBlueprint: { findFirst: jest.fn() },
+    cardBlueprint: { findFirst: jest.fn(), findMany: jest.fn() },
+    expansionPlatformLink: { findFirst: jest.fn() },
     $transaction: jest.fn(),
   },
 }))
 
 const FIND_FIRST = prisma.cardBlueprint.findFirst as jest.Mock
+const FIND_MANY = prisma.cardBlueprint.findMany as jest.Mock
+const EXPANSION_FIND_FIRST = prisma.expansionPlatformLink.findFirst as jest.Mock
 const TRANSACTION = prisma.$transaction as jest.Mock
 
 describe('CardBlueprintPokemonRepo', () => {
@@ -67,6 +70,76 @@ describe('CardBlueprintPokemonRepo', () => {
             some: { platform: 'CARD_TRADER', externalId: String(CARD_TRADER_BLUEPRINT_ID) },
           },
         },
+        include: {
+          platformLinks: true,
+          pokemonCardBlueprint: true,
+        },
+      })
+    })
+  })
+
+  describe('listByExpansion', () => {
+    const CARD_TRADER_EXPANSION_ID = 500
+    const INTERNAL_EXPANSION_ID = 7
+
+    it('should return empty array when expansion platform link is not found', async () => {
+      EXPANSION_FIND_FIRST.mockResolvedValue(null)
+
+      const result = await repo.listByExpansion(CARD_TRADER_EXPANSION_ID)
+
+      expect(result).toEqual([])
+    })
+
+    it('should not query cardBlueprint when expansion link is not found', async () => {
+      EXPANSION_FIND_FIRST.mockResolvedValue(null)
+
+      await repo.listByExpansion(CARD_TRADER_EXPANSION_ID)
+
+      expect(FIND_MANY).not.toHaveBeenCalled()
+    })
+
+    it('should return blueprints when expansion link is found', async () => {
+      const blueprints = [
+        {
+          id: 1,
+          expansionId: INTERNAL_EXPANSION_ID,
+          name: 'Charizard',
+          collectorNumber: '4',
+          imageShowUrl: 'show-url',
+          imagePreviewUrl: 'preview-url',
+          createdAt: new Date('2024-01-01'),
+          updatedAt: new Date('2024-01-02'),
+          platformLinks: [{ platform: 'CARD_TRADER', externalId: '999' }],
+          pokemonCardBlueprint: { rarity: 'Rare Holo' },
+        },
+      ]
+      EXPANSION_FIND_FIRST.mockResolvedValue({ expansionId: INTERNAL_EXPANSION_ID })
+      FIND_MANY.mockResolvedValue(blueprints)
+
+      const result = await repo.listByExpansion(CARD_TRADER_EXPANSION_ID)
+
+      expect(result).toEqual(blueprints)
+    })
+
+    it('should query expansionPlatformLink with CARD_TRADER platform and stringified expansion id', async () => {
+      EXPANSION_FIND_FIRST.mockResolvedValue(null)
+
+      await repo.listByExpansion(CARD_TRADER_EXPANSION_ID)
+
+      expect(EXPANSION_FIND_FIRST).toHaveBeenCalledWith({
+        where: { platform: 'CARD_TRADER', externalId: String(CARD_TRADER_EXPANSION_ID) },
+        select: { expansionId: true },
+      })
+    })
+
+    it('should query cardBlueprint with internal expansionId and includes', async () => {
+      EXPANSION_FIND_FIRST.mockResolvedValue({ expansionId: INTERNAL_EXPANSION_ID })
+      FIND_MANY.mockResolvedValue([])
+
+      await repo.listByExpansion(CARD_TRADER_EXPANSION_ID)
+
+      expect(FIND_MANY).toHaveBeenCalledWith({
+        where: { expansionId: INTERNAL_EXPANSION_ID },
         include: {
           platformLinks: true,
           pokemonCardBlueprint: true,

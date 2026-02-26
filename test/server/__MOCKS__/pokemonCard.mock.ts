@@ -20,8 +20,8 @@ export const makePokemonCardMock = ({
   imageUrlShow = 'image url show',
 }: MakePokemonCardMockArgs = {}): PokemonCard =>
   new PokemonCard({
-    blueprintId,
-    expansionId,
+    cardTraderBlueprintId: blueprintId,
+    cardTraderExpansionId: expansionId,
     name,
     collectorNumber,
     pokemonRarity,
